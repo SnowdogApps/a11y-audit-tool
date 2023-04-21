@@ -3,7 +3,7 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-  content: ['app.vue', `components/**/*.vue`, `pages/**/*.vue`],
+  content: [],
   theme: {},
   plugins: [],
 }
