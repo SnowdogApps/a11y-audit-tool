@@ -1,0 +1,21 @@
+stages:
+  - test
+
+lint:
+  image: node:gallium-alpine3.15
+  stage: test
+  except:
+    - master
+    - tags
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - node_modules
+  before_script:
+    - npm install -g pnpm
+    - pnpm install --no-frozen-lockfile
+  script:
+    - pnpm lint
+    - pnpm nuxi typecheck

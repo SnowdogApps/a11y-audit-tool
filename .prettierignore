@@ -1,0 +1,9 @@
+.nuxt
+.output
+.primevue-designer
+*.local
+assets/theme.css
+dist
+node_modules
+pnpm-lock.yaml
+public
