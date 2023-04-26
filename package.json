@@ -21,6 +21,8 @@
     "eslint-plugin-vue": "^9.5.1",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
+    "sass": "^1.62.0",
+    "sass-loader": "10",
     "typescript": "^5.0.4"
   },
   "dependencies": {

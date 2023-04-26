@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   css: [
     'primevue/resources/themes/lara-light-blue/theme.css',
     'primevue/resources/primevue.css',
+    '~/assets/themes/snowdog/theme.scss',
   ],
   build: {
     transpile: ['primevue'],
