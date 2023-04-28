@@ -29,6 +29,7 @@
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@pinia/nuxt": "^0.4.9",
     "nuxt": "^3.4.1",
+    "primeicons": "^6.0.1",
     "primevue": "^3.27.0"
   },
   "engines": {
