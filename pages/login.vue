@@ -27,8 +27,8 @@ const signIn = handleSubmit(() => {
     novalidate
     @submit.prevent="signIn"
   >
-    <span class="p-float-label mb-8 w-full">
-      <label for="email"> Enter your email </label>
+    <span class="mb-8 w-full">
+      <label for="email"> Email </label>
       <InputText
         id="email"
         v-model="email"
@@ -44,8 +44,8 @@ const signIn = handleSubmit(() => {
         {{ errors.email }}
       </small>
     </span>
-    <span class="p-float-label mb-8 w-full">
-      <label for="password">Enter your password</label>
+    <span class="mb-8 w-full">
+      <label for="password"> Password </label>
       <Password
         id="password"
         v-model="password"
@@ -94,5 +94,7 @@ const signIn = handleSubmit(() => {
     >
       <span class="p-button-label">Log In</span>
     </button>
+
+    Don’t have an account yet? Sign up
   </form>
 </template>
