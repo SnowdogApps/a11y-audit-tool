@@ -1,4 +1,4 @@
-import { string, object } from 'yup'
+import { object } from 'yup'
 import rules from '~/validation/rules'
 const { emailRule, passwordRule, passwordRepeatRule } = rules()
 
@@ -7,14 +7,9 @@ export const signInSchema = object({
   password: passwordRule,
 })
 
-export const signUpFirstSchema = object({
+export const signUpSchema = object({
   email: emailRule,
-})
-
-export const signUpSecondSchema = object({
-  username: string().required().min(3).max(16),
   newPassword: passwordRule,
-  passwordConfirm: passwordRepeatRule,
 })
 
 export const recoverPasswordSchema = object({
