@@ -30,7 +30,9 @@
     "@pinia/nuxt": "^0.4.9",
     "nuxt": "^3.4.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.27.0"
+    "primevue": "^3.27.0",
+    "vee-validate": "^4.8.6",
+    "yup": "^1.1.1"
   },
   "engines": {
     "node": ">=16",
