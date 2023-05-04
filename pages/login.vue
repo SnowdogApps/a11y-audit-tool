@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+
 import { useForm } from 'vee-validate'
 import { signInSchema } from '~/validation/schema'
 
@@ -27,12 +31,12 @@ const signIn = handleSubmit(() => {
     novalidate
     @submit.prevent="signIn"
   >
-    <span class="mb-8 w-full">
+    <span class="mb-4 w-full">
       <label for="email"> Email </label>
       <InputText
         id="email"
         v-model="email"
-        data-testid="login-email-input"
+        data-testid="login-email-field"
         class="p-inputtext-lg md:w-25rem w-full"
         type="email"
         :class="[{ 'p-invalid': errors.email && isSubmitted }]"
@@ -44,12 +48,12 @@ const signIn = handleSubmit(() => {
         {{ errors.email }}
       </small>
     </span>
-    <span class="mb-8 w-full">
+    <span class="mb-4 w-full">
       <label for="password"> Password </label>
       <Password
         id="password"
         v-model="password"
-        data-testid="login-password-input"
+        data-testid="login-password-field"
         class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.password && isSubmitted }]"
         input-class="w-full"
@@ -64,37 +68,19 @@ const signIn = handleSubmit(() => {
       </small>
     </span>
     <div class="mb-4 flex flex-wrap gap-3">
-      <div>
-        <div class="p-checkbox p-component mr-2">
-          <div class="p-hidden-accessible">
-            <input
-              type="checkbox"
-              name="checkbox"
-            />
-          </div>
-          <div class="p-checkbox-box">
-            <span class="p-checkbox-icon" />
-          </div>
-        </div>
-        <label
-          for="checkbox"
-          class="text-900 mr-8 font-medium"
-        >
-          Remember Me
-        </label>
-      </div>
-      <a
+      <NuxtLink
+        to="reset-password"
         class="text-600 hover:text-primary transition-duration-300 ml-auto cursor-pointer cursor-pointer transition-colors"
-        >Reset password</a
       >
+        Forgot your password?
+      </NuxtLink>
     </div>
-    <button
-      class="p-button p-component w-full"
+    <Button
+      label="Log In"
+      class="p-button-lg mb-4 w-full"
       type="submit"
-    >
-      <span class="p-button-label">Log In</span>
-    </button>
-
-    Don’t have an account yet? Sign up
+      data-testid="login-submit-button"
+    />
+    Don’t have an account yet? <NuxtLink to="/register">Sign up</NuxtLink>
   </form>
 </template>

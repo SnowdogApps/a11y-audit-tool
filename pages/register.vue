@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+
 import { useForm } from 'vee-validate'
 import { signUpSchema } from '~/validation/schema'
 
@@ -33,7 +37,7 @@ const signUp = handleSubmit(() => {
         id="email"
         v-model="email"
         data-test-id="register-email-field"
-        class="md:w-25rem w-full"
+        class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.email && isSubmitted }]"
       />
       <small
@@ -50,7 +54,7 @@ const signUp = handleSubmit(() => {
         id="password"
         v-model="newPassword"
         data-testid="register-password-field"
-        class="md:w-25rem w-full"
+        class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.newPassword && isSubmitted }]"
         input-class="w-full"
         :feedback="false"
@@ -88,18 +92,12 @@ const signUp = handleSubmit(() => {
         Terms and Conditions
       </a>
     </div>
-    <button
-      class="p-button p-component mb-4 w-full"
+    <Button
+      class="p-button-lg mb-4 w-full"
       type="submit"
-      aria-label="Sign Up"
-    >
-      <span class="p-button-label">Sign Up</span>
-      <span
-        class="p-ink"
-        role="presentation"
-        aria-hidden="true"
-      />
-    </button>
+      label="Sign Up"
+      data-testid="register-submit-button"
+    />
 
     <span class="text-600 font-medium">
       Already have an account?
