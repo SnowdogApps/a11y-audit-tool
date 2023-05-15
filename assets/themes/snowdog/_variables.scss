@@ -42,7 +42,8 @@ $colors: (
     --text-color-secondary:#6c757d;
     --primary-color:#2196F3;
     --primary-color-text:#ffffff;
-    --font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family: #{$fontFamily};
+    --font-family-mono: #{$fontFamilyMono};
     --surface-0: #ffffff;
     --surface-50: #FAFAFA;
     --surface-100: #F5F5F5;
