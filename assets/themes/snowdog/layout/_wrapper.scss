@@ -1,0 +1,11 @@
+.layout-wrapper {
+   margin-left: 0;
+  @apply px-4;
+  transition: margin-left 0.2s;
+
+  @media screen and (min-width: 1024px) {
+    &--narrower {
+      margin-left: 16rem;
+    }
+  }
+}
