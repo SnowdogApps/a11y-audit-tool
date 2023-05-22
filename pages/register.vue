@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Password from 'primevue/password'
-
 import { useForm } from 'vee-validate'
 import { signUpSchema } from '~/validation/schema'
 
@@ -31,7 +27,7 @@ const signUp = handleSubmit(() => {
     novalidate
     @submit.prevent="signUp"
   >
-    <span class="mb-8 w-full">
+    <span class="mb-4 w-full">
       <label for="email"> Email </label>
       <InputText
         id="email"
@@ -48,7 +44,7 @@ const signUp = handleSubmit(() => {
       </small>
     </span>
 
-    <span class="mb-8 w-full">
+    <span class="mb-10 w-full">
       <label for="new-password"> Password </label>
       <Password
         id="password"
@@ -68,30 +64,6 @@ const signUp = handleSubmit(() => {
       </small>
     </span>
 
-    <div class="mb-4 flex flex-wrap">
-      <div class="p-checkbox p-component mr-2">
-        <div class="p-hidden-accessible">
-          <input
-            type="checkbox"
-            name="checkbox"
-          />
-        </div>
-
-        <div class="p-checkbox-box">
-          <span class="p-checkbox-icon" />
-        </div>
-      </div>
-
-      <label
-        for="checkbox"
-        class="text-900 mr-2 font-medium"
-        >I have read the
-      </label>
-
-      <a class="text-600 hover:text-primary cursor-pointer cursor-pointer">
-        Terms and Conditions
-      </a>
-    </div>
     <Button
       class="p-button-lg mb-4 w-full"
       type="submit"
@@ -99,14 +71,14 @@ const signUp = handleSubmit(() => {
       data-testid="register-submit-button"
     />
 
-    <span class="text-600 font-medium">
+    <p class="mt-4">
       Already have an account?
       <NuxtLink
         to="/login"
-        class="text-900 hover:text-primary transition-duration-300 cursor-pointer font-semibold transition-colors"
+        class="hover:text-primary transition-duration-300 cursor-pointer transition-colors"
       >
         Login
-      </NuxtLink></span
-    >
+      </NuxtLink>
+    </p>
   </form>
 </template>

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Password from 'primevue/password'
-
 import { useForm } from 'vee-validate'
 import { signInSchema } from '~/validation/schema'
 
@@ -81,6 +77,8 @@ const signIn = handleSubmit(() => {
       type="submit"
       data-testid="login-submit-button"
     />
-    Don’t have an account yet? <NuxtLink to="/register">Sign up</NuxtLink>
+    <p class="mt-4">
+      Don’t have an account yet? <NuxtLink to="/register">Sign up</NuxtLink>
+    </p>
   </form>
 </template>
