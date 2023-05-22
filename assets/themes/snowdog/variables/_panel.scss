@@ -60,7 +60,7 @@ $panelContentTextColor: $textColor;
 
 /// Padding for the content section of a panel
 /// @group panel
-$panelContentPadding: 1rem;
+$panelContentPadding: 0;
 
 /// Border for the footer section of a panel
 /// @group panel
@@ -80,7 +80,7 @@ $panelFooterPadding: 0.5rem 1rem;
 
 /// Spacing between to accordion panels
 /// @group panel
-$accordionSpacing: 0;
+$accordionSpacing: 1rem;
 
 /// Border of an accordion panel header
 /// @group panel

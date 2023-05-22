@@ -1,6 +1,7 @@
 /// Font of the theme
 /// @group general
-$fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$fontFamily: "IBM Plex Sans", -apple-system, Arial, sans-serif;
+$fontFamilyMono: "IBM Plex Mono", ui-monospace, monospace;
 
 /// Size of the font
 /// @group general
@@ -12,7 +13,7 @@ $fontWeight: normal;
 
 /// Primary text color
 /// @group general
-$textColor: #495057;
+$textColor: #565a66;
 
 /// Secondary text color
 /// @group general

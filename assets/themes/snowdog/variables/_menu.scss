@@ -76,7 +76,7 @@ $menuitemIconHoverColor: $textSecondaryColor;
 
 /// Background of a menuitem in hover state
 /// @group menu
-$menuitemHoverBg: #e9ecef;
+$menuitemHoverBg: lighten(#efada3, 10%);
 
 /// Text color of a menuitem in focus state
 /// @group menu
@@ -100,7 +100,7 @@ $menuitemIconActiveColor: $textSecondaryColor;
 
 /// Background of a menuitem in active state
 /// @group menu
-$menuitemActiveBg: #e9ecef;
+$menuitemActiveBg: lighten(#efada3, 10%);
 
 /// Background of a menuitem in active and focus states
 /// @group menu
@@ -124,7 +124,7 @@ $submenuHeaderBg: #ffffff;
 
 /// Text color of a submenu header
 /// @group menu
-$submenuHeaderTextColor: $textColor;
+$submenuHeaderTextColor: $primaryColor;
 
 /// Border radius of a submenu header
 /// @group menu

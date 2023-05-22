@@ -1,5 +1,5 @@
 // Theme Specific Variables
-$primaryColor: #2196F3;
+$primaryColor: #2e2a95;
 $primaryDarkColor: #1E88E5;
 $primaryDarkerColor: #1976D2;
 $primaryTextColor: #ffffff;
@@ -38,10 +38,10 @@ $colors: (
     --surface-d:#dee2e6;
     --surface-e:#ffffff;
     --surface-f:#ffffff;
-    --text-color:#495057;
-    --text-color-secondary:#6c757d;
-    --primary-color:#2196F3;
-    --primary-color-text:#ffffff;
+    --text-color:#565A66;
+    --text-color-secondary:#020C14;
+    --primary-color:#2e2a95;
+    --primary-color-text:#565A66;
     --font-family: #{$fontFamily};
     --font-family-mono: #{$fontFamilyMono};
     --surface-0: #ffffff;
@@ -68,12 +68,12 @@ $colors: (
     --content-padding:#{$panelContentPadding};
     --inline-spacing:#{$inlineSpacing};
     --border-radius:#{$borderRadius};
-    --surface-ground:#f8f9fa;
+    --surface-ground:#eff3f8;
     --surface-section:#ffffff;
     --surface-card:#ffffff;
     --surface-overlay:#ffffff;
-    --surface-border:#dee2e6;
-    --surface-hover:#e9ecef;
+    --surface-border:#dfe7ef;
+    --surface-hover:#f6f9fc;
     --focus-ring: #{$focusShadow};
     --maskbg: #{$maskBg};
     --highlight-bg: #{$highlightBg};
