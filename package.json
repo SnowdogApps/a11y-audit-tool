@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .eslintignore .",
     "format-check": "npx prettier --check ./",
-    "format-write": "npx prettier --write ./"
+    "format-write": "npx prettier --write ./",
+    "typecheck": "npx nuxi typecheck"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
