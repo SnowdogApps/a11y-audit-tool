@@ -4,8 +4,6 @@ defineProps<{
 }>()
 
 defineEmits<{ (e: 'toggle-main-menu'): void }>()
-const route = useRoute()
-console.log(toRef(route))
 </script>
 
 <template>
