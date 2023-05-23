@@ -53,8 +53,11 @@ const menuItems = computed(() => [
         'layout-wrapper--narrower': isSideNavigationVisible,
       }"
     >
-      <AppHeader :is-side-navigation-visible="!!isSideNavigationVisible" @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"/>
-      <div class="layout-content">
+      <div class="m-[32px_auto]">
+        <AppHeader
+          :is-side-navigation-visible="!!isSideNavigationVisible"
+          @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
+        />
         <slot />
       </div>
     </main>
