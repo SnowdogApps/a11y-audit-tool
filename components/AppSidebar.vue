@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import IconLogo from '~/assets/icons/logo.svg'
 defineProps<{
   isSidebarVisible: boolean
 }>()
@@ -25,12 +26,11 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
           aria-hidden="true"
           role="presentation"
         />
-        <div class="p-sidebar-header">
-          <slot name="logo">
-            Logo
-          </slot>
+        <div class="p-sidebar-header !ml-0">
+          <IconLogo class="!w-full !h-auto"/>
         </div>
-        <div class="p-sidebar-content">
+
+        <div class="p-sidebar-content !p-0">
           <slot />
         </div>
         <span
