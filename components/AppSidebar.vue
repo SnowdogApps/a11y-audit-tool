@@ -26,7 +26,7 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
           aria-hidden="true"
           role="presentation"
         />
-        <div class="p-sidebar-header !ml-0">
+        <div class="p-sidebar-header !m-0 !px-4 !py-6">
           <IconLogo class="!w-full !h-auto"/>
         </div>
 
