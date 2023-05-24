@@ -49,7 +49,7 @@ const isProfileMenuVisible = ref(false)
     />
 
     <Button
-      class="p-button-link !m-0 rounded-full border !border-gray-500 !p-0"
+      class="p-button-link !m-0 !rounded-full border !border-gray-500 !p-0"
       @click="isProfileMenuVisible = true"
     >
       <img
