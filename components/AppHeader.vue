@@ -1,5 +1,5 @@
-<script setup lang="ts" generic>
-import { ProfileMenuLink } from '~/types/profile-menu-link'
+<script setup lang="ts">
+import type { ProfileMenuLink as MenuLink } from '~/types/profile-menu-link'
 
 defineProps<{
   isSideNavigationVisible: boolean
@@ -31,7 +31,7 @@ const profileMenuList = [
     url: '/auth/sign-out',
     text: 'Sign out',
   },
-] satisfies Partial<ProfileMenuLink>[]
+] satisfies Partial<MenuLink>[]
 
 const isProfileMenuVisible = ref(false)
 </script>
