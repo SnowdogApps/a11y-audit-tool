@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import type { ProfileMenuLink } from '~/types/profile-menu-link'
+<script setup lang="ts" generic>
+import { ProfileMenuLink } from '~/types/profile-menu-link'
 
 defineProps<{
   isSideNavigationVisible: boolean

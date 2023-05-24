@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 import type { Client } from '~/types/client'
 import type { Auditor } from '~/types/auditor'
 
@@ -30,9 +28,6 @@ const form = reactive({
     height: undefined,
   },
 })
-const disabled = computed(() => {
-  return !form.pages[0].url || isTestProcessing.value
-})
 
 // methods
 function addPage() {
@@ -41,9 +36,10 @@ function addPage() {
 function removePage() {
   form.pages.pop()
 }
+// eslint-disable-next-line require-await
 async function sendForm() {
-
   const formData = form
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const data = {
     _id: crypto ? crypto.randomUUID() : new Date().getTime().toString(),
     ...formData,
@@ -58,7 +54,7 @@ async function sendForm() {
         : undefined,
   }
   // emit('submit', data)
-  //postAxeRequest(data)
+  // postAxeRequest(data)
 
   try {
     isTestProcessing.value = true
@@ -84,7 +80,7 @@ const selectedAuditor = ref<Auditor>()
     <h2>Configuration</h2>
     <form @submit.prevent>
       <Accordion
-        :activeIndex="0"
+        :active-index="0"
         :multiple="true"
       >
         <AccordionTab header="General">
@@ -94,9 +90,9 @@ const selectedAuditor = ref<Auditor>()
             <div class="p-component">
               <label for="audit-title">Audit title</label>
               <InputText
-                class="w-full"
                 id="audit-title"
                 v-model="form.title"
+                class="w-full"
                 name="audit-title"
               />
             </div>
@@ -104,9 +100,9 @@ const selectedAuditor = ref<Auditor>()
             <div class="p-component">
               <label for="file-name">Result file name</label>
               <InputText
-                class="w-full"
                 id="file-name"
                 v-model="form.fileName"
+                class="w-full"
                 name="file-name"
               />
             </div>
@@ -114,9 +110,9 @@ const selectedAuditor = ref<Auditor>()
             <div class="p-component">
               <label for="result-dir">Result directory name</label>
               <InputText
-                class="w-full"
                 id="result-dir"
                 v-model="form.resultsDir"
+                class="w-full"
                 label="Result directory name"
                 name="result-dir"
               />
@@ -125,9 +121,10 @@ const selectedAuditor = ref<Auditor>()
             <div class="p-component">
               <label for="date">Date</label>
               <Calendar
-                class="w-full"
                 id="date"
-                disabled v-model="date"
+                v-model="date"
+                class="w-full"
+                disabled
               />
             </div>
 
