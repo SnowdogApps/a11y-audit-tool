@@ -8,7 +8,7 @@ import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import Menu from 'primevue/menu'
 import Password from 'primevue/password'
-import Sidebar from "primevue/sidebar";
+import Sidebar from 'primevue/sidebar'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(PrimeVue, { ripple: true })

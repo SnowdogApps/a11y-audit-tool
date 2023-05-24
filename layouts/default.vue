@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PrimeIcons } from 'primevue/api';
+import { PrimeIcons } from 'primevue/api'
 
 const isSideNavigationVisible = ref(false)
 const menuItems = computed(() => [
@@ -9,9 +9,9 @@ const menuItems = computed(() => [
       {
         label: 'Home',
         icon: PrimeIcons.HOME,
-        to: '/'
-      }
-    ]
+        to: '/',
+      },
+    ],
   },
   {
     label: 'Audit',
@@ -24,9 +24,9 @@ const menuItems = computed(() => [
       {
         label: 'New',
         icon: PrimeIcons.PLUS,
-        to: '/audit/new'
-      }
-    ]
+        to: '/audit/new',
+      },
+    ],
   },
   {
     label: 'Auth',
@@ -34,14 +34,15 @@ const menuItems = computed(() => [
       {
         label: 'Login',
         icon: PrimeIcons.SIGN_IN,
-        to: '/login'
-      }, {
+        to: '/login',
+      },
+      {
         label: 'Register',
         icon: PrimeIcons.VERIFIED,
-        to: '/register'
-      }
-    ]
-  }
+        to: '/register',
+      },
+    ],
+  },
 ])
 </script>
 
@@ -55,7 +56,7 @@ const menuItems = computed(() => [
     >
       <div class="m-[32px_auto]">
         <AppHeader
-          :is-side-navigation-visible="!!isSideNavigationVisible"
+          :is-side-navigation-visible="isSideNavigationVisible"
           @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
         />
         <slot />
@@ -63,10 +64,13 @@ const menuItems = computed(() => [
     </main>
 
     <AppSidebar
-      :is-sidebar-visible="!!isSideNavigationVisible"
+      :is-sidebar-visible="isSideNavigationVisible"
       @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
     >
-      <Menu :model="menuItems" class="layout-menu" />
+      <Menu
+        :model="menuItems"
+        class="layout-menu"
+      />
     </AppSidebar>
   </div>
 </template>

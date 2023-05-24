@@ -1,5 +1,5 @@
-<script lang="ts" setup>
-import { ProfileMenuLink } from '~/types/profile-menu-link'
+<script setup lang="ts">
+import { ProfileMenuLink } from '~/types/profile-menu-link.ts'
 
 defineProps<{
   isSideNavigationVisible: boolean
@@ -49,7 +49,7 @@ const isProfileMenuVisible = ref(false)
     />
 
     <Button
-      class="p-button-link !m-0 !rounded-full rounded border !border-gray-500 !p-0"
+      class="p-button-link !m-0 rounded-full border !border-gray-500 !p-0"
       @click="isProfileMenuVisible = true"
     >
       <img
