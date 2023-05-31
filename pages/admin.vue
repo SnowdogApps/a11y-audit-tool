@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { getFormData } from 'utils/form'
 
+export interface AdminFormUserData {
+  id: string
+  user_type: string
+}
+
 definePageMeta({
   middleware: [
     'auth',
@@ -21,9 +26,10 @@ const isLoading = ref(false)
 const profiles = ref<any>([])
 
 async function fetchProfiles() {
-  const { data } = await supabase
-    .from('profiles')
-    .select('id, username, user_type')
+  // @ todo: handle auth user info update
+  // const { data } = await useFetch('/api/users')
+
+  const { data } = await supabase.from('profiles').select('*')
 
   profiles.value = data
 }
@@ -33,13 +39,14 @@ async function updateProfile(event: Event) {
     const user = useSupabaseUser()
 
     if (user.value?.id && event.target instanceof HTMLFormElement) {
-      const { id, user_type } = getFormData<{ id: string; user_type: string }>(
+      const { id, user_type: userType } = getFormData<AdminFormUserData>(
         event.target
       )
+
       const { error } = await supabase.from('profiles').upsert(
         {
           id,
-          user_type,
+          user_type: userType,
           updated_at: new Date(),
         },
         {

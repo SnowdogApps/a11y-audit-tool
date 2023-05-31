@@ -7,6 +7,9 @@ const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 
 const username = ref('')
+const fullName = ref('')
+const avatarUrl = ref('')
+const userType = ref('')
 const isLoading = ref(true)
 
 if (user.value) {
@@ -18,6 +21,9 @@ if (user.value) {
 
   if (data) {
     username.value = data.username
+    fullName.value = data.full_name
+    avatarUrl.value = data.avatar_url
+    userType.value = data.user_type
   }
 
   isLoading.value = false
@@ -74,6 +80,37 @@ async function updateProfile() {
         id="username"
         v-model="username"
         type="text"
+      />
+    </div>
+
+    <div>
+      <label for="full_name">Full name</label>
+      <input
+        id="full_name"
+        v-model="fullName"
+        type="text"
+      />
+    </div>
+
+    <div>
+      <label for="avatar_url">Avatar url (soon)</label>
+      <input
+        id="avatar_url"
+        v-model="avatarUrl"
+        type="text"
+        disabled
+        readonly
+      />
+    </div>
+
+    <div>
+      <label for="user_type">User type</label>
+      <input
+        id="user_type"
+        v-model="userType"
+        type="text"
+        disabled
+        readonly
       />
     </div>
 
