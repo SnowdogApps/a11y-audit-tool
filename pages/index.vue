@@ -30,8 +30,8 @@ watchEffect(() => {
     </h2>
 
     <form
-      @submit.prevent="doAuth"
       class="flex flex-col"
+      @submit.prevent="doAuth"
     >
       <input
         class="text-black"
