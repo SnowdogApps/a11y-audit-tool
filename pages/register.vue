@@ -9,7 +9,11 @@ definePageMeta({
 const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
   validationSchema: signUpSchema,
 })
-const [email, newPassword] = useFieldModel(['email', 'newPassword'])
+const [email, newPassword, passwordConfirm] = useFieldModel([
+  'email',
+  'newPassword',
+  'passwordConfirm',
+])
 const { isSubmitted } = useValidation(submitCount)
 const signUp = handleSubmit(() => {
   // TODO
@@ -44,7 +48,7 @@ const signUp = handleSubmit(() => {
       </small>
     </span>
 
-    <span class="mb-10 w-full">
+    <span class="mb-4 w-full">
       <label for="new-password"> Password </label>
       <Password
         id="password"
@@ -61,6 +65,26 @@ const signUp = handleSubmit(() => {
         class="p-error mt-1"
       >
         {{ errors.newPassword }}
+      </small>
+    </span>
+
+    <span class="mb-10 w-full">
+      <label for="password-confirm"> Confirm password </label>
+      <Password
+        id="password-confirm"
+        v-model="passwordConfirm"
+        data-testid="register-confirm-password-field"
+        class="p-inputtext-lg md:w-25rem w-full"
+        :class="[{ 'p-invalid': errors.passwordConfirm && isSubmitted }]"
+        input-class="w-full"
+        :feedback="false"
+        toggle-mask
+      />
+      <small
+        v-if="errors.passwordConfirm && isSubmitted"
+        class="p-error mt-1"
+      >
+        {{ errors.passwordConfirm }}
       </small>
     </span>
 

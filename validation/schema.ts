@@ -1,6 +1,6 @@
 import { object } from 'yup'
-import rules from '~/validation/rules'
-const { emailRule, passwordRule, passwordRepeatRule } = rules()
+import validationRules from '~/validation/rules'
+const { emailRule, passwordRule, passwordRepeatRule } = validationRules()
 
 export const signInSchema = object({
   email: emailRule,
@@ -10,6 +10,7 @@ export const signInSchema = object({
 export const signUpSchema = object({
   email: emailRule,
   newPassword: passwordRule,
+  passwordConfirm: passwordRepeatRule,
 })
 
 export const recoverPasswordSchema = object({
