@@ -7,7 +7,7 @@ defineProps<{
 
 defineEmits<{ (e: 'toggle-main-menu'): void }>()
 
-const profileMenuList = [
+const profileMenuList: MenuLink[] = [
   {
     iconClasses: 'pi pi-user text-xl text-primary',
     url: '/account',
@@ -31,7 +31,7 @@ const profileMenuList = [
     url: '/auth/sign-out',
     text: 'Sign out',
   },
-] satisfies Partial<MenuLink>[]
+]
 
 const isProfileMenuVisible = ref(false)
 </script>

@@ -1,12 +1,7 @@
 <script setup lang="ts">
-export interface PartialProfileMenuLink {
-  iconClasses: string
-  url: string
-  text: string
-  subtitle?: string
-}
+import type { ProfileMenuLink } from '~/types/profile-menu-link'
 
-defineProps<PartialProfileMenuLink>()
+defineProps<ProfileMenuLink>()
 </script>
 
 <template>
