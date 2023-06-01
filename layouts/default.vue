@@ -52,7 +52,7 @@ const menuItems = computed<MenuItem[]>(() => [
     <main
       class="layout-wrapper"
       :class="{
-        'layout-wrapper--narrower': isSideNavigationVisible,
+        'layout-wrapper--slim': isSideNavigationVisible,
       }"
     >
       <div class="m-[32px_auto]">
