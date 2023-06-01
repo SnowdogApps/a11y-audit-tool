@@ -2,7 +2,7 @@
 import IconLogo from 'assets/icons/logo.svg'
 
 defineProps<{
-  isSidebarVisible: boolean
+  isVisible: boolean
 }>()
 
 defineEmits<{ (e: 'toggle-main-menu'): void }>()
@@ -12,7 +12,7 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
   <div
     class="layout-sidebar"
     :class="{
-      'layout-sidebar--active': isSidebarVisible,
+      'layout-sidebar--active': isVisible,
     }"
   >
     <div
@@ -45,7 +45,7 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
   <div
     class="layout-mask"
     :class="{
-      'layout-mask--active': isSidebarVisible,
+      'layout-mask--active': isVisible,
     }"
     @click="$emit('toggle-main-menu')"
   />
