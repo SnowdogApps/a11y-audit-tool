@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Client } from '~/types/client'
-import type { Auditor } from '~/types/auditor'
+import type { User } from '~/types/user'
 
 import { clientList, auditorList } from '~/mocks/audit'
 
@@ -68,11 +67,11 @@ async function sendForm() {
 }
 
 const date = new Date()
-const clients = ref<Client[]>(clientList)
-const auditors = ref<Auditor[]>(auditorList)
+const clients = ref<User[]>(clientList)
+const auditors = ref<User[]>(auditorList)
 
-const selectedClient = ref<Client>()
-const selectedAuditor = ref<Auditor>()
+const selectedClient = ref<User>()
+const selectedAuditor = ref<User>()
 </script>
 
 <template>

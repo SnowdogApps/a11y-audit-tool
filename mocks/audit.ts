@@ -1,7 +1,6 @@
-import type { Client } from '~/types/client'
-import type { Auditor } from '~/types/auditor'
+import type { User } from '~/types/user'
 
-const clientList: Client[] = [
+const clientList: User[] = [
   {
     id: 1,
     name: 'Snowdog',
@@ -15,7 +14,7 @@ const clientList: Client[] = [
     name: 'BrantetCondend',
   },
 ]
-const auditorList: Auditor[] = [
+const auditorList: User[] = [
   {
     id: 1,
     name: 'Ania',
