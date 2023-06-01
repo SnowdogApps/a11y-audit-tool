@@ -39,6 +39,7 @@ async function updateProfile() {
         {
           id: user.value.id,
           username: username.value,
+          full_name: fullName.value,
           updated_at: new Date(),
         },
         {
