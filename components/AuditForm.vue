@@ -79,7 +79,7 @@ const selectedAuditor = ref<User>()
     <h2>Configuration</h2>
     <form @submit.prevent>
       <Accordion
-        :active-index="0"
+        :activeIndex="[0]"
         :multiple="true"
       >
         <AccordionTab header="General">
