@@ -1,38 +1,39 @@
 <script setup lang="ts">
 import type { User } from '~/types/user'
+import type { AuditForm } from '~/types/audit'
 
 import { clientList, auditorList } from '~/mocks/audit'
 
 const isTestProcessing = ref(false)
 // data
-const form = reactive({
+const form: AuditForm = reactive({
+  axeConfig: {
+    reporter: '',
+  },
+  basicAuth: {
+    password: '',
+    username: '',
+  },
+  fileName: '',
   pages: [
     {
-      url: null,
-      selector: null,
+      selector: '',
+      url: '',
     },
   ],
-  title: undefined,
-  fileName: undefined,
-  resultsDir: undefined,
-  basicAuth: {
-    username: undefined,
-    password: undefined,
-  },
-  axeConfig: {
-    reporter: undefined,
-  },
+  resultsDir: '',
+  title: '',
   viewport: {
-    width: undefined,
-    height: undefined,
+    height: 0,
+    width: 0,
   },
 })
 
 // methods
 function addPage() {
-  form.pages.push({ url: null, selector: null })
+  form.pages.push({ url: '', selector: '' })
 }
-function removePage(index) {
+function removePage(index: number) {
   form.pages.splice(index, 1)
 }
 // eslint-disable-next-line require-await
@@ -269,7 +270,7 @@ const selectedAuditor = ref<User>()
               icon="pi pi-times"
               :data-testid="`audit-remove-page-button-${index}`"
               outlined
-              @click="removePage"
+              @click="removePage(index)"
             />
           </div>
 
