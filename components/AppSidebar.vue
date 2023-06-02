@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import IconLogo from 'assets/icons/logo.svg'
-
 defineProps<{
   isVisible: boolean
 }>()
@@ -28,7 +26,7 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
         role="presentation"
       />
       <div class="p-sidebar-header !m-0 !px-4 !py-6">
-        <IconLogo class="!h-auto !w-full" />
+        <SvgoLogo class="!h-auto !w-full" />
       </div>
 
       <div class="p-sidebar-content !p-0">
