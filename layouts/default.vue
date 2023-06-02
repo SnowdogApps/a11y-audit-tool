@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PrimeIcons } from 'primevue/api'
-import { MenuItem } from 'primevue/menuitem'
+import type { MenuItem } from 'primevue/menuitem'
 
 const isSideNavigationVisible = ref(false)
 const menuItems = computed<MenuItem[]>(() => [
