@@ -60,6 +60,7 @@ async function updateProfile() {
 </script>
 
 <template>
+  <h1>Settings</h1>
   <form
     v-if="user"
     class="w-full"

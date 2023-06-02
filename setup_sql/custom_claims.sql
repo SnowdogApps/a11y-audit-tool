@@ -1,3 +1,4 @@
+-- source code: https://raw.githubusercontent.com/supabase-community/supabase-custom-claims/main/install.sql
 CREATE OR REPLACE FUNCTION is_claims_admin() RETURNS "bool"
   LANGUAGE "plpgsql"
   AS $$
