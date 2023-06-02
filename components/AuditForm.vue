@@ -24,8 +24,8 @@ const form: AuditForm = reactive({
   resultsDir: '',
   title: '',
   viewport: {
-    height: 0,
-    width: 0,
+    height: 600,
+    width: 800,
   },
 })
 
@@ -175,7 +175,7 @@ const selectedAuditor = ref<User>()
             <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
               <span class="w-full">
                 <label for="viewport-width">Viewport width</label>
-                <InputText
+                <InputNumber
                   id="viewport-width"
                   v-model="form.viewport.width"
                   class="w-full"
@@ -186,7 +186,7 @@ const selectedAuditor = ref<User>()
 
               <span class="w-full">
                 <label for="viewport-height">Viewport height</label>
-                <InputText
+                <InputNumber
                   id="viewport-height"
                   v-model="form.viewport.height"
                   class="w-full"
