@@ -64,12 +64,13 @@ async function updateAudit(event: Event) {
 
     if (user.value?.id && event.target instanceof HTMLFormElement) {
       const { id } = getFormData<AdminFormField>(event.target)
-      const { error } = await supabase.from('audits').update(
-        {
+      const { error } = await supabase
+        .from('audits')
+        .update({
           issues: { foo: `bar_${new Date().getTime()}` },
           updated_at: new Date(),
-        }
-      ).eq('id', id)
+        })
+        .eq('id', id)
 
       if (error) {
         throw error
