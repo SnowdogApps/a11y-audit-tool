@@ -1,5 +1,9 @@
+<script setup lang="ts">
+const user = useSupabaseUser()
+</script>
+
 <template>
-  <AppHeader />
+  <AppHeader v-if="user" />
   <main>
     <NuxtPage />
   </main>
