@@ -34,9 +34,25 @@ begin
   return new;
 end;
 $$ language plpgsql security definer;
+
+create function public.handle_user_role_update()
+returns trigger as $$
+begin
+  update profiles
+  set user_type = (select get_claim(id, 'user_role'))
+  where id = new.id;
+  return new;
+end;
+$$ language plpgsql security definer;
+
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+create trigger on_auth_user_updated
+  after update on auth.users
+  for each row when (old.raw_app_meta_data is distinct from new.raw_app_meta_data)
+  execute function public.handle_user_role_update();
 
 -- Set up Storage!
 insert into storage.buckets (id, name)
