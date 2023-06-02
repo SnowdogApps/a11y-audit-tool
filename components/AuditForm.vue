@@ -32,8 +32,8 @@ const form = reactive({
 function addPage() {
   form.pages.push({ url: null, selector: null })
 }
-function removePage() {
-  form.pages.pop()
+function removePage(index) {
+  form.pages.splice(index, 1)
 }
 // eslint-disable-next-line require-await
 async function sendForm() {
@@ -79,55 +79,57 @@ const selectedAuditor = ref<User>()
     <h2>Configuration</h2>
     <form @submit.prevent>
       <Accordion
-        :activeIndex="[0]"
+        :active-index="[0]"
         :multiple="true"
       >
         <AccordionTab header="General">
-          <div
-            class="grid-col-1 grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4"
-          >
-            <div class="p-component">
+          <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
+            <span class="w-full">
               <label for="audit-title">Audit title</label>
               <InputText
                 id="audit-title"
                 v-model="form.title"
                 class="w-full"
+                data-testid="audit-title-field"
                 name="audit-title"
               />
-            </div>
+            </span>
 
-            <div class="p-component">
+            <span class="w-full">
               <label for="file-name">Result file name</label>
               <InputText
                 id="file-name"
                 v-model="form.fileName"
                 class="w-full"
+                data-testid="audit-file-name-field"
                 name="file-name"
               />
-            </div>
+            </span>
 
-            <div class="p-component">
+            <span class="w-full">
               <label for="result-dir">Result directory name</label>
               <InputText
                 id="result-dir"
                 v-model="form.resultsDir"
                 class="w-full"
-                label="Result directory name"
+                data-testid="audit-result-dir-field"
                 name="result-dir"
               />
-            </div>
+            </span>
 
-            <div class="p-component">
+            <span class="w-full">
               <label for="date">Date</label>
               <Calendar
                 id="date"
                 v-model="date"
                 class="w-full"
                 disabled
+                data-testid="audit-date-field"
+                name="audit-date"
               />
-            </div>
+            </span>
 
-            <div class="p-component">
+            <span class="w-full">
               <label for="client">Client</label>
               <Dropdown
                 id="client"
@@ -136,10 +138,12 @@ const selectedAuditor = ref<User>()
                 option-label="name"
                 placeholder="Select"
                 class="md:w-14rem w-full"
+                data-testid="audit-client-field"
+                name="client"
               />
-            </div>
+            </span>
 
-            <div class="p-component">
+            <span class="w-full">
               <label for="auditor">Auditor</label>
               <Dropdown
                 id="auditor"
@@ -148,56 +152,75 @@ const selectedAuditor = ref<User>()
                 option-label="name"
                 placeholder="Select"
                 class="md:w-14rem w-full"
+                data-testid="audit-auditor-field"
+                name="auditor"
               />
-            </div>
+            </span>
           </div>
         </AccordionTab>
-        <AccordionTab header="Configuration">
-          <div
-            class="grid-col-1 grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4"
-          >
-            <h4 class="mb-0">Axe configuration</h4>
-            <div class="p-component">
+        <AccordionTab header="Axe configuration">
+          <div class="grid gap-6 md:grid-rows-3 md:gap-4">
+            <span class="w-full">
               <label for="reporter">Reporter</label>
               <InputText
                 id="reporter"
                 v-model="form.axeConfig.reporter"
+                class="md:w-14rem w-full"
+                data-testid="audit-reporter-field"
                 name="axe-reporter"
               />
+            </span>
+
+            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
+              <span class="w-full">
+                <label for="viewport-width">Viewport width</label>
+                <InputText
+                  id="viewport-width"
+                  v-model="form.viewport.width"
+                  class="w-full"
+                  data-testid="audit-viewport-width-field"
+                  name="viewport-width"
+                />
+              </span>
+
+              <span class="w-full">
+                <label for="viewport-height">Viewport height</label>
+                <InputText
+                  id="viewport-height"
+                  v-model="form.viewport.height"
+                  class="w-full"
+                  data-testid="audit-viewport-height-field"
+                  name="viewport-height"
+                />
+              </span>
             </div>
 
-            <h4 class="mb-0">Viewport</h4>
+            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
+              <span class="w-full">
+                <label for="username">Basic Auth username</label>
+                <InputText
+                  id="username"
+                  v-model="form.basicAuth.username"
+                  class="w-full"
+                  data-testid="audit-auth-username-field"
+                  name="username"
+                />
+              </span>
 
-            <InputText
-              id="viewport-width"
-              v-model="form.viewport.width"
-              label="Width"
-              name="viewport-width"
-              placeholder="Viewport width"
-            />
-            <InputText
-              id="viewport-height"
-              v-model="form.viewport.height"
-              label="Height"
-              name="viewport-height"
-              placeholder="Viewport height"
-            />
-            <h4 class="mb-0">Basic Auth configuration</h4>
-            <InputText
-              id="username"
-              v-model="form.basicAuth.username"
-              label="User name"
-              name="username"
-              placeholder="User name"
-            />
-            <InputText
-              id="password"
-              v-model="form.basicAuth.password"
-              label="Password"
-              name="password"
-              type="password"
-              placeholder="Password"
-            />
+              <span class="w-full">
+                <label for="password">Basic Auth password</label>
+                <Password
+                  id="password"
+                  v-model="form.basicAuth.password"
+                  class="w-full"
+                  input-class="w-full"
+                  data-testid="audit-auth-password-field"
+                  name="password"
+                  :feedback="false"
+                  toggle-mask
+                />
+              </span>
+            </div>
           </div>
         </AccordionTab>
 
@@ -205,38 +228,57 @@ const selectedAuditor = ref<User>()
           <div
             v-for="(page, index) in form.pages"
             :key="`page-${index}`"
-            class="flex flex-col gap-2"
+            class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
-            <div class="flex flex-row items-end">
-              <InputText
-                :id="`url-${index}`"
-                v-model="page.url"
-                label="Url"
-                :name="`url-${index}`"
-                placeholder="url"
-                class="flex-grow"
-              />
-              <Button
-                v-if="index !== 0"
-                label="Remove page"
-                variant="secondary"
-                class="mb-4 ml-4"
-                @click="removePage"
-              />
+            <div class="grid gap-6 md:grid-cols-2 md:items-start md:gap-x-8">
+              <span class="w-full">
+                <label :for="`url-${index}`">Url</label>
+                <InputText
+                  :id="`url-${index}`"
+                  v-model="page.url"
+                  class="w-full"
+                  :data-testid="`audit-page-url-field-${index}`"
+                  :name="`url[${index}]`"
+                />
+              </span>
+
+              <span class="w-full">
+                <label for="`selector-${index}`">HTML Selector</label>
+                <InputText
+                  :id="`selector-${index}`"
+                  v-model="page.selector"
+                  :name="`selector[${index}]`"
+                  class="w-full"
+                  :aria-describedby="`selector-help-${index}`"
+                  :data-testid="`audit-page-selector-field-${index}`"
+                />
+                <small
+                  :id="`selector-help-${index}`"
+                  class=""
+                >
+                  Use .class or #id to choose selector to test, just one
+                  selector allowed. If empty whole document will be tested.
+                </small>
+              </span>
             </div>
-            <InputText
-              :id="`selector-${index}`"
-              v-model="page.selector"
-              label="HTML Selector"
-              :name="`selector-${index}`"
-              placeholder="selector"
-              note="use .class or #id to choose selector to test, just one selector allowed. If empty whole document will be tested."
-              class="self-end md:w-1/2"
+
+            <Button
+              label="Remove page"
+              variant="secondary"
+              class="tracking-wider md:justify-self-start"
+              icon="pi pi-times"
+              :data-testid="`audit-remove-page-button-${index}`"
+              outlined
+              @click="removePage"
             />
           </div>
+
           <Button
-            label="Add another page"
-            class="w-full md:w-auto"
+            label="Add page"
+            class="w-full tracking-wider md:w-auto"
+            icon="pi pi-plus"
+            outlined
+            data-testid="audit-add-page-button"
             @click="addPage"
           />
         </AccordionTab>
@@ -245,7 +287,8 @@ const selectedAuditor = ref<User>()
       <Button
         label="Send"
         type="submit"
-        class="p-button-lg mb-4 w-full"
+        class="p-button-lg w-full"
+        data-testid="audit-submit-button"
         @click="sendForm"
       />
     </form>
