@@ -24,6 +24,8 @@ definePageMeta({
 })
 
 const supabase = useSupabaseClient()
+const user = useSupabaseUser()
+
 const isLoading = ref(false)
 const profiles = ref<any>([])
 const authData = ref<any>([])
@@ -39,10 +41,13 @@ const getUsersWithEmails = computed(() =>
     email: getAuthDataById(profile.id)?.email,
   }))
 )
+
 const getProfileProject = computed(() =>
   profileProject.value.map((permission) => {
     const user = getAuthDataById(permission.profile_id)
-    const projectData = projects.value.find((project) => project.id === permission.project_id)
+    const projectData = projects.value.find(
+      (project) => project.id === permission.project_id
+    )
 
     return {
       id: permission.id,
@@ -59,34 +64,36 @@ async function fetchProfiles() {
   authData.value = authUsers.value.users
   profiles.value = data
 }
+
 async function fetchProjects() {
   const { data } = await supabase.from('projects').select('*')
   projects.value = data
 }
+
 async function fetchProjectProfile() {
   const { data } = await supabase.from('profile_project').select('*')
   profileProject.value = data
 }
-async function updateProfile(event: Event) {
+
+async function setClaim(
+  uid: string,
+  claim: string,
+  value: object | string | number
+) {
+  const { data, error } = await supabase.rpc('set_claim', { uid, claim, value })
+  return { data, error }
+}
+
+async function updateUserType(event: Event) {
   try {
     isLoading.value = true
-    const user = useSupabaseUser()
 
     if (user.value?.id && event.target instanceof HTMLFormElement) {
-      const { id, user_type: userType } = getFormData<AdminFormField>(
+      const { id, user_type: userRole } = getFormData<AdminFormField>(
         event.target
       )
 
-      const { error } = await supabase.from('profiles').upsert(
-        {
-          id,
-          user_type: userType,
-          updated_at: new Date(),
-        },
-        {
-          returning: 'minimal',
-        }
-      )
+      const { error } = await setClaim(id, 'user_role', userRole)
 
       if (error) {
         throw error
@@ -100,6 +107,7 @@ async function updateProfile(event: Event) {
     isLoading.value = false
   }
 }
+
 async function createProject(event: Event) {
   try {
     const user = useSupabaseUser()
@@ -120,6 +128,7 @@ async function createProject(event: Event) {
     console.error(err)
   }
 }
+
 async function addProfileToProject(event: Event) {
   try {
     const user = useSupabaseUser()
@@ -142,6 +151,7 @@ async function addProfileToProject(event: Event) {
     console.error(err)
   }
 }
+
 async function removeProfileFromProject(id: string) {
   try {
     const { error } = await supabase
@@ -221,7 +231,8 @@ await fetchProjectProfile()
             v-for="{ id, email, name } in getProfileProject"
             :key="id"
           >
-            [{{ id }}] <strong>{{ email }}</strong> {{ name }}
+            <strong>{{ email }}</strong> on project
+            <span class="mr-2 underline">{{ name }}</span>
 
             <button
               type="button"
@@ -242,7 +253,7 @@ await fetchProjectProfile()
     <div class="flex-1">
       <form
         class="mb-4"
-        @submit.prevent="updateProfile"
+        @submit.prevent="updateUserType"
       >
         <legend class="mb-4 font-bold underline">Update user type</legend>
 
@@ -253,13 +264,21 @@ await fetchProjectProfile()
           >
             User id
           </label>
-          <input
+          <select
             id="id"
             name="id"
-            type="text"
             class="mb-2"
             required
-          />
+          >
+            <option />
+            <option
+              v-for="{ id, email, user_type } in getUsersWithEmails"
+              :key="id"
+              :value="id"
+            >
+              {{ email }} [{{ user_type }}]
+            </option>
+          </select>
         </div>
 
         <div>
@@ -269,13 +288,16 @@ await fetchProjectProfile()
           >
             User type
           </label>
-          <input
+          <select
             id="user_type"
             name="user_type"
-            type="text"
             class="mb-2"
             required
-          />
+          >
+            <option />
+            <option value="auditor">auditor</option>
+            <option value="viewer">viewer</option>
+          </select>
         </div>
 
         <input
@@ -339,13 +361,21 @@ await fetchProjectProfile()
           >
             User id
           </label>
-          <input
+          <select
             id="profile_id"
             name="profile_id"
-            type="text"
             class="mb-2"
             required
-          />
+          >
+            <option />
+            <option
+              v-for="{ id, email, user_type } in getUsersWithEmails"
+              :key="id"
+              :value="id"
+            >
+              {{ email }} [{{ user_type }}]
+            </option>
+          </select>
         </div>
 
         <div>
@@ -353,15 +383,23 @@ await fetchProjectProfile()
             class="mr-2 min-w-[20px]"
             for="project_id"
           >
-            Project id
+            Project
           </label>
-          <input
+          <select
             id="project_id"
             name="project_id"
-            type="text"
             class="mb-2"
             required
-          />
+          >
+            <option />
+            <option
+              v-for="{ id, name } in projects"
+              :key="id"
+              :value="id"
+            >
+              {{ name }} [{{ id }}]
+            </option>
+          </select>
         </div>
 
         <input
