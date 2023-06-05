@@ -69,9 +69,11 @@ Usage example with `supabase` client module:
 select set_claim('PASS-HERE-SPECIFIC-USER-UUID-FROM-AUTH-TABLE', 'claims_admin', 'true');
 ```
 
+:warning: You will need to log in again to see the changes.
+
 ## User role
 
-:warning: Not specified by default.
+:warning: Not specified by default. After change, you will need to log in again to see the changes.
 
 Only the Admin can grant users with `user_role`.
 
