@@ -19,12 +19,6 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
       role="region"
       aria-modal="true"
     >
-      <span
-        class="p-hidden-accessible p-hidden-focusable"
-        tabindex="0"
-        aria-hidden="true"
-        role="presentation"
-      />
       <div class="p-sidebar-header !m-0 !px-4 !py-6">
         <SvgoLogo
           aria-label="main website logo - Snowdog company"
@@ -35,12 +29,6 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
       <div class="p-sidebar-content !p-0">
         <slot />
       </div>
-      <span
-        class="p-hidden-accessible p-hidden-focusable"
-        tabindex="0"
-        aria-hidden="true"
-        role="presentation"
-      />
     </div>
   </div>
   <div
