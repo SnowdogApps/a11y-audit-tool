@@ -50,6 +50,7 @@ const isProfileMenuVisible = ref(false)
 
     <Button
       class="p-button-link !m-0 !rounded-full border !border-gray-500 !p-0"
+      aria-label="Profile menu"
       @click="isProfileMenuVisible = true"
     >
       <img

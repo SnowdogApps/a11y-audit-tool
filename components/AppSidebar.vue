@@ -26,7 +26,10 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
         role="presentation"
       />
       <div class="p-sidebar-header !m-0 !px-4 !py-6">
-        <SvgoLogo class="!h-auto !w-full" />
+        <SvgoLogo
+          aria-label="main website logo - Snowdog company"
+          class="!h-auto !w-full"
+        />
       </div>
 
       <div class="p-sidebar-content !p-0">
