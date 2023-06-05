@@ -1,7 +1,8 @@
 <script setup lang="ts">
 // @note: this page is just a draft of concept
 // @todo: tweak the UI and logic later on
-
+import type { User } from '@supabase/gotrue-js'
+import type { Database, Json } from 'types/supabase'
 import { getFormData } from 'utils/form'
 
 interface AdminFormField {
@@ -12,7 +13,9 @@ definePageMeta({
   middleware: [
     'auth',
     defineNuxtRouteMiddleware(async () => {
-      const { data } = await useSupabaseClient().rpc('is_claims_admin')
+      const { data } = await useSupabaseClient<Database>().rpc(
+        'is_claims_admin'
+      )
 
       if (!data) {
         abortNavigation({
@@ -23,14 +26,16 @@ definePageMeta({
   ],
 })
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 
 const isLoading = ref(false)
-const profiles = ref<any>([])
-const authData = ref<any>([])
-const projects = ref<any>([])
-const profileProject = ref<any>([])
+const profiles = ref<Database['public']['Tables']['profiles']['Row'][]>([])
+const authData = ref<User[]>([])
+const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+const profileProject = ref<
+  Database['public']['Tables']['profile_project']['Row'][]
+>([])
 
 const getAuthDataById = (id: string) =>
   authData.value.find((user) => user.id === id)
@@ -51,35 +56,37 @@ const getProfileProject = computed(() =>
 
     return {
       id: permission.id,
-      email: user.email,
-      name: projectData.name,
+      email: user?.email,
+      name: projectData?.name,
     }
   })
 )
 
 async function fetchProfiles() {
-  const { data: authUsers } = await useFetch('/api/users')
+  const { data: authUsers } = await useFetch<{
+    users: User[]
+    aud: string
+    nextPage: number | null
+    lastPage: number
+    total: number
+  }>('/api/users')
   const { data } = await supabase.from('profiles').select('*')
 
-  authData.value = authUsers.value.users
-  profiles.value = data
+  authData.value = authUsers.value?.users || []
+  profiles.value = data || []
 }
 
 async function fetchProjects() {
   const { data } = await supabase.from('projects').select('*')
-  projects.value = data
+  projects.value = data || []
 }
 
 async function fetchProjectProfile() {
   const { data } = await supabase.from('profile_project').select('*')
-  profileProject.value = data
+  profileProject.value = data || []
 }
 
-async function setClaim(
-  uid: string,
-  claim: string,
-  value: object | string | number
-) {
+async function setClaim(uid: string, claim: string, value: Json) {
   const { data, error } = await supabase.rpc('set_claim', { uid, claim, value })
   return { data, error }
 }
@@ -134,12 +141,12 @@ async function addProfileToProject(event: Event) {
     const user = useSupabaseUser()
 
     if (user.value?.id && event.target instanceof HTMLFormElement) {
-      const { profile_id, project_id } = getFormData<AdminFormField>(
-        event.target
-      )
-      const { error } = await supabase
-        .from('profile_project')
-        .insert({ profile_id, project_id })
+      const { profile_id: profileId, project_id: projectId } =
+        getFormData<AdminFormField>(event.target)
+      const { error } = await supabase.from('profile_project').insert({
+        profile_id: profileId,
+        project_id: Number(projectId),
+      })
 
       if (error) {
         throw error
@@ -152,7 +159,7 @@ async function addProfileToProject(event: Event) {
   }
 }
 
-async function removeProfileFromProject(id: string) {
+async function removeProfileFromProject(id: number) {
   try {
     const { error } = await supabase
       .from('profile_project')

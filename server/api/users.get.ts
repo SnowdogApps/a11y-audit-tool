@@ -3,8 +3,10 @@ import {
   serverSupabaseServiceRole,
 } from '#supabase/server'
 
+import type { Database } from 'types/supabase'
+
 export default defineEventHandler(async (event) => {
-  const { data: isAdmin } = await serverSupabaseClient(event).rpc(
+  const { data: isAdmin } = await serverSupabaseClient<Database>(event).rpc(
     'is_claims_admin'
   )
 

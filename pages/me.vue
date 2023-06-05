@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { Database } from 'types/supabase'
+
 definePageMeta({
   middleware: 'auth',
 })
 
 const user = useSupabaseUser()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 
 const username = ref('')
 const fullName = ref('')
@@ -20,10 +22,10 @@ if (user.value) {
     .single()
 
   if (data) {
-    username.value = data.username
-    fullName.value = data.full_name
-    avatarUrl.value = data.avatar_url
-    userType.value = data.user_type
+    username.value = data.username || ''
+    fullName.value = data.full_name || ''
+    avatarUrl.value = data.avatar_url || ''
+    userType.value = data.user_type || ''
   }
 
   isLoading.value = false
@@ -35,17 +37,14 @@ async function updateProfile() {
     const user = useSupabaseUser()
 
     if (user.value?.id) {
-      const { error } = await supabase.from('profiles').upsert(
-        {
-          id: user.value.id,
+      const { error } = await supabase
+        .from('profiles')
+        .update({
           username: username.value,
           full_name: fullName.value,
-          updated_at: new Date(),
-        },
-        {
-          returning: 'minimal',
-        }
-      )
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.value.id)
 
       if (error) {
         throw error

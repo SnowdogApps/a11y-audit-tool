@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { Database } from 'types/supabase'
+
 definePageMeta({
   middleware: 'auth',
 })
 
 const user = useSupabaseUser()
-const supabase = useSupabaseClient()
-const projects = ref([])
+const supabase = useSupabaseClient<Database>()
+const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
 
 if (user.value) {
   const { data } = await supabase.from('projects').select('*')

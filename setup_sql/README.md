@@ -39,10 +39,26 @@ You can find all sql install files in `./setup_sql/` directory.
 
 ### Policy rules (RLS) per table
 
-1. `audits` - TODO
+1. `audits` - viewable for both `admin` and granted (added to `profile_project` table) users, `user` with `auditor` role can insert audits and edit them while status is set to `draft`, `admin` user can insert, delete and update audits anytime
 2. `profiles` - can be created and updated by both `user` and `admin`
 3. `projects` - viewable for both `admin` and granted (added to `profile_project` table) users, only `admin` can insert/update projects
 4. `profile_project` - viewable for anyone, only `admin` can insert/delete permissions
+
+### TypeScript db data types support
+
+Generated types are stored in `types/supabase.ts` file. After any change in tables/columns structure please regenerate this file.
+
+To regenerate types you need to:
+
+- Install `npx supabase` package
+- Run `npx supabase login` and authenticate yourself within [token](https://app.supabase.com/account/tokens)
+- Run `npx supabase gen types typescript --project-id "PROJECT_REF_NAME_GOES_HERE" --schema public > types/supabase.ts`
+
+To use then in app simply pass `Database` interface as expected generic type for client connections. Example:
+
+```JavaScript
+const supabaseClient = useSupabaseClient<Database>()
+```
 
 ## Admin role
 

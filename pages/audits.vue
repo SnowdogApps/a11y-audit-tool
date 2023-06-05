@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import type { Database } from 'types/supabase'
 import { getFormData } from 'utils/form'
 
 interface AdminFormField {
   [key: string]: string
+}
+
+interface UserClaim {
+  provider: string
+  providers: string[]
+  user_role?: 'auditor' | 'viewer'
+  claims_admin?: boolean
 }
 
 definePageMeta({
@@ -10,13 +18,15 @@ definePageMeta({
 })
 
 const user = useSupabaseUser()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
+const audits = ref()
+const projects = ref()
 const isLoading = ref(false)
-const audits = ref<any>([])
-const projects = ref<any>([])
 
-const { data: claims } = await supabase.rpc('get_my_claims', {})
-const isAuditor = claims.user_role === 'auditor'
+const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
+  data: UserClaim
+}
+const isAuditor = claims?.user_role === 'auditor'
 
 if (user.value) {
   const { data: projectsData } = await supabase.from('projects').select('*')
@@ -27,7 +37,10 @@ if (user.value) {
 
 async function fetchAudits() {
   const { data } = await supabase.from('audits').select('*')
-  audits.value = data || []
+
+  if (data?.length) {
+    audits.value = data
+  }
 }
 
 async function addAudit(event: Event) {
@@ -36,9 +49,11 @@ async function addAudit(event: Event) {
     const user = useSupabaseUser()
 
     if (user.value?.id && event.target instanceof HTMLFormElement) {
-      const { project_id, status } = getFormData<AdminFormField>(event.target)
+      const { project_id: projectId, status } = getFormData<AdminFormField>(
+        event.target
+      )
       const { error } = await supabase.from('audits').insert({
-        project_id,
+        project_id: Number(projectId),
         profile_id: user?.value.id,
         status,
         issues: { foo: 'bar' },
@@ -68,7 +83,7 @@ async function updateAudit(event: Event) {
         .from('audits')
         .update({
           issues: { foo: `bar_${new Date().getTime()}` },
-          updated_at: new Date(),
+          updated_at: new Date().toISOString(),
         })
         .eq('id', id)
 
@@ -100,7 +115,7 @@ async function updateAudit(event: Event) {
           }})
 
           <strong
-            v-if="profile_id === user.id"
+            v-if="profile_id === user?.id"
             class="underline"
           >
             is yours
