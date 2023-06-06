@@ -80,151 +80,9 @@ const selectedAuditor = ref<User>()
     <h2>Configuration</h2>
     <form @submit.prevent>
       <Accordion
-        :active-index="[0]"
+        :active-index="[0, 1]"
         :multiple="true"
       >
-        <AccordionTab header="General">
-          <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
-            <span class="w-full">
-              <label for="audit-title">Audit title</label>
-              <InputText
-                id="audit-title"
-                v-model="form.title"
-                class="w-full"
-                data-testid="audit-title-field"
-                name="audit-title"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="file-name">Result file name</label>
-              <InputText
-                id="file-name"
-                v-model="form.fileName"
-                class="w-full"
-                data-testid="audit-file-name-field"
-                name="file-name"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="result-dir">Result directory name</label>
-              <InputText
-                id="result-dir"
-                v-model="form.resultsDir"
-                class="w-full"
-                data-testid="audit-result-dir-field"
-                name="result-dir"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="date">Date</label>
-              <Calendar
-                id="date"
-                v-model="date"
-                class="w-full"
-                disabled
-                data-testid="audit-date-field"
-                name="audit-date"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="client">Client</label>
-              <Dropdown
-                id="client"
-                v-model="selectedClient"
-                :options="clients"
-                option-label="name"
-                placeholder="Select"
-                class="md:w-14rem w-full"
-                data-testid="audit-client-field"
-                name="client"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="auditor">Auditor</label>
-              <Dropdown
-                id="auditor"
-                v-model="selectedAuditor"
-                :options="auditors"
-                option-label="name"
-                placeholder="Select"
-                class="md:w-14rem w-full"
-                data-testid="audit-auditor-field"
-                name="auditor"
-              />
-            </span>
-          </div>
-        </AccordionTab>
-        <AccordionTab header="Axe configuration">
-          <div class="grid gap-6 md:grid-rows-3 md:gap-4">
-            <span class="w-full">
-              <label for="reporter">Reporter</label>
-              <InputText
-                id="reporter"
-                v-model="form.axeConfig.reporter"
-                class="md:w-14rem w-full"
-                data-testid="audit-reporter-field"
-                name="axe-reporter"
-              />
-            </span>
-
-            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
-              <span class="w-full">
-                <label for="viewport-width">Viewport width</label>
-                <InputNumber
-                  id="viewport-width"
-                  v-model="form.viewport.width"
-                  class="w-full"
-                  data-testid="audit-viewport-width-field"
-                  name="viewport-width"
-                />
-              </span>
-
-              <span class="w-full">
-                <label for="viewport-height">Viewport height</label>
-                <InputNumber
-                  id="viewport-height"
-                  v-model="form.viewport.height"
-                  class="w-full"
-                  data-testid="audit-viewport-height-field"
-                  name="viewport-height"
-                />
-              </span>
-            </div>
-
-            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
-              <span class="w-full">
-                <label for="username">Basic Auth username</label>
-                <InputText
-                  id="username"
-                  v-model="form.basicAuth.username"
-                  class="w-full"
-                  data-testid="audit-auth-username-field"
-                  name="username"
-                />
-              </span>
-
-              <span class="w-full">
-                <label for="password">Basic Auth password</label>
-                <Password
-                  id="password"
-                  v-model="form.basicAuth.password"
-                  class="w-full"
-                  input-class="w-full"
-                  data-testid="audit-auth-password-field"
-                  name="password"
-                  :feedback="false"
-                  toggle-mask
-                />
-              </span>
-            </div>
-          </div>
-        </AccordionTab>
-
         <AccordionTab header="Pages">
           <div
             v-for="(page, index) in form.pages"
@@ -282,6 +140,148 @@ const selectedAuditor = ref<User>()
             data-testid="audit-add-page-button"
             @click="addPage"
           />
+        </AccordionTab>
+        <AccordionTab header="General">
+          <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
+            <span class="w-full">
+              <label for="audit-title">Audit title</label>
+              <InputText
+                id="audit-title"
+                v-model="form.title"
+                class="w-full"
+                data-testid="audit-title-field"
+                name="audit-title"
+              />
+            </span>
+
+            <span class="w-full">
+              <label for="file-name">Result file name</label>
+              <InputText
+                id="file-name"
+                v-model="form.fileName"
+                class="w-full"
+                data-testid="audit-file-name-field"
+                name="file-name"
+              />
+            </span>
+
+            <span class="w-full">
+              <label for="result-dir">Result directory name</label>
+              <InputText
+                id="result-dir"
+                v-model="form.resultsDir"
+                class="w-full"
+                data-testid="audit-result-dir-field"
+                name="result-dir"
+              />
+            </span>
+
+            <span class="w-full">
+              <label for="date">Date</label>
+              <Calendar
+                v-model="date"
+                input-id="date"
+                class="w-full"
+                disabled
+                data-testid="audit-date-field"
+                name="audit-date"
+                date-format="MM/DD/YYYY"
+              />
+            </span>
+
+            <span class="w-full">
+              <label for="client">Client</label>
+              <Dropdown
+                id="client"
+                v-model="selectedClient"
+                :options="clients"
+                option-label="name"
+                placeholder="Select"
+                class="md:w-14rem w-full"
+                data-testid="audit-client-field"
+                name="client"
+              />
+            </span>
+
+            <span class="w-full">
+              <label for="auditor">Auditor</label>
+              <Dropdown
+                id="auditor"
+                v-model="selectedAuditor"
+                :options="auditors"
+                option-label="name"
+                placeholder="Select"
+                class="md:w-14rem w-full"
+                data-testid="audit-auditor-field"
+                name="auditor"
+              />
+            </span>
+          </div>
+        </AccordionTab>
+        <AccordionTab header="Axe configuration">
+          <div class="grid gap-6 md:grid-rows-3 md:gap-4">
+            <span class="w-full">
+              <label for="reporter">Reporter</label>
+              <InputText
+                id="reporter"
+                v-model="form.axeConfig.reporter"
+                class="md:w-14rem w-full"
+                data-testid="audit-reporter-field"
+                name="axe-reporter"
+              />
+            </span>
+
+            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
+              <span class="w-full">
+                <label for="viewport-width">Viewport width</label>
+                <InputNumber
+                  v-model="form.viewport.width"
+                  input-id="viewport-width"
+                  class="w-full"
+                  data-testid="audit-viewport-width-field"
+                  name="viewport-width"
+                />
+              </span>
+
+              <span class="w-full">
+                <label for="viewport-height">Viewport height</label>
+                <InputNumber
+                  v-model="form.viewport.height"
+                  input-id="viewport-height"
+                  class="w-full"
+                  data-testid="audit-viewport-height-field"
+                  name="viewport-height"
+                />
+              </span>
+            </div>
+
+            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
+              <span class="w-full">
+                <label for="username">Basic Auth username</label>
+                <InputText
+                  id="username"
+                  v-model="form.basicAuth.username"
+                  class="w-full"
+                  data-testid="audit-auth-username-field"
+                  name="username"
+                />
+              </span>
+
+              <span class="w-full">
+                <label for="password">Basic Auth password</label>
+                <Password
+                  id="password"
+                  v-model="form.basicAuth.password"
+                  class="w-full"
+                  input-class="w-full"
+                  data-testid="audit-auth-password-field"
+                  name="password"
+                  :feedback="false"
+                  toggle-mask
+                />
+              </span>
+            </div>
+          </div>
         </AccordionTab>
       </Accordion>
 
