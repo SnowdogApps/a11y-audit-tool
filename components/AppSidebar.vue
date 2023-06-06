@@ -16,7 +16,7 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
     <div
       id="side-navigation"
       class="p-sidebar p-component h-full"
-      role="region"
+      role="dialog"
       aria-modal="true"
     >
       <div class="p-sidebar-header !m-0 !px-4 !py-6">
