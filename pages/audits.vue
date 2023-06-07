@@ -125,7 +125,7 @@ async function updateAudit(event: Event) {
       <p v-else>Your audit list is empty</p>
     </div>
     <div
-      v-if="isAuditor"
+      v-if="isAuditor && projects.length"
       class="flex flex-1 flex-col"
     >
       <form @submit.prevent="addAudit">

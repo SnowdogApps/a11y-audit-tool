@@ -138,6 +138,22 @@ Only the Admin can grant users with `user_role`.
 
 When custom claim `user_role` is set/updated, the corresponding information in the `profiles` table (`user_type` column) is also updated.
 
+#### User role setup
+
+In app we recognize both `auditor` and `viewer` role. To setup then you need to update user's context. You can do it:
+
+- via supabase client sdk:
+
+  ```JavaScript
+  const userRole = 'auditor' // or 'viewer'
+  const { error } = await setClaim(id, 'user_role', userRole)
+  ```
+
+- via sql editor:
+  ```sql
+  select set_claim('PASS-HERE-SPECIFIC-USER-UUID-FROM-AUTH-TABLE', 'user_role', '"auditor"');
+  ```
+
 ### Custom claims
 
 Custom Claims are special attributes attached to a user that you can use to control access to portions of your application. You can find more information here: https://github.com/supabase-community/supabase-custom-claims#faq
