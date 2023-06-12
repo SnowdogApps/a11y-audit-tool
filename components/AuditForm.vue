@@ -1,78 +1,97 @@
 <script setup lang="ts">
+import { useForm, useFieldArray } from 'vee-validate'
 import type { User } from '~/types/user'
-import type { AuditForm } from '~/types/audit'
+import type { Page, AuditForm } from '~/types/audit'
 
 import { clientList, auditorList } from '~/mocks/audit'
+import { auditFormSchema } from '~/validation/schema'
+import { displayFirstError } from '~/utils/form'
 
-const isTestProcessing = ref(false)
-// data
-const form: AuditForm = reactive({
-  axeConfig: {
-    reporter: '',
-  },
-  basicAuth: {
-    password: '',
-    username: '',
-  },
-  fileName: '',
+interface InitialValues {
+  height: number
+  pages: Page[]
+  password: string
+  resultsDir: string
+  reporter: string
+  title: string
+  username: string
+  width: number
+}
+
+const initialValues: InitialValues = {
   pages: [
     {
       selector: '',
       url: '',
     },
   ],
-  resultsDir: '',
   title: '',
-  viewport: {
-    height: 600,
-    width: 800,
-  },
+  resultsDir: '',
+  reporter: '',
+  username: '',
+  password: '',
+  height: 600,
+  width: 800,
+}
+
+const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
+  validationSchema: auditFormSchema,
+  initialValues,
+  keepValuesOnUnmount: true,
 })
 
-// methods
-function addPage() {
-  form.pages.push({ url: '', selector: '' })
-}
-function removePage(index: number) {
-  form.pages.splice(index, 1)
-}
-// eslint-disable-next-line require-await
-async function sendForm() {
-  const formData = form
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const data = {
-    _id: crypto ? crypto.randomUUID() : new Date().getTime().toString(),
-    ...formData,
-    basicAuth:
-      formData.basicAuth.username && formData.basicAuth.password
-        ? formData.basicAuth
-        : undefined,
-    axeConfig: formData.axeConfig.reporter ? formData.axeConfig : undefined,
-    viewport:
-      formData.viewport.width && formData.viewport.height
-        ? formData.viewport
-        : undefined,
-  }
-  // emit('submit', data)
-  // postAxeRequest(data)
+const { fields: pages, push, remove } = useFieldArray('pages')
+const title = useFieldModel('title')
+const resultsDir = useFieldModel('resultsDir')
+const client = useFieldModel('client')
+const auditor = useFieldModel('auditor')
+const reporter = useFieldModel('reporter')
+const width = useFieldModel('width')
+const height = useFieldModel('height')
+const username = useFieldModel('username')
+const password = useFieldModel('password')
 
+const date = new Date().toLocaleDateString('en-US')
+const clients = ref<User[]>(clientList)
+const auditors = ref<User[]>(auditorList)
+const isProcessing = ref(false)
+const { isSubmitted } = useValidation(submitCount)
+
+const onInvalidSubmit = ({ errors }) => displayFirstError(errors)
+
+const sendForm = handleSubmit((values) => {
   try {
-    isTestProcessing.value = true
-    // await listenForAxeStatus(data)
-    // getAxeResults()
+    isProcessing.value = true
+
+    const form: AuditForm = {
+      axeConfig: {
+        reporter: values?.reporter || '',
+      },
+      basicAuth: {
+        password: values?.password || '',
+        username: values?.username || '',
+      },
+      pages: values.pages,
+      resultsDir: values?.resultsDir || '',
+      title: values.title,
+      viewport: {
+        height: values?.height || 600,
+        width: values?.width || 800,
+      },
+      client: values.client,
+      auditor: values.auditor,
+    }
+
+    console.warn(form) // TODO: to remove later
+    // TODO: send data to Supabase
   } catch (err) {
     console.warn(err)
   } finally {
-    isTestProcessing.value = false
+    setTimeout(() => {
+      isProcessing.value = false
+    }, 5000)
   }
-}
-
-const date = new Date()
-const clients = ref<User[]>(clientList)
-const auditors = ref<User[]>(auditorList)
-
-const selectedClient = ref<User>()
-const selectedAuditor = ref<User>()
+}, onInvalidSubmit)
 </script>
 
 <template>
@@ -85,7 +104,7 @@ const selectedAuditor = ref<User>()
       >
         <AccordionTab header="Pages">
           <div
-            v-for="(page, index) in form.pages"
+            v-for="(page, index) in pages"
             :key="`page-${index}`"
             class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
@@ -94,27 +113,35 @@ const selectedAuditor = ref<User>()
                 <label :for="`url-${index}`">Url</label>
                 <InputText
                   :id="`url-${index}`"
-                  v-model="page.url"
+                  v-model="page.value.url"
                   class="w-full"
                   :data-testid="`audit-page-url-field-${index}`"
-                  :name="`url[${index}]`"
+                  :name="`pages[${index}].url`"
+                  :class="[
+                    {
+                      'p-invalid': errors[`pages[${index}].url`] && isSubmitted,
+                    },
+                  ]"
                 />
+                <small
+                  v-if="errors[`pages[${index}].url`] && isSubmitted"
+                  class="p-error mt-1"
+                >
+                  {{ errors[`pages[${index}].url`] }}
+                </small>
               </span>
 
               <span class="w-full">
                 <label for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
-                  v-model="page.selector"
-                  :name="`selector[${index}]`"
+                  v-model="page.value.selector"
+                  :name="`pages[${index}].selector`"
                   class="w-full"
                   :aria-describedby="`selector-help-${index}`"
                   :data-testid="`audit-page-selector-field-${index}`"
                 />
-                <small
-                  :id="`selector-help-${index}`"
-                  class=""
-                >
+                <small :id="`selector-help-${index}`">
                   Use .class or #id to choose selector to test, just one
                   selector allowed. If empty whole document will be tested.
                 </small>
@@ -122,6 +149,7 @@ const selectedAuditor = ref<User>()
             </div>
 
             <Button
+              v-if="index !== 0"
               label="Remove page"
               variant="secondary"
               class="tracking-wider md:justify-self-start"
@@ -150,35 +178,31 @@ const selectedAuditor = ref<User>()
         <AccordionTab header="General">
           <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
             <span class="w-full">
-              <label for="audit-title">Audit title</label>
+              <label for="title">Audit title</label>
               <InputText
-                id="audit-title"
-                v-model="form.title"
+                id="title"
+                v-model="title"
                 class="w-full"
                 data-testid="audit-title-field"
-                name="audit-title"
+                name="title"
+                :class="[{ 'p-invalid': errors.title && isSubmitted }]"
               />
+              <small
+                v-if="errors.title && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.title }}
+              </small>
             </span>
 
             <span class="w-full">
-              <label for="file-name">Result file name</label>
+              <label for="results-dir">Result directory name</label>
               <InputText
-                id="file-name"
-                v-model="form.fileName"
+                id="results-dir"
+                v-model="resultsDir"
                 class="w-full"
-                data-testid="audit-file-name-field"
-                name="file-name"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="result-dir">Result directory name</label>
-              <InputText
-                id="result-dir"
-                v-model="form.resultsDir"
-                class="w-full"
-                data-testid="audit-result-dir-field"
-                name="result-dir"
+                data-testid="audit-results-dir-field"
+                name="resulstDir"
               />
             </span>
 
@@ -190,7 +214,7 @@ const selectedAuditor = ref<User>()
                 class="w-full"
                 disabled
                 data-testid="audit-date-field"
-                name="audit-date"
+                name="date"
                 date-format="MM/DD/YYYY"
               />
             </span>
@@ -199,28 +223,44 @@ const selectedAuditor = ref<User>()
               <label for="client">Client</label>
               <Dropdown
                 id="client"
-                v-model="selectedClient"
+                v-model="client"
                 :options="clients"
                 option-label="name"
+                option-value="id"
                 placeholder="Select"
                 class="md:w-14rem w-full"
                 data-testid="audit-client-field"
                 name="client"
+                :class="[{ 'p-invalid': errors.client && isSubmitted }]"
               />
+              <small
+                v-if="errors.client && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.client }}
+              </small>
             </span>
 
             <span class="w-full">
               <label for="auditor">Auditor</label>
               <Dropdown
                 id="auditor"
-                v-model="selectedAuditor"
+                v-model="auditor"
                 :options="auditors"
                 option-label="name"
+                option-value="id"
                 placeholder="Select"
                 class="md:w-14rem w-full"
                 data-testid="audit-auditor-field"
                 name="auditor"
+                :class="[{ 'p-invalid': errors.auditor && isSubmitted }]"
               />
+              <small
+                v-if="errors.auditor && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.auditor }}
+              </small>
             </span>
           </div>
         </AccordionTab>
@@ -230,10 +270,10 @@ const selectedAuditor = ref<User>()
               <label for="reporter">Reporter</label>
               <InputText
                 id="reporter"
-                v-model="form.axeConfig.reporter"
+                v-model="reporter"
                 class="md:w-14rem w-full"
                 data-testid="audit-reporter-field"
-                name="axe-reporter"
+                name="reporter"
               />
             </span>
 
@@ -241,7 +281,7 @@ const selectedAuditor = ref<User>()
               <span class="w-full">
                 <label for="viewport-width">Viewport width</label>
                 <InputNumber
-                  v-model="form.viewport.width"
+                  v-model="width"
                   input-id="viewport-width"
                   class="w-full"
                   data-testid="audit-viewport-width-field"
@@ -252,7 +292,7 @@ const selectedAuditor = ref<User>()
               <span class="w-full">
                 <label for="viewport-height">Viewport height</label>
                 <InputNumber
-                  v-model="form.viewport.height"
+                  v-model="height"
                   input-id="viewport-height"
                   class="w-full"
                   data-testid="audit-viewport-height-field"
@@ -266,7 +306,7 @@ const selectedAuditor = ref<User>()
                 <label for="username">Basic Auth username</label>
                 <InputText
                   id="username"
-                  v-model="form.basicAuth.username"
+                  v-model="username"
                   class="w-full"
                   data-testid="audit-auth-username-field"
                   name="username"
@@ -277,7 +317,7 @@ const selectedAuditor = ref<User>()
                 <label for="password">Basic Auth password</label>
                 <Password
                   id="password"
-                  v-model="form.basicAuth.password"
+                  v-model="password"
                   class="w-full"
                   input-class="w-full"
                   data-testid="audit-auth-password-field"
@@ -292,10 +332,11 @@ const selectedAuditor = ref<User>()
       </Accordion>
 
       <Button
-        label="Send"
+        :label="isProcessing ? 'Sending' : 'Send'"
         type="submit"
         class="p-button-lg w-full"
         data-testid="audit-submit-button"
+        :loading="isProcessing"
         @click="sendForm"
       />
     </form>

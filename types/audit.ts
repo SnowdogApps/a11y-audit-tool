@@ -2,7 +2,7 @@ interface AxeConfig {
   reporter: string
 }
 
-interface Page {
+export interface Page {
   selector: string
   url: string
 }
@@ -18,9 +18,10 @@ export interface AuditForm {
     password: string
     username: string
   }
-  fileName: string
   pages: Page[]
   resultsDir: string
   title: string
   viewport: Viewport
+  client: number
+  auditor: number
 }

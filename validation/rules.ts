@@ -12,6 +12,7 @@ export default function () {
           min === 1 ? 'character' : 'characters'
         }`,
       max: ({ max }) => `This field must be at most ${max} ${'characters'}`,
+      url: 'Page url must be a valid URL',
     },
     array: {
       min: ({ min }) =>
