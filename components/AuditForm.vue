@@ -128,7 +128,10 @@ const selectedAuditor = ref<User>()
               icon="pi pi-times"
               :data-testid="`audit-remove-page-button-${index}`"
               outlined
-              @click="removePage(index)"
+              :pt="{
+                icon: { 'aria-hidden': true },
+              }"
+              @click="remove(index)"
             />
           </div>
 
@@ -138,7 +141,10 @@ const selectedAuditor = ref<User>()
             icon="pi pi-plus"
             outlined
             data-testid="audit-add-page-button"
-            @click="addPage"
+            :pt="{
+              icon: { 'aria-hidden': true },
+            }"
+            @click="push({ url: '', selector: '' })"
           />
         </AccordionTab>
         <AccordionTab header="General">
