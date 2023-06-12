@@ -4,15 +4,17 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev-secure": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .eslintignore .",
     "format-check": "npx prettier --check ./",
-    "format-write": "npx prettier --write ./"
+    "format-write": "npx prettier --write ./",
+    "typecheck": "npx nuxi typecheck"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config-typescript": "^11.0.0",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/node": "^18",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
@@ -21,16 +23,26 @@
     "eslint-plugin-vue": "^9.5.1",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
+    "sass": "^1.62.0",
+    "sass-loader": "10",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@pinia/nuxt": "^0.4.9",
-    "nuxt": "^3.4.1",
-    "primevue": "^3.27.0"
+    "nuxt": "^3.5.2",
+    "nuxt-svgo": "^3.1.0",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.29.2",
+    "vee-validate": "^4.8.6",
+    "yup": "^1.1.1"
   },
   "engines": {
     "node": ">=16",
     "pnpm": ">=8"
+  },
+  "volta": {
+    "node": "16.20.0",
+    "pnpm": "8.6.1"
   }
 }

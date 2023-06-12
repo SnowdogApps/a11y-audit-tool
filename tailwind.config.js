@@ -4,6 +4,11 @@ module.exports = {
     preflight: false,
   },
   content: [],
-  theme: {},
+  theme: {
+    fontFamily: {
+      sans: ['IBM Plex Sans', '-apple-system', 'Arial', 'sans-serif'],
+      mono: ['IBM Plex Mono', 'ui-monospace', 'monospace'],
+    },
+  },
   plugins: [],
 }

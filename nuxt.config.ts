@@ -7,13 +7,26 @@ export default defineNuxtConfig({
       titleTemplate: '%s | A11y audits',
     },
   },
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-svgo'],
   css: [
+    '~/assets/reset.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
     'primevue/resources/primevue.css',
+    'primeicons/primeicons.css',
+    '~/assets/themes/snowdog/theme.scss',
   ],
   build: {
     transpile: ['primevue'],
+  },
+  svgo: {
+    defaultImport: 'component',
+    svgoConfig: {
+      plugins: [
+        {
+          name: 'preset-default',
+        },
+      ],
+    },
   },
   typescript: {
     strict: true,

@@ -1,0 +1,18 @@
+.layout-menu {
+  &.p-menu {
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .p-sidebar-content {
+    padding: 0;
+  }
+
+  .p-menuitem-icon {
+    &:before {
+      color: var(--primary-color)
+    }
+  }
+}
