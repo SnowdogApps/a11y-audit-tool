@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import { signUpSchema } from '~/validation/schema'
+import { displayFirstError } from '~/utils/form'
 
 definePageMeta({
   layout: 'simple',
@@ -15,9 +16,10 @@ const [email, newPassword, passwordConfirm] = useFieldModel([
   'passwordConfirm',
 ])
 const { isSubmitted } = useValidation(submitCount)
+const onInvalidSubmit = ({ errors }) => displayFirstError(errors)
 const signUp = handleSubmit(() => {
-  // TODO
-})
+  // TODO: send data to Supabase
+}, onInvalidSubmit)
 </script>
 
 <template>
@@ -39,6 +41,7 @@ const signUp = handleSubmit(() => {
         data-test-id="register-email-field"
         class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.email && isSubmitted }]"
+        name="email"
       />
       <small
         v-if="errors.email && isSubmitted"
@@ -51,14 +54,19 @@ const signUp = handleSubmit(() => {
     <span class="mb-4 w-full">
       <label for="new-password"> Password </label>
       <Password
-        id="password"
         v-model="newPassword"
+        input-id="new-password"
         data-testid="register-password-field"
         class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.newPassword && isSubmitted }]"
         input-class="w-full"
         :feedback="false"
         toggle-mask
+        :pt="{
+          input: {
+            name: 'newPassword',
+          },
+        }"
       />
       <small
         v-if="errors.newPassword && isSubmitted"
@@ -71,14 +79,19 @@ const signUp = handleSubmit(() => {
     <span class="mb-10 w-full">
       <label for="password-confirm"> Confirm password </label>
       <Password
-        id="password-confirm"
         v-model="passwordConfirm"
+        input-id="password-confirm"
         data-testid="register-confirm-password-field"
         class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.passwordConfirm && isSubmitted }]"
         input-class="w-full"
         :feedback="false"
         toggle-mask
+        :pt="{
+          input: {
+            name: 'passwordConfirm',
+          },
+        }"
       />
       <small
         v-if="errors.passwordConfirm && isSubmitted"
