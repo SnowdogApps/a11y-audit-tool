@@ -3,7 +3,7 @@ defineProps<{
   isVisible: boolean
 }>()
 
-defineEmits<{ (e: 'toggle-main-menu'): void }>()
+defineEmits<{ (e: 'close-main-menu'): void }>()
 </script>
 
 <template>
@@ -36,6 +36,6 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
     :class="{
       'layout-mask--active': isVisible,
     }"
-    @click="$emit('toggle-main-menu')"
+    @click="$emit('close-main-menu')"
   />
 </template>

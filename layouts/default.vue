@@ -66,7 +66,7 @@ const menuItems = computed<MenuItem[]>(() => [
 
     <AppSidebar
       :is-visible="isSideNavigationVisible"
-      @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
+      @close-main-menu="isSideNavigationVisible = false"
     >
       <Menu
         :model="menuItems"

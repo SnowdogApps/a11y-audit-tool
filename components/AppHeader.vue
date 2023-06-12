@@ -42,7 +42,7 @@ const isProfileMenuVisible = ref(false)
       text
       rounded
       icon="pi pi-bars"
-      aria-label="Toggle sidebar"
+      aria-label="Toggle main menu"
       :aria-expanded="isSideNavigationVisible"
       aria-controls="side-navigation"
       @click="$emit('toggle-main-menu')"
