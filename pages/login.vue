@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import { signInSchema } from '~/validation/schema'
+import { displayFirstError } from '~/utils/form'
 
 definePageMeta({
   layout: 'simple',
@@ -11,9 +12,12 @@ const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
 })
 const [email, password] = useFieldModel(['email', 'password'])
 const { isSubmitted } = useValidation(submitCount)
+
+const onInvalidSubmit = ({ errors }) => displayFirstError(errors)
+
 const signIn = handleSubmit(() => {
-  // TODO
-})
+  // TODO: send data to Supabase
+}, onInvalidSubmit)
 </script>
 
 <template>
@@ -36,6 +40,7 @@ const signIn = handleSubmit(() => {
         class="p-inputtext-lg md:w-25rem w-full"
         type="email"
         :class="[{ 'p-invalid': errors.email && isSubmitted }]"
+        name="email"
       />
       <small
         v-if="errors.email && isSubmitted"
@@ -47,14 +52,19 @@ const signIn = handleSubmit(() => {
     <span class="mb-4 w-full">
       <label for="password"> Password </label>
       <Password
-        id="password"
         v-model="password"
+        input-id="password"
         data-testid="login-password-field"
         class="p-inputtext-lg md:w-25rem w-full"
         :class="[{ 'p-invalid': errors.password && isSubmitted }]"
         input-class="w-full"
         :feedback="false"
         toggle-mask
+        :pt="{
+          input: {
+            name: 'password',
+          },
+        }"
       />
       <small
         v-if="errors.password && isSubmitted"
@@ -66,7 +76,7 @@ const signIn = handleSubmit(() => {
     <div class="mb-4 flex flex-wrap gap-3">
       <NuxtLink
         to="reset-password"
-        class="text-600 hover:text-primary transition-duration-300 ml-auto cursor-pointer cursor-pointer transition-colors"
+        class="text-600 hover:text-primary transition-duration-300 ml-auto cursor-pointer transition-colors"
       >
         Forgot your password?
       </NuxtLink>
