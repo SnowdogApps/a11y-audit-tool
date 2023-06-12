@@ -1,6 +1,6 @@
-const displayFirstError = async <TValues>(
-  errors: Partial<Record<keyof TValues, string>>
-) => {
+import type { InvalidSubmissionContext } from 'vee-validate'
+
+const displayFirstError = async (errors: Partial<InvalidSubmissionContext>) => {
   if (Object.keys(errors).length) {
     const firstError: HTMLElement | null = document.querySelector(
       `[name="${Object.keys(errors)[0]}"]`

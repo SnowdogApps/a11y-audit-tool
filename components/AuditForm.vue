@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm, useFieldArray } from 'vee-validate'
+import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
 import type { User } from '~/types/user'
 import type { Page, AuditForm } from '~/types/audit'
 
@@ -42,7 +43,11 @@ const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
   keepValuesOnUnmount: true,
 })
 
-const { fields: pages, push, remove } = useFieldArray('pages')
+const {
+  fields: pages,
+  push,
+  remove,
+}: Partial<FieldArrayContext> = useFieldArray('pages')
 const title = useFieldModel('title')
 const resultsDir = useFieldModel('resultsDir')
 const client = useFieldModel('client')
@@ -59,7 +64,8 @@ const auditors = ref<User[]>(auditorList)
 const isProcessing = ref(false)
 const { isSubmitted } = useValidation(submitCount)
 
-const onInvalidSubmit = ({ errors }) => displayFirstError(errors)
+const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
+  displayFirstError(errors)
 
 const sendForm = handleSubmit((values) => {
   try {
@@ -129,7 +135,7 @@ const sendForm = handleSubmit((values) => {
                   v-if="errors[`pages[${index}].url`] && isSubmitted"
                   class="p-error mt-1"
                 >
-                  {{ errors[`pages[${index}].url`] }}
+                  {{ errors[`pages[${index}].url`] as string }}
                 </small>
               </span>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { InvalidSubmissionContext } from 'vee-validate'
+
 import { useForm } from 'vee-validate'
 import { signUpSchema } from '~/validation/schema'
 import { displayFirstError } from '~/utils/form'
@@ -16,7 +18,8 @@ const [email, newPassword, passwordConfirm] = useFieldModel([
   'passwordConfirm',
 ])
 const { isSubmitted } = useValidation(submitCount)
-const onInvalidSubmit = ({ errors }) => displayFirstError(errors)
+const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
+  displayFirstError(errors)
 const signUp = handleSubmit(() => {
   // TODO: send data to Supabase
 }, onInvalidSubmit)
