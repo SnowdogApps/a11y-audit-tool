@@ -16,6 +16,8 @@ interface InitialValues {
   title: string
   username: string
   width: number
+  auditor?: number
+  client?: number
 }
 
 const initialValues: InitialValues = {
