@@ -1,7 +1,5 @@
 FROM node:gallium-alpine3.15 as builder
 
-ENV NODE_ENV=production
-
 WORKDIR /app
 
 COPY . ./
