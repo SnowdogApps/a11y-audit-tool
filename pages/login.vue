@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { InvalidSubmissionContext } from 'vee-validate'
-
 import { useForm } from 'vee-validate'
+import { displayFirstError } from 'utils/form'
+
 import { signInSchema } from '~/validation/schema'
-import { displayFirstError } from '~/utils/form'
 
 definePageMeta({
   layout: 'simple',
 })
+const user = useSupabaseUser()
+const { auth } = useSupabaseAuthClient()
 
 const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
   validationSchema: signInSchema,
@@ -18,8 +20,17 @@ const { isSubmitted } = useValidation(submitCount)
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
 
-const signIn = handleSubmit(() => {
-  // TODO: send data to Supabase
+const signIn = handleSubmit(async ({ email, password }) => {
+  await auth.signInWithPassword({
+    email,
+    password,
+  })
+
+  watchEffect(() => {
+    if (user.value) {
+      navigateTo('/')
+    }
+  })
 }, onInvalidSubmit)
 </script>
 

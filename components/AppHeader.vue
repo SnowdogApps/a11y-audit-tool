@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ProfileMenuLink as MenuLink } from '~/types/profile-menu-link'
+import type { Database } from 'types/supabase'
 
 defineProps<{
   isSideNavigationVisible: boolean
@@ -28,22 +29,22 @@ const profileMenuList: MenuLink[] = [
   },
   {
     iconClasses: 'pi pi-power-off text-xl text-primary',
-    url: '/auth/sign-out',
+    command: () => logout(),
     text: 'Sign out',
   },
 ]
 
 const isProfileMenuVisible = ref(false)
 
-// const client = useSupabaseAuthClient()
-// const user = useSupabaseUser()
-//
+const client = useSupabaseAuthClient()
+const supabase = useSupabaseClient<Database>()
+const user = useSupabaseUser()
 // const { data: isAdmin } = await client.rpc('is_claims_admin')
-//
-// const logout = async () => {
-//   await client.auth.signOut()
-//   navigateTo('/')
-// }
+
+const logout = async () => {
+  await client.auth.signOut()
+  await navigateTo('/login')
+}
 </script>
 
 <template>
@@ -76,10 +77,16 @@ const isProfileMenuVisible = ref(false)
     >
       <div class="p-2">
         <strong>Welcome</strong>
-        <p>Anonymous</p>
+        <p>{{ user.email }}</p>
         <ul class="mt-4 grid gap-4">
           <li
-            v-for="{ iconClasses, url, text, subtitle } in profileMenuList"
+            v-for="{
+              iconClasses,
+              url,
+              text,
+              subtitle,
+              command,
+            } in profileMenuList"
             :key="`profile-menu-link-${text}`"
           >
             <ProfileMenuLink
@@ -87,6 +94,7 @@ const isProfileMenuVisible = ref(false)
               :url="url"
               :text="text"
               :subtitle="subtitle || ''"
+              :command="command || undefined"
             />
           </li>
         </ul>
