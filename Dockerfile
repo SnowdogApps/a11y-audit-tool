@@ -4,16 +4,16 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
+COPY . ./
 RUN npm install -g pnpm
-COPY ./package.json ./package-lock.json ./
 RUN pnpm install --no-frozen-lockfile
 
-COPY . ./
+RUN mv .env.example .env
 RUN pnpm build
 
 ##########
 
-FROM node:lts-alpine as server
+FROM node:gallium-alpine3.15 as server
 
 ENV NODE_ENV=production
 
