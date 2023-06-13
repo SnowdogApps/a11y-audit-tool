@@ -4,33 +4,46 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev-secure": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .eslintignore .",
     "format-check": "npx prettier --check ./",
-    "format-write": "npx prettier --write ./"
+    "format-write": "npx prettier --write ./",
+    "typecheck": "npx nuxi typecheck"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config-typescript": "^11.0.0",
-    "@types/node": "^18",
-    "eslint": "^8.23.1",
-    "eslint-config-prettier": "^8.5.0",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@types/node": "^18.16.18",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.5.1",
-    "prettier": "^2.7.1",
+    "eslint-plugin-vue": "^9.14.1",
+    "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "typescript": "^5.0.4"
+    "sass": "^1.63.3",
+    "sass-loader": "^10.4.1",
+    "typescript": "^5.1.3"
   },
   "dependencies": {
-    "@nuxtjs/tailwindcss": "^6.6.6",
-    "@pinia/nuxt": "^0.4.9",
-    "nuxt": "^3.4.1",
-    "primevue": "^3.27.0"
+    "@nuxtjs/supabase": "^0.3.7",
+    "@nuxtjs/tailwindcss": "^6.7.0",
+    "@pinia/nuxt": "^0.4.11",
+    "nuxt": "^3.5.3",
+    "nuxt-svgo": "^3.1.0",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.29.2",
+    "vee-validate": "^4.9.6",
+    "yup": "^1.2.0"
   },
   "engines": {
     "node": ">=16",
     "pnpm": ">=8"
+  },
+  "volta": {
+    "node": "16.20.0",
+    "pnpm": "8.6.1"
   }
 }

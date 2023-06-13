@@ -1,0 +1,22 @@
+.layout-sidebar {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 16rem;
+  background: var(--surface-0);
+  border-right: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  transform: translate(-100%);
+  box-shadow: none;
+  transition: transform 0.2s;
+
+  &--active {
+    transform: translate(0);
+    @media screen and (min-width: 1024px) {
+      box-shadow: 0 4px 50px #D9DDFC;
+    }
+  }
+}

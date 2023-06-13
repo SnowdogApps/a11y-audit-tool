@@ -1,0 +1,17 @@
+@media screen and (max-width: 1024px) {
+  .layout-mask {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: var(--maskbg);
+
+    &--active {
+      display: block;
+      animation: fadein 0.2s;
+    }
+  }
+}
