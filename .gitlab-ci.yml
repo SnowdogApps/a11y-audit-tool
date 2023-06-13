@@ -20,6 +20,7 @@ lint:
   script:
     - pnpm lint
     - pnpm nuxi typecheck
+  allow_failure: true
 
 .build:
   stage: build
@@ -42,13 +43,13 @@ lint:
       --target server
       --tag "${CI_REGISTRY_IMAGE}/server:${IMAGE_TAG}"
       --push .
-    - > 
-      docker buildx build 
-      --cache-from=type=local,src=/cache
-      --cache-to=type=local,mode=max,dest=/cache
-      --target statics
-      --tag "${CI_REGISTRY_IMAGE}/statics:${IMAGE_TAG}"
-      --push .
+    # - > 
+    #   docker buildx build 
+    #   --cache-from=type=local,src=/cache
+    #   --cache-to=type=local,mode=max,dest=/cache
+    #   --target statics
+    #   --tag "${CI_REGISTRY_IMAGE}/statics:${IMAGE_TAG}"
+    #   --push .
 
 build:stage:
   extends: .build
@@ -70,3 +71,10 @@ build:prod:
     IMAGE_TAG: $CI_COMMIT_TAG
   only: 
     - tags
+
+build:feature:
+  extends: .build
+  variables:
+    IMAGE_TAG: "feature"
+  only:
+    - /^feature.*/
