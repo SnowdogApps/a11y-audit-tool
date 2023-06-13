@@ -13,7 +13,12 @@ export default defineNuxtConfig({
     types: resolve(__dirname, './types'),
     utils: resolve(__dirname, './utils'),
   },
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxtjs/supabase'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@pinia/nuxt',
+    'nuxt-svgo',
+    '@nuxtjs/supabase',
+  ],
   css: [
     '~/assets/reset.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
