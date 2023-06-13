@@ -11,7 +11,7 @@ defineEmits<{ (e: 'toggle-main-menu'): void }>()
 const profileMenuList: MenuLink[] = [
   {
     iconClasses: 'pi pi-user text-xl text-primary',
-    url: '/account',
+    url: '/account/',
     text: 'Profile',
     subtitle: 'Account details',
   },

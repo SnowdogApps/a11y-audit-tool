@@ -39,3 +39,11 @@ export const auditFormSchema = object({
   username: string(),
   password: string(),
 })
+
+export const accountFormSchema = object({
+  email: string().required(),
+  username: string().required(),
+  fullName: string().required(),
+  avatarUrl: string(),
+  userType: string(),
+})
