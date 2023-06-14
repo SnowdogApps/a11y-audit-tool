@@ -1,0 +1,23 @@
+{{- if or (.Values.ingress.traefik.ipWhitelist.enabled) (.Values.ingress.traefik.basicAuth.enabled) }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "chart.fullname" .}}
+spec:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: Host(`a11y-audit-stage.snowdog.dev`)
+    middlewares:
+      {{- if .Values.ingress.traefik.ipWhitelist.enabled }}
+      - name: {{ include "chart.fullname" . }}-ip-whitelist
+      {{- end }}
+      {{- if .Values.ingress.traefik.basicAuth.enabled }}
+      - name: {{ include "chart.fullname" . }}-basic-auth
+      {{- end }}
+    services:
+      - kind: Service
+        name: {{ include "chart.fullname" . }}
+        port: 80
+{{- end }}

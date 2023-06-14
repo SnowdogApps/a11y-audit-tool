@@ -1,0 +1,9 @@
+{{- if .Values.ingress.traefik.basicAuth.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "chart.fullname" . }}-basic-auth
+spec:
+  basicAuth:
+    secret: {{ include "chart.fullname" . }}-basic-auth
+{{- end }}
