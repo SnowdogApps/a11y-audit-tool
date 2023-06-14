@@ -36,6 +36,7 @@ stages:
     - chmod a+x ~/.docker/cli-plugins/docker-buildx
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - sleep 3600
     - >
       docker buildx build
       --cache-from=type=local,src=/cache
