@@ -1,7 +1,7 @@
 stages:
   - test
   - build
-  
+
 lint:
   image: node:gallium-alpine3.15
   stage: test
@@ -25,10 +25,10 @@ lint:
 .build:
   stage: build
   image: docker:19.03
-  tags:  
+  tags:
     - builder
     - shared
-    - snowdog 
+    - snowdog
   before_script:
     - apk add curl
     - mkdir -p ~/.docker/cli-plugins
@@ -36,15 +36,15 @@ lint:
     - chmod a+x ~/.docker/cli-plugins/docker-buildx
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - > 
-      docker buildx build 
+    - >
+      docker buildx build
       --cache-from=type=local,src=/cache
       --cache-to=type=local,mode=max,dest=/cache
       --target server
       --tag "${CI_REGISTRY_IMAGE}/server:${IMAGE_TAG}"
       --push .
-    # - > 
-    #   docker buildx build 
+    # - >
+    #   docker buildx build
     #   --cache-from=type=local,src=/cache
     #   --cache-to=type=local,mode=max,dest=/cache
     #   --target statics
@@ -55,26 +55,26 @@ build:stage:
   extends: .build
   variables:
     IMAGE_TAG: $CI_COMMIT_REF_SLUG
-  only: 
+  only:
     - master
 
 build:test:
   extends: .build
   variables:
     IMAGE_TAG: $CI_COMMIT_REF_SLUG
-  only: 
+  only:
     - test
 
 build:prod:
   extends: .build
   variables:
     IMAGE_TAG: $CI_COMMIT_TAG
-  only: 
+  only:
     - tags
 
 build:feature:
   extends: .build
   variables:
-    IMAGE_TAG: "feature"
+    IMAGE_TAG: "master-${CI_COMMIT_SHA_SHORT}-${CI_COMMIT_TIMESTAMP}"
   only:
-    - /^feature.*/
+    - /^flux-image-automation$/
