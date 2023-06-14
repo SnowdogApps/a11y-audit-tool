@@ -37,7 +37,7 @@ stages:
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - >
-      echo docker buildx build
+      docker buildx build
       --cache-from=type=local,src=/cache
       --cache-to=type=local,mode=max,dest=/cache
       --target server
