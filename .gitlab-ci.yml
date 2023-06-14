@@ -74,7 +74,7 @@ build:prod:
 
 build:feature:
   extends: .build
-  variables:
-    IMAGE_TAG: "master-${CI_COMMIT_SHA_SHORT}-${CI_COMMIT_TIMESTAMP}"
+  before_script:
+    - export IMAGE_TAG="master-${CI_COMMIT_SHORT_SHA}-$(date +%s)"
   only:
     - /^flux-image-automation$/
