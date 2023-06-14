@@ -11,6 +11,21 @@ pnpm install
 
 ### Development Server
 
+#### Supabase instance
+
+Steps to run project locally:
+
+1. Run `npx supabase login` and pass generated access token
+2. Run `npx supabase start`
+3. Pass envs from supabase started setup to `.env` file:
+  * `API URL` 👉 `SUPABASE_URL`
+  * `anon key` 👉 `SUPABASE_KEY`
+  * `service_role key` 👉 `SUPABASE_SERVICE_KEY`
+
+Docs references: https://supabase.com/docs/guides/getting-started/local-development
+
+#### Nuxt application
+
 Start the development server on `http://localhost:3000`
 
 ```bash
@@ -175,4 +190,3 @@ In app we recognize both `auditor` and `viewer` role. To setup then you need to 
 Custom Claims are special attributes attached to a user that you can use to control access to portions of your application. You can find more information here: https://github.com/supabase-community/supabase-custom-claims#faq
 
 More usage examples: https://github.com/supabase-community/supabase-custom-claims#usage
-
