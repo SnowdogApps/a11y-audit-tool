@@ -165,13 +165,22 @@ ingress:
 # ingressRoute object config
 # use either this or Ingress
 ingressRoute:
-  enabled: true
 
+  # Whether to create an IngressRoute
+  enabled: false
+
+  # Host match for the route
+  host: app.domain.com
+
+  # List of IPs to be whitelisted
+  whitelistedIPs: []
+
+  # Basic auth config
   basicAuth:
+
+    # Whether to enable basic auth
     enabled: false
 
-  ipWhitelist:
-    enabled: false
-    ipList:
-      - "127.0.0.1/32"
-      - "192.168.0.0/24"
+    # Credentials for basic auth
+    username: ""
+    password: ""
