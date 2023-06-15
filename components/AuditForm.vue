@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from 'vee-validate'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
 import type { Database } from 'types/supabase'
-import type { Page, AuditForm } from 'types/audit'
+import type { Page, AuditConfiguration } from 'types/audit'
 
 import { auditFormSchema } from '~/validation/schema'
 import { displayFirstError } from '~/utils/form'
@@ -71,23 +71,17 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const form: AuditForm = {
-      axeConfig: {
-        reporter: values?.reporter || '',
-      },
+    const form: AuditConfiguration = {
       basicAuth: {
         password: values?.password || '',
         username: values?.username || '',
       },
       pages: values.pages,
-      resultsDir: values?.resultsDir || '',
       title: values.title,
       viewport: {
         height: values?.height || 600,
         width: values?.width || 800,
       },
-      client: values.client,
-      auditor: values.auditor,
     }
 
     const { error } = await supabase.from('audits').insert({
@@ -110,7 +104,7 @@ const sendForm = handleSubmit(async (values) => {
 
     resetForm()
   } catch (error) {
-    console.warn(error)
+    console.warn({ error })
     toast.add({
       severity: 'error',
       summary: `There was an error`,
