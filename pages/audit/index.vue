@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import type { Database } from 'types/supabase'
+import type { UserClaim } from 'types/user'
 
 definePageMeta({
   middleware: 'auth',
 })
 
 const user = useSupabaseUser()
+const client = useSupabaseAuthClient()
 const supabase = useSupabaseClient<Database>()
 const audits = ref<Database['public']['Tables']['audits']['Row'][]>([])
+
+const { data: isAdmin } = await client.rpc('is_claims_admin')
+
+const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
+  data: UserClaim
+}
+const isAuditor = claims?.user_role === 'auditor'
 
 if (user.value) {
   await fetchAudits()
@@ -28,6 +37,7 @@ async function fetchAudits() {
       <h1>Audit list</h1>
 
       <NuxtLink
+        v-if="isAdmin || isAuditor"
         to="/audit/new"
         class="p-button-link"
       >

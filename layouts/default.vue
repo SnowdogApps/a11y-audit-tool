@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { PrimeIcons } from 'primevue/api'
 import type { MenuItem } from 'primevue/menuitem'
+import type { Database } from 'types/supabase'
+import type { UserClaim } from 'types/user'
 
 const isSideNavigationVisible = ref(false)
 
 const client = useSupabaseAuthClient()
+const supabase = useSupabaseClient<Database>()
 const { data: isAdmin } = await client.rpc('is_claims_admin')
+
+const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
+  data: UserClaim
+}
+const isAuditor = claims?.user_role === 'auditor'
 
 const menuItems = computed<MenuItem[]>(() => [
   {
@@ -26,6 +34,11 @@ const menuItems = computed<MenuItem[]>(() => [
         icon: PrimeIcons.KEY,
         to: '/admin/',
       },
+      {
+        label: 'Projects',
+        icon: PrimeIcons.FOLDER,
+        to: '/projects/',
+      },
     ],
   },
   {
@@ -36,12 +49,12 @@ const menuItems = computed<MenuItem[]>(() => [
         icon: PrimeIcons.LIST,
         to: '/audit',
       },
-      {
+      (isAdmin || isAuditor) && {
         label: 'New',
         icon: PrimeIcons.PLUS,
         to: '/audit/new',
       },
-    ],
+    ].filter(Boolean),
   },
   {
     label: 'Auth',
