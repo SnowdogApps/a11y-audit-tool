@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useForm, useFieldArray } from 'vee-validate'
+import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
-import type { Page, AuditForm } from '~/types/audit'
+import type { Database } from 'types/supabase'
+import type { Page, AuditForm } from 'types/audit'
 
 import { auditFormSchema } from '~/validation/schema'
 import { displayFirstError } from '~/utils/form'
-import type { Database } from 'types/supabase'
 
 interface InitialValues {
   height: number
@@ -50,6 +51,7 @@ const height = useFieldModel('height')
 const username = useFieldModel('username')
 const password = useFieldModel('password')
 
+const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
@@ -99,11 +101,24 @@ const sendForm = handleSubmit(async (values) => {
     if (error) {
       throw error
     }
-  } catch (err) {
-    console.warn(err)
+
+    toast.add({
+      severity: 'success',
+      summary: 'New audit successfully created',
+      life: 3000,
+    })
+
+    resetForm()
+  } catch (error) {
+    console.warn(error)
+    toast.add({
+      severity: 'error',
+      summary: `There was an error`,
+      detail: `Error #${error.code} - ${error.message}`,
+      life: 3000,
+    })
   } finally {
     isLoading.value = false
-    resetForm()
   }
 }, onInvalidSubmit)
 </script>
