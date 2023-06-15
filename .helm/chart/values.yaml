@@ -5,7 +5,7 @@ replicaCount: 3
 hpa:
   # Whether to create HPA object
   enabled: false
-  
+
   # Maximum amount of replicas for scaling. replicaCount is considered
   # to be the minimum in case HPA is enabled.
   maxReplicas: 5
@@ -16,7 +16,7 @@ hpa:
     cpu:
       # Whether to enable CPU metrics check
       enabled: true
-      # Exact values for `target` key. See `metrics.containerResource.target` documentation at: 
+      # Exact values for `target` key. See `metrics.containerResource.target` documentation at:
       # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2beta2/
       target:
         type: Utilization
@@ -26,7 +26,7 @@ hpa:
     memory:
       # Whether to enable Memory metrics check
       enabled: true
-      # Exact values for `target` key. See `metrics.containerResource.target` documentation at: 
+      # Exact values for `target` key. See `metrics.containerResource.target` documentation at:
       # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2beta2/
       target:
         type: AverageValue
@@ -96,7 +96,7 @@ readinessProbe:
   initialDelaySeconds: 3
 
 # These will be provided through Sops during chart installation or upgrade,
-# data keys will be available inside the container as environment 
+# data keys will be available inside the container as environment
 # variables. Secret with this chart's name will be generated
 # and its data will be available in the app container.
 #
@@ -153,9 +153,34 @@ serviceAccount:
 
 
 # Ingress object config
+# Use either this or ingressRoute
 ingress:
+
   # Whether to create an Ingress object
   enabled: false
 
   # Host comes without proto, i.e. app.some-domain.com
   host: app.domain.com
+
+# ingressRoute object config
+# use either this or Ingress
+ingressRoute:
+
+  # Whether to create an IngressRoute
+  enabled: false
+
+  # Host match for the route
+  host: app.domain.com
+
+  # List of IPs to be whitelisted
+  whitelistedIPs: []
+
+  # Basic auth config
+  basicAuth:
+
+    # Whether to enable basic auth
+    enabled: false
+
+    # Credentials for basic auth
+    username: ""
+    password: ""
