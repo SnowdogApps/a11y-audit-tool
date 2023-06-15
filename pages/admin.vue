@@ -5,6 +5,9 @@ import type { User } from '@supabase/gotrue-js'
 import type { Database, Json } from 'types/supabase'
 import { getFormData } from 'utils/form'
 
+const profile = ref<number>()
+const project = ref<number>()
+
 interface AdminFormField {
   [key: string]: string
 }
@@ -182,240 +185,260 @@ await fetchProjectProfile()
 </script>
 
 <template>
-  <h1>Admin page</h1>
-  <div class="flex">
-    <div class="flex-1">
-      <section class="mr-4">
-        <h2 class="underline">Profile list</h2>
-        <ul
-          v-if="getUsersWithEmails.length"
-          class="mr-4"
-        >
-          <li
-            v-for="{ id, username, user_type, email } in getUsersWithEmails"
-            :key="id"
-          >
-            [{{ user_type || 'annonymous' }}] {{ email }} |
-            <strong>{{ username || 'N/A' }}</strong> ID:
-            <span class="underline">{{ id }}</span>
-          </li>
-        </ul>
-        <p
-          v-else
-          class="ml-4"
-        >
-          Profile list is empty.
-        </p>
-      </section>
-      <section class="mr-4">
-        <h2 class="underline">Project list</h2>
-        <ul
-          v-if="projects.length"
-          class="mr-4"
-        >
-          <li
-            v-for="{ id, name } in projects"
-            :key="id"
-          >
-            Name: <span class="underline">{{ name }}</span> ID:
-            <span class="underline">{{ id }}</span>
-          </li>
-        </ul>
-        <p
-          v-else
-          class="ml-4"
-        >
-          Project list is empty.
-        </p>
-      </section>
-      <section class="mr-4">
-        <h2 class="underline">Profile per Project list</h2>
-        <ul
-          v-if="getProfileProject.length"
-          class="mr-4"
-        >
-          <li
-            v-for="{ id, email, name } in getProfileProject"
-            :key="id"
-          >
-            <strong>{{ email }}</strong> on project
-            <span class="mr-2 underline">{{ name }}</span>
+  <div class="grid">
+    <h1>Admin page</h1>
 
-            <button
-              type="button"
-              @click="removeProfileFromProject(id)"
-            >
-              Remove permission
-            </button>
-          </li>
-        </ul>
-        <p
-          v-else
-          class="ml-4"
-        >
-          Profile per Project list is empty.
-        </p>
-      </section>
-    </div>
-    <div class="flex-1">
-      <form
-        class="mb-4"
-        @submit.prevent="updateUserType"
-      >
-        <legend class="mb-4 font-bold underline">Update user type</legend>
-
-        <div>
-          <label
-            class="mr-2 min-w-[20px]"
-            for="id"
+    <Card class="mb-6">
+      <template #content>
+        <section class="mr-4">
+          <h2 class="underline">Profile list</h2>
+          <ul
+            v-if="getUsersWithEmails.length"
+            class="mr-4"
           >
-            User id
-          </label>
-          <select
-            id="id"
-            name="id"
-            class="mb-2"
-            required
-          >
-            <option />
-            <option
-              v-for="{ id, email, user_type } in getUsersWithEmails"
+            <li
+              v-for="{ id, username, user_type, email } in getUsersWithEmails"
               :key="id"
-              :value="id"
             >
-              {{ email }} [{{ user_type }}]
-            </option>
-          </select>
-        </div>
+              [{{ user_type || 'annonymous' }}] {{ email }} |
+              <strong>{{ username || 'N/A' }}</strong> ID:
+              <span class="underline">{{ id }}</span>
+            </li>
+          </ul>
+          <p
+            v-else
+            class="ml-4"
+          >
+            Profile list is empty.
+          </p>
+        </section>
+      </template>
+    </Card>
 
-        <div>
-          <label
-            class="mr-2 min-w-[20px]"
-            for="user_type"
+    <Card class="mb-6">
+      <template #content>
+        <section class="mr-4">
+          <h2 class="underline">Project list</h2>
+          <ul
+            v-if="projects.length"
+            class="mr-4"
           >
-            User type
-          </label>
-          <select
-            id="user_type"
-            name="user_type"
-            class="mb-2"
-            required
-          >
-            <option />
-            <option value="auditor">auditor</option>
-            <option value="viewer">viewer</option>
-          </select>
-        </div>
-
-        <input
-          type="submit"
-          class="my-4"
-          :value="isLoading ? 'Loading ...' : 'Update'"
-          :disabled="isLoading"
-        />
-      </form>
-      <form @submit.prevent="createProject">
-        <legend class="mb-4 font-bold underline">Create project</legend>
-
-        <div>
-          <label
-            class="mr-2 min-w-[20px]"
-            for="name"
-          >
-            Project name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            class="mb-2"
-            required
-          />
-        </div>
-
-        <div>
-          <label
-            class="mr-2 min-w-[20px]"
-            for="description"
-          >
-            Description
-          </label>
-          <input
-            id="description"
-            name="description"
-            type="text"
-            class="mb-2"
-            required
-          />
-        </div>
-
-        <input
-          type="submit"
-          class="my-4"
-          :value="isLoading ? 'Loading ...' : 'Update'"
-          :disabled="isLoading"
-        />
-      </form>
-      <form @submit.prevent="addProfileToProject">
-        <legend class="mb-4 font-bold underline">
-          Add profile to projects
-        </legend>
-
-        <div>
-          <label
-            class="mr-2 min-w-[20px]"
-            for="profile_id"
-          >
-            User id
-          </label>
-          <select
-            id="profile_id"
-            name="profile_id"
-            class="mb-2"
-            required
-          >
-            <option />
-            <option
-              v-for="{ id, email, user_type } in getUsersWithEmails"
-              :key="id"
-              :value="id"
-            >
-              {{ email }} [{{ user_type }}]
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <label
-            class="mr-2 min-w-[20px]"
-            for="project_id"
-          >
-            Project
-          </label>
-          <select
-            id="project_id"
-            name="project_id"
-            class="mb-2"
-            required
-          >
-            <option />
-            <option
+            <li
               v-for="{ id, name } in projects"
               :key="id"
-              :value="id"
             >
-              {{ name }} [{{ id }}]
-            </option>
-          </select>
-        </div>
+              Name: <span class="underline">{{ name }}</span> ID:
+              <span class="underline">{{ id }}</span>
+            </li>
+          </ul>
+          <p
+            v-else
+            class="ml-4"
+          >
+            Project list is empty.
+          </p>
+        </section>
+      </template>
+    </Card>
 
-        <input
-          type="submit"
-          class="my-4"
-          :value="isLoading ? 'Loading ...' : 'Update'"
-          :disabled="isLoading"
-        />
-      </form>
-    </div>
+    <Card class="mb-6">
+      <template #content>
+        <section class="mr-4">
+          <h2 class="underline">Profile per Project list</h2>
+          <ul
+            v-if="getProfileProject.length"
+            class="mr-4"
+          >
+            <li
+              v-for="{ id, email, name } in getProfileProject"
+              :key="id"
+            >
+              <strong>{{ email }}</strong> on project
+              <span class="mr-2 underline">{{ name }}</span>
+
+              <button
+                type="button"
+                @click="removeProfileFromProject(id)"
+              >
+                Remove permission
+              </button>
+            </li>
+          </ul>
+          <p
+            v-else
+            class="ml-4"
+          >
+            Profile per Project list is empty.
+          </p>
+        </section>
+      </template>
+    </Card>
+
+    <Card class="mb-6">
+      <template #content>
+        <form
+          class="mb-4"
+          @submit.prevent="updateUserType"
+        >
+          <legend class="mb-4 font-bold underline">Update user type</legend>
+
+          <div>
+            <label
+              class="mr-2 min-w-[20px]"
+              for="id"
+            >
+              User id
+            </label>
+            <select
+              id="id"
+              name="id"
+              class="mb-2"
+              required
+            >
+              <option />
+              <option
+                v-for="{ id, email, user_type } in getUsersWithEmails"
+                :key="id"
+                :value="id"
+              >
+                {{ email }} [{{ user_type }}]
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              class="mr-2 min-w-[20px]"
+              for="user_type"
+            >
+              User type
+            </label>
+            <select
+              id="user_type"
+              name="user_type"
+              class="mb-2"
+              required
+            >
+              <option />
+              <option value="auditor">auditor</option>
+              <option value="viewer">viewer</option>
+            </select>
+          </div>
+
+          <input
+            type="submit"
+            class="my-4"
+            :value="isLoading ? 'Loading ...' : 'Update'"
+            :disabled="isLoading"
+          />
+        </form>
+      </template>
+    </Card>
+
+    <Card class="mb-6">
+      <template #content>
+        <form @submit.prevent="createProject">
+          <legend class="mb-4 font-bold underline">Create project</legend>
+
+          <div>
+            <label
+              class="mr-2 min-w-[20px]"
+              for="name"
+            >
+              Project name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              class="mb-2"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              class="mr-2 min-w-[20px]"
+              for="description"
+            >
+              Description
+            </label>
+            <input
+              id="description"
+              name="description"
+              type="text"
+              class="mb-2"
+              required
+            />
+          </div>
+
+          <input
+            type="submit"
+            class="my-4"
+            :value="isLoading ? 'Loading ...' : 'Update'"
+            :disabled="isLoading"
+          />
+        </form>
+      </template>
+    </Card>
+
+    <Card>
+      <template #content>
+        <form @submit.prevent="addProfileToProject">
+          <legend class="mb-4 w-full font-bold">Add profile to projects</legend>
+
+          <div class="mb-6 grid gap-3 md:grid-cols-2">
+            <div>
+              <label for="profile_id"> User </label>
+              <Dropdown
+                id="client"
+                v-model="profile"
+                :options="getUsersWithEmails"
+                :option-label="
+                  ({ full_name, email, user_type }) =>
+                    `${full_name ?? email} [${
+                      user_type ?? 'user type not set'
+                    }]`
+                "
+                option-value="id"
+                placeholder="Select"
+                class="md:w-14rem w-full"
+                data-testid="claims-client-field"
+                name="client"
+              />
+            </div>
+
+            <div>
+              <label
+                class="mr-2"
+                for="project_id"
+              >
+                Project
+              </label>
+              <Dropdown
+                id="client"
+                v-model="project"
+                :options="projects"
+                :option-label="({ id, name }) => `${name} [${id}]`"
+                option-value="id"
+                placeholder="Select"
+                class="md:w-14rem w-full"
+                data-testid="claims-project-field"
+                name="project"
+              />
+            </div>
+          </div>
+
+          <Button
+            :label="isLoading ? 'Loading ...' : 'Update'"
+            type="submit"
+            class="p-button-lg w-full"
+            data-testid="audit-submit-button"
+            :loading="isLoading"
+            :disabled="isLoading"
+          />
+        </form>
+      </template>
+    </Card>
   </div>
 </template>
