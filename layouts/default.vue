@@ -3,6 +3,10 @@ import { PrimeIcons } from 'primevue/api'
 import type { MenuItem } from 'primevue/menuitem'
 
 const isSideNavigationVisible = ref(false)
+
+const client = useSupabaseAuthClient()
+const { data: isAdmin } = await client.rpc('is_claims_admin')
+
 const menuItems = computed<MenuItem[]>(() => [
   {
     label: 'Dashboard',
@@ -11,6 +15,16 @@ const menuItems = computed<MenuItem[]>(() => [
         label: 'Home',
         icon: PrimeIcons.HOME,
         to: '/',
+      },
+    ],
+  },
+  isAdmin && {
+    label: 'Manage',
+    items: [
+      {
+        label: 'Claims',
+        icon: PrimeIcons.KEY,
+        to: '/admin/',
       },
     ],
   },
@@ -42,7 +56,7 @@ const menuItems = computed<MenuItem[]>(() => [
         icon: PrimeIcons.VERIFIED,
         to: '/register',
       },
-    ],
+    ].filter(Boolean),
   },
 ])
 </script>
