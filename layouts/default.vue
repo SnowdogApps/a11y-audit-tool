@@ -19,7 +19,7 @@ const menuItems = computed<MenuItem[]>(() => [
     ],
   },
   isAdmin && {
-    label: 'Manage',
+    label: 'Admin',
     items: [
       {
         label: 'Claims',
