@@ -30,10 +30,7 @@ export const auditFormSchema = object({
     })
   ),
   title: string().required(),
-  resultsDir: string(),
-  client: number().required(),
-  auditor: number().required(),
-  reporter: string(),
+  project: number().required(),
   width: string(),
   height: string(),
   username: string(),

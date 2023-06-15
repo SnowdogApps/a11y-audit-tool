@@ -1,24 +1,20 @@
 <script setup lang="ts">
 import { useForm, useFieldArray } from 'vee-validate'
 import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
-import type { User } from '~/types/user'
 import type { Page, AuditForm } from '~/types/audit'
 
-import { clientList, auditorList } from '~/mocks/audit'
 import { auditFormSchema } from '~/validation/schema'
 import { displayFirstError } from '~/utils/form'
+import type { Database } from 'types/supabase'
 
 interface InitialValues {
   height: number
   pages: Page[]
   password: string
-  resultsDir: string
-  reporter: string
   title: string
   username: string
   width: number
-  auditor?: number
-  client?: number
+  project?: number
 }
 
 const initialValues: InitialValues = {
@@ -29,19 +25,18 @@ const initialValues: InitialValues = {
     },
   ],
   title: '',
-  resultsDir: '',
-  reporter: '',
   username: '',
   password: '',
   height: 600,
   width: 800,
 }
 
-const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
-  validationSchema: auditFormSchema,
-  initialValues,
-  keepValuesOnUnmount: true,
-})
+const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
+  {
+    validationSchema: auditFormSchema,
+    initialValues,
+  }
+)
 
 const {
   fields: pages,
@@ -49,27 +44,30 @@ const {
   remove,
 }: Partial<FieldArrayContext> = useFieldArray('pages')
 const title = useFieldModel('title')
-const resultsDir = useFieldModel('resultsDir')
-const client = useFieldModel('client')
-const auditor = useFieldModel('auditor')
-const reporter = useFieldModel('reporter')
+const project = useFieldModel('project')
 const width = useFieldModel('width')
 const height = useFieldModel('height')
 const username = useFieldModel('username')
 const password = useFieldModel('password')
 
-const date = new Date().toLocaleDateString('en-US')
-const clients = ref<User[]>(clientList)
-const auditors = ref<User[]>(auditorList)
-const isProcessing = ref(false)
+const user = useSupabaseUser()
+const supabase = useSupabaseClient<Database>()
+const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+
+if (user.value) {
+  const { data: projectsData } = await supabase.from('projects').select('*')
+  projects.value = projectsData || []
+}
+
+const isLoading = ref(false)
 const { isSubmitted } = useValidation(submitCount)
 
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
 
-const sendForm = handleSubmit((values) => {
+const sendForm = handleSubmit(async (values) => {
   try {
-    isProcessing.value = true
+    isLoading.value = true
 
     const form: AuditForm = {
       axeConfig: {
@@ -90,14 +88,22 @@ const sendForm = handleSubmit((values) => {
       auditor: values.auditor,
     }
 
-    console.warn(form) // TODO: to remove later
-    // TODO: send data to Supabase
+    const { error } = await supabase.from('audits').insert({
+      project_id: values.project,
+      profile_id: user?.value.id,
+      status: 'draft',
+      issues: form,
+      created_at: new Date().toLocaleDateString('en-US'),
+    })
+
+    if (error) {
+      throw error
+    }
   } catch (err) {
     console.warn(err)
   } finally {
-    setTimeout(() => {
-      isProcessing.value = false
-    }, 5000)
+    isLoading.value = false
+    resetForm()
   }
 }, onInvalidSubmit)
 </script>
@@ -105,7 +111,7 @@ const sendForm = handleSubmit((values) => {
 <template>
   <section>
     <h2>Configuration</h2>
-    <form @submit.prevent>
+    <form @submit="sendForm">
       <Accordion
         :active-index="[0, 1]"
         :multiple="true"
@@ -117,7 +123,7 @@ const sendForm = handleSubmit((values) => {
             class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
             <div class="grid gap-6 md:grid-cols-2 md:items-start md:gap-x-8">
-              <span class="w-full">
+              <div class="w-full">
                 <label :for="`url-${index}`">Url</label>
                 <InputText
                   :id="`url-${index}`"
@@ -137,9 +143,9 @@ const sendForm = handleSubmit((values) => {
                 >
                   {{ errors[`pages[${index}].url`] as string }}
                 </small>
-              </span>
+              </div>
 
-              <span class="w-full">
+              <div class="w-full">
                 <label for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
@@ -153,7 +159,7 @@ const sendForm = handleSubmit((values) => {
                   Use .class or #id to choose selector to test, just one
                   selector allowed. If empty whole document will be tested.
                 </small>
-              </span>
+              </div>
             </div>
 
             <Button
@@ -185,7 +191,7 @@ const sendForm = handleSubmit((values) => {
         </AccordionTab>
         <AccordionTab header="General">
           <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
-            <span class="w-full">
+            <div class="w-full">
               <label for="title">Audit title</label>
               <InputText
                 id="title"
@@ -201,92 +207,35 @@ const sendForm = handleSubmit((values) => {
               >
                 {{ errors.title }}
               </small>
-            </span>
+            </div>
 
-            <span class="w-full">
-              <label for="results-dir">Result directory name</label>
-              <InputText
-                id="results-dir"
-                v-model="resultsDir"
-                class="w-full"
-                data-testid="audit-results-dir-field"
-                name="resulstDir"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="date">Date</label>
-              <Calendar
-                v-model="date"
-                input-id="date"
-                class="w-full"
-                disabled
-                data-testid="audit-date-field"
-                name="date"
-                date-format="MM/DD/YYYY"
-              />
-            </span>
-
-            <span class="w-full">
-              <label for="client">Client</label>
+            <div class="w-full">
+              <label for="project">Project</label>
               <Dropdown
-                id="client"
-                v-model="client"
-                :options="clients"
+                id="project"
+                v-model="project"
+                :options="projects"
                 option-label="name"
                 option-value="id"
                 placeholder="Select"
                 class="md:w-14rem w-full"
-                data-testid="audit-client-field"
-                name="client"
-                :class="[{ 'p-invalid': errors.client && isSubmitted }]"
+                data-testid="audit-project-field"
+                name="project"
+                :class="[{ 'p-invalid': errors.project && isSubmitted }]"
               />
               <small
-                v-if="errors.client && isSubmitted"
+                v-if="errors.project && isSubmitted"
                 class="p-error mt-1"
               >
-                {{ errors.client }}
+                {{ errors.project }}
               </small>
-            </span>
-
-            <span class="w-full">
-              <label for="auditor">Auditor</label>
-              <Dropdown
-                id="auditor"
-                v-model="auditor"
-                :options="auditors"
-                option-label="name"
-                option-value="id"
-                placeholder="Select"
-                class="md:w-14rem w-full"
-                data-testid="audit-auditor-field"
-                name="auditor"
-                :class="[{ 'p-invalid': errors.auditor && isSubmitted }]"
-              />
-              <small
-                v-if="errors.auditor && isSubmitted"
-                class="p-error mt-1"
-              >
-                {{ errors.auditor }}
-              </small>
-            </span>
+            </div>
           </div>
         </AccordionTab>
         <AccordionTab header="Axe configuration">
           <div class="grid gap-6 md:grid-rows-3 md:gap-4">
-            <span class="w-full">
-              <label for="reporter">Reporter</label>
-              <InputText
-                id="reporter"
-                v-model="reporter"
-                class="md:w-14rem w-full"
-                data-testid="audit-reporter-field"
-                name="reporter"
-              />
-            </span>
-
             <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
-              <span class="w-full">
+              <div class="w-full">
                 <label for="viewport-width">Viewport width</label>
                 <InputNumber
                   v-model="width"
@@ -295,9 +244,9 @@ const sendForm = handleSubmit((values) => {
                   data-testid="audit-viewport-width-field"
                   name="viewport-width"
                 />
-              </span>
+              </div>
 
-              <span class="w-full">
+              <div class="w-full">
                 <label for="viewport-height">Viewport height</label>
                 <InputNumber
                   v-model="height"
@@ -306,11 +255,11 @@ const sendForm = handleSubmit((values) => {
                   data-testid="audit-viewport-height-field"
                   name="viewport-height"
                 />
-              </span>
+              </div>
             </div>
 
             <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
-              <span class="w-full">
+              <div class="w-full">
                 <label for="username">Basic Auth username</label>
                 <InputText
                   id="username"
@@ -319,9 +268,9 @@ const sendForm = handleSubmit((values) => {
                   data-testid="audit-auth-username-field"
                   name="username"
                 />
-              </span>
+              </div>
 
-              <span class="w-full">
+              <div class="w-full">
                 <label for="password">Basic Auth password</label>
                 <Password
                   id="password"
@@ -333,19 +282,19 @@ const sendForm = handleSubmit((values) => {
                   :feedback="false"
                   toggle-mask
                 />
-              </span>
+              </div>
             </div>
           </div>
         </AccordionTab>
       </Accordion>
 
       <Button
-        :label="isProcessing ? 'Sending' : 'Send'"
+        :label="isLoading ? 'Sending...' : 'Send'"
         type="submit"
         class="p-button-lg w-full"
         data-testid="audit-submit-button"
-        :loading="isProcessing"
-        @click="sendForm"
+        :loading="isLoading"
+        :disabled="isLoading"
       />
     </form>
   </section>
