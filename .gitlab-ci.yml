@@ -1,5 +1,6 @@
 stages:
   - test
+  - build
 
 lint:
   image: node:gallium-alpine3.15
@@ -19,3 +20,60 @@ lint:
   script:
     - pnpm lint
     - pnpm nuxi typecheck
+  allow_failure: true
+
+.build:
+  stage: build
+  image: docker:19.03
+  tags:
+    - builder
+    - shared
+    - snowdog
+  before_script:
+    - apk add curl
+    - mkdir -p ~/.docker/cli-plugins
+    - curl -o ~/.docker/cli-plugins/docker-buildx -L https://github.com/docker/buildx/releases/download/v0.6.3/buildx-v0.6.3.linux-amd64
+    - chmod a+x ~/.docker/cli-plugins/docker-buildx
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - >
+      if [ $BUILD_TYPE = "tag" ]; then
+        export IMAGE_TAG="CI_COMMIT_TAG"
+      else
+        export IMAGE_TAG="master-${CI_COMMIT_SHORT_SHA}-$(date +%s)"
+      fi
+    - >
+      docker buildx build
+      --cache-from=type=local,src=/cache
+      --cache-to=type=local,mode=max,dest=/cache
+      --target server
+      --tag "${CI_REGISTRY_IMAGE}/server:${IMAGE_TAG}"
+      --push .
+    # - >
+    #   docker buildx build
+    #   --cache-from=type=local,src=/cache
+    #   --cache-to=type=local,mode=max,dest=/cache
+    #   --target statics
+    #   --tag "${CI_REGISTRY_IMAGE}/statics:${IMAGE_TAG}"
+    #   --push .
+
+build:stage:
+  extends: .build
+  variables:
+    BUILD_TYPE: branch
+  only:
+    - master
+
+build:test:
+  extends: .build
+  variables:
+    BUILD_TYPE: branch
+  only:
+    - test
+
+build:prod:
+  extends: .build
+  variables:
+    BUILD_TYPE: tag
+  only:
+    - tags

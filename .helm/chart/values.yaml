@@ -1,0 +1,186 @@
+# Amount of application Pods replicas
+replicaCount: 3
+
+# Horizontal Pod Autoscaler configuration
+hpa:
+  # Whether to create HPA object
+  enabled: false
+
+  # Maximum amount of replicas for scaling. replicaCount is considered
+  # to be the minimum in case HPA is enabled.
+  maxReplicas: 5
+
+  # Metrics that will be checked when scaling
+  metrics:
+    # CPU utilization metrics
+    cpu:
+      # Whether to enable CPU metrics check
+      enabled: true
+      # Exact values for `target` key. See `metrics.containerResource.target` documentation at:
+      # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2beta2/
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+    # Memory utilization metrics
+    memory:
+      # Whether to enable Memory metrics check
+      enabled: true
+      # Exact values for `target` key. See `metrics.containerResource.target` documentation at:
+      # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2beta2/
+      target:
+        type: AverageValue
+        averageValue: 100Mi
+
+# Policy for pulling images
+imagePullPolicy: Always
+
+# For private container registries, prepare a secret with auth
+# details and provide the name of this secret here:
+# imagePullSecret: ""
+
+# App's container image location
+image:
+  repo: registry.snowdog.pro/repo
+  name: image-name
+  tag: 1.0.0
+
+
+# Resources boundaries for Pods
+resources:
+  # Requests have to be satisfied for Pod to be scheduled
+  requests:
+    cpu: 200m
+    memory: 300Mi
+
+  # When limits are reached, the Pod is either killed by OOM killer
+  # (in case of memory) or throttled (in case of CPU).
+  limits:
+    memory: 450Mi
+    # cpu:
+
+
+# Ports definition for application container
+#
+# By default, one named Port "http" is declared, which can be used
+# as a shorthand to container TCP port of 8080.
+ports:
+- name: http
+  containerPort: 8080
+  protocol: TCP
+
+
+# Definition of liveness probe, which will mark the Pod unhealthy
+# upon reaching failure threshold. Unhealthy Pods will be replaced
+# with a new replica.
+#
+# By default, it will check whether app container accepts TCP connection
+livenessProbe:
+  tcpSocket:
+    port: http
+  periodSeconds: 30
+  failureThreshold: 3
+  initialDelaySeconds: 60
+
+# Definition of readiness probe. This will mark the Pod Not Ready
+# upon reaching failure threshold. Pods in Not Ready state will not receive
+# traffic from Service object.
+#
+# By default, it will check HTTP code of a GET request on / path.
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 5
+  failureThreshold: 3
+  initialDelaySeconds: 3
+
+# These will be provided through Sops during chart installation or upgrade,
+# data keys will be available inside the container as environment
+# variables. Secret with this chart's name will be generated
+# and its data will be available in the app container.
+#
+# Sops file should follow the exact same key names: secrets.data.
+secrets:
+  data:
+    # PLACEHOLDER: placeholder
+
+
+# Data to be put in the default Config Map, sourced into app container
+# as environment variables.
+configMapData:
+  # KEY: value
+
+
+# Locations of environment variables sources
+envs:
+  # Names of ConfigMaps
+  # ConfigMap this chart creates is included by default.
+  # configMaps:
+    # - some-config-map
+
+  # Names of Secrets
+  # Secret this chart creates name is included by default.
+  # secrets:
+    # - some-secret
+
+
+# Service object config
+service:
+  # Whether to create a Service object
+  enabled: true
+
+  # Port on which Service will accept traffic
+  port: 80
+
+  # Named port of the Service
+  portName: http
+
+  # Container port that will get the traffic
+  targetPort: http
+
+  # Service type
+  type: ClusterIP
+
+
+# ServiceAccount creation
+serviceAccount:
+  # Whether to create a ServiceAccount
+  create: true
+
+  # Name of an already existing ServiceAccount to use
+  # name: ""
+
+
+# Ingress object config
+# Use either this or ingressRoute
+ingress:
+
+  # Whether to create an Ingress object
+  enabled: false
+
+  # Host comes without proto, i.e. app.some-domain.com
+  host: app.domain.com
+
+# ingressRoute object config
+# use either this or Ingress
+ingressRoute:
+
+  # Whether to create an IngressRoute
+  enabled: false
+
+  # Host match for the route
+  host: app.domain.com
+
+  # List of IPs to be whitelisted
+  whitelistedIPs: []
+
+  # Basic auth config
+  basicAuth:
+
+    # Whether to enable basic auth
+    enabled: false
+
+    # Credentials for basic auth
+    username: ""
+    password: ""

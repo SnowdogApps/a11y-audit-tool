@@ -1,0 +1,19 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  {{- with .Values.service }}
+  - port: {{ .port }}
+    name: {{ .portName }}
+    targetPort: {{ .targetPort }}
+    protocol: {{ .protocol }}
+  {{- end }}
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}
+{{- end }}

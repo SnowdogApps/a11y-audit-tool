@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ include "chart.fullname" . }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{ . | toYaml }}
+      {{- end }}
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecret }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      containers:
+      - name: {{ include "chart.fullname" . }}
+        {{- with .Values.image }}
+        image: {{ .repo }}/{{ .name }}:{{ .tag }}
+        {{- end }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.resources }}
+        resources:
+        {{- . | toYaml | nindent 10 }}
+        {{- end }}
+        envFrom:
+        - secretRef:
+            name: {{ include "chart.fullname" . }}
+        - configMapRef:
+            name: {{ include "chart.fullname" . }}
+        {{- with .Values.envs }}
+        {{- range $configMap := .configMaps }}
+        - configMapRef:
+            name: {{ $configMap }}
+        {{- end }}
+        {{- range $secret := .secrets }}
+        - secretRef:
+            name: {{ $secret }}
+        {{- end }}
+        {{- end }}
+        {{- with .Values.ports }}
+        ports:
+        {{- . | toYaml | nindent 8 }}
+        {{- end }}
+        {{- with .Values.livenessProbe }}
+        livenessProbe:
+        {{- . | toYaml | nindent 10 }}
+        {{- end }}
+        {{- with .Values.readinessProbe }}
+        readinessProbe:
+        {{- . | toYaml | nindent 10 }}
+        {{- end }}
