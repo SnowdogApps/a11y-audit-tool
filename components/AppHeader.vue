@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ProfileMenuLink as MenuLink } from '~/types/profile-menu-link'
-import type { Database } from 'types/supabase'
 
 defineProps<{
   isSideNavigationVisible: boolean
@@ -37,9 +36,7 @@ const profileMenuList: MenuLink[] = [
 const isProfileMenuVisible = ref(false)
 
 const client = useSupabaseAuthClient()
-const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
-// const { data: isAdmin } = await client.rpc('is_claims_admin')
 
 const logout = async () => {
   await client.auth.signOut()
