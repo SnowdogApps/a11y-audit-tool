@@ -2,9 +2,10 @@
 import { useForm, useFieldArray } from 'vee-validate'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
+import type { PostgrestError } from '@supabase/postgrest-js/dist/main/types'
 import type { Database } from 'types/supabase'
-import type { Page, AuditConfiguration } from 'types/audit'
 
+import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from '~/validation/schema'
 import { displayFirstError } from '~/utils/form'
 
@@ -86,7 +87,7 @@ const sendForm = handleSubmit(async (values) => {
 
     const { error } = await supabase.from('audits').insert({
       project_id: values.project,
-      profile_id: user?.value.id,
+      profile_id: user?.value?.id || '',
       status: 'draft',
       issues: form,
       created_at: new Date().toLocaleDateString('en-US'),
@@ -104,13 +105,15 @@ const sendForm = handleSubmit(async (values) => {
 
     resetForm()
   } catch (error) {
-    console.warn({ error })
-    toast.add({
-      severity: 'error',
-      summary: `There was an error`,
-      detail: `Error #${error.code} - ${error.message}`,
-      life: 3000,
-    })
+    if ('details' in error) {
+      console.warn({ error })
+      toast.add({
+        severity: 'error',
+        summary: `There was an error`,
+        detail: `Error #${error.code} - ${error.message}`,
+        life: 3000,
+      })
+    }
   } finally {
     isLoading.value = false
   }
