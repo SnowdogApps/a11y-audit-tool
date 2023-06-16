@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-svgo',
     '@nuxtjs/supabase',
+    '@snowdog/a11y/src/module',
   ],
   css: [
     '~/assets/reset.css',
