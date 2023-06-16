@@ -1,19 +1,35 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { fileURLToPath } from 'url'
+import { defineNuxtModule, addServerHandler, createResolver } from '@nuxt/kit'
 
-// Module options TypeScript interface definition
-export interface ModuleOptions {}
+export interface ModuleOptions {
+  routeName: string
+  fileNamePrefix?: string
+  resultsDir: string
+  basicAuth?: {
+    login: string
+    password: string
+  }
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@snowdog/a11y',
     configKey: 'a11y',
   },
-  // Default configuration options of the Nuxt module
-  defaults: {},
-  setup (options, nuxt) {
-    const resolver = createResolver(import.meta.url)
+  defaults: {
+    routeName: '/api/test',
+    fileNamePrefix: undefined,
+    resultsDir: './a11y-results',
+  },
+  setup(options, nuxt) {
+    const metaUrl = import.meta.url
+    const runtimeDir = fileURLToPath(new URL('./runtime', metaUrl))
+    const { resolve } = createResolver(metaUrl)
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    addServerHandler({
+      route: options.routeName,
+      handler: resolve(runtimeDir, 'server/api/test')
+    })
   }
 })

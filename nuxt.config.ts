@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@snowdog/a11y/src/module',
   ],
+  a11y: {},
   css: [
     '~/assets/reset.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
