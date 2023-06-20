@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -771,11 +771,11 @@ packages:
     resolution: {integrity: sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==}
     dev: false
 
-  /@nuxt/kit-edge@3.6.0-28108658.05a8c2d9:
-    resolution: {integrity: sha512-VKb25qnnZy1+xZsprcfD4zfKiwLWGzJ7Halju6dkYhQC2/pW3aNEMCpC59c83QdAizzE5Hazdh+/kXA29k5DXw==}
+  /@nuxt/kit-edge@3.6.0-28117308.634829a0:
+    resolution: {integrity: sha512-IlrrODWLl5RykxRo59Z2W0kMqpFYmZn3s28pIIs/cuaqGyAXDTZMlTKZWYUwLOcOfifHvTgs/k3cy4+OKfSNVw==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge@3.6.0-28108658.05a8c2d9
+      '@nuxt/schema': /@nuxt/schema-edge@3.6.0-28117308.634829a0
       c12: 1.4.1
       consola: 3.1.0
       defu: 6.1.2
@@ -788,7 +788,7 @@ packages:
       pathe: 1.1.1
       pkg-types: 1.0.3
       scule: 1.0.0
-      semver: 7.5.1
+      semver: 7.5.2
       unctx: 2.3.1
       unimport: 3.0.8(rollup@3.25.1)
       untyped: 1.3.2
@@ -838,8 +838,8 @@ packages:
       - webpack
     dev: false
 
-  /@nuxt/schema-edge@3.6.0-28108658.05a8c2d9:
-    resolution: {integrity: sha512-AqH1DRjd4CRENwQYmE539MlFkYtS3mE6vRp5/EJpr0/nE6ppnGUQYeFJLolSHCzeeAFOjuW9tM39aKsCaOpoyA==}
+  /@nuxt/schema-edge@3.6.0-28117308.634829a0:
+    resolution: {integrity: sha512-2uJNDnQy3hNtTvLlKpxmVT62/NZZBr03PK3cak1LFK4l3mi7B9lwU5ZTkRyF1VEBJ2BYG56BbcrJJAFZaiLevw==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
       defu: 6.1.2
@@ -5072,7 +5072,7 @@ packages:
       vue-svg-loader:
         optional: true
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge@3.6.0-28108658.05a8c2d9
+      '@nuxt/kit': /@nuxt/kit-edge@3.6.0-28117308.634829a0
       '@vue/compiler-sfc': 3.3.4
       svgo: 3.0.2
     transitivePeerDependencies:
@@ -6350,6 +6350,14 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+
+  /semver@7.5.2:
+    resolution: {integrity: sha512-SoftuTROv/cRjCze/scjGyiDtcUyxw1rgYQSZY7XTmtR5hX+dm76iDbTH8TkLPHCQmlbQVSSbNZCPM2hb0knnQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: false
 
   /send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
