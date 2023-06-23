@@ -44,3 +44,8 @@ export const accountFormSchema = object({
   avatarUrl: string(),
   userType: string(),
 })
+
+export const connectProfileToProjectFormSchema = object({
+  client: string().required(),
+  project: number().required(),
+})

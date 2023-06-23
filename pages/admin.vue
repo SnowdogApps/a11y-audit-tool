@@ -1,12 +1,21 @@
 <script setup lang="ts">
 // @note: this page is just a draft of concept
-// @todo: tweak the UI and logic later on
-import type { User } from '@supabase/gotrue-js'
-import type { Database, Json } from 'types/supabase'
-import { getFormData } from 'utils/form'
 
-const profile = ref<number>()
-const project = ref<number>()
+import { useForm } from 'vee-validate'
+import { useToast } from 'primevue/usetoast'
+import type { User } from '@supabase/gotrue-js'
+import type { InvalidSubmissionContext } from 'vee-validate'
+import type { Database, Json } from 'types/supabase'
+import { displayFirstError, getFormData } from 'utils/form'
+import { connectProfileToProjectFormSchema } from '~/validation/schema'
+
+const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
+  {
+    validationSchema: connectProfileToProjectFormSchema,
+  }
+)
+
+const [client, project] = useFieldModel(['client', 'project'])
 
 interface AdminFormField {
   [key: string]: string
@@ -32,10 +41,12 @@ definePageMeta({
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 
+const toast = useToast()
 const isLoading = ref(false)
 const profiles = ref<Database['public']['Tables']['profiles']['Row'][]>([])
 const authData = ref<User[]>([])
 const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+
 const profileProject = ref<
   Database['public']['Tables']['profile_project']['Row'][]
 >([])
@@ -49,7 +60,6 @@ const getUsersWithEmails = computed(() =>
     email: getAuthDataById(profile.id)?.email,
   }))
 )
-
 const getProfileProject = computed(() =>
   profileProject.value.map((permission) => {
     const user = getAuthDataById(permission.profile_id)
@@ -139,29 +149,6 @@ async function createProject(event: Event) {
   }
 }
 
-async function addProfileToProject(event: Event) {
-  try {
-    const user = useSupabaseUser()
-
-    if (user.value?.id && event.target instanceof HTMLFormElement) {
-      const { profile_id: profileId, project_id: projectId } =
-        getFormData<AdminFormField>(event.target)
-      const { error } = await supabase.from('profile_project').insert({
-        profile_id: profileId,
-        project_id: Number(projectId),
-      })
-
-      if (error) {
-        throw error
-      }
-
-      fetchProjectProfile()
-    }
-  } catch (err) {
-    console.error(err)
-  }
-}
-
 async function removeProfileFromProject(id: number) {
   try {
     const { error } = await supabase
@@ -182,6 +169,48 @@ async function removeProfileFromProject(id: number) {
 await fetchProfiles()
 await fetchProjects()
 await fetchProjectProfile()
+const { isSubmitted } = useValidation(submitCount)
+
+const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
+  displayFirstError(errors)
+
+const addProfileToProject = handleSubmit(async ({ client, project }) => {
+  // todo: add blocking duplication of entry in datatable
+  try {
+    isLoading.value = true
+    const user = useSupabaseUser()
+
+    if (user.value?.id) {
+      const { error } = await supabase.from('profile_project').insert({
+        profile_id: client,
+        project_id: project,
+      })
+
+      if (error) {
+        throw error
+      }
+
+      await fetchProjectProfile()
+      toast.add({
+        severity: 'success',
+        summary: 'You successfully add profile to project',
+        life: 3000,
+      })
+
+      resetForm()
+    }
+  } catch (error) {
+    console.warn({ error })
+    toast.add({
+      severity: 'error',
+      summary: `There was an error`,
+      detail: `Error #${error.code} - ${error.message}`,
+      life: 3000,
+    })
+  } finally {
+    isLoading.value = false
+  }
+}, onInvalidSubmit)
 </script>
 
 <template>
@@ -384,7 +413,7 @@ await fetchProjectProfile()
 
     <Card>
       <template #content>
-        <form @submit.prevent="addProfileToProject">
+        <form @submit="addProfileToProject">
           <legend class="mb-4 w-full font-bold">Add profile to projects</legend>
 
           <div class="mb-6 grid gap-3 md:grid-cols-2">
@@ -392,7 +421,7 @@ await fetchProjectProfile()
               <label for="profile_id"> User </label>
               <Dropdown
                 id="client"
-                v-model="profile"
+                v-model="client"
                 :options="getUsersWithEmails"
                 :option-label="
                   ({ full_name, email, user_type }) =>
@@ -406,17 +435,23 @@ await fetchProjectProfile()
                 data-testid="claims-client-field"
                 name="client"
               />
+              <small
+                v-if="errors.client && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.client }}
+              </small>
             </div>
 
             <div>
               <label
                 class="mr-2"
-                for="project_id"
+                for="project"
               >
                 Project
               </label>
               <Dropdown
-                id="client"
+                id="project"
                 v-model="project"
                 :options="projects"
                 :option-label="({ id, name }) => `${name} [${id}]`"
@@ -426,6 +461,12 @@ await fetchProjectProfile()
                 data-testid="claims-project-field"
                 name="project"
               />
+              <small
+                v-if="errors.project && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.project }}
+              </small>
             </div>
           </div>
 
