@@ -6,7 +6,7 @@ import type { PostgrestError } from '@supabase/postgrest-js/dist/main/types'
 import type { Database } from 'types/supabase'
 
 import type { Page, AuditConfiguration } from 'types/audit'
-import { auditFormSchema } from '~/validation/schema'
+import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 
 interface InitialValues {

@@ -7,7 +7,7 @@ import type { User } from '@supabase/gotrue-js'
 import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database, Json } from 'types/supabase'
 import { displayFirstError, getFormData } from 'utils/form'
-import { connectProfileToProjectFormSchema } from '~/validation/schema'
+import { connectProfileToProjectFormSchema } from 'validation/schema'
 
 const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
   {

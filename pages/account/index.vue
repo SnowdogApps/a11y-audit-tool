@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InvalidSubmissionContext } from 'vee-validate'
 import { useForm } from 'vee-validate'
-import { accountFormSchema } from '~/validation/schema'
+import { accountFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import type { Database } from 'types/supabase'
 

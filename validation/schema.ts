@@ -1,5 +1,5 @@
 import { object, string, array, number } from 'yup'
-import validationRules from '~/validation/rules'
+import validationRules from 'validation/rules'
 const { emailRule, passwordRule, passwordRepeatRule } = validationRules()
 
 export const signInSchema = object({

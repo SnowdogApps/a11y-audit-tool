@@ -3,7 +3,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import { useForm } from 'vee-validate'
 import { displayFirstError } from 'utils/form'
 
-import { signInSchema } from '~/validation/schema'
+import { signInSchema } from 'validation/schema'
 
 definePageMeta({
   layout: 'simple',
