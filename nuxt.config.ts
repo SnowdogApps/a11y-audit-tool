@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   alias: {
     types: resolve(__dirname, './types'),
     utils: resolve(__dirname, './utils'),
-    validation: resolve(__dirname, './utils'),
+    validation: resolve(__dirname, './validation'),
   },
   modules: [
     '@nuxtjs/tailwindcss',
