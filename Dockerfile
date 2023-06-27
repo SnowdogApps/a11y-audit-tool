@@ -1,17 +1,26 @@
-FROM node:gallium-alpine3.15 as builder
+FROM node:16.20-alpine as builder
 
 WORKDIR /app
+ENV PNPM_VERSION=8.6.1
 
-COPY . ./
 RUN npm install -g pnpm
-RUN pnpm install --no-frozen-lockfile
 
+ENV PNPM_STORE_DIR="/usr/.pnpm-store"
+RUN pnpm config set store-dir "$PNPM_STORE_DIR"
+
+COPY pnpm-lock.yaml ./
+RUN --mount=type=cache,target=$PNPM_STORE_DIR \
+    pnpm fetch --prod
+
+COPY . .
 RUN mv .env.example .env
-RUN pnpm build
+RUN --mount=type=cache,target=$PNPM_STORE_DIR \
+    pnpm install --prod --offline --force && \
+    pnpm build
 
 ##########
 
-FROM node:gallium-alpine3.15 as server
+FROM node:16.20-alpine as server
 
 ENV NODE_ENV=production
 
