@@ -45,7 +45,17 @@ export const accountFormSchema = object({
   userType: string(),
 })
 
-export const connectProfileToProjectFormSchema = object({
-  client: string().required(),
+export const addProfileToProjectFormSchema = object({
+  profile: string().required(),
   project: number().required(),
+})
+
+export const editUserTypeFormSchema = object({
+  user: string().required(),
+  userType: string().required(),
+})
+
+export const createProjectFormSchema = object({
+  name: string().required(),
+  description: string().required(),
 })
