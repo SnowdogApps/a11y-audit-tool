@@ -49,47 +49,22 @@ async function fetchAudits() {
     </div>
 
     <div class="grid">
-      <AuditTable
-        v-if="audits.length"
-        :audits="audits"
-      />
-
-      <ul v-if="audits.length">
-        <li
-          v-for="{ id, profile_id, created_at, issues, status } in audits"
-          :key="id"
-        >
-          <Card
-            :pt="{
-              content: {
-                class: 'flex flex-col',
-              },
-            }"
-            class="mb-6"
-          >
-            <template #content>
-              <span>Id: {{ id }}</span>
-              <span>Status: {{ status }}</span>
-              <span>Results: {{ issues }}</span>
-              <span
-                >Created:
-                {{ new Date(created_at).toLocaleDateString('pl-PL') }}</span
-              >
-              <strong
-                v-if="profile_id === user?.id"
-                class="underline"
-              >
-                is yours
-              </strong>
-            </template>
-
-            <template #footer>
-              <NuxtLink :to="`/audit/edit/${id}`"> Edit </NuxtLink>
-            </template>
-          </Card>
-        </li>
-      </ul>
-      <p v-else>Your audit list is empty</p>
+      <Card
+        :pt="{
+          content: {
+            class: 'flex flex-col',
+          },
+        }"
+        class="mb-6"
+      >
+        <template #content>
+          <AuditTable
+            v-if="audits.length"
+            :audits="audits"
+          />
+          <p v-else>Your audit list is empty</p>
+        </template>
+      </Card>
     </div>
   </div>
 </template>

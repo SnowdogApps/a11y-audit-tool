@@ -129,19 +129,6 @@ await fetchProjectProfile()
             v-if="getUsersWithEmails.length"
             :profiles="getUsersWithEmails"
           />
-          <ul
-            v-if="getUsersWithEmails.length"
-            class="mr-4"
-          >
-            <li
-              v-for="{ id, username, user_type, email } in getUsersWithEmails"
-              :key="id"
-            >
-              [{{ user_type || 'annonymous' }}] {{ email }} |
-              <strong>{{ username || 'N/A' }}</strong> ID:
-              <span class="underline">{{ id }}</span>
-            </li>
-          </ul>
           <p
             v-else
             class="ml-4"
@@ -180,25 +167,6 @@ await fetchProjectProfile()
             :profiles-to-projects="getProfileProject"
             @remove="removeProfileFromProject"
           />
-          <ul
-            v-if="getProfileProject.length"
-            class="mr-4"
-          >
-            <li
-              v-for="{ id, email, name } in getProfileProject"
-              :key="id"
-            >
-              <strong>{{ email }}</strong> on project
-              <span class="mr-2 underline">{{ name }}</span>
-
-              <button
-                type="button"
-                @click="removeProfileFromProject(id)"
-              >
-                Remove permission
-              </button>
-            </li>
-          </ul>
           <p
             v-else
             class="ml-4"
