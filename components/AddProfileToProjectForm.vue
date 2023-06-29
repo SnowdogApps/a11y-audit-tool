@@ -29,7 +29,7 @@ const { isSubmitted } = useValidation(submitCount)
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
 
-const addProfileToProject = handleSubmit(async ({ client, project }) => {
+const addProfileToProject = handleSubmit(async ({ profile, project }) => {
   // todo: add blocking duplication of entry in datatable
   try {
     isLoading.value = true
@@ -37,7 +37,7 @@ const addProfileToProject = handleSubmit(async ({ client, project }) => {
 
     if (authUser.value?.id) {
       const { error } = await supabase.from('profile_project').insert({
-        profile_id: client,
+        profile_id: profile,
         project_id: project,
       })
 
@@ -45,7 +45,7 @@ const addProfileToProject = handleSubmit(async ({ client, project }) => {
         throw error
       }
 
-      emit('update-projects')
+      emit('after-submit')
       toast.add({
         severity: 'success',
         summary: 'You successfully add profile to project',
