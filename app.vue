@@ -9,5 +9,6 @@
 
   <ClientOnly>
     <Toast />
+    <ConfirmDialog />
   </ClientOnly>
 </template>

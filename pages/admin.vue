@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// @note: this page is just a draft of concept
-
 import type { User } from '@supabase/gotrue-js'
+import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
 
 definePageMeta({
@@ -22,7 +21,9 @@ definePageMeta({
 })
 
 const supabase = useSupabaseClient<Database>()
+const toast = useToast()
 
+const isLoading = ref(false)
 const profiles = ref<Database['public']['Tables']['profiles']['Row'][]>([])
 const authData = ref<User[]>([])
 const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
@@ -80,6 +81,8 @@ async function fetchProjectProfile() {
 }
 
 async function removeProfileFromProject(id: number) {
+  isLoading.value = true
+
   try {
     const { error } = await supabase
       .from('profile_project')
@@ -91,8 +94,21 @@ async function removeProfileFromProject(id: number) {
     }
 
     fetchProjectProfile()
-  } catch (err) {
-    console.error(err)
+    toast.add({
+      severity: 'success',
+      summary: 'Permission deleted',
+      life: 3000,
+    })
+  } catch (error) {
+    console.warn({ error })
+    toast.add({
+      severity: 'error',
+      summary: `There was an error`,
+      detail: `Error #${error.code} - ${error.message}`,
+      life: 3000,
+    })
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -109,6 +125,10 @@ await fetchProjectProfile()
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Profile list</h2>
+          <ProfileTable
+            v-if="getUsersWithEmails.length"
+            :profiles="getUsersWithEmails"
+          />
           <ul
             v-if="getUsersWithEmails.length"
             class="mr-4"
@@ -136,18 +156,10 @@ await fetchProjectProfile()
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Project list</h2>
-          <ul
+          <ProjectTable
             v-if="projects.length"
-            class="mr-4"
-          >
-            <li
-              v-for="{ id, name } in projects"
-              :key="id"
-            >
-              Name: <span class="underline">{{ name }}</span> ID:
-              <span class="underline">{{ id }}</span>
-            </li>
-          </ul>
+            :projects="projects"
+          />
           <p
             v-else
             class="ml-4"
@@ -162,6 +174,12 @@ await fetchProjectProfile()
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Profile per Project list</h2>
+          <ClaimTable
+            v-if="getProfileProject.length"
+            :is-loading="isLoading"
+            :profiles-to-projects="getProfileProject"
+            @remove="removeProfileFromProject"
+          />
           <ul
             v-if="getProfileProject.length"
             class="mr-4"
@@ -201,7 +219,7 @@ await fetchProjectProfile()
     <AddProfileToProjectForm
       :profiles="getUsersWithEmails"
       :projects="projects"
-      @after-submit="fetchProjects"
+      @after-submit="fetchProjectProfile()"
     />
   </div>
 </template>

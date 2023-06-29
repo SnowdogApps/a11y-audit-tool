@@ -90,6 +90,7 @@ const addProfileToProject = handleSubmit(async ({ profile, project }) => {
               class="md:w-14rem w-full"
               data-testid="claims-user-field"
               name="client"
+              :class="[{ 'p-invalid': errors.profile && isSubmitted }]"
             />
             <small
               v-if="errors.profile && isSubmitted"
@@ -116,6 +117,7 @@ const addProfileToProject = handleSubmit(async ({ profile, project }) => {
               class="md:w-14rem w-full"
               data-testid="claims-project-field"
               name="project"
+              :class="[{ 'p-invalid': errors.project && isSubmitted }]"
             />
             <small
               v-if="errors.project && isSubmitted"
