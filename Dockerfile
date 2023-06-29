@@ -1,22 +1,17 @@
 FROM node:16.20-alpine as builder
 
 WORKDIR /app
-ENV PNPM_VERSION=8.6.1
 
 RUN npm install -g pnpm
 
-ENV PNPM_STORE_DIR="/usr/.pnpm-store"
-RUN pnpm config set store-dir "$PNPM_STORE_DIR"
-
-COPY pnpm-lock.yaml ./
-RUN --mount=type=cache,target=$PNPM_STORE_DIR \
+COPY pnpm-lock.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm fetch --prod
 
-COPY . .
+COPY . ./
 RUN mv .env.example .env
-RUN --mount=type=cache,target=$PNPM_STORE_DIR \
-    pnpm install --prod --offline --force && \
-    pnpm build
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store pnpm install --prod --offline --frozen-lockfile
+RUN pnpm build
 
 ##########
 
