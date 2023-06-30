@@ -18,9 +18,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-svgo',
     '@nuxtjs/supabase',
-    '@snowdog/a11y/src/module',
   ],
-  a11y: {},
   css: [
     '~/assets/reset.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
@@ -43,5 +41,8 @@ export default defineNuxtConfig({
   },
   typescript: {
     strict: true,
+  },
+  runtimeConfig: {
+    glApiToken: process.env.NITRO_GL_AUTH_TOKEN,
   },
 })
