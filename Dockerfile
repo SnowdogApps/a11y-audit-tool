@@ -1,17 +1,21 @@
-FROM node:gallium-alpine3.15 as builder
+FROM node:16.20-alpine as builder
 
 WORKDIR /app
 
-COPY . ./
 RUN npm install -g pnpm
-RUN pnpm install --no-frozen-lockfile
 
+COPY pnpm-lock.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm fetch --prod
+
+COPY . ./
 RUN mv .env.example .env
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store pnpm install --prod --offline --frozen-lockfile
 RUN pnpm build
 
 ##########
 
-FROM node:gallium-alpine3.15 as server
+FROM node:16.20-alpine as server
 
 ENV NODE_ENV=production
 
