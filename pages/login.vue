@@ -25,13 +25,13 @@ const signIn = handleSubmit(async ({ email, password }) => {
     email,
     password,
   })
-
-  watchEffect(() => {
-    if (user.value) {
-      navigateTo('/')
-    }
-  })
 }, onInvalidSubmit)
+
+watchEffect(() => {
+  if (user.value) {
+    navigateTo('/')
+  }
+})
 </script>
 
 <template>
