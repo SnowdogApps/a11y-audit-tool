@@ -57,5 +57,5 @@ export const editUserTypeFormSchema = object({
 
 export const createProjectFormSchema = object({
   name: string().required(),
-  description: string().required(),
+  description: string(),
 })
