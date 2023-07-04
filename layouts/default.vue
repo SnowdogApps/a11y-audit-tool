@@ -1,77 +1,32 @@
 <script setup lang="ts">
-import { PrimeIcons } from 'primevue/api'
 import type { MenuItem } from 'primevue/menuitem'
 import type { Database } from 'types/supabase'
 import type { UserClaim } from 'types/user'
+import {
+  adminMenuItems,
+  auditorMenuItems,
+  customerMenuItems,
+} from '~/data/menu'
 
 const isSideNavigationVisible = ref(false)
+const menuItems = ref<MenuItem[]>([])
 
-const client = useSupabaseAuthClient()
-const supabase = useSupabaseClient<Database>()
-const { data: isAdmin } = await client.rpc('is_claims_admin')
+onBeforeMount(async () => {
+  const supabase = useSupabaseClient<Database>()
+  const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
+    data: UserClaim
+  }
 
-const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
-  data: UserClaim
-}
-const isAuditor = claims?.user_role === 'auditor'
+  const isAdmin = claims?.claims_admin ?? false
 
-const menuItems = computed<MenuItem[]>(() => [
-  {
-    label: 'Dashboard',
-    items: [
-      {
-        label: 'Home',
-        icon: PrimeIcons.HOME,
-        to: '/',
-      },
-    ],
-  },
-  isAdmin && {
-    label: 'Admin',
-    items: [
-      {
-        label: 'Claims',
-        icon: PrimeIcons.KEY,
-        to: '/admin/',
-      },
-      {
-        label: 'Projects',
-        icon: PrimeIcons.FOLDER,
-        to: '/projects/',
-      },
-    ],
-  },
-  {
-    label: 'Audit',
-    items: [
-      {
-        label: 'List',
-        icon: PrimeIcons.LIST,
-        to: '/audit',
-      },
-      (isAdmin || isAuditor) && {
-        label: 'New',
-        icon: PrimeIcons.PLUS,
-        to: '/audit/new',
-      },
-    ].filter(Boolean),
-  },
-  {
-    label: 'Auth',
-    items: [
-      {
-        label: 'Login',
-        icon: PrimeIcons.SIGN_IN,
-        to: '/login',
-      },
-      {
-        label: 'Register',
-        icon: PrimeIcons.VERIFIED,
-        to: '/register',
-      },
-    ].filter(Boolean),
-  },
-])
+  const isAuditor = !isAdmin && claims?.user_role === 'auditor'
+
+  menuItems.value = isAdmin
+    ? adminMenuItems
+    : isAuditor
+    ? auditorMenuItems
+    : customerMenuItems
+})
 </script>
 
 <template>
