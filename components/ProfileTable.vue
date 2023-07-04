@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Database } from 'types/supabase'
+import type { ProfileWithEmail } from 'types/supabase'
 
 const props = defineProps<{
-  profiles: Database['public']['Tables']['profiles']['Row'][]
+  profiles: ProfileWithEmail[]
 }>()
 
 onMounted(() => {

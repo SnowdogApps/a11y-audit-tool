@@ -160,3 +160,8 @@ export interface Database {
     }
   }
 }
+
+type Profile = Database['public']['Tables']['profiles']['Row']
+export interface ProfileWithEmail extends Profile {
+  email: string
+}
