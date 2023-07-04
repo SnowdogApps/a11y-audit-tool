@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import type { Database } from 'types/supabase'
+import type { UserClaim } from 'types/user'
 import { getFormData } from 'utils/form'
 
 interface AdminFormField {
   [key: string]: string
-}
-
-interface UserClaim {
-  provider: string
-  providers: string[]
-  user_role?: 'auditor' | 'viewer'
-  claims_admin?: boolean
 }
 
 definePageMeta({

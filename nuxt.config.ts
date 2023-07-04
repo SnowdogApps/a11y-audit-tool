@@ -43,4 +43,7 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  runtimeConfig: {
+    glApiToken: process.env.NITRO_GL_AUTH_TOKEN,
+  },
 })
