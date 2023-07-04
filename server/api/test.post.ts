@@ -2,6 +2,7 @@ import { defineEventHandler, createError } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
 import type { Database } from 'types/supabase'
 import type { UserClaim } from 'types/user'
+import type { AuditConfiguration } from 'types/audit'
 
 export default defineEventHandler(async (event) => {
   const { data: claims } = (await serverSupabaseClient<Database>(event).rpc(
@@ -16,9 +17,11 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { pages } = await readBody(event)
+  const body = await readBody<Database['public']['Tables']['audits']['Row']>(
+    event
+  )
 
-  if (!pages) {
+  if (!body?.config) {
     throw createError({
       message: 'Config is missing.',
       statusCode: 422,
@@ -26,11 +29,15 @@ export default defineEventHandler(async (event) => {
   }
 
   const { glApiToken } = useRuntimeConfig()
+  const config: AuditConfiguration = body.config
   const formData = new FormData()
 
   formData.append('ref', 'master')
   formData.append('token', glApiToken)
-  formData.append('variables[A11Y_PAGES]', JSON.stringify(pages))
+  formData.append('variables[A11Y_AUDIT_ID]', JSON.stringify(body.id))
+  formData.append('variables[A11Y_PAGES]', JSON.stringify(config.pages))
+  // @note: wait for the viewport to stabilize - Array<string | number[]>
+  // formData.append('variables[A11Y_VIEWPORTS]', JSON.stringify(config.viewport))
 
   // @note: temporary trigger address
   const resData = await $fetch(

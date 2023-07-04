@@ -85,17 +85,25 @@ const sendForm = handleSubmit(async (values) => {
       },
     }
 
-    const { error } = await supabase.from('audits').insert({
-      project_id: values.project,
-      profile_id: user?.value?.id || '',
-      status: 'draft',
-      config: form,
-      created_at: new Date().toLocaleDateString('en-US'),
-    })
+    const { data, error } = await supabase
+      .from('audits')
+      .insert({
+        project_id: values.project,
+        profile_id: user?.value?.id || '',
+        status: 'draft',
+        config: form,
+        created_at: new Date().toLocaleDateString('pl-PL'),
+      })
+      .select()
 
     if (error) {
       throw error
     }
+
+    await useFetch('/api/test', {
+      method: 'POST',
+      body: data,
+    })
 
     toast.add({
       severity: 'success',
