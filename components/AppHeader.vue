@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type Ref from 'vue'
+import type { User } from '@supabase/gotrue-js'
 import type { ProfileMenuLink as MenuLink } from '~/types/profile-menu-link'
 
 defineProps<{
@@ -36,7 +38,7 @@ const profileMenuList: MenuLink[] = [
 const isProfileMenuVisible = ref(false)
 
 const client = useSupabaseAuthClient()
-const user = useSupabaseUser()
+const user: Ref<User | null> = useSupabaseUser()
 
 const logout = async () => {
   await client.auth.signOut()
@@ -74,7 +76,7 @@ const logout = async () => {
     >
       <div class="p-2">
         <strong>Welcome</strong>
-        <p>{{ user.email }}</p>
+        <p>{{ user?.email }}</p>
         <ul class="mt-4 grid gap-4">
           <li
             v-for="{
