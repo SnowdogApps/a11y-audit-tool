@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           created_at: string
           id: number
+          config: Json
           issues: Json | null
           profile_id: string
           project_id: number
@@ -22,6 +23,7 @@ export interface Database {
         Insert: {
           created_at?: string
           id?: number
+          config?: Json
           issues?: Json | null
           profile_id: string
           project_id?: number
@@ -31,6 +33,7 @@ export interface Database {
         Update: {
           created_at?: string
           id?: number
+          config?: Json
           issues?: Json | null
           profile_id?: string
           project_id?: number
@@ -40,17 +43,14 @@ export interface Database {
       }
       profile_project: {
         Row: {
-          id: number
           profile_id: string
           project_id: number
         }
         Insert: {
-          id?: number
           profile_id: string
           project_id?: number
         }
         Update: {
-          id?: number
           profile_id?: string
           project_id?: number
         }
