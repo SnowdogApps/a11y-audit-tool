@@ -49,7 +49,6 @@ const getProfileProject = computed(() =>
     )
 
     return {
-      id: permission.id,
       email: user?.email,
       name: projectData?.name,
     }
