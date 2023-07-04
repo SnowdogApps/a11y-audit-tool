@@ -8,4 +8,5 @@ create table audits (
   status text,
   config JSON not null DEFAULT '{}'::json
   issues JSON DEFAULT '{}'::json
+  axe_results JSON DEFAULT '{}'::json
 );

@@ -88,7 +88,8 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 - `profile_id` (references public.profiles)
 - `project_id` (references public.projects)
 - `status` (`draft` or `completed`)
-- `issues` (as JSON data)
+- `issues` (optional, JSON data)
+- `axe_results` (optional, JSON data)
 
 2. `profiles` table columns:
 
