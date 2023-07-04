@@ -89,7 +89,7 @@ const sendForm = handleSubmit(async (values) => {
       project_id: values.project,
       profile_id: user?.value?.id || '',
       status: 'draft',
-      issues: form,
+      config: form,
       created_at: new Date().toLocaleDateString('en-US'),
     })
 

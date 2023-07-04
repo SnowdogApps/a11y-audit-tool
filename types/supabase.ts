@@ -1,3 +1,6 @@
+import type { User } from '@supabase/gotrue-js'
+import type { AuditConfiguration } from 'types/audit'
+
 export type Json =
   | string
   | number
@@ -13,7 +16,7 @@ export interface Database {
         Row: {
           created_at: string
           id: number
-          config: Json
+          config: AuditConfiguration | null
           issues: Json | null
           profile_id: string
           project_id: number
@@ -23,7 +26,7 @@ export interface Database {
         Insert: {
           created_at?: string
           id?: number
-          config?: Json
+          config?: AuditConfiguration
           issues?: Json | null
           profile_id: string
           project_id?: number
@@ -33,7 +36,7 @@ export interface Database {
         Update: {
           created_at?: string
           id?: number
-          config?: Json
+          config?: AuditConfiguration
           issues?: Json | null
           profile_id?: string
           project_id?: number
