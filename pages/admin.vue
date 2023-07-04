@@ -65,7 +65,7 @@ async function fetchProfiles() {
   }>('/api/users')
   const { data } = await supabase.from('profiles').select('*')
 
-  authData.value = authUsers.value.users || []
+  authData.value = authUsers.value?.users || []
   profiles.value = data || []
 }
 
