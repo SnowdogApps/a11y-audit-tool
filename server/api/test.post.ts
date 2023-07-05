@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const { glApiToken } = useRuntimeConfig()
-  const config: AuditConfiguration = body.config
+  const config = body.config as unknown as AuditConfiguration
   const formData = new FormData()
 
   formData.append('ref', 'master')
