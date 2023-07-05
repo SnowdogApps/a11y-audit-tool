@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { TreeNode } from 'primevue/tree'
 import { useConfirm } from 'primevue/useconfirm'
-import type { Database } from 'types/supabase'
+import type { ProfileProject } from 'types/supabase'
 
 const confirm = useConfirm()
 const props = defineProps<{
-  profilesToProjects: Database['public']['Tables']['profile_project']['Row'][]
+  profilesToProjects: ProfileProject[]
   isLoading: boolean
 }>()
 
@@ -24,13 +25,14 @@ const emit = defineEmits<{
   (e: 'remove', id: number): void
 }>()
 
-const nodes = ref([])
-nodes.value = props.profilesToProjects.map((item) => ({
-  key: item.id,
-  data: {
-    ...item,
-  },
-}))
+const nodes = ref<TreeNode[]>([])
+nodes.value = props.profilesToProjects.map(
+  (item): TreeNode => ({
+    data: {
+      ...item,
+    },
+  })
+)
 </script>
 
 <template>

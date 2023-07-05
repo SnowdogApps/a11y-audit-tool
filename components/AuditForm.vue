@@ -1,8 +1,12 @@
 <script setup lang="ts">
+// (error as any) is intentional one used to eliminate ts error,
+// more info in https://github.com/logaretm/vee-validate/issues/3784
+
 import { useForm, useFieldArray } from 'vee-validate'
 import { useToast } from 'primevue/usetoast'
-import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
-import type { PostgrestError } from '@supabase/postgrest-js/dist/main/types'
+import type { InvalidSubmissionContext } from 'vee-validate'
+import type Ref from 'vue'
+import type { User } from '@supabase/gotrue-js'
 import type { Database } from 'types/supabase'
 
 import type { Page, AuditConfiguration } from 'types/audit'
@@ -41,11 +45,7 @@ const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
   }
 )
 
-const {
-  fields: pages,
-  push,
-  remove,
-}: Partial<FieldArrayContext> = useFieldArray('pages')
+const { fields, push, remove } = useFieldArray<Page>('pages')
 const title = useFieldModel('title')
 const project = useFieldModel('project')
 const width = useFieldModel('width')
@@ -54,7 +54,7 @@ const username = useFieldModel('username')
 const password = useFieldModel('password')
 
 const toast = useToast()
-const user = useSupabaseUser()
+const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
 
@@ -133,7 +133,7 @@ const sendForm = handleSubmit(async (values) => {
       >
         <AccordionTab header="Pages">
           <div
-            v-for="(page, index) in pages"
+            v-for="(page, index) in fields"
             :key="`page-${index}`"
             class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
@@ -148,15 +148,15 @@ const sendForm = handleSubmit(async (values) => {
                   :name="`pages[${index}].url`"
                   :class="[
                     {
-                      'p-invalid': errors[`pages[${index}].url`] && isSubmitted,
+                      'p-invalid': (errors as any)[`pages[${index}].url`] && isSubmitted,
                     },
                   ]"
                 />
                 <small
-                  v-if="errors[`pages[${index}].url`] && isSubmitted"
+                  v-if="(errors as any)[`pages[${index}].url`] && isSubmitted"
                   class="p-error mt-1"
                 >
-                  {{ errors[`pages[${index}].url`] as string }}
+                  {{ (errors as any)[`pages[${index}].url`] }}
                 </small>
               </div>
 

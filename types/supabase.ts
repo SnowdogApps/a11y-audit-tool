@@ -165,6 +165,15 @@ export interface Database {
 }
 
 type Profile = Database['public']['Tables']['profiles']['Row']
+type Project = Database['public']['Tables']['projects']['Row']
+export type ProfileProjectKeys =
+  Database['public']['Tables']['profile_project']['Row'][]
+
 export interface ProfileWithEmail extends Profile {
   email: string
+}
+
+export interface ProfileProject {
+  name: Project['name']
+  email: User['email']
 }

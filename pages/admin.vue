@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { User } from '@supabase/gotrue-js'
 import { useToast } from 'primevue/usetoast'
-import type { Database } from 'types/supabase'
+import type {
+  Database,
+  ProfileProject,
+  ProfileProjectKeys,
+  ProfileWithEmail,
+} from 'types/supabase'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
@@ -29,31 +34,33 @@ const profiles = ref<Database['public']['Tables']['profiles']['Row'][]>([])
 const authData = ref<User[]>([])
 const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
 
-const profileProject = ref<
-  Database['public']['Tables']['profile_project']['Row'][]
->([])
+const profileProject = ref<ProfileProjectKeys>([])
 
 const getAuthDataById = (id: string) =>
   authData.value.find((user) => user.id === id)
 
-const getUsersWithEmails = computed(() =>
-  profiles.value.map((profile) => ({
-    ...profile,
-    email: getAuthDataById(profile.id)?.email,
-  }))
+const getUsersWithEmails = computed((): ProfileWithEmail[] =>
+  profiles.value.map(
+    (profile): ProfileWithEmail => ({
+      ...profile,
+      email: getAuthDataById(profile.id)?.email || '',
+    })
+  )
 )
-const getProfileProject = computed(() =>
-  profileProject.value.map((permission) => {
-    const user = getAuthDataById(permission.profile_id)
-    const projectData = projects.value.find(
-      (project) => project.id === permission.project_id
-    )
+const getProfileProject = computed((): ProfileProject[] =>
+  profileProject.value.map(
+    ({ profile_id: profileId, project_id: projectId }): ProfileProject => {
+      const user = getAuthDataById(profileId)
+      const projectData = projects.value.find(
+        (project) => project.id === projectId
+      )
 
-    return {
-      email: user?.email,
-      name: projectData?.name,
+      return {
+        email: user?.email || '',
+        name: projectData?.name || '',
+      }
     }
-  })
+  )
 )
 
 async function fetchProfiles() {

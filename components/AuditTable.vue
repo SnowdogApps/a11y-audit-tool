@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TreeTableFilterMeta } from 'primevue/treetable'
 import type { Database } from 'types/supabase'
 
 const props = defineProps<{
@@ -14,7 +15,7 @@ onMounted(() => {
   }))
 })
 const nodes = ref()
-const filters = ref({})
+const filters = ref<TreeTableFilterMeta>({})
 </script>
 
 <template>
@@ -27,7 +28,7 @@ const filters = ref({})
         <div class="p-input-icon-left">
           <i class="pi pi-search" />
           <InputText
-            v-model="filters['global']"
+            v-model="filters['global'] as string"
             placeholder="Global Search"
           />
         </div>
@@ -45,7 +46,7 @@ const filters = ref({})
     >
       <template #filter>
         <InputText
-          v-model="filters['project']"
+          v-model="filters['project'] as string"
           type="text"
           class="p-column-filter"
           placeholder="Filter by project"
