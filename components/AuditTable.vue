@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TreeTableFilterMeta } from 'primevue/treetable'
+import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import type { Database } from 'types/supabase'
 
 const props = defineProps<{
@@ -15,7 +15,7 @@ onMounted(() => {
   }))
 })
 const nodes = ref()
-const filters = ref<TreeTableFilterMeta>({})
+const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const filters = ref<TreeTableFilterMeta>({})
         <div class="p-input-icon-left">
           <i class="pi pi-search" />
           <InputText
-            v-model="filters['global'] as string"
+            v-model="filters.global"
             placeholder="Global Search"
           />
         </div>
@@ -46,7 +46,7 @@ const filters = ref<TreeTableFilterMeta>({})
     >
       <template #filter>
         <InputText
-          v-model="filters['project'] as string"
+          v-model="filters.project"
           type="text"
           class="p-column-filter"
           placeholder="Filter by project"
