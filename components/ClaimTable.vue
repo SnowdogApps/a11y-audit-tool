@@ -25,13 +25,14 @@ const emit = defineEmits<{
   (e: 'remove', id: number): void
 }>()
 
-const nodes = ref<TreeNode[]>([])
-nodes.value = props.profilesToProjects.map(
-  (item): TreeNode => ({
-    data: {
-      ...item,
-    },
-  })
+const nodes = computed(() =>
+  props.profilesToProjects.map(
+    (item): TreeNode => ({
+      data: {
+        ...item,
+      },
+    })
+  )
 )
 </script>
 

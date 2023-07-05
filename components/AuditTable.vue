@@ -6,15 +6,14 @@ const props = defineProps<{
   audits: Database['public']['Tables']['audits']['Row'][]
 }>()
 
-onMounted(() => {
-  nodes.value = props.audits.map((audit) => ({
-    key: audit.id,
+const nodes = computed(() =>
+  props.audits.map((audit) => ({
     data: {
       ...audit,
     },
   }))
-})
-const nodes = ref()
+)
+
 const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
 </script>
 
