@@ -2,6 +2,7 @@
 import type { User } from '@supabase/gotrue-js'
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
   middleware: [
@@ -89,23 +90,28 @@ async function removeProfileFromProject(id: number) {
       .eq('id', id)
 
     if (error) {
-      throw error
+      if (isSupabaseError(error)) {
+        throw new SupabaseError(error)
+      }
+
+      throw new Error(error?.message || '')
     }
 
     fetchProjectProfile()
+
     toast.add({
       severity: 'success',
       summary: 'Permission deleted',
       life: 3000,
     })
   } catch (error) {
-    console.warn({ error })
-    toast.add({
-      severity: 'error',
-      summary: `There was an error`,
-      detail: `Error #${error.code} - ${error.message}`,
-      life: 3000,
-    })
+    const { $handleSupabaseError, $handleError } = useNuxtApp()
+
+    if (isSupabaseError(error)) {
+      $handleSupabaseError(error)
+    }
+
+    $handleError(error as Error)
   } finally {
     isLoading.value = false
   }

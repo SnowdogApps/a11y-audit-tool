@@ -2,6 +2,7 @@
 import type { Database } from 'types/supabase'
 import type { UserClaim } from 'types/user'
 import { getFormData } from 'utils/form'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 interface AdminFormField {
   [key: string]: string
@@ -54,7 +55,11 @@ async function addAudit(event: Event) {
       })
 
       if (error) {
-        throw error
+        if (isSupabaseError(error)) {
+          throw new SupabaseError(error)
+        }
+
+        throw new Error(error?.message || '')
       }
 
       await fetchAudits()
@@ -82,7 +87,11 @@ async function updateAudit(event: Event) {
         .eq('id', id)
 
       if (error) {
-        throw error
+        if (isSupabaseError(error)) {
+          throw new SupabaseError(error)
+        }
+
+        throw new Error(error?.message || '')
       }
 
       await fetchAudits()

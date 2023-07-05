@@ -8,6 +8,7 @@ import type { Database } from 'types/supabase'
 import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 interface InitialValues {
   height: number
@@ -94,7 +95,11 @@ const sendForm = handleSubmit(async (values) => {
     })
 
     if (error) {
-      throw error
+      if (isSupabaseError(error)) {
+        throw new SupabaseError(error)
+      }
+
+      throw new Error(error?.message || '')
     }
 
     toast.add({
@@ -105,15 +110,13 @@ const sendForm = handleSubmit(async (values) => {
 
     resetForm()
   } catch (error) {
-    if ('details' in error) {
-      console.warn({ error })
-      toast.add({
-        severity: 'error',
-        summary: `There was an error`,
-        detail: `Error #${error.code} - ${error.message}`,
-        life: 3000,
-      })
+    const { $handleSupabaseError, $handleError } = useNuxtApp()
+
+    if (isSupabaseError(error)) {
+      $handleSupabaseError(error)
     }
+
+    $handleError(error as Error)
   } finally {
     isLoading.value = false
   }

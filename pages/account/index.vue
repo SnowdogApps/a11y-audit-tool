@@ -4,6 +4,7 @@ import { useForm } from 'vee-validate'
 import { accountFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import type { Database } from 'types/supabase'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
   middleware: 'auth',
@@ -82,11 +83,21 @@ const updateProfile = handleSubmit(async (values) => {
         .eq('id', user.value.id)
 
       if (error) {
-        throw error
+        if (isSupabaseError(error)) {
+          throw new SupabaseError(error)
+        }
+
+        throw new Error(error?.message || '')
       }
     }
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    const { $handleSupabaseError, $handleError } = useNuxtApp()
+
+    if (isSupabaseError(error)) {
+      $handleSupabaseError(error)
+    }
+
+    $handleError(error as Error)
   } finally {
     isLoading.value = false
   }
