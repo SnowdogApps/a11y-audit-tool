@@ -6,7 +6,7 @@ import type {
   ProfileProject,
   ProfileProjectKeys,
   ProfileWithEmail,
-} from 'types/supabase'
+} from 'types/user'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({

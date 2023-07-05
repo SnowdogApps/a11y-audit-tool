@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TreeNode } from 'primevue/tree'
 import { useConfirm } from 'primevue/useconfirm'
-import type { ProfileProject } from 'types/supabase'
+import type { ProfileProject } from 'types/user'
 
 const confirm = useConfirm()
 const props = defineProps<{

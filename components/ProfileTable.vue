@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProfileWithEmail } from 'types/supabase'
+import type { ProfileWithEmail } from 'types/user'
 
 const props = defineProps<{
   profiles: ProfileWithEmail[]
