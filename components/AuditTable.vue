@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import type { Database } from 'types/supabase'
 
 const props = defineProps<{
   audits: Database['public']['Tables']['audits']['Row'][]
 }>()
 
-onMounted(() => {
-  nodes.value = props.audits.map((audit) => ({
-    key: audit.id,
+const nodes = computed(() =>
+  props.audits.map((audit) => ({
     data: {
       ...audit,
     },
   }))
-})
-const nodes = ref()
-const filters = ref({})
+)
+
+const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const filters = ref({})
         <div class="p-input-icon-left">
           <i class="pi pi-search" />
           <InputText
-            v-model="filters['global']"
+            v-model="filters.global"
             placeholder="Global Search"
           />
         </div>
@@ -45,7 +45,7 @@ const filters = ref({})
     >
       <template #filter>
         <InputText
-          v-model="filters['project']"
+          v-model="filters.project"
           type="text"
           class="p-column-filter"
           placeholder="Filter by project"

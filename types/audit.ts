@@ -3,10 +3,7 @@ export interface Page {
   url: string
 }
 
-interface Viewport {
-  height: number
-  width: number
-}
+export type Viewport = string | [number, number]
 
 export interface AuditConfiguration {
   basicAuth: {
@@ -15,5 +12,5 @@ export interface AuditConfiguration {
   }
   pages: Page[]
   title: string
-  viewport: Viewport
+  viewports: Viewport[]
 }

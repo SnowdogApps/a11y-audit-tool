@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { ProfileWithEmail } from 'types/supabase'
+import type { ProfileWithEmail } from 'types/user'
 
 const props = defineProps<{
   profiles: ProfileWithEmail[]
 }>()
 
-onMounted(() => {
-  nodes.value = props.profiles.map((profile) => ({
-    key: profile.id,
+const nodes = computed(() =>
+  props.profiles.map((profile) => ({
     data: {
       ...profile,
       name: `${profile.email} ${
@@ -15,9 +14,7 @@ onMounted(() => {
       }`,
     },
   }))
-})
-
-const nodes = ref()
+)
 </script>
 
 <template>

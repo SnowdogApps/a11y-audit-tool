@@ -1,22 +1,27 @@
 <script setup lang="ts">
+// (error as any) is intentional one used to eliminate ts error,
+// more info in https://github.com/logaretm/vee-validate/issues/3784
+
 import { useForm, useFieldArray } from 'vee-validate'
 import { useToast } from 'primevue/usetoast'
-import type { InvalidSubmissionContext, FieldArrayContext } from 'vee-validate'
-import type { PostgrestError } from '@supabase/postgrest-js/dist/main/types'
-import type { Database } from 'types/supabase'
+import type { InvalidSubmissionContext } from 'vee-validate'
+import type Ref from 'vue'
+import type { User } from '@supabase/gotrue-js'
+import type { Database, Json } from 'types/supabase'
 
-import type { Page, AuditConfiguration } from 'types/audit'
+import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
+import { availableViewports, defaultViewports } from '~/data/viewports'
 
 interface InitialValues {
-  height: number
   pages: Page[]
   password: string
+  project: number | undefined
   title: string
   username: string
-  width: number
-  project?: number
+  viewports: string[]
 }
 
 const initialValues: InitialValues = {
@@ -26,11 +31,11 @@ const initialValues: InitialValues = {
       url: '',
     },
   ],
-  title: '',
-  username: '',
   password: '',
-  height: 600,
-  width: 800,
+  title: '',
+  project: undefined,
+  username: '',
+  viewports: defaultViewports.map((item) => item.name),
 }
 
 const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
@@ -40,20 +45,15 @@ const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
   }
 )
 
-const {
-  fields: pages,
-  push,
-  remove,
-}: Partial<FieldArrayContext> = useFieldArray('pages')
+const { fields, push, remove } = useFieldArray<Page>('pages')
 const title = useFieldModel('title')
 const project = useFieldModel('project')
-const width = useFieldModel('width')
-const height = useFieldModel('height')
 const username = useFieldModel('username')
 const password = useFieldModel('password')
+const viewports = useFieldModel('viewports')
 
 const toast = useToast()
-const user = useSupabaseUser()
+const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
 
@@ -72,18 +72,15 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const form: AuditConfiguration = {
+    const form = {
       basicAuth: {
         password: values?.password || '',
         username: values?.username || '',
       },
-      pages: values.pages,
+      pages: values.pages as unknown as Json,
       title: values.title,
-      viewport: {
-        height: values?.height || 600,
-        width: values?.width || 800,
-      },
-    }
+      viewports: values.viewports,
+    } as unknown as Json
 
     const { data, error } = await supabase
       .from('audits')
@@ -97,7 +94,11 @@ const sendForm = handleSubmit(async (values) => {
       .select()
 
     if (error) {
-      throw error
+      if (isSupabaseError(error)) {
+        throw new SupabaseError(error)
+      }
+
+      throw new Error(error?.message || '')
     }
 
     await useFetch('/api/test', {
@@ -113,15 +114,13 @@ const sendForm = handleSubmit(async (values) => {
 
     resetForm()
   } catch (error) {
-    if ('details' in error) {
-      console.warn({ error })
-      toast.add({
-        severity: 'error',
-        summary: `There was an error`,
-        detail: `Error #${error.code} - ${error.message}`,
-        life: 3000,
-      })
+    const { $handleSupabaseError, $handleError } = useNuxtApp()
+
+    if (isSupabaseError(error)) {
+      $handleSupabaseError(error)
     }
+
+    $handleError(error as Error)
   } finally {
     isLoading.value = false
   }
@@ -138,7 +137,7 @@ const sendForm = handleSubmit(async (values) => {
       >
         <AccordionTab header="Pages">
           <div
-            v-for="(page, index) in pages"
+            v-for="(page, index) in fields"
             :key="`page-${index}`"
             class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
@@ -153,15 +152,15 @@ const sendForm = handleSubmit(async (values) => {
                   :name="`pages[${index}].url`"
                   :class="[
                     {
-                      'p-invalid': errors[`pages[${index}].url`] && isSubmitted,
+                      'p-invalid': (errors as any)[`pages[${index}].url`] && isSubmitted,
                     },
                   ]"
                 />
                 <small
-                  v-if="errors[`pages[${index}].url`] && isSubmitted"
+                  v-if="(errors as any)[`pages[${index}].url`] && isSubmitted"
                   class="p-error mt-1"
                 >
-                  {{ errors[`pages[${index}].url`] as string }}
+                  {{ (errors as any)[`pages[${index}].url`] }}
                 </small>
               </div>
 
@@ -253,29 +252,30 @@ const sendForm = handleSubmit(async (values) => {
           </div>
         </AccordionTab>
         <AccordionTab header="Axe configuration">
-          <div class="grid gap-6 md:grid-rows-3 md:gap-4">
-            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
-              <div class="w-full">
-                <label for="viewport-width">Viewport width</label>
-                <InputNumber
-                  v-model="width"
-                  input-id="viewport-width"
-                  class="w-full"
-                  data-testid="audit-viewport-width-field"
-                  name="viewport-width"
-                />
-              </div>
-
-              <div class="w-full">
-                <label for="viewport-height">Viewport height</label>
-                <InputNumber
-                  v-model="height"
-                  input-id="viewport-height"
-                  class="w-full"
-                  data-testid="audit-viewport-height-field"
-                  name="viewport-height"
-                />
-              </div>
+          <div class="grid gap-6 md:grid-rows-2 md:gap-4">
+            <div class="grid gap-6 gap-x-8">
+              <label id="viewports">Viewports</label>
+              <MultiSelect
+                v-model="viewports"
+                aria-labelledby="viewports"
+                :options="availableViewports"
+                option-label="name"
+                option-value="name"
+                placeholder="Select Cities"
+                :max-selected-labels="3"
+                name="viewports"
+                :class="[{ 'p-invalid': errors.viewports && isSubmitted }]"
+              >
+                <template #option="slotProps">
+                  <div class="align-items-center flex">
+                    <div>
+                      {{ slotProps.option.name }} [{{
+                        slotProps.option.viewport.join(' x ')
+                      }}]
+                    </div>
+                  </div>
+                </template>
+              </MultiSelect>
             </div>
 
             <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">

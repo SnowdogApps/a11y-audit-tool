@@ -5,6 +5,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database } from 'types/supabase'
 import { displayFirstError } from 'utils/form'
 import { createProjectFormSchema } from 'validation/schema'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
   {
@@ -36,7 +37,11 @@ const createProject = handleSubmit(async ({ name, description }) => {
         .insert({ name, description })
 
       if (error) {
-        throw error
+        if (isSupabaseError(error)) {
+          throw new SupabaseError(error)
+        }
+
+        throw new Error(error?.message || '')
       }
 
       toast.add({
@@ -49,13 +54,13 @@ const createProject = handleSubmit(async ({ name, description }) => {
       emit('after-submit')
     }
   } catch (error) {
-    console.warn({ error })
-    toast.add({
-      severity: 'error',
-      summary: `There was an error`,
-      detail: `Error #${error.code} - ${error.message}`,
-      life: 3000,
-    })
+    const { $handleSupabaseError, $handleError } = useNuxtApp()
+
+    if (isSupabaseError(error)) {
+      $handleSupabaseError(error)
+    }
+
+    $handleError(error as Error)
   } finally {
     isLoading.value = false
   }

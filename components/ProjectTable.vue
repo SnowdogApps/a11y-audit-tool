@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import type { TreeNode } from 'primevue/tree'
 import type { Database } from 'types/supabase'
 
 const props = defineProps<{
   projects: Database['public']['Tables']['projects']['Row'][]
 }>()
 
-onMounted(() => {
-  nodes.value = props.projects.map((project) => ({
-    key: project.id,
-    data: {
-      ...project,
-    },
-  }))
-})
-
-const nodes = ref()
+const nodes = computed(() =>
+  props.projects.map(
+    (project): TreeNode => ({
+      data: {
+        ...project,
+      },
+    })
+  )
+)
 </script>
 
 <template>

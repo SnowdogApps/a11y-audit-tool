@@ -9,6 +9,7 @@ import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import Menu from 'primevue/menu'
+import MultiSelect from 'primevue/multiselect'
 import Password from 'primevue/password'
 import Sidebar from 'primevue/sidebar'
 import Toast from 'primevue/toast'
@@ -31,6 +32,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('InputNumber', InputNumber)
   nuxtApp.vueApp.component('InputText', InputText)
   nuxtApp.vueApp.component('Menu', Menu)
+  nuxtApp.vueApp.component('MultiSelect', MultiSelect)
   nuxtApp.vueApp.component('Password', Password)
   nuxtApp.vueApp.component('Sidebar', Sidebar)
   nuxtApp.vueApp.component('Toast', Toast)
