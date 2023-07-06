@@ -28,25 +28,19 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { glApiToken } = useRuntimeConfig()
+  const { multiverseApiUrl } = useRuntimeConfig().public
   const config = body.config as unknown as AuditConfiguration
   const formData = new FormData()
 
-  formData.append('ref', 'master')
-  formData.append('token', glApiToken)
   formData.append('variables[A11Y_AUDIT_ID]', JSON.stringify(body.id))
   formData.append('variables[A11Y_PAGES]', JSON.stringify(config.pages))
   // @note: wait for the viewport to stabilize - Array<string | number[]>
   // formData.append('variables[A11Y_VIEWPORTS]', JSON.stringify(config.viewport))
 
-  // @note: temporary trigger address
-  const resData = await $fetch(
-    'https://lab.snowdog.pro/api/v4/projects/3892/trigger/pipeline',
-    {
-      method: 'post',
-      body: formData,
-    }
-  )
+  const resData = await $fetch(`${multiverseApiUrl}/create`, {
+    method: 'post',
+    body: formData,
+  })
 
   return resData
 })
