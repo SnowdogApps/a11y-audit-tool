@@ -31,10 +31,9 @@ export const auditFormSchema = object({
   ),
   title: string().required(),
   project: number().required(),
-  width: string(),
-  height: string(),
   username: string(),
   password: string(),
+  viewports: array(string()).required().min(1),
 })
 
 export const accountFormSchema = object({

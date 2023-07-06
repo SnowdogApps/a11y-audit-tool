@@ -9,19 +9,19 @@ import type Ref from 'vue'
 import type { User } from '@supabase/gotrue-js'
 import type { Database, Json } from 'types/supabase'
 
-import type { Page, AuditConfiguration } from 'types/audit'
+import type { Page, Viewport, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
+import { availableViewports, defaultViewports } from '~/data/viewports'
 
 interface InitialValues {
-  height: number
   pages: Page[]
   password: string
+  project: number | undefined
   title: string
   username: string
-  width: number
-  project?: number
+  viewports: string[]
 }
 
 const initialValues: InitialValues = {
@@ -31,11 +31,11 @@ const initialValues: InitialValues = {
       url: '',
     },
   ],
-  title: '',
-  username: '',
   password: '',
-  height: 600,
-  width: 800,
+  title: '',
+  project: undefined,
+  username: '',
+  viewports: defaultViewports.map((item) => item.name),
 }
 
 const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
@@ -48,10 +48,9 @@ const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
 const { fields, push, remove } = useFieldArray<Page>('pages')
 const title = useFieldModel('title')
 const project = useFieldModel('project')
-const width = useFieldModel('width')
-const height = useFieldModel('height')
 const username = useFieldModel('username')
 const password = useFieldModel('password')
+const viewports = useFieldModel('viewports')
 
 const toast = useToast()
 const user: Ref<User | null> = useSupabaseUser()
@@ -80,10 +79,7 @@ const sendForm = handleSubmit(async (values) => {
       },
       pages: values.pages as unknown as Json,
       title: values.title,
-      viewport: {
-        height: values?.height || 600,
-        width: values?.width || 800,
-      },
+      viewports: values.viewports,
     } as unknown as Json
 
     const { error } = await supabase.from('audits').insert({
@@ -248,29 +244,30 @@ const sendForm = handleSubmit(async (values) => {
           </div>
         </AccordionTab>
         <AccordionTab header="Axe configuration">
-          <div class="grid gap-6 md:grid-rows-3 md:gap-4">
-            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
-              <div class="w-full">
-                <label for="viewport-width">Viewport width</label>
-                <InputNumber
-                  v-model="width"
-                  input-id="viewport-width"
-                  class="w-full"
-                  data-testid="audit-viewport-width-field"
-                  name="viewport-width"
-                />
-              </div>
-
-              <div class="w-full">
-                <label for="viewport-height">Viewport height</label>
-                <InputNumber
-                  v-model="height"
-                  input-id="viewport-height"
-                  class="w-full"
-                  data-testid="audit-viewport-height-field"
-                  name="viewport-height"
-                />
-              </div>
+          <div class="grid gap-6 md:grid-rows-2 md:gap-4">
+            <div class="grid gap-6 gap-x-8">
+              <label id="viewports">Viewports</label>
+              <MultiSelect
+                v-model="viewports"
+                aria-labelledby="viewports"
+                :options="availableViewports"
+                option-label="name"
+                option-value="name"
+                placeholder="Select Cities"
+                :max-selected-labels="3"
+                name="viewports"
+                :class="[{ 'p-invalid': errors.viewports && isSubmitted }]"
+              >
+                <template #option="slotProps">
+                  <div class="align-items-center flex">
+                    <div>
+                      {{ slotProps.option.name }} [{{
+                        slotProps.option.viewport.join(' x ')
+                      }}]
+                    </div>
+                  </div>
+                </template>
+              </MultiSelect>
             </div>
 
             <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
