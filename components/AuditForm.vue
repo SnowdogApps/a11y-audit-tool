@@ -9,7 +9,7 @@ import type Ref from 'vue'
 import type { User } from '@supabase/gotrue-js'
 import type { Database, Json } from 'types/supabase'
 
-import type { Page, Viewport, AuditConfiguration } from 'types/audit'
+import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
