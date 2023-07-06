@@ -3,7 +3,7 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
@@ -11,9 +11,10 @@ export interface Database {
     Tables: {
       audits: {
         Row: {
+          axe_results: Json | null
+          config: Json
           created_at: string
           id: number
-          config: Json
           issues: Json | null
           profile_id: string
           project_id: number
@@ -21,9 +22,10 @@ export interface Database {
           updated_at: string | null
         }
         Insert: {
+          axe_results?: Json | null
+          config?: Json
           created_at?: string
           id?: number
-          config?: Json
           issues?: Json | null
           profile_id: string
           project_id?: number
@@ -31,15 +33,30 @@ export interface Database {
           updated_at?: string | null
         }
         Update: {
+          axe_results?: Json | null
+          config?: Json
           created_at?: string
           id?: number
-          config?: Json
           issues?: Json | null
           profile_id?: string
           project_id?: number
           status?: string | null
           updated_at?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: 'audits_profile_id_fkey'
+            columns: ['profile_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'audits_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          }
+        ]
       }
       profile_project: {
         Row: {
@@ -48,12 +65,26 @@ export interface Database {
         }
         Insert: {
           profile_id: string
-          project_id?: number
+          project_id: number
         }
         Update: {
           profile_id?: string
           project_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: 'profile_project_profile_id_fkey'
+            columns: ['profile_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'profile_project_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          }
+        ]
       }
       profiles: {
         Row: {
@@ -80,6 +111,14 @@ export interface Database {
           user_type?: string | null
           username?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_id_fkey'
+            columns: ['id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
+        ]
       }
       projects: {
         Row: {
@@ -103,10 +142,36 @@ export interface Database {
           name?: string
           updated_at?: string | null
         }
+        Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      extended_audits: {
+        Row: {
+          created_at: string | null
+          id: number | null
+          issues: Json | null
+          profile_id: string | null
+          project: string | null
+          project_id: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'audits_profile_id_fkey'
+            columns: ['profile_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'audits_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          }
+        ]
+      }
     }
     Functions: {
       delete_claim: {
