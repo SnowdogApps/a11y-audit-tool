@@ -92,6 +92,7 @@ const sendForm = handleSubmit(async (values) => {
         created_at: new Date().toLocaleDateString('pl-PL'),
       })
       .select()
+      .single()
 
     if (error) {
       if (isSupabaseError(error)) {
