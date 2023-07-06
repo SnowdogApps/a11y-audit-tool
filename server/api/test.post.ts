@@ -32,10 +32,11 @@ export default defineEventHandler(async (event) => {
   const config = body.config as unknown as AuditConfiguration
   const formData = new FormData()
 
-  formData.append('variables[A11Y_AUDIT_ID]', JSON.stringify(body.id))
+  formData.append('variables[A11Y_AUDIT_ID]', String(body.id))
   formData.append('variables[A11Y_PAGES]', JSON.stringify(config.pages))
   // @note: wait for the viewport to stabilize - Array<string | number[]>
   // formData.append('variables[A11Y_VIEWPORTS]', JSON.stringify(config.viewport))
+  // formData.append('parallel', String(config.viewport.length))
 
   const resData = await $fetch(`${multiverseApiUrl}/create`, {
     method: 'post',
