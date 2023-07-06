@@ -7,7 +7,7 @@ import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext } from 'vee-validate'
 import type Ref from 'vue'
 import type { User } from '@supabase/gotrue-js'
-import type { Database } from 'types/supabase'
+import type { Database, Json } from 'types/supabase'
 
 import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
@@ -73,18 +73,18 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const form: AuditConfiguration = {
+    const form = {
       basicAuth: {
         password: values?.password || '',
         username: values?.username || '',
       },
-      pages: values.pages,
+      pages: values.pages as unknown as Json,
       title: values.title,
       viewport: {
         height: values?.height || 600,
         width: values?.width || 800,
       },
-    }
+    } as unknown as Json
 
     const { error } = await supabase.from('audits').insert({
       project_id: values.project,
