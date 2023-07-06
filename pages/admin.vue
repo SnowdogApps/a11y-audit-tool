@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { User } from '@supabase/gotrue-js'
 import { useToast } from 'primevue/usetoast'
+import type { Database } from 'types/supabase'
 import type {
-  Database,
   ProfileProject,
   ProfileProjectKeys,
   ProfileWithEmail,
