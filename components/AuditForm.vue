@@ -19,7 +19,7 @@ import { availableViewports, defaultViewports } from '~/data/viewports'
 interface InitialValues {
   pages: Page[]
   password: string
-  project: number | undefined
+  project?: number
   title: string
   username: string
   viewports: string[]
