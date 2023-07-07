@@ -26,21 +26,6 @@ export const customerMenuItems: MenuItem[] = [
       },
     ],
   },
-  {
-    label: 'Auth',
-    items: [
-      {
-        label: 'Login',
-        icon: PrimeIcons.SIGN_IN,
-        to: '/login',
-      },
-      {
-        label: 'Register',
-        icon: PrimeIcons.VERIFIED,
-        to: '/register',
-      },
-    ],
-  },
 ]
 
 export const auditorMenuItems: MenuItem[] = [
@@ -66,21 +51,6 @@ export const auditorMenuItems: MenuItem[] = [
         label: 'New',
         icon: PrimeIcons.PLUS,
         to: '/audit/new',
-      },
-    ],
-  },
-  {
-    label: 'Auth',
-    items: [
-      {
-        label: 'Login',
-        icon: PrimeIcons.SIGN_IN,
-        to: '/login',
-      },
-      {
-        label: 'Register',
-        icon: PrimeIcons.VERIFIED,
-        to: '/register',
       },
     ],
   },
@@ -124,21 +94,6 @@ export const adminMenuItems: MenuItem[] = [
         label: 'New',
         icon: PrimeIcons.PLUS,
         to: '/audit/new',
-      },
-    ],
-  },
-  {
-    label: 'Auth',
-    items: [
-      {
-        label: 'Login',
-        icon: PrimeIcons.SIGN_IN,
-        to: '/login',
-      },
-      {
-        label: 'Register',
-        icon: PrimeIcons.VERIFIED,
-        to: '/register',
       },
     ],
   },
