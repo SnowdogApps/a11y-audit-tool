@@ -16,18 +16,6 @@ const profileMenuList: MenuLink[] = [
     text: 'Profile',
     subtitle: 'Account details',
   },
-  // {
-  //   iconClasses: 'pi pi-money-bill text-xl text-primary',
-  //   url: '/account/billing',
-  //   text: 'Billing',
-  //   subtitle: 'Check your fees',
-  // },
-  // {
-  //   iconClasses: 'pi pi-cog text-xl text-primary',
-  //   url: '/account/settings',
-  //   text: 'Settings',
-  //   subtitle: 'Select preferences',
-  // },
   {
     iconClasses: 'pi pi-power-off text-xl text-primary',
     command: () => logout(),
