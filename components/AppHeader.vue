@@ -64,7 +64,9 @@ const logout = async () => {
     >
       <div class="p-2">
         <strong>Welcome</strong>
-        <p>{{ user?.email }}</p>
+        <p v-if="user?.email">
+          {{ user.email }}
+        </p>
         <ul class="mt-4 grid gap-4">
           <li
             v-for="{
