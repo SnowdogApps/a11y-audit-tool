@@ -31,7 +31,7 @@ const signIn = handleSubmit(async ({ email, password }) => {
   if (error) {
     toast.add({
       severity: 'error',
-      summary: error as string,
+      summary: error.message,
       life: 3000,
     })
   }
