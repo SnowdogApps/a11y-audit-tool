@@ -3,6 +3,7 @@ import { useForm } from 'vee-validate'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database, Json } from 'types/supabase'
+import type { Profile } from 'types/database'
 import { displayFirstError } from 'utils/form'
 import { editUserTypeFormSchema } from 'validation/schema'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
@@ -21,7 +22,7 @@ const toast = useToast()
 const isLoading = ref(false)
 
 defineProps<{
-  users: Database['public']['Tables']['profiles']['Row'][]
+  users: Profile[]
 }>()
 const emit = defineEmits<{ (e: 'after-submit'): void }>()
 

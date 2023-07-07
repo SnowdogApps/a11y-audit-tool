@@ -8,6 +8,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import type Ref from 'vue'
 import type { User } from '@supabase/gotrue-js'
 import type { Database, Json } from 'types/supabase'
+import type { Project } from 'types/database'
 
 import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
@@ -55,7 +56,7 @@ const viewports = useFieldModel('viewports')
 const toast = useToast()
 const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
-const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+const projects = ref<Project[]>([])
 
 if (user.value) {
   const { data: projectsData } = await supabase.from('projects').select('*')
