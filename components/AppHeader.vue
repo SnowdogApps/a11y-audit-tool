@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type Ref from 'vue'
 import type { User } from '@supabase/gotrue-js'
-import type { ProfileMenuLink as MenuLink } from '~/types/profile-menu-link'
+import type { ProfileMenuLink } from '~/types/profile-menu-link'
 
 defineProps<{
   isSideNavigationVisible: boolean
@@ -9,7 +9,7 @@ defineProps<{
 
 defineEmits<{ (e: 'toggle-main-menu'): void }>()
 
-const profileMenuList: MenuLink[] = [
+const profileMenuList: ProfileMenuLink[] = [
   {
     iconClasses: 'pi pi-user text-xl text-primary',
     url: '/account/',
@@ -78,13 +78,40 @@ const logout = async () => {
             } in profileMenuList"
             :key="`profile-menu-link-${text}`"
           >
-            <ProfileMenuLink
-              :icon-classes="iconClasses"
-              :url="url"
-              :text="text"
-              :subtitle="subtitle || ''"
-              :command="command || undefined"
-            />
+            <NuxtLink
+              v-if="url"
+              class="transition-duration-150 flex w-full items-center rounded border border-solid border-neutral-400 p-3 transition-colors hover:bg-neutral-100"
+              :to="url"
+            >
+              <span><i :class="iconClasses" /></span>
+              <div class="ml-3">
+                <span class="mb-2 font-semibold">{{ text }}</span>
+                <p
+                  v-if="subtitle"
+                  class="text-color-secondary m-0"
+                >
+                  {{ subtitle }}
+                </p>
+              </div>
+            </NuxtLink>
+
+            <Button
+              v-if="!url && command"
+              outlined
+              class="transition-duration-150 flex w-full items-center rounded border border-solid border-neutral-400 p-3 transition-colors hover:bg-neutral-100"
+              @click="command"
+            >
+              <span><i :class="iconClasses" /></span>
+              <div class="ml-3">
+                <span class="mb-2 font-semibold">{{ text }}</span>
+                <p
+                  v-if="subtitle"
+                  class="text-color-secondary m-0"
+                >
+                  {{ subtitle }}
+                </p>
+              </div>
+            </Button>
           </li>
         </ul>
       </div>
