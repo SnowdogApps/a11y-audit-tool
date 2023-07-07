@@ -36,7 +36,7 @@ export default defineNuxtPlugin(() => {
 
         toast.add({
           severity: 'error',
-          summary: `There was an error`,
+          summary: 'There was an error',
           detail: `Error #${error.code} - ${error.message}`,
           life: 3000,
         })
