@@ -82,7 +82,7 @@ const addProfileToProject = handleSubmit(async ({ profile, project }) => {
 
         <div class="mb-6 grid gap-3 md:grid-cols-2">
           <div>
-            <label for="profile_id"> User </label>
+            <label for="profile_id">User</label>
             <Dropdown
               id="profile_id"
               v-model="profile"
