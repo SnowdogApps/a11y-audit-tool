@@ -43,7 +43,7 @@ const signIn = handleSubmit(async ({ email, password }) => {
       life: 3000,
     })
 
-    await auth.getSession()
+    await auth.updateUser({ email: data.user.email })
   }
 }, onInvalidSubmit)
 
