@@ -31,20 +31,20 @@ onBeforeMount(async () => {
 
 <template>
   <div class="layout">
-    <main
+    <div
       class="layout-wrapper"
       :class="{
         'layout-wrapper--slim': isSideNavigationVisible,
       }"
     >
-      <div class="m-[32px_auto]">
-        <AppHeader
-          :is-side-navigation-visible="isSideNavigationVisible"
-          @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
-        />
+      <AppHeader
+        :is-side-navigation-visible="isSideNavigationVisible"
+        @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
+      />
+      <main>
         <slot />
-      </div>
-    </main>
+      </main>
+    </div>
 
     <AppSidebar
       :is-visible="isSideNavigationVisible"

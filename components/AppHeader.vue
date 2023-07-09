@@ -35,7 +35,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <div class="my-4 flex w-full items-center justify-between">
+  <header class="my-4 flex w-full items-center justify-between">
     <Button
       text
       rounded
@@ -116,5 +116,5 @@ const logout = async () => {
         </ul>
       </div>
     </Sidebar>
-  </div>
+  </header>
 </template>
