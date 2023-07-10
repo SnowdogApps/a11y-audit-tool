@@ -22,22 +22,20 @@ export const isSupabaseError = (error: unknown): error is SupabaseError => {
 export default defineNuxtPlugin(() => {
   return {
     provide: {
-      handleError: (error: Error) => {
+      handleError: (error: SupabaseError | Error) => {
         const toast = useToast()
+        console.warn({ error })
+
+        const summary =
+          'code' in error
+            ? `There was an error #${error.code}`
+            : 'There was an error'
+        const message = error.message || 'Oops, something went wrong'
 
         toast.add({
           severity: 'error',
-          summary: error.message || 'Oops, something went wrong',
-          life: 3000,
-        })
-      },
-      handleSupabaseError: (error: SupabaseError) => {
-        const toast = useToast()
-
-        toast.add({
-          severity: 'error',
-          summary: 'There was an error',
-          detail: `Error #${error.code} - ${error.message}`,
+          summary,
+          detail: message,
           life: 3000,
         })
       },
