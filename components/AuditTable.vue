@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
-import type { Database } from 'types/supabase'
+import type { Audit } from 'types/database'
 
 const props = defineProps<{
-  audits: Database['public']['Tables']['audits']['Row'][]
+  audits: Audit[]
 }>()
 
 const nodes = computed(() =>
