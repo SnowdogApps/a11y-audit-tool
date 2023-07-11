@@ -89,7 +89,6 @@ const sendForm = handleSubmit(async (values) => {
         profile_id: user?.value?.id || '',
         status: 'draft',
         config: form,
-        created_at: new Date().toLocaleDateString('pl-PL'),
       })
       .select()
       .single()
