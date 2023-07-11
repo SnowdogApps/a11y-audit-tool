@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Database } from 'types/supabase'
+import type { Audit } from 'types/database'
 import type { UserClaim } from 'types/user'
 
 definePageMeta({
@@ -9,7 +10,7 @@ definePageMeta({
 const user = useSupabaseUser()
 const client = useSupabaseAuthClient()
 const supabase = useSupabaseClient<Database>()
-const audits = ref<Database['public']['Tables']['audits']['Row'][]>([])
+const audits = ref<Audit[]>([])
 
 const { data: isAdmin } = await client.rpc('is_claims_admin')
 

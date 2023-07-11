@@ -1,6 +1,7 @@
 import { defineEventHandler, createError } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
 import type { Database } from 'types/supabase'
+import type { Audit } from 'types/database'
 import type { UserClaim } from 'types/user'
 import type { AuditConfiguration } from 'types/audit'
 
@@ -17,9 +18,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const body = await readBody<Database['public']['Tables']['audits']['Row']>(
-    event
-  )
+  const body = await readBody<Audit>(event)
 
   if (!body?.config) {
     throw createError({
