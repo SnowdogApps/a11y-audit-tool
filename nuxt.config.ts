@@ -39,6 +39,8 @@ export default defineNuxtConfig({
     strict: true,
   },
   runtimeConfig: {
-    glApiToken: process.env.NITRO_GL_AUTH_TOKEN,
+    public: {
+      multiverseApiUrl: process.env.MULTIVERSE_API_URL,
+    },
   },
 })

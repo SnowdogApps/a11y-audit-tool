@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Database } from 'types/supabase'
-import type { Project } from 'types/database'
+import type { Audit, Project } from 'types/database'
 import type { UserClaim } from 'types/user'
 import { getFormData } from 'utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
@@ -15,7 +15,7 @@ definePageMeta({
 
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
-const audits = ref<Database['public']['Tables']['audits']['Row'][]>([])
+const audits = ref<Audit[]>([])
 const projects = ref<Project[]>([])
 const isLoading = ref(false)
 

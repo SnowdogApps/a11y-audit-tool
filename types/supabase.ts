@@ -11,7 +11,6 @@ export interface Database {
     Tables: {
       audits: {
         Row: {
-          axe_results: Json | null
           config: Json
           created_at: string
           id: number
@@ -22,7 +21,6 @@ export interface Database {
           updated_at: string | null
         }
         Insert: {
-          axe_results?: Json | null
           config?: Json
           created_at?: string
           id?: number
@@ -33,7 +31,6 @@ export interface Database {
           updated_at?: string | null
         }
         Update: {
-          axe_results?: Json | null
           config?: Json
           created_at?: string
           id?: number
@@ -54,6 +51,40 @@ export interface Database {
             foreignKeyName: 'audits_project_id_fkey'
             columns: ['project_id']
             referencedRelation: 'projects'
+            referencedColumns: ['id']
+          }
+        ]
+      }
+      axe: {
+        Row: {
+          audit_id: number
+          created_at: string
+          id: number
+          results: Json
+        }
+        Insert: {
+          audit_id?: number
+          created_at?: string
+          id?: number
+          results?: Json
+        }
+        Update: {
+          audit_id?: number
+          created_at?: string
+          id?: number
+          results?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'axe_audit_id_fkey'
+            columns: ['audit_id']
+            referencedRelation: 'audits'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'axe_audit_id_fkey'
+            columns: ['audit_id']
+            referencedRelation: 'extended_audits'
             referencedColumns: ['id']
           }
         ]
