@@ -60,19 +60,19 @@ export interface Database {
           audit_id: number
           created_at: string
           id: number
-          results: Json | null
+          results: Json
         }
         Insert: {
           audit_id?: number
           created_at?: string
           id?: number
-          results?: Json | null
+          results?: Json
         }
         Update: {
           audit_id?: number
           created_at?: string
           id?: number
-          results?: Json | null
+          results?: Json
         }
         Relationships: [
           {
