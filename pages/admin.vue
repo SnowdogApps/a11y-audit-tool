@@ -2,11 +2,8 @@
 import type { User } from '@supabase/gotrue-js'
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
-import type {
-  ProfileProject,
-  ProfileProjectKeys,
-  ProfileWithEmail,
-} from 'types/user'
+import type { Project, Profile, ProfileProjectKeys } from 'types/database'
+import type { ProfileProject, ProfileWithEmail } from 'types/user'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
@@ -30,9 +27,9 @@ const supabase = useSupabaseClient<Database>()
 const toast = useToast()
 
 const isLoading = ref(false)
-const profiles = ref<Database['public']['Tables']['profiles']['Row'][]>([])
+const profiles = ref<Profile[]>([])
 const authData = ref<User[]>([])
-const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+const projects = ref<Project[]>([])
 
 const profileProject = ref<ProfileProjectKeys>([])
 
@@ -112,13 +109,9 @@ async function removeProfileFromProject(id: number) {
       life: 3000,
     })
   } catch (error) {
-    const { $handleSupabaseError, $handleError } = useNuxtApp()
+    const { $handleError } = useNuxtApp()
 
-    if (isSupabaseError(error)) {
-      $handleSupabaseError(error)
-    }
-
-    $handleError(error as Error)
+    $handleError(error as Error | SupabaseError)
   } finally {
     isLoading.value = false
   }

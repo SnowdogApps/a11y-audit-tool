@@ -91,13 +91,9 @@ const updateProfile = handleSubmit(async (values) => {
       }
     }
   } catch (error) {
-    const { $handleSupabaseError, $handleError } = useNuxtApp()
+    const { $handleError } = useNuxtApp()
 
-    if (isSupabaseError(error)) {
-      $handleSupabaseError(error)
-    }
-
-    $handleError(error as Error)
+    $handleError(error as Error | SupabaseError)
   } finally {
     isLoading.value = false
   }

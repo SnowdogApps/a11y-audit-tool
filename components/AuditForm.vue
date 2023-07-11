@@ -8,6 +8,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import type Ref from 'vue'
 import type { User } from '@supabase/gotrue-js'
 import type { Database, Json } from 'types/supabase'
+import type { Project } from 'types/database'
 
 import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
@@ -18,7 +19,7 @@ import { availableViewports, defaultViewports } from '~/data/viewports'
 interface InitialValues {
   pages: Page[]
   password: string
-  project: number | undefined
+  project?: number
   title: string
   username: string
   viewports: string[]
@@ -55,7 +56,7 @@ const viewports = useFieldModel('viewports')
 const toast = useToast()
 const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
-const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+const projects = ref<Project[]>([])
 
 if (user.value) {
   const { data: projectsData } = await supabase.from('projects').select('*')
@@ -114,13 +115,9 @@ const sendForm = handleSubmit(async (values) => {
 
     resetForm()
   } catch (error) {
-    const { $handleSupabaseError, $handleError } = useNuxtApp()
+    const { $handleError } = useNuxtApp()
 
-    if (isSupabaseError(error)) {
-      $handleSupabaseError(error)
-    }
-
-    $handleError(error as Error)
+    $handleError(error as Error | SupabaseError)
   } finally {
     isLoading.value = false
   }

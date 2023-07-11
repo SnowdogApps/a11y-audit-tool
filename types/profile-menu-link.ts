@@ -3,5 +3,5 @@ export interface ProfileMenuLink {
   url?: string
   text: string
   subtitle?: string
-  command?: ((payload: MouseEvent) => void) | undefined
+  command?: (payload: MouseEvent) => void
 }

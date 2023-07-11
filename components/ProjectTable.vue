@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TreeNode } from 'primevue/tree'
-import type { Database } from 'types/supabase'
+import type { Project } from 'types/database'
 
 const props = defineProps<{
-  projects: Database['public']['Tables']['projects']['Row'][]
+  projects: Project[]
 }>()
 
 const nodes = computed(() =>
