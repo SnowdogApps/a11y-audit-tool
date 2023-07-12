@@ -90,7 +90,6 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 - `status` (`draft` or `completed`)
 - `config` (optional, JSON data)
 - `issues` (optional, JSON data)
-- `axe` (optional, JSON data)
 
 2. `profiles` table columns:
 
