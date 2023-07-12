@@ -1,5 +1,5 @@
 import { object, string, array, number } from 'yup'
-import validationRules from '~/validation/rules'
+import validationRules from 'validation/rules'
 const { emailRule, passwordRule, passwordRepeatRule } = validationRules()
 
 export const signInSchema = object({
@@ -30,12 +30,31 @@ export const auditFormSchema = object({
     })
   ),
   title: string().required(),
-  resultsDir: string(),
-  client: number().required(),
-  auditor: number().required(),
-  reporter: string(),
-  width: string(),
-  height: string(),
+  project: number().required(),
   username: string(),
   password: string(),
+  viewports: array(string()).required().min(1),
+})
+
+export const accountFormSchema = object({
+  email: string().required(),
+  username: string().required(),
+  fullName: string().required(),
+  avatarUrl: string(),
+  userType: string(),
+})
+
+export const addProfileToProjectFormSchema = object({
+  profile: string().required(),
+  project: number().required(),
+})
+
+export const editUserTypeFormSchema = object({
+  user: string().required(),
+  userType: string().required(),
+})
+
+export const createProjectFormSchema = object({
+  name: string().required(),
+  description: string(),
 })

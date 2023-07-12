@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Database } from 'types/supabase'
+import type { Audit, Project } from 'types/database'
 import type { UserClaim } from 'types/user'
 import { getFormData } from 'utils/form'
+import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 interface AdminFormField {
   [key: string]: string
@@ -13,8 +15,8 @@ definePageMeta({
 
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
-const audits = ref<Database['public']['Tables']['audits']['Row'][]>([])
-const projects = ref<Database['public']['Tables']['projects']['Row'][]>([])
+const audits = ref<Audit[]>([])
+const projects = ref<Project[]>([])
 const isLoading = ref(false)
 
 const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
@@ -54,7 +56,11 @@ async function addAudit(event: Event) {
       })
 
       if (error) {
-        throw error
+        if (isSupabaseError(error)) {
+          throw new SupabaseError(error)
+        }
+
+        throw new Error(error?.message || '')
       }
 
       await fetchAudits()
@@ -82,7 +88,11 @@ async function updateAudit(event: Event) {
         .eq('id', id)
 
       if (error) {
-        throw error
+        if (isSupabaseError(error)) {
+          throw new SupabaseError(error)
+        }
+
+        throw new Error(error?.message || '')
       }
 
       await fetchAudits()

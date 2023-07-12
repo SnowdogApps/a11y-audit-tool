@@ -7,8 +7,8 @@
     <NuxtPage />
   </NuxtLayout>
 
-  <!--  <AppHeader v-if="user" />-->
-  <!--  <main>-->
-  <!--    <NuxtPage />-->
-  <!--  </main>-->
+  <ClientOnly>
+    <Toast />
+    <ConfirmDialog />
+  </ClientOnly>
 </template>

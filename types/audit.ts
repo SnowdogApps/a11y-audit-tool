@@ -1,27 +1,16 @@
-interface AxeConfig {
-  reporter: string
-}
-
 export interface Page {
   selector: string
   url: string
 }
 
-interface Viewport {
-  height: number
-  width: number
-}
+export type Viewport = string | [number, number]
 
-export interface AuditForm {
-  axeConfig: AxeConfig
+export interface AuditConfiguration {
   basicAuth: {
     password: string
     username: string
   }
   pages: Page[]
-  resultsDir: string
   title: string
-  viewport: Viewport
-  client: number
-  auditor: number
+  viewports: Viewport[]
 }

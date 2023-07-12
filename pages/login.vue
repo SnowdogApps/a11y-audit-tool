@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import type { InvalidSubmissionContext } from 'vee-validate'
-
 import { useForm } from 'vee-validate'
-import { signInSchema } from '~/validation/schema'
-import { displayFirstError } from '~/utils/form'
+import { useToast } from 'primevue/usetoast'
+import { displayFirstError } from 'utils/form'
+
+import { signInSchema } from 'validation/schema'
 
 definePageMeta({
   layout: 'simple',
 })
+const user = useSupabaseUser()
+const { auth } = useSupabaseAuthClient()
+const toast = useToast()
 
 const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
   validationSchema: signInSchema,
@@ -18,9 +22,36 @@ const { isSubmitted } = useValidation(submitCount)
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
 
-const signIn = handleSubmit(() => {
-  // TODO: send data to Supabase
+const signIn = handleSubmit(async ({ email, password }) => {
+  const { data, error } = await auth.signInWithPassword({
+    email,
+    password,
+  })
+
+  if (error) {
+    toast.add({
+      severity: 'error',
+      summary: error.message,
+      life: 3000,
+    })
+  }
+
+  if (data.user) {
+    toast.add({
+      severity: 'success',
+      summary: 'You successfully login',
+      life: 3000,
+    })
+
+    await auth.updateUser({ email: data.user.email })
+  }
 }, onInvalidSubmit)
+
+watchEffect(() => {
+  if (user.value) {
+    navigateTo('/')
+  }
+})
 </script>
 
 <template>

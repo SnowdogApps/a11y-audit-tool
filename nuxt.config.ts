@@ -12,13 +12,9 @@ export default defineNuxtConfig({
   alias: {
     types: resolve(__dirname, './types'),
     utils: resolve(__dirname, './utils'),
+    validation: resolve(__dirname, './validation'),
   },
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@pinia/nuxt',
-    'nuxt-svgo',
-    '@nuxtjs/supabase',
-  ],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo', '@nuxtjs/supabase'],
   css: [
     '~/assets/reset.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
@@ -43,6 +39,8 @@ export default defineNuxtConfig({
     strict: true,
   },
   runtimeConfig: {
-    glApiToken: process.env.NITRO_GL_AUTH_TOKEN,
+    public: {
+      multiverseApiUrl: process.env.MULTIVERSE_API_URL,
+    },
   },
 })
