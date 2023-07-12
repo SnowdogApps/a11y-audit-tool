@@ -88,6 +88,7 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 - `profile_id` (references public.profiles)
 - `project_id` (references public.projects)
 - `status` (`draft` or `completed`)
+- `config` (optional, JSON data)
 - `issues` (optional, JSON data)
 - `axe` (optional, JSON data)
 
@@ -108,9 +109,17 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 
 4. `profile_project` table columns:
 
-- `id`
 - `profile_id` (references public.profiles)
 - `project_id` (references public.projects)
+
+Primary key is on both columns `profile_id` and `project_id`
+
+5. `axe` table columns:
+
+- `id`
+- `created_at` (timestamp)
+- `audit_id` (references public.audits),
+- `results` (JSON data)
 
 #### Policy rules (RLS) per table
 
@@ -118,6 +127,7 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 2. `profiles` - can be created and updated by both `user` and `admin`
 3. `projects` - viewable for both `admin` and granted (added to `profile_project` table) users, only `admin` can insert/update projects
 4. `profile_project` - viewable for anyone, only `admin` can insert/delete permissions
+5. `axe` - viewable for anyone, only `admin` can delete results
 
 ### TypeScript db data types support
 
