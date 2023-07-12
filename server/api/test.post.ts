@@ -1,7 +1,9 @@
 import { defineEventHandler, createError } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
 import type { Database } from 'types/supabase'
+import type { Audit } from 'types/database'
 import type { UserClaim } from 'types/user'
+import type { AuditConfiguration } from 'types/audit'
 
 export default defineEventHandler(async (event) => {
   const { data: claims } = (await serverSupabaseClient<Database>(event).rpc(
@@ -16,30 +18,28 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { pages } = await readBody(event)
+  const body = await readBody<Audit>(event)
 
-  if (!pages) {
+  if (!body?.config) {
     throw createError({
       message: 'Config is missing.',
       statusCode: 422,
     })
   }
 
-  const { glApiToken } = useRuntimeConfig()
+  const { multiverseApiUrl } = useRuntimeConfig().public
+  const config = body.config as unknown as AuditConfiguration
   const formData = new FormData()
 
-  formData.append('ref', 'master')
-  formData.append('token', glApiToken)
-  formData.append('variables[A11Y_PAGES]', JSON.stringify(pages))
+  formData.append('variables[A11Y_AUDIT_ID]', String(body.id))
+  formData.append('variables[A11Y_PAGES]', JSON.stringify(config.pages))
+  formData.append('variables[A11Y_VIEWPORTS]', JSON.stringify(config.viewports))
+  formData.append('parallel', String(config.viewports.length))
 
-  // @note: temporary trigger address
-  const resData = await $fetch(
-    'https://lab.snowdog.pro/api/v4/projects/3892/trigger/pipeline',
-    {
-      method: 'post',
-      body: formData,
-    }
-  )
+  const resData = await $fetch(`${multiverseApiUrl}/create`, {
+    method: 'post',
+    body: formData,
+  })
 
   return resData
 })

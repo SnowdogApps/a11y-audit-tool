@@ -83,13 +83,16 @@ const sendForm = handleSubmit(async (values) => {
       viewports: values.viewports,
     } as unknown as Json
 
-    const { error } = await supabase.from('audits').insert({
-      project_id: values.project,
-      profile_id: user?.value?.id || '',
-      status: 'draft',
-      config: form,
-      created_at: new Date().toLocaleDateString('en-US'),
-    })
+    const { data, error } = await supabase
+      .from('audits')
+      .insert({
+        project_id: values.project,
+        profile_id: user?.value?.id || '',
+        status: 'draft',
+        config: form,
+      })
+      .select()
+      .single()
 
     if (error) {
       if (isSupabaseError(error)) {
@@ -99,13 +102,22 @@ const sendForm = handleSubmit(async (values) => {
       throw new Error(error?.message || '')
     }
 
+    const { error: apiTestError } = await useFetch('/api/test', {
+      method: 'POST',
+      body: data,
+    })
+
     toast.add({
-      severity: 'success',
-      summary: 'New audit successfully created',
+      severity: apiTestError ? 'error' : 'success',
+      summary: apiTestError
+        ? apiTestError.value?.message
+        : 'New audit successfully created',
       life: 3000,
     })
 
-    resetForm()
+    if (!apiTestError) {
+      resetForm()
+    }
   } catch (error) {
     const { $handleError } = useNuxtApp()
 

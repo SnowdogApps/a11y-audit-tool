@@ -1,0 +1,9 @@
+version: '3'
+# @todo: image to become more generic in future
+services:
+  multiverse:
+    image: lab.snowdog.pro:5555/accessibility/audit-tools/multiverse:master-53af4605-1688730568
+    env_file:
+      - .env.multiverse
+    ports:
+      - 8600:8080
