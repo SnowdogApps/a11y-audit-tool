@@ -122,7 +122,7 @@ Primary key is on both columns `profile_id` and `project_id`
 
 #### Policy rules (RLS) per table
 
-1. `audits` - viewable for both `admin` and granted (added to `profile_project` table) users, `user` with `auditor` role can insert audits and edit them while status is set to `draft`, `admin` user can insert, delete and update audits anytime
+1. `audits` - viewable for both `admin` and granted (added to `profile_project` table) users, **only** `user` with `auditor` role can insert audits and edit them while status is set to `draft`, only `admin` user can delete and update audits anytime
 2. `profiles` - can be created and updated by both `user` and `admin`
 3. `projects` - viewable for both `admin` and granted (added to `profile_project` table) users, only `admin` can insert/update projects
 4. `profile_project` - viewable for anyone, only `admin` can insert/delete permissions
