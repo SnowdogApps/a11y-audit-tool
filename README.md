@@ -32,6 +32,18 @@ Start the development server on `http://localhost:3000`
 pnpm dev
 ```
 
+### Multiverse instance
+
+Used to pass config to gitlab CI and run tests via cypress runner - parallel mode.
+
+When working on app locally you can both run multiverse service locally via docker or pass `BASIC_AUTH_USER` and `BASIC_AUTH_PASSWD` env to use already existing instance.
+
+Password is visible in 1password service - **A11Y** - **Audit App stage/test - basic auth**
+
+Services url (to be declared in `MULTIVERSE_API_URL` env):
+* http://127.0.0.1:8600 - when running via docker
+* https://a11y-multiverse.snowdog.dev - when running via existing instance
+
 ### Https configuration
 
 **Install `mkcert` on your system**. The installation instructions for macOS, Windows and Linux can be found in the mkcert [Github repository](https://github.com/FiloSottile/mkcert).
@@ -122,7 +134,7 @@ Primary key is on both columns `profile_id` and `project_id`
 
 #### Policy rules (RLS) per table
 
-1. `audits` - viewable for both `admin` and granted (added to `profile_project` table) users, `user` with `auditor` role can insert audits and edit them while status is set to `draft`, `admin` user can insert, delete and update audits anytime
+1. `audits` - viewable for both `admin` and granted (added to `profile_project` table) users, **only** `user` with `auditor` role can insert audits and edit them while status is set to `draft`, only `admin` user can delete and update audits anytime
 2. `profiles` - can be created and updated by both `user` and `admin`
 3. `projects` - viewable for both `admin` and granted (added to `profile_project` table) users, only `admin` can insert/update projects
 4. `profile_project` - viewable for anyone, only `admin` can insert/delete permissions
