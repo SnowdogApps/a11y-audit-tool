@@ -27,16 +27,29 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { multiverseApiUrl } = useRuntimeConfig().public
+  const { basicAuthUser, basicAuthPassed, multiverseApiUrl } =
+    useRuntimeConfig().public
   const config = body.config as unknown as AuditConfiguration
   const formData = new FormData()
+  const headers: { Authorization?: string } = {}
+
+  if (basicAuthUser && basicAuthPassed) {
+    headers.Authorization = `Basic ${Buffer.from(
+      `${basicAuthUser}:${basicAuthPassed}`
+    ).toString('base64')}`
+  }
 
   formData.append('variables[A11Y_AUDIT_ID]', String(body.id))
   formData.append('variables[A11Y_PAGES]', JSON.stringify(config.pages))
   formData.append('variables[A11Y_VIEWPORTS]', JSON.stringify(config.viewports))
+  formData.append(
+    'variables[A11Y_BASIC_AUTH]',
+    JSON.stringify(config.basicAuth)
+  )
   formData.append('parallel', String(config.viewports.length))
 
   const resData = await $fetch(`${multiverseApiUrl}/create`, {
+    headers,
     method: 'post',
     body: formData,
   })
