@@ -3,66 +3,66 @@
 
 export const categories = [
   {
-    category: 'Alternate version',
+    name: 'Alternate version',
   },
   {
-    category: 'Non-interference',
+    name: 'Non-interference',
   },
   {
-    category: '2 Autoplay/update',
+    name: '2 Autoplay/update',
   },
   {
-    category: '3 Flashing',
+    name: '3 Flashing',
   },
   {
-    category: '4 Keyboard/focus',
+    name: '4 Keyboard/focus',
   },
   {
-    category: '5 Forms',
+    name: '5 Forms',
   },
   {
-    category: '6 Links/buttons',
+    name: '6 Links/buttons',
   },
   {
-    category: '7 Images',
+    name: '7 Images',
   },
   {
-    category: '8 Adjustable time limits',
+    name: '8 Adjustable time limits',
   },
   {
-    category: '9 Repetitive Content',
+    name: '9 Repetitive Content',
   },
   {
-    category: '10 Content Structure',
+    name: '10 Content Structure',
   },
   {
-    category: '11 Language',
+    name: '11 Language',
   },
   {
-    category: '12 Page and Frame Titles',
+    name: '12 Page and Frame Titles',
   },
   {
-    category: '13 Sensory and Color',
+    name: '13 Sensory and Color',
   },
   {
-    category: '14 Tables',
+    name: '14 Tables',
   },
   {
-    category: '15 CSS',
+    name: '15 CSS',
   },
   {
-    category: '16 Audio/Video-Only',
+    name: '16 Audio/Video-Only',
   },
   {
-    category: "17 Sync'd Media",
+    name: "17 Sync'd Media",
   },
   {
-    category: '18 Resize Text',
+    name: '18 Resize Text',
   },
   {
-    category: '19 Multiple Ways',
+    name: '19 Multiple Ways',
   },
   {
-    category: '20 Parsing',
+    name: '20 Parsing',
   },
 ]
