@@ -8,32 +8,32 @@ defineProps<{
 
 <template>
   <div
-    v-for="(value, key) in test"
-    :key="key"
+    v-for="(testValue, testKey) in test"
+    :key="`test-${testKey}`"
   >
     <span class="mr-2 inline-block font-bold first-letter:uppercase">
-      {{ key.replace('_', ' ') }}:
+      {{ testKey.replace('_', ' ') }}:
     </span>
     <a
-      v-if="['helpUrl', 'url'].includes(key)"
-      :href="value"
+      v-if="['helpUrl', 'url'].includes(testKey)"
+      :href="testValue"
     >
-      {{ value }}
+      {{ testValue }}
     </a>
 
     <Tag
-      v-else-if="['type', 'level'].includes(key)"
-      :value="value"
+      v-else-if="['type', 'level'].includes(testKey)"
+      :value="testValue"
       severity="info"
       rounded
       class="text-xs tracking-wide"
     />
     <ul
-      v-else-if="key === 'references'"
+      v-else-if="testKey === 'references'"
       class="mb-2 ml-4"
     >
       <li
-        v-for="(ref, refIndex) in value"
+        v-for="(ref, refIndex) in testValue"
         :key="`reference-${refIndex}`"
       >
         <a :href="ref.url">
@@ -43,11 +43,11 @@ defineProps<{
     </ul>
 
     <ul
-      v-else-if="key === 'notes'"
+      v-else-if="testKey === 'notes'"
       class="ml-4"
     >
       <li
-        v-for="(note, noteIndex) in value"
+        v-for="(note, noteIndex) in testValue"
         :key="`note-${noteIndex}`"
         class="mb-4 border-b-2 py-2"
       >
@@ -66,20 +66,20 @@ defineProps<{
     </ul>
 
     <ul
-      v-else-if="key === 'special_cases'"
+      v-else-if="testKey === 'special_cases'"
       class="ml-4"
     >
       <li
-        v-for="(caseItem, caseIndex) in value"
+        v-for="(caseItem, caseIndex) in testValue"
         :key="`case-${caseIndex}`"
         class="mb-4 border-b-2 py-2"
       >
         <div
-          v-for="(prop, key) in caseItem"
-          :key="`case-prop-${key}`"
+          v-for="(prop, propKey) in caseItem"
+          :key="`case-prop-${propKey}`"
         >
           <span class="mr-4 inline-block font-bold first-letter:uppercase"
-            >{{ key }}:</span
+            >{{ propKey }}:</span
           >
           <span>
             {{ prop }}
@@ -89,18 +89,18 @@ defineProps<{
     </ul>
 
     <ul
-      v-else-if="key === 'axeTests'"
+      v-else-if="testKey === 'axeTests'"
       class="ml-4"
     >
       <li
-        v-for="(test, testIndex) in value"
+        v-for="(axeTest, testIndex) in testValue"
         :key="`axe-${testIndex}`"
         class="mb-4 border-b-2 py-2"
       >
-        <AxeResultView :test="test" />
+        <AxeResultView :test="axeTest" />
       </li>
     </ul>
 
-    <span v-else>{{ value || 'n/a' }}</span>
+    <span v-else>{{ testValue || 'n/a' }}</span>
   </div>
 </template>
