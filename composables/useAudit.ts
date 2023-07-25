@@ -6,9 +6,18 @@ import { wcagSuccessCriteria } from '~/data/wcagSuccessCriteria'
 export function useAudit(axeResults) {
   const results = toValue(axeResults)
   const audit = ref({
-    wcagCoveredByTrustedTest: [],
-    wcagNotCover: [],
-    axeAdditional: [],
+    wcagCoveredByTrustedTest: {
+      name: 'WCAG SCs cover by TT',
+      tests: [],
+    },
+    wcagNotCover: {
+      name: 'WCAG SCs not cover',
+      tests: [],
+    },
+    axeAdditional: {
+      name: 'Axe additional',
+      tests: [],
+    },
   })
 
   const regexpAxe = /^wcag/
@@ -18,14 +27,6 @@ export function useAudit(axeResults) {
   let wcagNotCoverWithTT = []
   let wcagNotTTCoverWithAxe = []
   let axeNotWcag = []
-  const wcagNotCover = {
-    name: 'WCAG SCs not cover',
-    tests: [],
-  }
-  const axeBestPractices = {
-    name: 'Axe best practices',
-    tests: [],
-  }
 
   const flattenAxeResults = (results) => {
     const inapplicableResults = getResultsByType(results, 'inapplicable')
@@ -121,7 +122,7 @@ export function useAudit(axeResults) {
     return category
   })
 
-  audit.value.wcagCoveredByTrustedTest = trustedTestByCategories
+  audit.value.wcagCoveredByTrustedTest.tests = trustedTestByCategories
 
   const coveredWCAGsWithTrustedTestSet = new Set()
   trustedTestByCategories.forEach((category) => {
@@ -156,15 +157,13 @@ export function useAudit(axeResults) {
     return el
   })
 
-  wcagNotCover.tests = wcagNotTTCoverWithAxe
-  audit.value.wcagNotCover = wcagNotCover
+  audit.value.wcagNotCover.tests = wcagNotTTCoverWithAxe
 
   axeNotWcag = flattedResults.filter(
     (result) => !result.tags.some((item) => regexpAxe.test(item))
   )
 
-  axeBestPractices.tests = axeNotWcag
-  audit.value.axeAdditional = axeBestPractices
+  audit.value.axeAdditional.tests = axeNotWcag
 
   return {
     audit,

@@ -39,10 +39,39 @@ axeResultByPages.value.forEach((page) => {
       <Accordion v-if="auditsByPage.length">
         <template
           v-for="(page, index) in auditsByPage"
-          :key="`page-${index}`"
+          :key="`auditPage-${index}`"
         >
           <AccordionTab :header="page.url">
-            <pre>{{ page.resultTypesCount }}</pre>
+            <template v-if="page.audit">
+              <TabView>
+                <TabPanel
+                  v-for="(type, typeIndex) in page.audit"
+                  :key="`type-${typeIndex}`"
+                  :header="type.name"
+                >
+                  <div
+                    v-for="(test, testIndex) in type.tests"
+                    :key="`test-${testIndex}`"
+                    class="border-b-2 py-2"
+                  >
+                    <CoverByTTResultView
+                      v-if="typeIndex === 'wcagCoveredByTrustedTest'"
+                      :test="test"
+                    />
+
+                    <NotCoverResultView
+                      v-if="typeIndex === 'wcagNotCover'"
+                      :test="test"
+                    />
+
+                    <AxeResultView
+                      v-if="typeIndex === 'axeAdditional'"
+                      :test="test"
+                    />
+                  </div>
+                </TabPanel>
+              </TabView>
+            </template>
           </AccordionTab>
         </template>
       </Accordion>
