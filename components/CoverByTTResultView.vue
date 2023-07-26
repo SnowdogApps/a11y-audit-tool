@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import AxeResultView from '~/components/AxeResultView.vue'
-
 defineProps<{
   test: Record<string, string | unknown>
 }>()
@@ -9,34 +7,36 @@ defineProps<{
 <template>
   <h2>Category: {{ test.name }}</h2>
   <div>WCAG 508 SC: {{ [...test.wcag508SC].join(', ') }}</div>
+  <ResultForm :test="test" />
+
   <div
     v-for="(trustedTest, trustedTestIndex) in test.trustedTests"
     :key="`tt-${trustedTestIndex}`"
     class="mb-4 border-b-2 py-2"
   >
     <div
-      v-for="(value, key) in trustedTest"
-      :key="key"
+      v-for="(tTValue, tTKey) in trustedTest"
+      :key="tTKey"
     >
       <span class="mr-2 inline-block font-bold first-letter:uppercase">
-        {{ key.replace('_', ' ') }}:
+        {{ tTKey.replace('_', ' ') }}:
       </span>
 
       <Tag
-        v-if="['type', 'level', 'TestID'].includes(key)"
-        :value="value"
+        v-if="['type', 'level', 'TestID'].includes(tTKey)"
+        :value="tTValue"
         severity="info"
         rounded
         class="text-xs tracking-wider"
       />
 
-      <template v-else-if="key === 'filteredResultsByWcagSC'">
+      <template v-else-if="tTKey === 'filteredResultsByWcagSC'">
         <ul
-          v-if="value.length"
+          v-if="tTValue.length"
           class="ml-4"
         >
           <li
-            v-for="(filteredTest, testIndex) in value"
+            v-for="(filteredTest, testIndex) in tTValue"
             :key="`axe-${testIndex}`"
             class="mb-4 border-b-2 py-2"
           >
@@ -46,13 +46,13 @@ defineProps<{
         <span v-else>empty</span>
       </template>
 
-      <template v-else-if="key === 'filteredResultsByTT'">
+      <template v-else-if="tTKey === 'filteredResultsByTT'">
         <ul
-          v-if="value.length"
+          v-if="tTValue.length"
           class="ml-4"
         >
           <li
-            v-for="(filteredTest, testIndex) in value"
+            v-for="(filteredTest, testIndex) in tTValue"
             :key="`axe-${testIndex}`"
             class="mb-4 border-b-2 py-2"
           >
@@ -62,7 +62,7 @@ defineProps<{
         <span v-else>empty</span>
       </template>
 
-      <span v-else>{{ value || 'n/a' }}</span>
+      <span v-else>{{ tTValue || 'n/a' }}</span>
     </div>
   </div>
 </template>

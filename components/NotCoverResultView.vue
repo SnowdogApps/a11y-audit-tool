@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import AxeResultView from '~/components/AxeResultView.vue'
-
 defineProps<{
   test: Record<string, string | unknown>
 }>()
@@ -52,14 +50,14 @@ defineProps<{
         class="mb-4 border-b-2 py-2"
       >
         <div
-          v-for="(prop, key) in note"
-          :key="`note-prop-${key}`"
+          v-for="(noteProp, noteKey) in note"
+          :key="`note-prop-${noteKey}`"
         >
           <span class="mr-2 inline-block font-bold first-letter:uppercase">
-            {{ key }}:
+            {{ noteKey }}:
           </span>
           <span>
-            {{ prop }}
+            {{ noteProp }}
           </span>
         </div>
       </li>
