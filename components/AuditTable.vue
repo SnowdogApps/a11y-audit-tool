@@ -60,16 +60,8 @@ const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
       <template #body="scope">
         <div class="inline-grid grid-cols-2 gap-2">
           <NuxtLink
-            class="p-button"
-            :to="`/audit/edit/${scope.node.data.id}`"
-            aria-label="Edit audit"
-            title="Edit audit"
-          >
-            <i class="pi pi-file-edit" />
-          </NuxtLink>
-          <NuxtLink
             class="p-button p-button-info"
-            :to="`/audit/results/${scope.node.data.id}`"
+            :to="`/audit/${scope.node.data.id}`"
             icon="pi pi-file-edit"
             aria-label="Results"
             title="Display results"
