@@ -1,7 +1,10 @@
 // TODO: Discuss about move this to supabase
 // Perfect for a11y tool settings
 
-export const categories = [
+const toCamelCase = (str: string): string =>
+  str.trim().replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
+
+const defaultCategories = [
   {
     name: 'Alternate version',
   },
@@ -66,3 +69,10 @@ export const categories = [
     name: '20 Parsing',
   },
 ]
+
+const categories = defaultCategories.map((category) => ({
+  ...category,
+  id: toCamelCase(category.name),
+}))
+
+export { categories }
