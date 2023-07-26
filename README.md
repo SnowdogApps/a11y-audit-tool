@@ -130,6 +130,8 @@ Primary key is on both columns `profile_id` and `project_id`
 - `id`
 - `created_at` (timestamp)
 - `audit_id` (references public.audits),
+- `selector` (text)
+- `size` (text)
 - `results` (JSON data)
 
 #### Policy rules (RLS) per table
