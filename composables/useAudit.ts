@@ -81,6 +81,14 @@ export function useAudit(axeResults) {
     return category.wcag508SC.add(test.CrtID)
   }
 
+  const addFormModel = (category) => {
+    return (category.form = {
+      testPass: false,
+      manualTestDesc: '',
+      fixesRecommendationDesc: '',
+    })
+  }
+
   const countResultTypes = () => ({
     inapplicable: results.inapplicable.length,
     incomplete: results.incomplete.length,
@@ -94,7 +102,10 @@ export function useAudit(axeResults) {
     const ttItems = filterTrustedTestsByCategory(category)
 
     if (ttItems.length) {
-      ttItems.forEach((test) => addTTCriteriaToCategory(category, test))
+      ttItems.forEach((test) => {
+        addTTCriteriaToCategory(category, test)
+        addFormModel(category)
+      })
 
       // assign axe to TT test
       const trustedTestsWithAxeResults = ttItems.map((ttElem) => {
@@ -158,6 +169,7 @@ export function useAudit(axeResults) {
   })
 
   audit.value.wcagNotCover.tests = wcagNotTTCoverWithAxe
+  addFormModel(audit.value.wcagNotCover)
 
   axeNotWcag = flattedResults.filter(
     (result) => !result.tags.some((item) => regexpAxe.test(item))
