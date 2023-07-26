@@ -61,18 +61,24 @@ export interface Database {
           created_at: string
           id: number
           results: Json
+          selector: string | null
+          size: string | null
         }
         Insert: {
           audit_id?: number
           created_at?: string
           id?: number
           results?: Json
+          selector?: string | null
+          size?: string | null
         }
         Update: {
           audit_id?: number
           created_at?: string
           id?: number
           results?: Json
+          selector?: string | null
+          size?: string | null
         }
         Relationships: [
           {
