@@ -9,6 +9,7 @@ import type { SupabaseError } from '~/plugins/error'
 export function useAudit(axeResult?: unknown) {
   const toast = useToast()
   const isLoading = ref(false)
+  const results = toValue(axeResult?.results || [])
 
   const formData = ref(
     categories.slice().reduce((acc, category) => {
@@ -56,7 +57,6 @@ export function useAudit(axeResult?: unknown) {
     }
   }
 
-  const results = toValue(axeResult)
   const audit = ref({
     wcagCoveredByTrustedTest: {
       name: 'WCAG SCs cover by TT',
