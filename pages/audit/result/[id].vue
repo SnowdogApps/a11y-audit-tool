@@ -15,7 +15,7 @@ const { data: axeResult } = await supabase
   .eq('id', resultId)
   .single()
 
-const { audit } = useAudit(axeResult?.results)
+const { audit } = useAudit(axeResult)
 </script>
 
 <template>

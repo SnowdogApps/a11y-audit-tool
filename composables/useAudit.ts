@@ -3,7 +3,29 @@ import { trustedTests } from '~/data/trustedTests'
 import { categories } from '~/data/categories'
 import { wcagSuccessCriteria } from '~/data/wcagSuccessCriteria'
 
-export function useAudit(axeResults) {
+export function useAudit(axeResults?: unknown) {
+  const formData = ref(
+    categories.slice().reduce((acc, category) => {
+      const categoryId = category.id
+      return {
+        ...acc,
+        [categoryId]: {
+          testPass: false,
+          manualTestDescription: '',
+          recommendationDesc: '',
+        },
+      }
+    }, {})
+  )
+
+  const updateField = (
+    category: string,
+    field: string,
+    value: string | boolean
+  ) => {
+    formData.value[category][field] = value
+  }
+
   const results = toValue(axeResults)
   const audit = ref({
     wcagCoveredByTrustedTest: {
@@ -89,96 +111,92 @@ export function useAudit(axeResults) {
     })
   }
 
-  const countResultTypes = () => ({
-    inapplicable: results.inapplicable.length,
-    incomplete: results.incomplete.length,
-    passes: results.passes.length,
-    violations: results.violations.length,
-  })
+  if (axeResults) {
+    flattedResults = flattenAxeResults(results)
 
-  flattedResults = flattenAxeResults(results)
+    trustedTestByCategories = categories.map((category) => {
+      const ttItems = filterTrustedTestsByCategory(category)
 
-  trustedTestByCategories = categories.map((category) => {
-    const ttItems = filterTrustedTestsByCategory(category)
+      if (ttItems.length) {
+        ttItems.forEach((test) => {
+          addTTCriteriaToCategory(category, test)
+          addFormModel(category)
+        })
 
-    if (ttItems.length) {
-      ttItems.forEach((test) => {
-        addTTCriteriaToCategory(category, test)
-        addFormModel(category)
-      })
+        // assign axe to TT test
+        const trustedTestsWithAxeResults = ttItems.map((ttElem) => {
+          const filteredResultsByWcagSC = flattedResults.filter((result) =>
+            result.tags.includes(`wcag${ttElem.CrtID.replaceAll('.', '')}`)
+          )
 
-      // assign axe to TT test
-      const trustedTestsWithAxeResults = ttItems.map((ttElem) => {
-        const filteredResultsByWcagSC = flattedResults.filter((result) =>
-          result.tags.includes(`wcag${ttElem.CrtID.replaceAll('.', '')}`)
-        )
+          ttElem.filteredResultsByWcagSC = filteredResultsByWcagSC.length
+            ? filteredResultsByWcagSC
+            : []
 
-        ttElem.filteredResultsByWcagSC = filteredResultsByWcagSC.length
-          ? filteredResultsByWcagSC
-          : []
+          const filteredResultsByTT = flattedResults.filter((result) =>
+            result.tags.includes(`TT${ttElem.TestID.toLowerCase()}`)
+          )
 
-        const filteredResultsByTT = flattedResults.filter((result) =>
-          result.tags.includes(`TT${ttElem.TestID.toLowerCase()}`)
-        )
+          ttElem.filteredResultsByTT = filteredResultsByTT.length
+            ? filteredResultsByTT
+            : []
 
-        ttElem.filteredResultsByTT = filteredResultsByTT.length
-          ? filteredResultsByTT
-          : []
+          return ttElem
+        })
 
-        return ttElem
-      })
-
-      category.trustedTests = trustedTestsWithAxeResults
-    }
-    return category
-  })
-
-  audit.value.wcagCoveredByTrustedTest.tests = trustedTestByCategories
-
-  const coveredWCAGsWithTrustedTestSet = new Set()
-  trustedTestByCategories.forEach((category) => {
-    if (
-      category?.wcag508SC &&
-      ![...category.wcag508SC].includes('Requirements')
-    ) {
-      for (const wcagNumber of category.wcag508SC) {
-        coveredWCAGsWithTrustedTestSet.add(wcagNumber)
+        category.trustedTests = trustedTestsWithAxeResults
       }
-    }
-  })
+      return category
+    })
 
-  coveredWCAGsWithTrustedTest = [...coveredWCAGsWithTrustedTestSet].sort()
+    audit.value.wcagCoveredByTrustedTest.tests = trustedTestByCategories
 
-  // wcag not in TT tests
-  wcagNotCoverWithTT = wcagSuccessCriteria.filter(
-    (wcag) =>
-      ![...coveredWCAGsWithTrustedTest].includes(wcag.ref_id) &&
-      wcag.level !== 'AAA'
-  )
+    const coveredWCAGsWithTrustedTestSet = new Set()
+    trustedTestByCategories.forEach((category) => {
+      if (
+        category?.wcag508SC &&
+        ![...category.wcag508SC].includes('Requirements')
+      ) {
+        for (const wcagNumber of category.wcag508SC) {
+          coveredWCAGsWithTrustedTestSet.add(wcagNumber)
+        }
+      }
+    })
 
-  // wcag not cover with axe results
-  wcagNotTTCoverWithAxe = wcagNotCoverWithTT.map((el) => {
-    const axeItem = flattedResults.filter((result) =>
-      result.tags.includes(`wcag${el.ref_id.replaceAll('.', '')}`)
+    coveredWCAGsWithTrustedTest = [...coveredWCAGsWithTrustedTestSet].sort()
+
+    // wcag not in TT tests
+    wcagNotCoverWithTT = wcagSuccessCriteria.filter(
+      (wcag) =>
+        ![...coveredWCAGsWithTrustedTest].includes(wcag.ref_id) &&
+        wcag.level !== 'AAA'
     )
 
-    if (axeItem.length) {
-      el.axeTests = axeItem
-    }
-    return el
-  })
+    // wcag not cover with axe results
+    wcagNotTTCoverWithAxe = wcagNotCoverWithTT.map((el) => {
+      const axeItem = flattedResults.filter((result) =>
+        result.tags.includes(`wcag${el.ref_id.replaceAll('.', '')}`)
+      )
 
-  audit.value.wcagNotCover.tests = wcagNotTTCoverWithAxe
-  addFormModel(audit.value.wcagNotCover)
+      if (axeItem.length) {
+        el.axeTests = axeItem
+      }
+      return el
+    })
 
-  axeNotWcag = flattedResults.filter(
-    (result) => !result.tags.some((item) => regexpAxe.test(item))
-  )
+    audit.value.wcagNotCover.tests = wcagNotTTCoverWithAxe
+    addFormModel(audit.value.wcagNotCover)
 
-  audit.value.axeAdditional.tests = axeNotWcag
+    axeNotWcag = flattedResults.filter(
+      (result) => !result.tags.some((item) => regexpAxe.test(item))
+    )
+
+    audit.value.axeAdditional.tests = axeNotWcag
+  }
 
   return {
     audit,
-    resultTypesCount: countResultTypes(),
+    formData,
+    updateField,
   }
 }
