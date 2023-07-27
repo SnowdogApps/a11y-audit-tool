@@ -15,15 +15,27 @@ const { data: axeResult } = await supabase
   .eq('id', resultId)
   .single()
 
-const { audit } = useAudit(axeResult)
+const { audit, isLoading, formData, updateField, saveFormData } =
+  await useAudit(axeResult)
 </script>
 
 <template>
   <div class="grid grid-cols-1">
-    <h1>
-      Result of Audit #{{ axeResult.audit_id }} - {{ axeResult.results.url }}
-    </h1>
+    <div
+      class="flex flex-wrap py-2 sm:flex-nowrap sm:items-end sm:justify-between"
+    >
+      <h1 class="mb-2 sm:mb-0">
+        Result of Audit #{{ axeResult.audit_id }} - {{ axeResult.results.url }}
+      </h1>
 
+      <Button
+        :disabled="isLoading"
+        class="p-button w-full shrink justify-center sm:w-auto"
+        @click="saveFormData"
+      >
+        Save
+      </Button>
+    </div>
     <Card>
       <template #content>
         <ClientOnly>
@@ -38,15 +50,20 @@ const { audit } = useAudit(axeResult)
                 :key="`test-${testIndex}`"
                 class="border-b-2 py-2"
               >
-                <CoverByTTResultView
-                  v-if="typeIndex === 'wcagCoveredByTrustedTest'"
-                  :test="test"
-                />
+                <template v-if="typeIndex === 'wcagCoveredByTrustedTest'">
+                  <h2>Category: {{ test.name }}</h2>
+                  <div>WCAG 508 SC: {{ [...test.wcag508SC].join(', ') }}</div>
+                  <ResultForm
+                    :test="test"
+                    :form-data="formData"
+                    @update-field="(value) => updateField(value)"
+                  />
+                  <CoverByTTResultView :test="test" />
+                </template>
 
-                <NotCoverResultView
-                  v-if="typeIndex === 'wcagNotCover'"
-                  :test="test"
-                />
+                <template v-if="typeIndex === 'wcagNotCover'">
+                  <NotCoverResultView :test="test" />
+                </template>
 
                 <AxeResultView
                   v-if="typeIndex === 'axeAdditional'"

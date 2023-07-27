@@ -1,32 +1,62 @@
 import { ref, toValue } from 'vue'
+import { useToast } from 'primevue/usetoast'
 import { trustedTests } from '~/data/trustedTests'
 import { categories } from '~/data/categories'
 import { wcagSuccessCriteria } from '~/data/wcagSuccessCriteria'
+import type { Database } from 'types/supabase'
+import type { SupabaseError } from '~/plugins/error'
 
-export function useAudit(axeResults?: unknown) {
+export function useAudit(axeResult?: unknown) {
+  const toast = useToast()
+  const isLoading = ref(false)
+
   const formData = ref(
     categories.slice().reduce((acc, category) => {
       const categoryId = category.id
       return {
         ...acc,
         [categoryId]: {
-          testPass: false,
-          manualTestDescription: '',
-          recommendationDesc: '',
+          testPass: axeResult?.form_data[categoryId]?.testPass || false,
+          manualTestDesc:
+            axeResult?.form_data[categoryId]?.manualTestDesc || '',
+          recommendationDesc:
+            axeResult?.form_data[categoryId]?.recommendationDesc || '',
         },
       }
     }, {})
   )
 
-  const updateField = (
-    category: string,
-    field: string,
-    value: string | boolean
-  ) => {
+  const updateField = ({ category, field, value }) => {
     formData.value[category][field] = value
   }
 
-  const results = toValue(axeResults)
+  const saveFormData = async (event) => {
+    isLoading.value = true
+    const supabase = useSupabaseClient<Database>()
+
+    try {
+      const { data, error } = await supabase
+        .from('axe')
+        .update({ form_data: formData.value })
+        .eq('id', axeResult.id)
+        .select()
+      if (!error && data?.length === 1) {
+        toast.add({
+          severity: 'success',
+          summary: 'Successfully saved data',
+          life: 3000,
+        })
+      }
+    } catch (error) {
+      const { $handleError } = useNuxtApp()
+
+      $handleError(error as Error | SupabaseError)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const results = toValue(axeResult)
   const audit = ref({
     wcagCoveredByTrustedTest: {
       name: 'WCAG SCs cover by TT',
@@ -103,15 +133,7 @@ export function useAudit(axeResults?: unknown) {
     return category.wcag508SC.add(test.CrtID)
   }
 
-  const addFormModel = (category) => {
-    return (category.form = {
-      testPass: false,
-      manualTestDesc: '',
-      fixesRecommendationDesc: '',
-    })
-  }
-
-  if (axeResults) {
+  if (axeResult) {
     flattedResults = flattenAxeResults(results)
 
     trustedTestByCategories = categories.map((category) => {
@@ -120,7 +142,6 @@ export function useAudit(axeResults?: unknown) {
       if (ttItems.length) {
         ttItems.forEach((test) => {
           addTTCriteriaToCategory(category, test)
-          addFormModel(category)
         })
 
         // assign axe to TT test
@@ -185,7 +206,6 @@ export function useAudit(axeResults?: unknown) {
     })
 
     audit.value.wcagNotCover.tests = wcagNotTTCoverWithAxe
-    addFormModel(audit.value.wcagNotCover)
 
     axeNotWcag = flattedResults.filter(
       (result) => !result.tags.some((item) => regexpAxe.test(item))
@@ -197,6 +217,8 @@ export function useAudit(axeResults?: unknown) {
   return {
     audit,
     formData,
+    isLoading,
     updateField,
+    saveFormData,
   }
 }

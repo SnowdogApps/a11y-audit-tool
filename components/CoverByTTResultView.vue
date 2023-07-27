@@ -5,10 +5,6 @@ defineProps<{
 </script>
 
 <template>
-  <h2>Category: {{ test.name }}</h2>
-  <div>WCAG 508 SC: {{ [...test.wcag508SC].join(', ') }}</div>
-  <ResultForm :test="test" />
-
   <div
     v-for="(trustedTest, trustedTestIndex) in test.trustedTests"
     :key="`tt-${trustedTestIndex}`"

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 const props = defineProps<{
   test: Record<string, string | unknown>
+  formData: Record<string, string | unknown>
+}>()
+
+defineEmits<{
+  (e: 'update-field', value: unknown): void
 }>()
 
 const options = ref([
@@ -8,13 +13,12 @@ const options = ref([
   { name: 'Failed', value: false },
 ])
 
-const { updateField, formData } = useAudit()
-const testPass = computed(() => formData.value[props.test.id].testPass)
+const testPass = computed(() => props.formData[props.test.id].testPass)
 const manualTestDesc = computed(
-  () => formData.value[props.test.id].manualTestDesc
+  () => props.formData[props.test.id].manualTestDesc
 )
 const recommendationDesc = computed(
-  () => formData.value[props.test.id].recommendationDesc
+  () => props.formData[props.test.id].recommendationDesc
 )
 </script>
 
@@ -32,7 +36,14 @@ const recommendationDesc = computed(
         option-label="name"
         option-value="value"
         :aria-labelledby="`category-${test.name}-pass`"
-        @update:modelValue="(value) => updateField(test.id, 'testPass', value)"
+        @update:model-value="
+          (value) =>
+            $emit('update-field', {
+              category: test.id,
+              field: 'testPass',
+              value: value,
+            })
+        "
       />
     </div>
     <div class="flex flex-wrap items-center">
@@ -41,8 +52,13 @@ const recommendationDesc = computed(
         :model-value="manualTestDesc"
         rows="5"
         cols="30"
-        @update:modelValue="
-          (value) => updateField(test.id, 'manualTestDesc', value)
+        @update:model-value="
+          (value) =>
+            $emit('update-field', {
+              category: test.id,
+              field: 'manualTestDesc',
+              value: value,
+            })
         "
       />
     </div>
@@ -52,8 +68,13 @@ const recommendationDesc = computed(
         :model-value="recommendationDesc"
         rows="5"
         cols="30"
-        @update:modelValue="
-          (value) => updateField(test.id, 'recommendationDesc', value)
+        @update:model-value="
+          (value) =>
+            $emit('update-field', {
+              category: test.id,
+              field: 'recommendationDesc',
+              value: value,
+            })
         "
       />
     </div>
