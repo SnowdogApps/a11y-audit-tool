@@ -72,7 +72,7 @@ const defaultCategories = [
 
 const categories = defaultCategories.map((category) => ({
   ...category,
-  id: toCamelCase(category.name),
+  id: `category${toCamelCase(category.name)}`,
 }))
 
 export { categories }
