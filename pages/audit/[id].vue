@@ -20,7 +20,7 @@ axeResults.value = data || []
 
 <template>
   <div class="grid">
-    <h1>audit #{{ route.params.id }}</h1>
+    <h1>Audit #{{ route.params.id }}</h1>
 
     <Card>
       <template #title>Results list</template>
@@ -29,15 +29,16 @@ axeResults.value = data || []
           v-if="axeResults.length"
           class="grid w-full"
         >
-          <a
+          <NuxtLink
             v-for="(result, index) in axeResults"
             :key="`result-${index}`"
             class="my-3 w-full border p-3 hover:border-gray-900"
-            :href="`/audit/result/${result.id}`"
+            :to="`/audit/result/${result.id}`"
           >
-            {{ result.id }} - {{ result.audits.config.pages[0].url }} -
-            {{ result.audits.config.viewports[0] }}
-          </a>
+            {{ result.id }} - {{ result.results.url }}
+            {{ result.selector ? `- ${result.selector}` : '' }}
+            {{ result.size ? ` -- ${result.size}` : '' }}
+          </NuxtLink>
         </div>
         <p v-else>No results for audit {{ auditId }}</p>
       </template>
