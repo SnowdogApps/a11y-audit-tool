@@ -10,7 +10,7 @@ definePageMeta({
 const { isAdmin, isAuditor } = useUser()
 const supabase = useSupabaseClient<Database>()
 const audits = ref<Audit[]>([])
-const toast = new useToast()
+const toast = useToast()
 
 await fetchAudits()
 

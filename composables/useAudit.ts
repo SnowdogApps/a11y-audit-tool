@@ -31,7 +31,7 @@ export function useAudit(axeResult?: unknown) {
     formData.value[category][field] = value
   }
 
-  const saveFormData = async (event) => {
+  const saveFormData = async () => {
     isLoading.value = true
     const supabase = useSupabaseClient<Database>()
 
