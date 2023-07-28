@@ -83,7 +83,7 @@ const sendForm = handleSubmit(async (values) => {
       viewports: values.viewports,
     } as unknown as Json
 
-    const { data, error } = await supabase
+    const { data: newAudit, error } = await supabase
       .from('audits')
       .insert({
         project_id: values.project,
@@ -104,18 +104,18 @@ const sendForm = handleSubmit(async (values) => {
 
     const { error: apiTestError } = await useFetch('/api/test', {
       method: 'POST',
-      body: data,
+      body: newAudit,
     })
 
     toast.add({
-      severity: apiTestError ? 'error' : 'success',
-      summary: apiTestError
+      severity: apiTestError.value ? 'error' : 'success',
+      summary: apiTestError.value
         ? apiTestError.value?.message
         : 'New audit successfully created',
       life: 3000,
     })
 
-    if (!apiTestError) {
+    if (!apiTestError.value) {
       resetForm()
     }
   } catch (error) {
