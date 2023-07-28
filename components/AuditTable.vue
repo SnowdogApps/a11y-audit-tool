@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
+import { useConfirm } from 'primevue/useconfirm'
 import type { Audit } from 'types/database'
 
 const props = defineProps<{
   audits: Audit[]
 }>()
 
+const emit = defineEmits<{ (e: 'delete-audit'): void }>()
+
+const confirm = useConfirm()
 const nodes = computed(() =>
   props.audits.map((audit) => ({
     data: {
@@ -15,6 +19,18 @@ const nodes = computed(() =>
 )
 
 const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
+const { isAdmin } = useUser()
+const confirmAuditRemoval = (id: number) => {
+  confirm.require({
+    message: 'Do you want to delete this audit?',
+    header: 'Delete Confirmation',
+    icon: 'pi pi-info-circle',
+    acceptClass: 'p-button-danger',
+    accept: () => {
+      emit('delete-audit', id)
+    },
+  })
+}
 </script>
 
 <template>
@@ -60,7 +76,8 @@ const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
       <template #body="scope">
         <div class="inline-grid grid-cols-2 gap-2">
           <NuxtLink
-            class="p-button p-button-info"
+            v-if="scope.node.data.axe.length"
+            class="p-button p-button-info mr-2"
             :to="`/audit/${scope.node.data.id}`"
             icon="pi pi-file-edit"
             aria-label="Results"
@@ -68,6 +85,15 @@ const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
           >
             <i class="pi pi-list" />
           </NuxtLink>
+
+          <Button
+            v-if="isAdmin"
+            text
+            icon="pi pi-times"
+            severity="danger"
+            aria-label="Remove audit"
+            @click="confirmAuditRemoval(scope.node.data.id)"
+          />
         </div>
       </template>
     </Column>
