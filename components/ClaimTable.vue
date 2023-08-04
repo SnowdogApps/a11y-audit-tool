@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { type } from 'os'
 import type { TreeNode } from 'primevue/tree'
 import { useConfirm } from 'primevue/useconfirm'
-import type { ProfileProject } from 'types/user'
+import type { ProfileProject, RemoveFromProjectPayload } from 'types/user'
 
 const confirm = useConfirm()
 const props = defineProps<{
@@ -9,20 +10,20 @@ const props = defineProps<{
   isLoading: boolean
 }>()
 
-const confirmRemovalPermission = (id: number) => {
+const confirmRemovalPermission = (userId: string, projectId: number) => {
   confirm.require({
     message: 'Do you want to delete this record?',
     header: 'Delete Confirmation',
     icon: 'pi pi-info-circle',
     acceptClass: 'p-button-danger',
     accept: () => {
-      emit('remove', id)
+      emit('remove', { userId, projectId })
     },
   })
 }
 
 const emit = defineEmits<{
-  (e: 'remove', id: number): void
+  (e: 'remove', payload: RemoveFromProjectPayload): void
 }>()
 
 const nodes = computed(() =>
@@ -56,7 +57,12 @@ const nodes = computed(() =>
           :loading="isLoading"
           :disabled="isLoading"
           severity="danger"
-          @click="confirmRemovalPermission(scope.node.data.id)"
+          @click="
+            confirmRemovalPermission(
+              scope.node.data.userId,
+              scope.node.data.projectId
+            )
+          "
         />
       </template>
     </Column>

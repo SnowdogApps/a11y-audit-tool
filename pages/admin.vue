@@ -3,7 +3,11 @@ import type { User } from '@supabase/gotrue-js'
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
 import type { Project, Profile, ProfileProjectKeys } from 'types/database'
-import type { ProfileProject, ProfileWithEmail } from 'types/user'
+import type {
+  ProfileProject,
+  ProfileWithEmail,
+  RemoveFromProjectPayload,
+} from 'types/user'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
@@ -51,10 +55,11 @@ const getProfileProject = computed((): ProfileProject[] =>
       const projectData = projects.value.find(
         (project) => project.id === projectId
       )
-
       return {
-        email: user?.email || '',
-        name: projectData?.name || '',
+        email: user?.email ?? '',
+        name: projectData?.name ?? '',
+        userId: user?.id ?? '',
+        projectId: projectData!.id,
       }
     }
   )
@@ -84,14 +89,15 @@ async function fetchProjectProfile() {
   profileProject.value = data || []
 }
 
-async function removeProfileFromProject(id: number) {
+async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
   isLoading.value = true
 
   try {
     const { error } = await supabase
       .from('profile_project')
       .delete()
-      .eq('id', id)
+      .eq('profile_id', payload.userId)
+      .eq('project_id', payload.projectId)
 
     if (error) {
       if (isSupabaseError(error)) {
