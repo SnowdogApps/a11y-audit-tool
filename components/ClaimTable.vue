@@ -40,7 +40,7 @@ const nodes = computed(() =>
   <TreeTable :value="nodes">
     <Column
       field="name"
-      header="User"
+      header="Project Name"
     />
     <Column
       field="email"
