@@ -76,8 +76,6 @@ export function useAudit(axeResult?: unknown) {
   let flattedResults = []
   let coveredWCAGsWithTrustedTest = []
   let wcagNotCoverWithTT = []
-  let wcagNotTTCoverWithAxe = []
-  let axeNotWcag = []
 
   const flattenAxeResults = (results) => {
     const inapplicableResults = getResultsByType(results, 'inapplicable')
@@ -144,7 +142,7 @@ export function useAudit(axeResult?: unknown) {
         })
 
         // assign axe to TT test
-        const trustedTestsWithAxeResults = ttItems.map((ttElem) => {
+        category.trustedTests = ttItems.map((ttElem) => {
           const filteredResultsByWcagSC = flattedResults.filter((result) =>
             result.tags.includes(`wcag${ttElem.CrtID.replaceAll('.', '')}`)
           )
@@ -163,8 +161,6 @@ export function useAudit(axeResult?: unknown) {
 
           return ttElem
         })
-
-        category.trustedTests = trustedTestsWithAxeResults
       }
       return category
     })
@@ -193,7 +189,7 @@ export function useAudit(axeResult?: unknown) {
     )
 
     // wcag not cover with axe results
-    wcagNotTTCoverWithAxe = wcagNotCoverWithTT.map((el) => {
+    audit.value.wcagNotCover.tests = wcagNotCoverWithTT.map((el) => {
       const axeItem = flattedResults.filter((result) =>
         result.tags.includes(`wcag${el.ref_id.replaceAll('.', '')}`)
       )
@@ -204,13 +200,9 @@ export function useAudit(axeResult?: unknown) {
       return el
     })
 
-    audit.value.wcagNotCover.tests = wcagNotTTCoverWithAxe
-
-    axeNotWcag = flattedResults.filter(
+    audit.value.axeAdditional.tests = flattedResults.filter(
       (result) => !result.tags.some((item) => regexpAxe.test(item))
     )
-
-    audit.value.axeAdditional.tests = axeNotWcag
   }
 
   return {
