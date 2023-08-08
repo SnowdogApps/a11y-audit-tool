@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import VueJsonPretty from 'vue-json-pretty'
-
 defineProps<{
   test: Record<string, string | unknown>
 }>()
