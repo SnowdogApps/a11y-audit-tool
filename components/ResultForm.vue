@@ -20,13 +20,18 @@ const manualTestDesc = computed(
 const recommendationDesc = computed(
   () => props.formData[props.test.id].recommendationDesc
 )
+
+const { $toCamelCase } = useNuxtApp()
+
+const getFieldId = (suffix: string) =>
+  `category-${$toCamelCase(props.test.name)}-${suffix}`
 </script>
 
 <template>
   <div class="grid grid-flow-row auto-rows-min gap-2">
     <div class="flex flex-wrap items-center">
       <span
-        :id="`category-${test.name}-pass`"
+        :id="getFieldId('pass')"
         class="mr-3"
         >Category Pass</span
       >
@@ -35,7 +40,7 @@ const recommendationDesc = computed(
         :options="options"
         option-label="name"
         option-value="value"
-        :aria-labelledby="`category-${test.name}-pass`"
+        :aria-labelledby="getFieldId('pass')"
         @update:model-value="
           (value) =>
             $emit('update-field', {
@@ -47,8 +52,14 @@ const recommendationDesc = computed(
       />
     </div>
     <div class="flex flex-wrap items-center">
-      <span class="mr-3">Manual test description</span>
+      <label
+        :for="getFieldId('manual-desc')"
+        class="mr-3"
+      >
+        Manual test description
+      </label>
       <Textarea
+        :id="getFieldId('manual-desc')"
         :model-value="manualTestDesc"
         rows="5"
         cols="30"
@@ -63,8 +74,14 @@ const recommendationDesc = computed(
       />
     </div>
     <div class="flex flex-wrap items-center">
-      <span class="mr-3">Fixes recommendation description</span>
+      <label
+        :for="getFieldId('recommendation-desc')"
+        class="mr-3"
+      >
+        Fixes recommendation description
+      </label>
       <Textarea
+        :id="getFieldId('recommendation-desc')"
         :model-value="recommendationDesc"
         rows="5"
         cols="30"
