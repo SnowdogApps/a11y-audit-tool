@@ -8,11 +8,6 @@ defineEmits<{
   (e: 'update-field', value: unknown): void
 }>()
 
-const options = ref([
-  { name: 'Pass', value: true },
-  { name: 'Failed', value: false },
-])
-
 const testPass = computed(() => props.formData[props.test.id].testPass)
 const manualTestDesc = computed(
   () => props.formData[props.test.id].manualTestDesc
@@ -33,13 +28,12 @@ const getFieldId = (suffix: string) =>
       <span
         :id="getFieldId('pass')"
         class="mr-3"
-        >Category Pass</span
       >
-      <SelectButton
+        Status
+      </span>
+      <Dropdown
         :model-value="testPass"
-        :options="options"
-        option-label="name"
-        option-value="value"
+        :options="['Not tested', 'Not applicable', 'Passed', 'Failed']"
         :aria-labelledby="getFieldId('pass')"
         @update:model-value="
           (value) =>
