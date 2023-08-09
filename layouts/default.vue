@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { MenuItem } from 'primevue/menuitem'
-import type { Database } from 'types/supabase'
-import type { UserClaim } from 'types/user'
+
 import {
   adminMenuItems,
   auditorMenuItems,
@@ -9,24 +8,16 @@ import {
 } from '~/data/menu'
 
 const isSideNavigationVisible = ref(false)
-const menuItems = ref<MenuItem[]>([])
 
-onBeforeMount(async () => {
-  const supabase = useSupabaseClient<Database>()
-  const { data: claims } = (await supabase.rpc('get_my_claims')) as unknown as {
-    data: UserClaim
-  }
+const { isAdmin, isAuditor } = useUser()
 
-  const isAdmin = claims?.claims_admin ?? false
-
-  const isAuditor = !isAdmin && claims?.user_role === 'auditor'
-
-  menuItems.value = isAdmin
+const menuItems = computed<MenuItem[]>(() =>
+  isAdmin.value
     ? adminMenuItems
-    : isAuditor
+    : isAuditor.value
     ? auditorMenuItems
     : customerMenuItems
-})
+)
 </script>
 
 <template>

@@ -11,7 +11,12 @@ import InputText from 'primevue/inputtext'
 import Menu from 'primevue/menu'
 import MultiSelect from 'primevue/multiselect'
 import Password from 'primevue/password'
+import SelectButton from 'primevue/selectbutton'
 import Sidebar from 'primevue/sidebar'
+import TabPanel from 'primevue/tabpanel'
+import TabView from 'primevue/tabview'
+import Tag from 'primevue/tag'
+import Textarea from 'primevue/textarea'
 import Toast from 'primevue/toast'
 import TreeTable from 'primevue/treetable'
 
@@ -34,7 +39,12 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('Menu', Menu)
   nuxtApp.vueApp.component('MultiSelect', MultiSelect)
   nuxtApp.vueApp.component('Password', Password)
+  nuxtApp.vueApp.component('SelectButton', SelectButton)
   nuxtApp.vueApp.component('Sidebar', Sidebar)
+  nuxtApp.vueApp.component('TabPanel', TabPanel)
+  nuxtApp.vueApp.component('TabView', TabView)
+  nuxtApp.vueApp.component('Tag', Tag)
+  nuxtApp.vueApp.component('Textarea', Textarea)
   nuxtApp.vueApp.component('Toast', Toast)
   nuxtApp.vueApp.component('TreeTable', TreeTable)
 })
