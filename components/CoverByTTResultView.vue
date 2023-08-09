@@ -19,7 +19,7 @@ defineProps<{
       </span>
 
       <Tag
-        v-if="['type', 'level', 'TestID'].includes(tTKey)"
+        v-if="['type', 'level', 'Test ID'].includes(tTKey)"
         :value="tTValue"
         severity="info"
         rounded

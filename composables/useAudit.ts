@@ -120,7 +120,9 @@ export function useAudit(axeResult?: unknown) {
 
   const getResultsByType = (results, type) => results[type] || []
   const filterTrustedTestsByCategory = (category) =>
-    trustedTests.filter((test) => test.Test.trim() === category.name)
+    trustedTests.filter(
+      (test) => test['Test Category'].trim() === category.name
+    )
 
   const addTTCriteriaToCategory = (category, test) => {
     if (!category?.wcag508SC) {
@@ -144,7 +146,7 @@ export function useAudit(axeResult?: unknown) {
         // assign axe to Trusted Test
         category.trustedTests = trustedTestItems.map((item) => {
           const filteredResultsByWcagSC = flattedResults.filter((result) =>
-            result.tags.includes(`wcag${item.CrtID.replaceAll('.', '')}`)
+            result.tags.includes(`wcag${item['WCAG SC'].replaceAll('.', '')}`)
           )
 
           item.filteredResultsByWcagSC = filteredResultsByWcagSC.length
@@ -152,7 +154,7 @@ export function useAudit(axeResult?: unknown) {
             : []
 
           const filteredResultsByTT = flattedResults.filter((result) =>
-            result.tags.includes(`TT${item.TestID.toLowerCase()}`)
+            result.tags.includes(`TT${item['Test ID'].toLowerCase()}`)
           )
 
           item.filteredResultsByTT = filteredResultsByTT.length
