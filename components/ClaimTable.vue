@@ -119,7 +119,6 @@ const nodes = computed(() => {
       <template #body="scope">
         <Button
           v-if="scope.node.data.action"
-          icon="pi pi-times"
           type="button"
           aria-label="Remove permission"
           title="Remove permission"
@@ -132,7 +131,9 @@ const nodes = computed(() => {
               scope.node.data.projectId
             )
           "
-        />
+        >
+          Remove
+        </Button>
       </template>
     </Column>
   </TreeTable>
