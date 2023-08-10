@@ -55,11 +55,13 @@ const getProfileProject = computed((): ProfileProject[] =>
       const projectData = projects.value.find(
         (project) => project.id === projectId
       )
+
       return {
         email: user?.email ?? '',
         name: projectData?.name ?? '',
         userId: user?.id ?? '',
         projectId: projectData!.id,
+        metadata: user!.app_metadata,
       }
     }
   )
