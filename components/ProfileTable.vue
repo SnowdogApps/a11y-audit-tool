@@ -8,6 +8,7 @@ const props = defineProps<{
 const nodes = computed(() =>
   props.profiles.map((profile) => ({
     data: {
+      userType: profile.user_type?.replace(/^"(.*)"$/, '$1'),
       ...profile,
       name: `${profile.email} ${
         profile.username ? `[${profile.username}]` : ''
@@ -36,6 +37,10 @@ const nodes = computed(() =>
     <Column
       field="email"
       header="Email"
+    />
+    <Column
+      field="userType"
+      header="User Type"
     />
   </TreeTable>
 </template>
