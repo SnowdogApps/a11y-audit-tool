@@ -21,6 +21,9 @@ const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
   <TreeTable
     :value="nodes"
     :filters="filters"
+    :paginator="true"
+    :rows="25"
+    :rows-per-page-options="[25, 50, 100]"
   >
     <template #header>
       <div class="text-right">
