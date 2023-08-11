@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useConfirm } from 'primevue/useconfirm'
+import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import type {
   ProfileProject,
   RemoveFromProjectPayload,
   ProfileProjectMap,
 } from 'types/user'
 
-const filters = ref({})
+const filters = ref<TreeTableExpandedKeys>({ name: '', email: '', role: '' })
 const confirm = useConfirm()
 const props = defineProps<{
   profilesToProjects: ProfileProject[]
