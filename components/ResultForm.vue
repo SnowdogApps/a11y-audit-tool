@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
-  test: Record<string, string | unknown>
+  testName: string
+  testId: string
   formData: Record<string, string | unknown>
 }>()
 
@@ -8,86 +9,85 @@ defineEmits<{
   (e: 'update-field', value: unknown): void
 }>()
 
-const testPass = computed(() => props.formData[props.test.id].testPass)
+const testPass = computed(() => props.formData[props.testId].testPass)
 const manualTestDesc = computed(
-  () => props.formData[props.test.id].manualTestDesc
+  () => props.formData[props.testId].manualTestDesc
 )
 const recommendationDesc = computed(
-  () => props.formData[props.test.id].recommendationDesc
+  () => props.formData[props.testId].recommendationDesc
 )
 
 const { $toCamelCase } = useNuxtApp()
 
 const getFieldId = (suffix: string) =>
-  `category-${$toCamelCase(props.test.name)}-${suffix}`
+  `category-${$toCamelCase(props.testName)}-${suffix}`
 </script>
 
 <template>
-  <div class="grid grid-flow-row auto-rows-min gap-2">
-    <div class="flex flex-wrap items-center">
-      <span
-        :id="getFieldId('pass')"
-        class="mr-3"
-      >
-        Status
-      </span>
-      <Dropdown
-        :model-value="testPass"
-        :options="['Not tested', 'Not applicable', 'Passed', 'Failed']"
-        :aria-labelledby="getFieldId('pass')"
-        @update:model-value="
-          (value) =>
-            $emit('update-field', {
-              category: test.id,
-              field: 'testPass',
-              value: value,
-            })
-        "
-      />
-    </div>
-    <div class="flex flex-wrap items-center">
-      <label
-        :for="getFieldId('manual-desc')"
-        class="mr-3"
-      >
-        Manual test description
-      </label>
-      <Textarea
-        :id="getFieldId('manual-desc')"
-        :model-value="manualTestDesc"
-        rows="5"
-        cols="30"
-        @update:model-value="
-          (value) =>
-            $emit('update-field', {
-              category: test.id,
-              field: 'manualTestDesc',
-              value: value,
-            })
-        "
-      />
-    </div>
-    <div class="flex flex-wrap items-center">
-      <label
-        :for="getFieldId('recommendation-desc')"
-        class="mr-3"
-      >
-        Fixes recommendation description
-      </label>
-      <Textarea
-        :id="getFieldId('recommendation-desc')"
-        :model-value="recommendationDesc"
-        rows="5"
-        cols="30"
-        @update:model-value="
-          (value) =>
-            $emit('update-field', {
-              category: test.id,
-              field: 'recommendationDesc',
-              value: value,
-            })
-        "
-      />
-    </div>
+  <div>
+    <span
+      :id="getFieldId('pass')"
+      class="mb-4 block font-bold"
+    >
+      Status
+    </span>
+    <Dropdown
+      class="w-full"
+      :model-value="testPass"
+      :options="['Not tested', 'Not applicable', 'Passed', 'Failed']"
+      :aria-labelledby="getFieldId('pass')"
+      @update:model-value="
+        (value) =>
+          $emit('update-field', {
+            id: testId,
+            field: 'testPass',
+            value: value,
+          })
+      "
+    />
+  </div>
+  <div>
+    <label
+      :for="getFieldId('manual-desc')"
+      class="mb-4 block font-bold"
+    >
+      Manual test
+    </label>
+    <Textarea
+      :id="getFieldId('manual-desc')"
+      class="w-full"
+      :model-value="manualTestDesc"
+      rows="10"
+      @update:model-value="
+        (value) =>
+          $emit('update-field', {
+            id: testId,
+            field: 'manualTestDesc',
+            value: value,
+          })
+      "
+    />
+  </div>
+  <div>
+    <label
+      :for="getFieldId('recommendation-desc')"
+      class="mb-4 block font-bold"
+    >
+      Fixes recommendation
+    </label>
+    <Textarea
+      :id="getFieldId('recommendation-desc')"
+      :model-value="recommendationDesc"
+      class="w-full"
+      rows="10"
+      @update:model-value="
+        (value) =>
+          $emit('update-field', {
+            id: testId,
+            field: 'recommendationDesc',
+            value: value,
+          })
+      "
+    />
   </div>
 </template>
