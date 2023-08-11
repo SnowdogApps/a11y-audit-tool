@@ -136,8 +136,9 @@ export function useAudit(axeResult?: unknown) {
 
     const coveredWCAGsWithTrustedTestSet = new Set()
     trustedTests.forEach((test) => {
-      if (test.CrtID !== 'Requirements') {
-        coveredWCAGsWithTrustedTestSet.add(test.CrtID)
+      const wcag = test['WCAG SC']
+      if (wcag !== 'Requirements') {
+        coveredWCAGsWithTrustedTestSet.add(wcag)
       }
     })
 

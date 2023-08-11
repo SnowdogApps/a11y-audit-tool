@@ -1,6 +1,5 @@
 export const trustedTests = [
   {
-    CrtID: 'Requirements',
     'Test Name': 'Alt-version-conformant ',
     'Test ID': '1.A',
     'Test Category': 'Alternate version ',
@@ -12,7 +11,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
-    CrtID: 'Requirements',
     'Test Name': 'Alt-version-equivalent ',
     'Test ID': '1.B',
     'Test Category': 'Alternate version',
@@ -24,7 +22,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
-    CrtID: 'Requirements',
     'Test Name': 'Alt-version-access',
     'Test ID': '1.C',
     'Test Category': 'Alternate version',
@@ -36,7 +33,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
-    CrtID: 'Requirements',
     'Test Name': 'Alt-version-nc-access',
     'Test ID': '1.D',
     'Test Category': 'Alternate version',
@@ -48,7 +44,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
-    CrtID: 'Requirements',
     'Test Name': 'Non-interference',
     'Test ID': '1.E',
     'Test Category': 'Non-interference',
@@ -60,7 +55,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
-    CrtID: '1.4.2',
     'Test Name': '1.4.2-Audio-control',
     'Test ID': '2.A',
     'Test Category': '2 Autoplay/update',
@@ -72,7 +66,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.2.2',
     'Test Name': '2.2.2-Blinking-moving-scrolling',
     'Test ID': '2.B',
     'Test Category': '2 Autoplay/update',
@@ -84,7 +77,6 @@ export const trustedTests = [
       "'Photosensitive Epilepsy / Photosensitive Seizure Disorders, With Limited Vision, With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '2.2.2',
     'Test Name': '2.2.2-Auto-updating',
     'Test ID': '2.C',
     'Test Category': '2 Autoplay/update',
@@ -96,7 +88,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '4.1.2',
     'Test Name': '4.1.2-change-notify-auto',
     'Test ID': '2.D',
     'Test Category': '2 Autoplay/update',
@@ -108,7 +99,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.3.1',
     'Test Name': '2.3.1-flashing',
     'Test ID': '3.A',
     'Test Category': '3 Flashing',
@@ -120,7 +110,6 @@ export const trustedTests = [
       "'Photosensitive Epilepsy / Photosensitive Seizure Disorders",
   },
   {
-    CrtID: '2.1.1',
     'Test Name': '2.1.1-keyboard-access',
     'Test ID': '4.A',
     'Test Category': '4 Keyboard/focus',
@@ -132,7 +121,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation',
   },
   {
-    CrtID: '2.1.1',
     'Test Name': '2.1.1-no-keystroke-timing',
     'Test ID': '4.B',
     'Test Category': '4 Keyboard/focus',
@@ -144,7 +132,6 @@ export const trustedTests = [
       'Without Vision, With Limited Language, Cognitive and Learning Abilities, With Limited Vision, With Limited Manipulation',
   },
   {
-    CrtID: '2.1.2',
     'Test Name': '2.1.2-no-keyboard-trap',
     'Test ID': '4.C',
     'Test Category': '4 Keyboard/focus',
@@ -155,7 +142,6 @@ export const trustedTests = [
       "Without Visionn,'With Limited Vision','With Limited Manipulation",
   },
   {
-    CrtID: '2.4.7',
     'Test Name': '2.4.7-focus-visible',
     'Test ID': '4.D',
     'Test Category': '4 Keyboard/focus',
@@ -167,7 +153,6 @@ export const trustedTests = [
       "'With Limited Vision','With Limited Manipulation','With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '3.2.1',
     'Test Name': '3.2.1-on-focus',
     'Test ID': '4.E',
     'Test Category': '4 Keyboard/focus',
@@ -179,7 +164,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.3',
     'Test Name': '2.4.3-focus-order-meaning',
     'Test ID': '4.F',
     'Test Category': '4 Keyboard/focus',
@@ -191,7 +175,6 @@ export const trustedTests = [
       "Without Visionn,'With Limited Vision, With Limited Manipulation','With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '2.4.3',
     'Test Name': '2.4.3-focus-order-reveal',
     'Test ID': '4.G',
     'Test Category': '4 Keyboard/focus',
@@ -202,7 +185,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.3',
     'Test Name': '2.4.3-focus-order-return',
     'Test ID': '4.H',
     'Test Category': '4 Keyboard/focus',
@@ -213,7 +195,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.3.2',
     'Test Name': '3.3.2-label-provided',
     'Test ID': '5.A',
     'Test Category': '5 Forms',
@@ -224,7 +205,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.6',
     'Test Name': '2.4.6-label-descriptive',
     'Test ID': '5.B',
     'Test Category': '5 Forms',
@@ -235,7 +215,6 @@ export const trustedTests = [
       "Without Vision, With Limited Vision, With Limited Manipulation','With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-programmatic-label',
     'Test ID': '5.C',
     'Test Category': '5 Forms',
@@ -247,7 +226,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.2.2',
     'Test Name': '3.2.2-on-input',
     'Test ID': '5.D',
     'Test Category': '5 Forms',
@@ -259,7 +237,6 @@ export const trustedTests = [
       'Without Vision, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '4.1.2',
     'Test Name': '4.1.2-change-notify-form',
     'Test ID': '5.E ',
     'Test Category': '5 Forms',
@@ -271,7 +248,6 @@ export const trustedTests = [
       "Without Vision, With Limited Vision','With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '3.3.1',
     'Test Name': '3.3.1-error-identification',
     'Test ID': '5.F ',
     'Test Category': '5 Forms ',
@@ -283,7 +259,6 @@ export const trustedTests = [
       "Without Vision, With Limited Vision','Without Perception of Color, With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '3.3.3',
     'Test Name': '3.3.3-error-suggestion',
     'Test ID': '5.G ',
     'Test Category': '5 Forms ',
@@ -295,7 +270,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.3.4',
     'Test Name': '3.3.4-error-prevention',
     'Test ID': '5.H ',
     'Test Category': '5 Forms ',
@@ -307,7 +281,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.4',
     'Test Name': '2.4.4-link-purpose',
     'Test ID': '6.A',
     'Test Category': '6 Links/buttons',
@@ -319,7 +292,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '4.1.2',
     'Test Name': '4.1.2-change-notify-links',
     'Test ID': '6. B',
     'Test Category': '6 Links/buttons ',
@@ -331,7 +303,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.1.1',
     'Test Name': '1.1.1-meaningful-image-name',
     'Test ID': '7.A',
     'Test Category': '7 Images',
@@ -343,7 +314,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.1.1',
     'Test Name': '1.1.1-decorative-image',
     'Test ID': '7.B',
     'Test Category': '7 Images',
@@ -355,7 +325,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.1.1',
     'Test Name': '1.1.1-decorative-background-image',
     'Test ID': '7.C',
     'Test Category': '7 Images ',
@@ -367,7 +336,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.1.1',
     'Test Name': '1.1.1-captcha-alternative',
     'Test ID': '7. D',
     'Test Category': '7 Images',
@@ -378,7 +346,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.4.5',
     'Test Name': '1.4.5-image-of-text',
     'Test ID': '7.E',
     'Test Category': '7 Images ',
@@ -390,7 +357,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.2.1',
     'Test Name': '2.2.1-timing-adjustable',
     'Test ID': '8.A ',
     'Test Category': '8 Adjustable time limits',
@@ -402,7 +368,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.1',
     'Test Name': '2.4.1-bypass-function',
     'Test ID': '9.A',
     'Test Category': '9 Repetitive Content',
@@ -414,7 +379,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.2.3',
     'Test Name': '3.2.3-consistent- navigation',
     'Test ID': '9.B',
     'Test Category': '9 Repetitive Content',
@@ -426,7 +390,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.2.4',
     'Test Name': '3.2.4-consistent-identification',
     'Test ID': '9.C',
     'Test Category': '9 Repetitive Content',
@@ -438,7 +401,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.6',
     'Test Name': '2.4.6-heading-purpose',
     'Test ID': '10.A',
     'Test Category': '10 Content Structure',
@@ -450,7 +412,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-heading-determinable',
     'Test ID': '10.B ',
     'Test Category': '10 Content Structure ',
@@ -462,7 +423,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-heading-level',
     'Test ID': '10.C',
     'Test Category': '10 Content Structure ',
@@ -474,7 +434,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-list-type',
     'Test ID': '10.D',
     'Test Category': '10 Content Structure',
@@ -486,7 +445,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.1.1',
     'Test Name': '3.1.1-page-language-defined',
     'Test ID': '11.A ',
     'Test Category': '11 Language',
@@ -498,7 +456,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '3.1.2',
     'Test Name': '3.1.2-part-language-defined',
     'Test ID': '11.B ',
     'Test Category': '11 Language',
@@ -510,7 +467,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '2.4.2',
     'Test Name': '2.4.2-page-title-defined',
     'Test ID': '12.A',
     'Test Category': '12 Page and Frame Titles',
@@ -521,7 +477,6 @@ export const trustedTests = [
       "Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities'",
   },
   {
-    CrtID: '2.4.2',
     'Test Name': '2.4.2-page-title-purpose',
     'Test ID': '12.B',
     'Test Category': '12 Page and Frame Titles',
@@ -533,7 +488,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '4.1.2',
     'Test Name': '4.1.2-frame-title',
     'Test ID': '12.C',
     'Test Category': '12 Page and Frame Titles',
@@ -545,7 +499,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '4.1.2',
     'Test Name': '4.1.2-iframe-name',
     'Test ID': '12.D',
     'Test Category': '12 Page and Frame Titles',
@@ -557,7 +510,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.4.1',
     'Test Name': '1.4.1-color-meaning',
     'Test ID': '13.A',
     'Test Category': '13 Sensory and Color',
@@ -569,7 +521,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color',
   },
   {
-    CrtID: '1.3.3',
     'Test Name': '1.3.3-sensory-info',
     'Test ID': '13.B',
     'Test Category': '13 Sensory and Color',
@@ -581,7 +532,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing',
   },
   {
-    CrtID: '1.4.3',
     'Test Name': '1.4.3-contrast',
     'Test ID': '13.C',
     'Test Category': '13 Sensory and Color ',
@@ -592,7 +542,6 @@ export const trustedTests = [
     'Disability Impact': "'With Limited Vision, Without Perception of Color",
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-table-identification',
     'Test ID': '14.A',
     'Test Category': '14 Tables',
@@ -615,7 +564,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-layout-table-structure',
     'Test ID': '14.C',
     'Test Category': '14 Tables ',
@@ -627,7 +575,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.3.1',
     'Test Name': '1.3.1-meaningful-content-css-before-after',
     'Test ID': '15.A',
     'Test Category': '15 CSS',
@@ -639,7 +586,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.3.2',
     'Test Name': '1.3.2-content-order-meaning-css-position',
     'Test ID': '15.B ',
     'Test Category': '15 CSS',
@@ -651,7 +597,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.2.1',
     'Test Name': '1.2.1-audio-transcript-text',
     'Test ID': '16.A ',
     'Test Category': '16 Audio/Video-Only',
@@ -663,7 +608,6 @@ export const trustedTests = [
       "'Without Hearing, With Limited Hearing','With Limited Language, Cognitive and Learning Abilities'",
   },
   {
-    CrtID: '1.2.1',
     'Test Name': '1.2.1-video- alternative-equivalent',
     'Test ID': '16.B ',
     'Test Category': '16 Audio/Video-Only',
@@ -675,7 +619,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.2.2',
     'Test Name': '1.2.2-captions-equivalent',
     'Test ID': '17.A',
     'Test Category': "17 Sync'd Media",
@@ -687,7 +630,6 @@ export const trustedTests = [
       "'Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '1.2.5',
     'Test Name': '1.2.5-audio-description-equivalent',
     'Test ID': '17.B',
     'Test Category': "17 Sync'd Media",
@@ -699,7 +641,6 @@ export const trustedTests = [
       'Without Visionn, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.2.4',
     'Test Name': '1.2.4-captions-live-equivalent',
     'Test ID': '17.C',
     'Test Category': "17 Sync'd Media",
@@ -711,7 +652,6 @@ export const trustedTests = [
       "'Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '503.4',
     'Test Name': '503.4-caption-description-controls',
     'Test ID': '17.D',
     'Test Category': "17 Sync'd Media",
@@ -723,7 +663,6 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '503.4.1',
     'Test Name': '503.4.1-caption-control',
     'Test ID': '17.E ',
     'Test Category': "17 Sync'd Media",
@@ -735,7 +674,6 @@ export const trustedTests = [
       "'Without Hearing, With Limited Hearing, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '503.4.2',
     'Test Name': '503.4.2-description-control',
     'Test ID': '17.F',
     'Test Category': "17 Sync'd Media",
@@ -747,7 +685,6 @@ export const trustedTests = [
       'Without Vision, With Limited Manipulation, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    CrtID: '1.4.4',
     'Test Name': '1.4.4-resize-text',
     'Test ID': '18.A',
     'Test Category': '18 Resize Text',
@@ -758,7 +695,6 @@ export const trustedTests = [
     'Disability Impact': "'With Limited Vision",
   },
   {
-    CrtID: '2.4.5',
     'Test Name': '2.4.5-multiple-ways',
     'Test ID': '19.A',
     'Test Category': '19 Multiple Ways',
@@ -770,7 +706,6 @@ export const trustedTests = [
       "Without Vision, With Limited Vision','With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities",
   },
   {
-    CrtID: '4.1.1',
     'Test Name': '4.1.1-parsing',
     'Test ID': '20.A',
     'Test Category': '20 Parsing',
