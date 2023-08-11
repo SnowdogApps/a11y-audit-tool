@@ -59,6 +59,7 @@ const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
     <Column
       field="status"
       header="Status"
+      sortable
     />
     <Column header="Action">
       <template #body="scope">
