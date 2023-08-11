@@ -4,6 +4,7 @@ import type { Audit } from 'types/database'
 
 const props = defineProps<{
   audits: Audit[]
+  canEdit: boolean
 }>()
 
 const nodes = computed(() =>
@@ -63,6 +64,7 @@ const filters = ref<TreeTableExpandedKeys>({ global: '', project: '' })
       <template #body="scope">
         <div class="inline-grid grid-cols-2 gap-2">
           <NuxtLink
+            v-if="canEdit"
             class="p-button"
             :to="`/audit/edit/${scope.node.data.id}`"
             aria-label="Edit audit"

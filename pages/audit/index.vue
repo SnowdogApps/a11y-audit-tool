@@ -62,6 +62,7 @@ async function fetchAudits() {
           <AuditTable
             v-if="audits.length"
             :audits="audits"
+            :can-edit="isAuditor"
           />
           <p v-else>Your audit list is empty</p>
         </template>
