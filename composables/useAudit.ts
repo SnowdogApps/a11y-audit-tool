@@ -15,7 +15,7 @@ export function useAudit(axeResult?: unknown) {
       return {
         ...acc,
         [testId]: {
-          testPass: axeResult?.form_data[testId]?.testPass || 'Not tested',
+          status: axeResult?.form_data[testId]?.status || 'Not tested',
           manualTestDesc: axeResult?.form_data[testId]?.manualTestDesc || '',
           recommendationDesc:
             axeResult?.form_data[testId]?.recommendationDesc || '',

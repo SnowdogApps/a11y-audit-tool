@@ -9,7 +9,7 @@ defineEmits<{
   (e: 'update-field', value: unknown): void
 }>()
 
-const testPass = computed(() => props.formData[props.testId].testPass)
+const status = computed(() => props.formData[props.testId].status)
 const manualTestDesc = computed(
   () => props.formData[props.testId].manualTestDesc
 )
@@ -33,14 +33,14 @@ const getFieldId = (suffix: string) =>
     </span>
     <Dropdown
       class="w-full"
-      :model-value="testPass"
+      :model-value="status"
       :options="['Not tested', 'Not applicable', 'Passed', 'Failed']"
       :aria-labelledby="getFieldId('pass')"
       @update:model-value="
         (value) =>
           $emit('update-field', {
             id: testId,
-            field: 'testPass',
+            field: 'status',
             value: value,
           })
       "
