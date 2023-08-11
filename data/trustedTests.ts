@@ -1,8 +1,8 @@
 export const trustedTests = [
   {
     CrtID: 'Requirements',
-    'Test Name': ' Alt-version-conformant ',
-    'Test ID': ' 1.A',
+    'Test Name': 'Alt-version-conformant ',
+    'Test ID': '1.A',
     'Test Category': 'Alternate version ',
     'WCAG SC': 'Requirements',
     Level: '',
@@ -14,7 +14,7 @@ export const trustedTests = [
   {
     CrtID: 'Requirements',
     'Test Name': 'Alt-version-equivalent ',
-    'Test ID': ' 1.B',
+    'Test ID': '1.B',
     'Test Category': 'Alternate version',
     'WCAG SC': 'Requirements',
     Level: '',
@@ -232,7 +232,7 @@ export const trustedTests = [
     Level: 'AA',
     'Test Condition': 'Each form label is sufficiently descriptive. ',
     'Disability Impact':
-      "Without Vision, With Limited Vision, With Limited Manipulation' ,'With Limited Language, Cognitive and Learning Abilities",
+      "Without Vision, With Limited Vision, With Limited Manipulation','With Limited Language, Cognitive and Learning Abilities",
   },
   {
     CrtID: '1.3.1',
@@ -309,7 +309,7 @@ export const trustedTests = [
   {
     CrtID: '2.4.4',
     'Test Name': '2.4.4-link-purpose',
-    'Test ID': ' 6.A',
+    'Test ID': '6.A',
     'Test Category': '6 Links/buttons',
     'WCAG SC': '2.4.4',
     Level: 'A',
@@ -332,13 +332,13 @@ export const trustedTests = [
   },
   {
     CrtID: '1.1.1',
-    'Test Name': ' 1.1.1-meaningful-image-name',
-    'Test ID': ' 7.A',
-    'Test Category': ' 7 Images',
+    'Test Name': '1.1.1-meaningful-image-name',
+    'Test ID': '7.A',
+    'Test Category': '7 Images',
     'WCAG SC': '1.1.1',
     Level: 'A',
     'Test Condition':
-      ' The accessible name and accessible description for a meaningful image provides an equivalent description of the image.',
+      'The accessible name and accessible description for a meaningful image provides an equivalent description of the image.',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
@@ -346,7 +346,7 @@ export const trustedTests = [
     CrtID: '1.1.1',
     'Test Name': '1.1.1-decorative-image',
     'Test ID': '7.B',
-    'Test Category': ' 7 Images',
+    'Test Category': '7 Images',
     'WCAG SC': '1.1.1',
     Level: 'A',
     'Test Condition':
@@ -368,12 +368,12 @@ export const trustedTests = [
   },
   {
     CrtID: '1.1.1',
-    'Test Name': ' 1.1.1-captcha-alternative',
+    'Test Name': '1.1.1-captcha-alternative',
     'Test ID': '7. D',
-    'Test Category': ' 7 Images',
+    'Test Category': '7 Images',
     'WCAG SC': '1.1.1',
     Level: 'A',
-    'Test Condition': ' Alternative forms of CAPTCHA are provided.',
+    'Test Condition': 'Alternative forms of CAPTCHA are provided.',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
   },
@@ -392,7 +392,7 @@ export const trustedTests = [
   {
     CrtID: '2.2.1',
     'Test Name': '2.2.1-timing-adjustable',
-    'Test ID': ' 8.A ',
+    'Test ID': '8.A ',
     'Test Category': '8 Adjustable time limits',
     'WCAG SC': '2.2.1',
     Level: 'A',
@@ -518,7 +518,7 @@ export const trustedTests = [
     Level: 'A',
     'Test Condition': 'A title element is defined for the web page.',
     'Disability Impact':
-      "Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities' ",
+      "Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities'",
   },
   {
     CrtID: '2.4.2',
@@ -552,7 +552,7 @@ export const trustedTests = [
     'WCAG SC': '4.1.2',
     Level: 'A',
     'Test Condition':
-      ' The combination of accessible name and description for each <iframe.> describes its content.',
+      'The combination of accessible name and description for each <iframe.> describes its content.',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
@@ -610,26 +610,26 @@ export const trustedTests = [
     'WCAG SC': '1.3.1',
     Level: 'A',
     'Test Condition':
-      ' All data cells are programmatically associated with relevant headers. ',
+      'All data cells are programmatically associated with relevant headers. ',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
     CrtID: '1.3.1',
     'Test Name': '1.3.1-layout-table-structure',
-    'Test ID': ' 14.C',
+    'Test ID': '14.C',
     'Test Category': '14 Tables ',
     'WCAG SC': '1.3.1 ',
     Level: 'A',
     'Test Condition':
-      "The layout table DOES NOT designate the layout table using ARIA role= 'table' AND DOES NOT include table header structure and relationship elements and/or associated attributes.",
+      "The layout table DOES NOT designate the layout table using ARIA role= 'table'AND DOES NOT include table header structure and relationship elements and/or associated attributes.",
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
     CrtID: '1.3.1',
     'Test Name': '1.3.1-meaningful-content-css-before-after',
-    'Test ID': ' 15.A',
+    'Test ID': '15.A',
     'Test Category': '15 CSS',
     'WCAG SC': '1.3.1',
     Level: 'A',
@@ -660,17 +660,17 @@ export const trustedTests = [
     'Test Condition':
       'A text-based alternative is provided for audio-only content that provides an accurate and complete representation of the audio-only content.',
     'Disability Impact':
-      "'Without Hearing, With Limited Hearing','With Limited Language, Cognitive and Learning Abilities' ",
+      "'Without Hearing, With Limited Hearing','With Limited Language, Cognitive and Learning Abilities'",
   },
   {
     CrtID: '1.2.1',
     'Test Name': '1.2.1-video- alternative-equivalent',
     'Test ID': '16.B ',
-    'Test Category': ' 16 Audio/Video-Only',
+    'Test Category': '16 Audio/Video-Only',
     'WCAG SC': '1.2.1',
     Level: 'A',
     'Test Condition':
-      ' The video-only content information is also available through an equivalent text or audio alternative.',
+      'The video-only content information is also available through an equivalent text or audio alternative.',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
