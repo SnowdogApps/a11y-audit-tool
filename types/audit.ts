@@ -1,5 +1,5 @@
 export interface Page {
-  selector: string
+  selector: string | undefined
   url: string
 }
 

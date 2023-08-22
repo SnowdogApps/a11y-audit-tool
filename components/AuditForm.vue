@@ -153,7 +153,7 @@ const sendForm = handleSubmit(async (values) => {
                   :name="`pages[${index}].url`"
                   :class="[
                     {
-                      'p-invalid': (errors as any)[`pages[${index}].url`] && isSubmitted,
+                      'p-invalid': ((errors as any)[`pages[${index}].url`] || (errors as any)[`pages[${index}]`]) && isSubmitted,
                     },
                   ]"
                 />
@@ -174,12 +174,23 @@ const sendForm = handleSubmit(async (values) => {
                   class="w-full"
                   :aria-describedby="`selector-help-${index}`"
                   :data-testid="`audit-page-selector-field-${index}`"
+                  :class="[
+                    {
+                      'p-invalid': ((errors as any)[`pages[${index}].selector`] || (errors as any)[`pages[${index}]`]) && isSubmitted,
+                    },
+                  ]"
                 />
                 <small :id="`selector-help-${index}`">
                   Use .class or #id to choose selector to test, just one
                   selector allowed. If empty whole document will be tested.
                 </small>
               </div>
+              <small
+                v-if="(errors as any)[`pages[${index}]`] && isSubmitted"
+                class="p-error w-full"
+              >
+                {{ (errors as any)[`pages[${index}]`] }}
+              </small>
             </div>
 
             <Button
