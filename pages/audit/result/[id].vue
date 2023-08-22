@@ -48,23 +48,23 @@ const { audit, isLoading, formData, updateField, saveFormData } =
               <div
                 v-for="(test, testIndex) in type.tests"
                 :key="`test-${testIndex}`"
-                class="border-b-2 py-2"
+                class="border-b-2 py-8"
               >
-                <template v-if="typeIndex === 'wcagCoveredByTrustedTest'">
-                  <h2>Category: {{ test.name }}</h2>
-                  <div>WCAG 508 SC: {{ [...test.wcag508SC].join(', ') }}</div>
+                <WcagCoveredByTrustedTest
+                  v-if="typeIndex === 'wcagCoveredByTrustedTest'"
+                  :test="test"
+                >
                   <ResultForm
-                    :test="test"
+                    :test-id="test.info['Test ID']"
+                    :test-name="test.info['Test Name']"
                     :form-data="formData"
                     @update-field="(value) => updateField(value)"
                   />
-                  <CoverByTTResultView :test="test" />
-                </template>
-
-                <template v-if="typeIndex === 'wcagNotCover'">
-                  <NotCoverResultView :test="test" />
-                </template>
-
+                </WcagCoveredByTrustedTest>
+                <WcagNotCoveredByTrustedTest
+                  v-if="typeIndex === 'wcagNotCoveredByTrustedTest'"
+                  :test="test"
+                />
                 <AxeResultView
                   v-if="typeIndex === 'axeAdditional'"
                   :test="test"

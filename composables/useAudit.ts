@@ -1,6 +1,5 @@
 import { useToast } from 'primevue/usetoast'
 import { trustedTests } from '~/data/trustedTests'
-import { categories } from '~/data/categories'
 import { wcagSuccessCriteria } from '~/data/wcagSuccessCriteria'
 import type { Database } from 'types/supabase'
 import type { SupabaseError } from '~/plugins/error'
@@ -11,23 +10,22 @@ export function useAudit(axeResult?: unknown) {
   const results = toValue(axeResult?.results || [])
 
   const formData = ref(
-    categories.slice().reduce((acc, category) => {
-      const categoryId = category.id
+    trustedTests.reduce((acc, test) => {
+      const testId = test['Test ID']
       return {
         ...acc,
-        [categoryId]: {
-          testPass: axeResult?.form_data[categoryId]?.testPass || false,
-          manualTestDesc:
-            axeResult?.form_data[categoryId]?.manualTestDesc || '',
+        [testId]: {
+          status: axeResult?.form_data[testId]?.status || 'Not tested',
+          manualTestDesc: axeResult?.form_data[testId]?.manualTestDesc || '',
           recommendationDesc:
-            axeResult?.form_data[categoryId]?.recommendationDesc || '',
+            axeResult?.form_data[testId]?.recommendationDesc || '',
         },
       }
     }, {})
   )
 
-  const updateField = ({ category, field, value }) => {
-    formData.value[category][field] = value
+  const updateField = ({ id, field, value }) => {
+    formData.value[id][field] = value
   }
 
   const saveFormData = async () => {
@@ -58,11 +56,11 @@ export function useAudit(axeResult?: unknown) {
 
   const audit = ref({
     wcagCoveredByTrustedTest: {
-      name: 'WCAG SCs cover by TT',
+      name: 'WCAG SCs covered by Trusted Tests',
       tests: [],
     },
-    wcagNotCover: {
-      name: 'WCAG SCs not cover',
+    wcagNotCoveredByTrustedTest: {
+      name: 'WCAG SCs not covered by Trusted Tests',
       tests: [],
     },
     axeAdditional: {
@@ -72,7 +70,6 @@ export function useAudit(axeResult?: unknown) {
   })
 
   const regexpAxe = /^wcag/
-  let trustedTestByCategories = []
   let flattedResults = []
   let coveredWCAGsWithTrustedTest = []
   let wcagNotCoverWithTrustedTests = []
@@ -85,33 +82,29 @@ export function useAudit(axeResult?: unknown) {
 
     inapplicableResults.forEach((item) =>
       flattedResults.push({
-        ...item,
+        ...transformAxeResultData(item),
         type: 'inapplicable',
-        url: results.url,
       })
     )
 
     incompleteResults.forEach((item) =>
       flattedResults.push({
-        ...item,
+        ...transformAxeResultData(item),
         type: 'incomplete',
-        url: results.url,
       })
     )
 
     passesResults.forEach((item) =>
       flattedResults.push({
-        ...item,
+        ...transformAxeResultData(item),
         type: 'passes',
-        url: results.url,
       })
     )
 
     violationsResults.forEach((item) =>
       flattedResults.push({
-        ...item,
+        ...transformAxeResultData(item),
         type: 'violations',
-        url: results.url,
       })
     )
 
@@ -119,63 +112,33 @@ export function useAudit(axeResult?: unknown) {
   }
 
   const getResultsByType = (results, type) => results[type] || []
-  const filterTrustedTestsByCategory = (category) =>
-    trustedTests.filter((test) => test.Test.trim() === category.name)
 
-  const addTTCriteriaToCategory = (category, test) => {
-    if (!category?.wcag508SC) {
-      category.wcag508SC = new Set()
+  const transformAxeResultData = (results) => {
+    const { id, tags, impact, help, description, helpUrl, nodes } = results
+    return {
+      id,
+      tags,
+      impact,
+      helper: { help, description, helpUrl },
+      nodes,
     }
-
-    return category.wcag508SC.add(test.CrtID)
   }
 
   if (axeResult) {
     flattedResults = flattenAxeResults(results)
 
-    trustedTestByCategories = categories.map((category) => {
-      const trustedTestItems = filterTrustedTestsByCategory(category)
-
-      if (trustedTestItems.length) {
-        trustedTestItems.forEach((test) => {
-          addTTCriteriaToCategory(category, test)
-        })
-
-        // assign axe to Trusted Test
-        category.trustedTests = trustedTestItems.map((item) => {
-          const filteredResultsByWcagSC = flattedResults.filter((result) =>
-            result.tags.includes(`wcag${item.CrtID.replaceAll('.', '')}`)
-          )
-
-          item.filteredResultsByWcagSC = filteredResultsByWcagSC.length
-            ? filteredResultsByWcagSC
-            : []
-
-          const filteredResultsByTT = flattedResults.filter((result) =>
-            result.tags.includes(`TT${item.TestID.toLowerCase()}`)
-          )
-
-          item.filteredResultsByTT = filteredResultsByTT.length
-            ? filteredResultsByTT
-            : []
-
-          return item
-        })
-      }
-      return category
+    audit.value.wcagCoveredByTrustedTest.tests = trustedTests.map((item) => {
+      const results = flattedResults.filter(({ tags }) =>
+        tags.includes(`wcag${item['WCAG SC'].replaceAll('.', '')}`)
+      )
+      return { info: item, results }
     })
 
-    audit.value.wcagCoveredByTrustedTest.tests = trustedTestByCategories
-
     const coveredWCAGsWithTrustedTestSet = new Set()
-    trustedTestByCategories.forEach((category) => {
-      if (
-        category?.wcag508SC &&
-        ![...category.wcag508SC].includes('Requirements')
-      ) {
-        for (const wcagNumber of category.wcag508SC) {
-          coveredWCAGsWithTrustedTestSet.add(wcagNumber)
-        }
+    trustedTests.forEach((test) => {
+      const wcag = test['WCAG SC']
+      if (wcag !== 'Requirements') {
+        coveredWCAGsWithTrustedTestSet.add(wcag)
       }
     })
 
@@ -189,16 +152,17 @@ export function useAudit(axeResult?: unknown) {
     )
 
     // wcag not cover with axe results
-    audit.value.wcagNotCover.tests = wcagNotCoverWithTrustedTests.map((el) => {
-      const axeItem = flattedResults.filter((result) =>
-        result.tags.includes(`wcag${el.ref_id.replaceAll('.', '')}`)
-      )
+    audit.value.wcagNotCoveredByTrustedTest.tests =
+      wcagNotCoverWithTrustedTests.map((test) => {
+        const axeItem = flattedResults.filter((result) =>
+          result.tags.includes(`wcag${test.ref_id.replaceAll('.', '')}`)
+        )
 
-      if (axeItem.length) {
-        el.axeTests = axeItem
-      }
-      return el
-    })
+        if (axeItem.length) {
+          test.axeTests = axeItem
+        }
+        return test
+      })
 
     audit.value.axeAdditional.tests = flattedResults.filter(
       (result) => !result.tags.some((item) => regexpAxe.test(item))
