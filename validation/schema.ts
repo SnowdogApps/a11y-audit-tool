@@ -1,4 +1,5 @@
 import { object, string, array, number } from 'yup'
+import type { Page } from 'types/audit'
 import validationRules from 'validation/rules'
 const { emailRule, passwordRule, passwordRepeatRule } = validationRules()
 
@@ -24,10 +25,20 @@ export const newPasswordSchema = object({
 
 export const auditFormSchema = object({
   pages: array().of(
-    object().shape({
-      url: string().required().url(),
-      selector: string(),
-    })
+    object()
+      .shape({
+        url: string().required().url(),
+        selector: string(),
+      })
+      .test('isUnique', `The entry is not unique`, function (currentPage) {
+        const pages = this.parent
+        const count = pages.filter(
+          (page: Page) =>
+            page.selector === currentPage.selector &&
+            page.url === currentPage.url
+        ).length
+        return count <= 1
+      })
   ),
   title: string().required(),
   project: number().required(),
