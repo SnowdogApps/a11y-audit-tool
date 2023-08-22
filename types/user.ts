@@ -22,18 +22,3 @@ export interface ProfileProject {
 
 export interface RemoveFromProjectPayload
   extends Pick<ProfileProject, 'userId' | 'projectId'> {}
-
-export interface ProfileProjectMapData {
-  projectId?: number
-  action?: boolean
-  name?: string
-  email?: string | undefined
-  userId?: string
-  role?: User['app_metadata']
-}
-
-export interface ProfileProjectMap {
-  key?: string
-  data?: ProfileProjectMapData
-  children?: ProfileProjectMap[]
-}

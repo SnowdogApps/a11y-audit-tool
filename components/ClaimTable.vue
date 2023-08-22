@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { useConfirm } from 'primevue/useconfirm'
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
-import type {
-  ProfileProject,
-  RemoveFromProjectPayload,
-  ProfileProjectMap,
-} from 'types/user'
+import type { TreeNode } from 'primevue/tree'
+import type { ProfileProject, RemoveFromProjectPayload } from 'types/user'
 
 const filters = ref<TreeTableExpandedKeys>({ name: '', email: '', role: '' })
 const confirm = useConfirm()
@@ -31,7 +28,7 @@ const emit = defineEmits<{
 }>()
 
 const nodes = computed(() => {
-  const projectsMap: ProfileProjectMap[] = []
+  const projectsMap: TreeNode[] = []
 
   props.profilesToProjects.forEach((item: ProfileProject) => {
     const { projectId, name, email, userId, metadata } = item
