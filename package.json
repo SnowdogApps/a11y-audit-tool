@@ -35,6 +35,7 @@
     "primevue": "^3.29.2",
     "typescript": "^5.1.3",
     "vee-validate": "^4.9.6",
+    "vue-json-pretty": "^2.2.4",
     "yup": "^1.2.0"
   },
   "engines": {
