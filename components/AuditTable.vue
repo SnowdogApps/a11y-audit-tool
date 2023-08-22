@@ -37,9 +37,6 @@ const confirmAuditRemoval = (id: number) => {
   <TreeTable
     :value="nodes"
     :filters="filters"
-    :paginator="true"
-    :rows="25"
-    :rows-per-page-options="[25, 50, 100]"
   >
     <template #header>
       <div class="text-right">
@@ -74,7 +71,6 @@ const confirmAuditRemoval = (id: number) => {
     <Column
       field="status"
       header="Status"
-      sortable
     />
     <Column header="Action">
       <template #body="scope">
