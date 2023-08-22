@@ -7,7 +7,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const { user, isAdmin, isAuditor } = useUser()
+const { isAdmin, isAuditor } = useUser()
 const supabase = useSupabaseClient<Database>()
 const audits = ref<Audit[]>([])
 const isLoading = ref(true)
@@ -15,14 +15,10 @@ const isLoading = ref(true)
 const toast = useToast()
 
 async function fetchAudits() {
-  let query = supabase
+  const query = supabase
     .from('extended_audits')
     .select('*, axe (id)')
     .order('created_at', { ascending: false })
-
-  if (!isAdmin) {
-    query = query.or(`profile_id.eq.${user.value?.id},status.eq.completed`)
-  }
 
   const { data } = await query
 
