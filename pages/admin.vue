@@ -126,7 +126,7 @@ await fetchProjectProfile()
   <div class="grid">
     <h1>Admin page</h1>
 
-    <Card class="mb-6">
+    <Card class="mb-6 overflow-auto">
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Profile list</h2>
@@ -144,7 +144,7 @@ await fetchProjectProfile()
       </template>
     </Card>
 
-    <Card class="mb-6">
+    <Card class="mb-6 overflow-auto">
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Project list</h2>
@@ -162,7 +162,7 @@ await fetchProjectProfile()
       </template>
     </Card>
 
-    <Card class="mb-6">
+    <Card class="mb-6 overflow-auto">
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Profile per Project list</h2>
