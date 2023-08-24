@@ -1,74 +1,39 @@
 export const trustedTests = [
   {
-    'Test Name': 'Alt-version-conformant ',
+    'Test Name': 'Alt-version',
     'Test ID': '1.A',
-    'Test Category': 'Alternate version ',
-    'WCAG SC': 'Requirements',
-    Level: '',
-    'Test Condition':
-      'An alternate version passes all applicable Test Conditions in this test process.',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
-  },
-  {
-    'Test Name': 'Alt-version-equivalent ',
-    'Test ID': '1.B',
     'Test Category': 'Alternate version',
     'WCAG SC': 'Requirements',
     Level: '',
     'Test Condition':
-      'The accessible version is up to date with the same information and functionality.',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
-  },
-  {
-    'Test Name': 'Alt-version-access',
-    'Test ID': '1.C',
-    'Test Category': 'Alternate version',
-    'WCAG SC': 'Requirements',
-    Level: '',
-    'Test Condition':
-      'The mechanism to reach the accessible equivalent version from the non-conforming page is accessible.',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
-  },
-  {
-    'Test Name': 'Alt-version-nc-access',
-    'Test ID': '1.D',
-    'Test Category': 'Alternate version',
-    'WCAG SC': 'Requirements',
-    Level: '',
-    'Test Condition':
-      'The non-conforming version(s) can only be reached from conforming content.',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
-  },
-  {
-    'Test Name': 'Non-interference',
-    'Test ID': '1.E',
-    'Test Category': 'Non-interference',
-    'WCAG SC': 'Requirements',
-    Level: '',
-    'Test Condition':
-      'Content in the non-conforming version(s) meets Conformance Requirement 5.',
+      '1. There is an alternative version for inaccessible content. 2. The accessible version is up to date with the same information and functionality. 3. The mechanism to reach the accessible equivalent version from the non-conforming page is accessible.',
+    Notes:
+      'TT tests: 1.A, 1.B, 1.C. The alternate version can apply to the entire site, a single subpage or a specific element on the page. All alternative versions should be listed here',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
     'Test Name': '1.4.2-Audio-control',
     'Test ID': '2.A',
-    'Test Category': '2 Autoplay/update',
+    'Test Category': 'Autoplay/update',
     'WCAG SC': '1.4.2',
+    'Test Source': 'Trusted Tester',
     Level: 'A',
     'Test Condition':
-      'The user can pause, stop, or control the volume of audio content that plays automatically.',
+      'The user can pause, stop, or control the volume of audio content that plays automatically. ',
+    'Sufficient Techniques': [
+      'Playing a sound that turns off automatically within three seconds',
+      'Providing a control near the beginning of the Web page that turns off sounds that play automatically',
+      'Playing sounds only on user request',
+    ],
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    Axe: 'no-autoplay-audio',
   },
   {
     'Test Name': '2.2.2-Blinking-moving-scrolling',
     'Test ID': '2.B',
-    'Test Category': '2 Autoplay/update',
+    'Test Category': 'Autoplay/update',
     'WCAG SC': '2.2.2',
     Level: 'A',
     'Test Condition':
@@ -79,7 +44,7 @@ export const trustedTests = [
   {
     'Test Name': '2.2.2-Auto-updating',
     'Test ID': '2.C',
-    'Test Category': '2 Autoplay/update',
+    'Test Category': 'Autoplay/update',
     'WCAG SC': '2.2.2',
     Level: 'A',
     'Test Condition':
@@ -599,7 +564,7 @@ export const trustedTests = [
   {
     'Test Name': '1.2.1-audio-transcript-text',
     'Test ID': '16.A ',
-    'Test Category': '16 Audio/Video-Only',
+    'Test Category': 'Audio/Video-Only',
     'WCAG SC': '1.2.1',
     Level: 'A',
     'Test Condition':
@@ -608,9 +573,9 @@ export const trustedTests = [
       "'Without Hearing, With Limited Hearing','With Limited Language, Cognitive and Learning Abilities'",
   },
   {
-    'Test Name': '1.2.1-video- alternative-equivalent',
+    'Test Name': '1.2.1-video-alternative-equivalent',
     'Test ID': '16.B ',
-    'Test Category': '16 Audio/Video-Only',
+    'Test Category': 'Audio/Video-Only',
     'WCAG SC': '1.2.1',
     Level: 'A',
     'Test Condition':
@@ -621,7 +586,7 @@ export const trustedTests = [
   {
     'Test Name': '1.2.2-captions-equivalent',
     'Test ID': '17.A',
-    'Test Category': "17 Sync'd Media",
+    'Test Category': "Sync'd Media",
     'WCAG SC': '1.2.2',
     Level: 'A',
     'Test Condition':
@@ -632,18 +597,18 @@ export const trustedTests = [
   {
     'Test Name': '1.2.5-audio-description-equivalent',
     'Test ID': '17.B',
-    'Test Category': "17 Sync'd Media",
+    'Test Category': "Sync'd Media",
     'WCAG SC': '1.2.5',
     Level: 'AA',
     'Test Condition':
       'The multimedia provides an equivalent soundtrack (combination of narration and audio descriptions) for the video content.',
     'Disability Impact':
-      'Without Visionn, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+      'Without Vision, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
     'Test Name': '1.2.4-captions-live-equivalent',
     'Test ID': '17.C',
-    'Test Category': "17 Sync'd Media",
+    'Test Category': "Sync'd Media",
     'WCAG SC': '1.2.4',
     Level: 'AA',
     'Test Condition':
@@ -654,7 +619,7 @@ export const trustedTests = [
   {
     'Test Name': '503.4-caption-description-controls',
     'Test ID': '17.D',
-    'Test Category': "17 Sync'd Media",
+    'Test Category': "Sync'd Media",
     'WCAG SC': '503.4',
     Level: '',
     'Test Condition':
@@ -665,7 +630,7 @@ export const trustedTests = [
   {
     'Test Name': '503.4.1-caption-control',
     'Test ID': '17.E ',
-    'Test Category': "17 Sync'd Media",
+    'Test Category': "Sync'd Media",
     'WCAG SC': '503.4.1',
     Level: '',
     'Test Condition':
@@ -676,7 +641,7 @@ export const trustedTests = [
   {
     'Test Name': '503.4.2-description-control',
     'Test ID': '17.F',
-    'Test Category': "17 Sync'd Media",
+    'Test Category': "Sync'd Media",
     'WCAG SC': '503.4.2',
     Level: '',
     'Test Condition':
@@ -714,5 +679,17 @@ export const trustedTests = [
     'Test Condition': 'Not tested.',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': 'Non-interference',
+    'Test ID': '1.E',
+    'Test Category': 'Non-interference',
+    'WCAG SC': 'Requirements',
+    Level: 'A',
+    'Test Condition':
+      "Content in the non-conforming version(s) meets following SCs: 1.4.2 - Audio Control, 2.1.2 - No Keyboard Trap, 2.3.1 - Three Flashes or Below Threshold, 2.2.2 - Pause, Stop, Hide. It's mean test with IDs 2.!, 2.B, 2.C, 3.A and 4.C should be conducted.",
+    url: 'https://www.w3.org/TR/WCAG21/#cc5',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
 ]
