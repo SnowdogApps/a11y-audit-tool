@@ -6,6 +6,10 @@ export interface ListItem {
   code: string
 }
 
+interface SelectedItem {
+  code: string
+}
+
 definePageMeta({
   middleware: 'auth',
 })
@@ -48,6 +52,13 @@ function populateInfo(test: any, infoKey: string, formDataKey: string): void {
   test.info[infoKey] = formData.value[test.info['Test ID']][formDataKey]
 }
 
+function extractSelectedCodes(
+  selectedItems: SelectedItem[],
+  key: string
+): Set<string> {
+  return new Set((selectedItems || []).map((item) => item[key]))
+}
+
 // Get available filters
 audit.value.wcagCoveredByTrustedTest.tests.forEach((test: any) => {
   addToUniqueList(optionLists.value.wcagScList, test.info['WCAG SC'])
@@ -75,18 +86,17 @@ const filteredAudits = computed(() => {
     return audit.value
   } else {
     // Filters part
-    const selectedWcagCodes = new Set(
-      (selectedItems.value.selectedWcagSc || []).map(
-        (wcagScList) => wcagScList.code
-      )
+    const selectedWcagCodes = extractSelectedCodes(
+      selectedItems.value.selectedWcagSc,
+      'code'
     )
-    const selectedLevels = new Set(
-      (selectedItems.value.selectedLevel || []).map(
-        (levelList) => levelList.code
-      )
+    const selectedLevels = extractSelectedCodes(
+      selectedItems.value.selectedLevel,
+      'code'
     )
-    const selectedStatuses = new Set(
-      (selectedItems.value.selectedStatus || []).map((status) => status.code)
+    const selectedStatuses = extractSelectedCodes(
+      selectedItems.value.selectedStatus,
+      'code'
     )
 
     const filteredTests = audit.value.wcagCoveredByTrustedTest.tests.filter(
@@ -125,6 +135,7 @@ const filteredAudits = computed(() => {
         tests: foundObjects,
       },
     }
+
     return filteredAudit
   }
 })
