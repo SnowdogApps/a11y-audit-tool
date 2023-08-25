@@ -131,7 +131,7 @@ export function useAudit(axeResult?: unknown) {
       const results = flattedResults.filter(({ tags }) =>
         tags.includes(`wcag${item['WCAG SC'].replaceAll('.', '')}`)
       )
-      return { info: item, results }
+      return { id: item['Test ID'], info: item, results }
     })
 
     const coveredWCAGsWithTrustedTestSet = new Set()
@@ -161,7 +161,7 @@ export function useAudit(axeResult?: unknown) {
         if (axeItem.length) {
           test.axeTests = axeItem
         }
-        return test
+        return { id: test.ref_id, ...test }
       })
 
     audit.value.axeAdditional.tests = flattedResults.filter(

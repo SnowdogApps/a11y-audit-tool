@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DyanmicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
 const props = defineProps<{
   result: unknown
 }>()
@@ -37,30 +37,40 @@ const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
             :key="`type-${typeIndex}`"
             :header="type.name"
           >
-            <template
-              v-for="(test, testIndex) in type.tests"
-              :key="`test-${testIndex}`"
+            <DynamicScroller
+              :items="type.tests"
+              :min-item-size="317"
+              class="h-full"
             >
-              <LazyWcagCoveredByTrustedTest
-                v-if="typeIndex === 'wcagCoveredByTrustedTest'"
-                :test="test"
-              >
-                <ResultForm
-                  :test-id="test.info['Test ID']"
-                  :test-name="test.info['Test Name']"
-                  :form-data="formData"
-                  @update-field="(value) => updateField(value)"
-                />
-              </LazyWcagCoveredByTrustedTest>
-              <LazyWcagNotCoveredByTrustedTest
-                v-if="typeIndex === 'wcagNotCoveredByTrustedTest'"
-                :test="test"
-              />
-              <LazyAxeResultView
-                v-if="typeIndex === 'axeAdditional'"
-                :test="test"
-              />
-            </template>
+              <template #default="{ item: test, index, active }">
+                <DynamicScrollerItem
+                  :item="test"
+                  :active="active"
+                  :size-dependencies="[test.results]"
+                  :data-index="index"
+                >
+                  <WcagCoveredByTrustedTest
+                    v-if="typeIndex === 'wcagCoveredByTrustedTest'"
+                    :test="test"
+                  >
+                    <ResultForm
+                      :test-id="test.info['Test ID']"
+                      :test-name="test.info['Test Name']"
+                      :form-data="formData"
+                      @update-field="(value) => updateField(value)"
+                    />
+                  </WcagCoveredByTrustedTest>
+                  <LazyWcagNotCoveredByTrustedTest
+                    v-if="typeIndex === 'wcagNotCoveredByTrustedTest'"
+                    :test="test"
+                  />
+                  <LazyAxeResultView
+                    v-if="typeIndex === 'axeAdditional'"
+                    :test="test"
+                  />
+                </DynamicScrollerItem>
+              </template>
+            </DynamicScroller>
           </TabPanel>
         </TabView>
 

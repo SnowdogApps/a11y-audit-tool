@@ -182,12 +182,9 @@ watch(resultId, () => {
         Save your changes before selecting different url, selector or device.
       </InlineMessage>
     </div>
-    <template v-for="axeResult in axeResults">
-      <LazyAuditAxeResult
-        v-if="axeResult.id === resultId"
-        :key="axeResult.id"
-        :result="axeResult"
-      />
-    </template>
+    <AuditAxeResult
+      :key="resultId"
+      :result="axeResults.find((result) => result.id === resultId)"
+    />
   </div>
 </template>
