@@ -6,7 +6,7 @@ import type { SupabaseError } from '~/plugins/error'
 
 export function useAudit(axeResult?: unknown) {
   const toast = useToast()
-  const isLoading = ref(false)
+  const isSaving = ref(false)
   const results = toValue(axeResult?.results || [])
 
   const formData = ref(
@@ -29,7 +29,7 @@ export function useAudit(axeResult?: unknown) {
   }
 
   const saveFormData = async () => {
-    isLoading.value = true
+    isSaving.value = true
     const supabase = useSupabaseClient<Database>()
 
     try {
@@ -50,7 +50,7 @@ export function useAudit(axeResult?: unknown) {
 
       $handleError(error as Error | SupabaseError)
     } finally {
-      isLoading.value = false
+      isSaving.value = false
     }
   }
 
@@ -172,7 +172,7 @@ export function useAudit(axeResult?: unknown) {
   return {
     audit,
     formData,
-    isLoading,
+    isSaving,
     updateField,
     saveFormData,
   }

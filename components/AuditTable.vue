@@ -78,7 +78,7 @@ const confirmAuditRemoval = (id: number) => {
           <NuxtLink
             v-if="scope.node.data.axe.length"
             class="p-button p-button-info mr-2"
-            :to="`/audit/${scope.node.data.id}`"
+            :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
             icon="pi pi-file-edit"
             aria-label="Results"
             title="Display results"

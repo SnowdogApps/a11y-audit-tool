@@ -1,0 +1,73 @@
+<script lang="ts" setup>
+import { DyanmicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+const props = defineProps<{
+  result: unknown
+}>()
+
+const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
+  props.result
+)
+</script>
+
+<template>
+  <div class="flex items-center justify-between">
+    <h2>
+      Result: #{{ result.id }} (<NuxtLink
+        :to="result.results.url"
+        target="_blank"
+        class="mr-auto"
+      >
+        {{ result.results.url }} </NuxtLink
+      >)
+    </h2>
+    <Button
+      :disabled="isSaving"
+      class="p-button w-full shrink justify-center sm:w-auto"
+      @click="saveFormData"
+    >
+      Save
+    </Button>
+  </div>
+  <Card>
+    <template #content>
+      <ClientOnly>
+        <TabView>
+          <TabPanel
+            v-for="(type, typeIndex) in audit"
+            :key="`type-${typeIndex}`"
+            :header="type.name"
+          >
+            <template
+              v-for="(test, testIndex) in type.tests"
+              :key="`test-${testIndex}`"
+            >
+              <LazyWcagCoveredByTrustedTest
+                v-if="typeIndex === 'wcagCoveredByTrustedTest'"
+                :test="test"
+              >
+                <ResultForm
+                  :test-id="test.info['Test ID']"
+                  :test-name="test.info['Test Name']"
+                  :form-data="formData"
+                  @update-field="(value) => updateField(value)"
+                />
+              </LazyWcagCoveredByTrustedTest>
+              <LazyWcagNotCoveredByTrustedTest
+                v-if="typeIndex === 'wcagNotCoveredByTrustedTest'"
+                :test="test"
+              />
+              <LazyAxeResultView
+                v-if="typeIndex === 'axeAdditional'"
+                :test="test"
+              />
+            </template>
+          </TabPanel>
+        </TabView>
+
+        <template #fallback>
+          <Spinner class="mx-auto w-20" />
+        </template>
+      </ClientOnly>
+    </template>
+  </Card>
+</template>
