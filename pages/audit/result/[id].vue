@@ -74,7 +74,7 @@ const { audit, isLoading, formData, updateField, saveFormData } =
           </TabView>
 
           <template #fallback>
-            <p>Loading data...</p>
+            <Spinner class="mx-auto w-20" />
           </template>
         </ClientOnly>
       </template>
