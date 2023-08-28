@@ -163,73 +163,78 @@ onMounted(() => {
   <div class="grid">
     <h1>Admin page</h1>
 
-    <Card class="mb-6 overflow-auto">
-      <template #content>
-        <section class="mr-4">
-          <h2 class="underline">Profile list</h2>
-          <ProfileTable
-            v-if="getUsersWithEmails.length"
-            :profiles="getUsersWithEmails"
-          />
-          <p
-            v-else
-            class="ml-4"
-          >
-            Profile list is empty.
-          </p>
-        </section>
-      </template>
-    </Card>
-
-    <Card class="mb-6 overflow-auto">
-      <template #content>
-        <section class="mr-4">
-          <h2 class="underline">Project list</h2>
-          <ProjectTable
-            v-if="projects.length"
-            :projects="projects"
-          />
-          <p
-            v-else
-            class="ml-4"
-          >
-            Project list is empty.
-          </p>
-        </section>
-      </template>
-    </Card>
-
-    <Card class="mb-6 overflow-auto">
-      <template #content>
-        <section class="mr-4">
-          <h2 class="underline">Profile per Project list</h2>
-          <ClaimTable
-            v-if="getProfileProject.length"
-            :is-loading="isLoading"
-            :profiles-to-projects="getProfileProject"
-            @remove="removeProfileFromProject"
-          />
-          <p
-            v-else
-            class="ml-4"
-          >
-            Profile per Project list is empty.
-          </p>
-        </section>
-      </template>
-    </Card>
-
-    <EditUserTypeForm
-      :users="getUsersWithEmails"
-      @after-submit="fetchProfiles"
+    <Spinner
+      v-if="isFetching"
+      class="mx-auto my-10 w-40"
     />
+    <div v-else>
+      <Card class="mb-6 overflow-auto">
+        <template #content>
+          <section class="mr-4">
+            <h2 class="underline">Profile list</h2>
+            <ProfileTable
+              v-if="getUsersWithEmails.length"
+              :profiles="getUsersWithEmails"
+            />
+            <p
+              v-else
+              class="ml-4"
+            >
+              Profile list is empty.
+            </p>
+          </section>
+        </template>
+      </Card>
 
-    <CreateProjectForm @after-submit="fetchProjects" />
+      <Card class="mb-6 overflow-auto">
+        <template #content>
+          <section class="mr-4">
+            <h2 class="underline">Project list</h2>
+            <ProjectTable
+              v-if="projects.length"
+              :projects="projects"
+            />
+            <p
+              v-else
+              class="ml-4"
+            >
+              Project list is empty.
+            </p>
+          </section>
+        </template>
+      </Card>
 
-    <AddProfileToProjectForm
-      :profiles="getUsersWithEmails"
-      :projects="projects"
-      @after-submit="fetchProjectProfile()"
-    />
+      <Card class="mb-6 overflow-auto">
+        <template #content>
+          <section class="mr-4">
+            <h2 class="underline">Profile per Project list</h2>
+            <ClaimTable
+              v-if="getProfileProject.length"
+              :is-loading="isLoading"
+              :profiles-to-projects="getProfileProject"
+              @remove="removeProfileFromProject"
+            />
+            <p
+              v-else
+              class="ml-4"
+            >
+              Profile per Project list is empty.
+            </p>
+          </section>
+        </template>
+      </Card>
+      <EditUserTypeForm
+        :users="getUsersWithEmails"
+        @after-submit="fetchProfiles"
+      />
+
+      <CreateProjectForm @after-submit="fetchProjects" />
+
+      <AddProfileToProjectForm
+        :profiles="getUsersWithEmails"
+        :projects="projects"
+        @after-submit="fetchProjectProfile()"
+      />
+    </div>
   </div>
 </template>
