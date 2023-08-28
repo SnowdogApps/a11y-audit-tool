@@ -50,7 +50,7 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
             >
               <div v-if="typeIndex === 'wcagCoveredByTrustedTest'">
                 <div class="flex flex-row flex-wrap gap-4 p-4">
-                  <div class="flex flex-row flex-wrap gap-x-2 gap-y-8">
+                  <div class="flex flex-row flex-wrap gap-2">
                     <span class="flex flex-col">
                       <label
                         for="wcagScList"
