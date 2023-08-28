@@ -15,4 +15,10 @@ export interface ProfileWithEmail extends Profile {
 export interface ProfileProject {
   name: Project['name']
   email: User['email']
+  userId: User['id']
+  projectId: Project['id']
+  metadata: User['app_metadata']
 }
+
+export interface RemoveFromProjectPayload
+  extends Pick<ProfileProject, 'userId' | 'projectId'> {}

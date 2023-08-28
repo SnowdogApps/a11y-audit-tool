@@ -8,6 +8,7 @@ const props = defineProps<{
 const nodes = computed(() =>
   props.profiles.map((profile) => ({
     data: {
+      userType: profile.user_type?.replace(/^"(.*)"$/, '$1'),
       ...profile,
       name: `${profile.email} ${
         profile.username ? `[${profile.username}]` : ''
@@ -20,6 +21,9 @@ const nodes = computed(() =>
 <template>
   <TreeTable
     :value="nodes"
+    :paginator="true"
+    :rows="10"
+    :rows-per-page-options="[10, 25, 50]"
     :auto-layout="true"
   >
     <Column
@@ -34,6 +38,10 @@ const nodes = computed(() =>
     <Column
       field="email"
       header="Email"
+    />
+    <Column
+      field="userType"
+      header="User Type"
     />
   </TreeTable>
 </template>
