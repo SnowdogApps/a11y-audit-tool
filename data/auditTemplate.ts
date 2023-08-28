@@ -76,6 +76,30 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
+    'Test Name': '4.1.3-status-messages',
+    'Test ID': '413.custom',
+    'Test Category': 'Autoplay/update',
+    'WCAG SC': ['4.1.3'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'AA',
+    'Test Conditions': [
+      'In content implemented using markup languages, status messages can be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus',
+    ],
+    Techniques: [
+      'Use live region to inform user about content changes',
+      'Using role=status to present status messages',
+      'Using ARIA role=alert or Live Regions to Identify Errors',
+      'Providing text descriptions to identify required fields that were not completed',
+      'Providing a text description when the user provides information that is not in the list of allowed values',
+      'Providing a text description when user input falls outside the required format or values',
+      'Providing suggested correction text',
+      'Using role=log to identify sequential information updates',
+    ],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+  },
+  {
     'Test Name': '2.3.1-flashing',
     'Test ID': '3.A',
     'Test Category': 'Flashing',
@@ -208,6 +232,82 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
+    'Test Name': '1.4.13-hover-focus-content',
+    'Test ID': '1413.custom',
+    'Test Category': 'Keyboard/focus',
+    'WCAG SC': ['1.4.13'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'AA',
+    'Test Conditions': [
+      'Where receiving and then removing pointer hover or keyboard focus triggers additional content to become visible and then hidden, the content should be dismissable, hoverable and persistent unless the content is controlled by user agent',
+      'A mechanism is available to dismiss the additional content without moving pointer hover or keyboard focus, unless the additional content communicates an input error or does not obscure or replace other content',
+      'If pointer hover can trigger the additional content, then the pointer can be moved over the additional content without the additional content disappearing',
+      'The additional content remains visible until the hover or focus trigger is removed, the user dismisses it, or its information is no longer valid',
+    ],
+    Techniques: [
+      'Making content on focus or hover hoverable, dismissible, and persistent',
+      'ARIA: Using role="tooltip"',
+      'CSS: Using hover and focus pseudo classes',
+    ],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': '2.1.4-character-key-shortcut',
+    'Test ID': '214.custom',
+    'Test Category': 'Keyboard/focus',
+    'WCAG SC': ['2.1.4'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'A',
+    'Test Conditions': [
+      'If a keyboard shortcut is implemented in content using only letter (including upper-and lower-case letters), punctuation, number, or symbol characters a mechanism to turn shortcut off is implemented OR a mechanism to remap the shortcut is implemented OR the keyboard shortcut for a user interface component is only active when that component has focus',
+    ],
+    Techniques: [
+      'Providing a mechanism to allow users to remap or turn off character key shortcuts',
+    ],
+    Note: 'For custom keyboard shortcut',
+    'Disability Impact':
+      'With Limited Manipulation, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': '2.5.1-pointer-gestures',
+    'Test ID': '251.custom',
+    'Test Category': 'Keyboard/focus',
+    'WCAG SC': ['2.5.1'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'A',
+    'Test Conditions': [
+      'All functionality that uses multipoint or path-based gestures for operation can be operated with a single pointer without a path-based gesture, unless a multipoint or path-based gesture is essential.',
+    ],
+    Techniques: [
+      'Providing controls to achieve the same result as path based or multipoint gestures',
+      'Providing single point activation for a control slider',
+    ],
+    Note: 'This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).',
+    'Disability Impact':
+      'With Limited Manipulation, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': '2.5.2-pointer-gestures',
+    'Test ID': '252.custom',
+    'Test Category': 'Keyboard/focus',
+    'WCAG SC': ['2.5.2'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'A',
+    'Test Conditions': [
+      'For functionality that can be operated using a single pointer the down-event of the pointer is not used to execute any part of the function OR Completion of the function is on the up-event, and a mechanism is available to abort the function before completion or to undo the function after completion OR The up-event reverses any outcome of the preceding down-event',
+    ],
+    Techniques: [
+      'Ensuring that drag-and-drop actions can be cancelled',
+      'Using native controls to ensure functionality is triggered on the up-event',
+      'Touch events are only triggered when touch is removed from a control',
+    ],
+    Note: 'This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).',
+    'Disability Impact':
+      'With Limited Manipulation, Cognitive and Learning Abilities',
+  },
+  {
     'Test Name': '1.3.1-programmatic-label',
     'Test ID': '5.C',
     'Test Category': 'Forms',
@@ -315,8 +415,8 @@ export const trustedTests = [
   },
   {
     'Test Name': '3.3.1-error-identification',
-    'Test ID': '5.F ',
-    'Test Category': 'Forms ',
+    'Test ID': '5.F',
+    'Test Category': 'Forms',
     'WCAG SC': ['3.3.1'],
     'axe-rules': true, // all by WCAG SC if exist
     Level: 'A',
@@ -363,7 +463,7 @@ export const trustedTests = [
   },
   {
     'Test Name': '3.3.4-error-prevention',
-    'Test ID': '5.H ',
+    'Test ID': '5.H',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.4'],
     'axe-rules': true, // all by WCAG SC if exist
@@ -381,6 +481,21 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': '1.3.5-input-purpose',
+    'Test ID': '135.custom',
+    'Test Category': 'Forms',
+    'WCAG SC': ['1.3.5'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'AA',
+    'Test Conditions': [
+      'Input type and autocomplete is programmatically determined and appropriate',
+    ],
+    Techniques: ['Using HTML 5.2 autocomplete attributes'],
+    Note: '',
+    'Disability Impact':
+      'With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
     'Test Name': '2.4.4-link-purpose',
@@ -429,6 +544,26 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': '2.5.3-label-in-name',
+    'Test ID': '253.custom',
+    'Test Category': 'Links/buttons',
+    'WCAG SC': ['2.5.3'],
+    'axe-rules': true, // all by WCAG SC if exist
+    Level: 'A',
+    'Test Conditions': [
+      'For user interface components with labels that include text or images of text, the name contains the text that is presented visually',
+      'Accessible name matches visible label',
+      'Accessible name starts with visible label',
+    ],
+    Techniques: [
+      'Including the text of the visible label as part of the accessible name',
+      'Matching the accessible name to the visible label',
+    ],
+    Note: '',
+    'Disability Impact':
+      'With Limited Language, Cognitive and Learning Abilities, Speech Users',
   },
   {
     'Test Name': '1.1.1-image-name',
@@ -780,6 +915,26 @@ export const trustedTests = [
     'Disability Impact': 'With Limited Vision, Without Perception of Color',
   },
   {
+    'Test Name': '1.4.11-non-text-contrast',
+    'Test ID': '1411.custom',
+    'Test Category': 'Sensory and Color',
+    'WCAG SC': ['1.4.11'],
+    'axe-rules': true, // all by WCAG SC if exists
+    Level: 'AA',
+    'Test Conditions': [
+      'Important visual information meets the same minimum contrast required for larger text',
+      'Ensure meaningful visual cues achieve 3:1 against the background',
+    ],
+    Techniques: [
+      'Using an author-supplied, visible focus indicator',
+      'Providing a control with a sufficient contrast ratio that allows users to switch to a presentation that uses sufficient contrast',
+      'Ensuring that a contrast ratio of 3:1 is provided for graphical elements',
+      'Provide sufficient contrast at the boundaries between adjoining colors',
+    ],
+    Note: '',
+    'Disability Impact': 'With Limited Vision, Without Perception of Color',
+  },
+  {
     'Test Name': '1.3.1-table-identification',
     'Test ID': '14.A',
     'Test Category': 'Tables',
@@ -1010,7 +1165,7 @@ export const trustedTests = [
   {
     'Test Name': '1.4.4-resize-text',
     'Test ID': '18.A',
-    'Test Category': 'Resize Text',
+    'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.4'],
     'axe-rules': true, // all by WCAG SC if exists
     Level: 'AA',
@@ -1027,6 +1182,95 @@ export const trustedTests = [
     ],
     Note: '',
     'Disability Impact': 'With Limited Vision',
+  },
+  {
+    'Test Name': '1.3.4-orientation',
+    'Test ID': '134.custom',
+    'Test Category': 'Presentation and resize',
+    'WCAG SC': ['1.3.4'],
+    'axe-rules': true, // all by WCAG SC if exists
+    Level: 'AA',
+    'Test Conditions': [
+      'Content does not restrict its view and operation to a single display orientation (portrait or landscape)',
+    ],
+    Techniques: [
+      'Using a control to allow access to content in different orientations which is otherwise restricted',
+    ],
+    Note: '',
+    'Disability Impact':
+      'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+  },
+  {
+    'Test Name': '1.4.10-reflow',
+    'Test ID': '1410.custom',
+    'Test Category': 'Presentation and resize',
+    'WCAG SC': ['1.4.10'],
+    'axe-rules': true, // all by WCAG SC if exists
+    Level: 'AA',
+    'Test Conditions': [
+      'Content can be enlarged without requiring horizontal scrolling unless horizontal scrolling is essential for understanding (graphs, video, games, presentations, data tables etc)',
+    ],
+    Techniques: [
+      'Using media queries and grid CSS to reflow columns',
+      'Using CSS Flexbox to reflow content',
+      'Allowing for Reflow with Long URLs and Strings of Text',
+      'Using CSS width, max-width and flexbox to fit labels and inputs',
+      'Calculating size and position in a way that scales with text size',
+      'Providing options within the content to switch to a layout that does not require the user to scroll horizontally to read a line of text',
+      'Advisory: Using media queries to un-fixing sticky headers / footers',
+      'Advisory: Using CSS max-width and height to fit images',
+      'Advisory: CSS, Reflowing simple data tables (Potential future technique)',
+      'Advisory: CSS, Fitting data cells within the width of the viewport (Potential future technique)',
+      'Advisory: Mechanism to allow mobile view at any time (Potential future technique)',
+    ],
+    Note: '',
+    'Disability Impact':
+      'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+  },
+  {
+    'Test Name': '1.4.12-text-spacing',
+    'Test ID': '1412.custom',
+    'Test Category': 'Presentation and resize',
+    'WCAG SC': ['1.4.12'],
+    'axe-rules': true, // all by WCAG SC if exists
+    Level: 'AA',
+    'Test Conditions': [
+      'Line height (line spacing) to at least 1.5 times the font size',
+      'Spacing following paragraphs to at least 2 times the font size',
+      'Letter spacing (tracking) to at least 0.12 times the font size',
+      'Word spacing to at least 0.16 times the font size',
+      'Users can adjust text spacing to make it easier to read',
+      'Ensure content adapts to user-defined text settings',
+    ],
+    Techniques: [
+      'Allowing for text spacing override',
+      'Allowing for text spacing without wrapping',
+      'Advisory: Using CSS letter-spacing to control spacing within a word',
+      'Advisory: Specifying line spacing in CSS',
+      'Advisory: Specifying the size of text containers using em units',
+    ],
+    Note: '',
+    'Disability Impact':
+      'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+  },
+  {
+    'Test Name': '2.5.4-motion-actuation',
+    'Test ID': '254.custom',
+    'Test Category': 'Presentation and resize',
+    'WCAG SC': ['2.5.4'],
+    'axe-rules': true, // all by WCAG SC if exists
+    Level: 'A',
+    'Test Conditions': [
+      "Content is not dependent on a user's ability to move a device",
+      'The motion is used to operate functionality through an accessibility supported interface',
+    ],
+    Techniques: [
+      'Provide conventional controls and an application setting for motion activated input',
+      'Supporting system level features which allow the user to disable motion actuation',
+    ],
+    Note: '',
+    'Disability Impact':
+      'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
   },
   {
     'Test Name': '2.4.5-multiple-ways',

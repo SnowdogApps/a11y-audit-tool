@@ -60,7 +60,7 @@ const defaultCategories = [
     name: "17 Sync'd Media",
   },
   {
-    name: '18 Resize Text',
+    name: '18 Presentation and resize',
   },
   {
     name: '19 Multiple Ways',
