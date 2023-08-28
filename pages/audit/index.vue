@@ -66,7 +66,7 @@ onMounted(async () => {
             class: 'flex flex-col',
           },
         }"
-        class="mb-6"
+        class="mb-6 overflow-auto"
       >
         <template #content>
           <Spinner

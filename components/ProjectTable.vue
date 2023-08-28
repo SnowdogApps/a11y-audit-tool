@@ -19,6 +19,7 @@ const nodes = computed(() =>
 
 <template>
   <TreeTable
+    :auto-layout="true"
     :value="nodes"
     :paginator="true"
     :rows="10"

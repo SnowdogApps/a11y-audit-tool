@@ -24,6 +24,7 @@ const nodes = computed(() =>
     :paginator="true"
     :rows="10"
     :rows-per-page-options="[10, 25, 50]"
+    :auto-layout="true"
   >
     <Column
       field="id"

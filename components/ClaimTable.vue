@@ -62,6 +62,7 @@ const nodes = computed(() => {
 
 <template>
   <TreeTable
+    :auto-layout="true"
     :value="nodes"
     :filters="filters"
     filter-mode="lenient"
