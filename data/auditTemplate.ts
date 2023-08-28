@@ -24,7 +24,7 @@ export const trustedTests = [
     'Test Conditions': [
       'The user can pause, stop, or control the volume of audio content that plays automatically. ',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Playing a sound that turns off automatically within three seconds',
       'Providing a control near the beginning of the Web page that turns off sounds that play automatically',
       'Playing sounds only on user request',
@@ -37,14 +37,14 @@ export const trustedTests = [
     'Test Name': '2.2.2-pause-stop-hide',
     'Test ID': '2.B.custom',
     'Test Category': 'Autoplay/update',
-    'WCAG SC': '2.2.2',
+    'WCAG SC': ['2.2.2'],
     'axe-rules': false, // all by WCAG SC
     Level: 'A',
     'Test Conditions': [
       'The user can pause, stop, or hide moving, blinking, or scrolling content that 1) start automatically, 2) lasts more than five seconds and 3) is presented in parallel with other content unless the movement, blinking, or scrolling is part of an activity where it is essential',
       'The user can pause, stop, hide, or control the frequency of automatically updating content.',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Allowing the content to be paused and restarted from where it was paused',
       'Using script to scroll content, and providing a mechanism to pause it',
       'Content (including gif images) blinks for less than 5 seconds',
@@ -59,13 +59,13 @@ export const trustedTests = [
     'Test Name': '4.1.2-change-notify-auto',
     'Test ID': '2.D',
     'Test Category': 'Autoplay/update',
-    'WCAG SC': '4.1.2',
+    'WCAG SC': ['4.1.2'],
     'axe-rules': null, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions': [
       'The page provides notification of each automatic update/change in content or other mechanism that inform user about changes.',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Use live region to inform user about content changes',
       'Use proper role to inform user agent about content changes',
       'Move focus to content that change/update/appears on the page',
@@ -79,13 +79,13 @@ export const trustedTests = [
     'Test Name': '2.3.1-flashing',
     'Test ID': '3.A',
     'Test Category': 'Flashing',
-    'WCAG SC': '2.3.1',
+    'WCAG SC': ['2.3.1'],
     'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions': [
       'If NO flashing content is found, then this Test Condition is DOES NOT APPLY (Requirements). If flashing content IS found, then this test should be recorded as NOT TESTED.',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Ensuring that no component of the content flashes more than three times in any 1-second period',
       'Keeping the flashing area small enough (25% of any 10 degree visual field), see: https://www.w3.org/WAI/WCAG21/Techniques/general/G176',
       'Using a tool to ensure that content does not violate the general flash threshold or red flash threshold, see: https://www.w3.org/WAI/WCAG21/Techniques/general/G15',
@@ -98,13 +98,13 @@ export const trustedTests = [
     'Test Name': '2.1.1-keyboard-access',
     'Test ID': '4.A.custom',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.1.1',
+    'WCAG SC': ['2.1.1'],
     'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions': [
       'All functionality can be accessed and executed using only the keyboard.',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Ensuring keyboard control for all functionality',
       'Providing keyboard-triggered event handlers when not provided with role element by default',
     ],
@@ -116,13 +116,13 @@ export const trustedTests = [
     'Test Name': '2.1.1-no-keystroke-timing',
     'Test ID': '4.B',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.1.1',
+    'WCAG SC': ['2.1.1'],
     'axe-rules': null, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions': [
       'Individual keystrokes do not require specific timings for activation of functionality.',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Ensuring alternative, no time limited keyboard method for the action',
       'Provide a mechanism to pause time limitation',
     ],
@@ -134,11 +134,11 @@ export const trustedTests = [
     'Test Name': '2.1.2-no-keyboard-trap',
     'Test ID': '4.C',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.1.2',
+    'WCAG SC': ['2.1.2'],
     'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions': ['There is no keyboard trap.'],
-    'Sufficient Techniques': [
+    Techniques: [
       'Ensuring that users are not trapped in content.',
       'If focus move inside the element, ensuring keyboard action to move outside - close button or escape key accessible',
     ],
@@ -150,12 +150,12 @@ export const trustedTests = [
     'Test Name': '2.4.7-focus-visible',
     'Test ID': '4.D',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.4.7',
+    'WCAG SC': ['2.4.7'],
     'axe-rules': false, // all by WCAG SC if exist
     Level: 'AA',
     'Test Conditions':
       'A visible indication of focus is provided when focus is on the interface component.',
-    'Sufficient Techniques': [
+    Techniques: [
       'Using user interface components that are highlighted by the user agent when they receive focus',
       'Using CSS to change the presentation of a user interface component when it receives focus',
       'Using the default focus indicator for the platform so that high visibility default focus indicators will carry over',
@@ -171,12 +171,12 @@ export const trustedTests = [
     'Test Name': '3.2.1-on-focus',
     'Test ID': '4.E',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': '3.2.1',
+    'WCAG SC': ['3.2.1'],
     'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions':
       'When an interface component receives focus, it does not initiate an unexpected change of context.',
-    'Sufficient Techniques': [
+    Techniques: [
       'Using "activate" rather than "focus" as a trigger for changes of context',
     ],
     Note: '',
@@ -187,49 +187,74 @@ export const trustedTests = [
     'Test Name': '2.4.3-focus-order-meaning',
     'Test ID': '4.F',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.4.3',
+    'WCAG SC': ['2.4.3'],
     'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions': [
       'The focus order preserves the meaning and operability of the web page.',
+      'Focus is moved to revealed content (expanded components, menus, dialogs).',
+      'Focus is returned to the logical sequence (expanded components, menus, dialogs).',
     ],
-    'Sufficient Techniques': [
+    Techniques: [
       'Placing the interactive elements in an order that follows sequences and relationships within the content',
       'Making the DOM order match the visual order',
       'Creating Custom Dialogs in a Device Independent Way and control focus',
       'Reordering page sections using the Document Object Model',
     ],
+    Note: 'Trusted Tester 4.F, 4.G, 4.H',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    'Test Name': '2.4.3-focus-order-reveal',
-    'Test ID': '4.G',
-    'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.4.3',
+    'Test Name': '1.3.1-programmatic-label',
+    'Test ID': '5.C',
+    'Test Category': 'Forms',
+    'WCAG SC': ['1.3.1', '4.1.2'],
+    'axe-rules': [
+      'aria-input-field-name',
+      'aria-toggle-field-name',
+      'label',
+      'select-name',
+      'aria-required-children',
+      'aria-required-parent',
+    ],
     Level: 'A',
-    'Test Conditions': ['Focus is moved to revealed content.'],
+    'Test Conditions':
+      'The combination of the accessible name, accessible description, and other programmatic associations (e.g., table column and/or row associations) describes each input field and includes all relevant instructions and cues (textual and graphical).',
+    Techniques: [
+      'Using label elements to associate text labels with form controls',
+      'Using aria-labelledby or aria-label to provide a name for user interface controls',
+      'Using grouping roles to identify related form controls',
+      'Using the title attribute to identify form controls when the label element cannot',
+      'Providing a description for groups of form controls using fieldset and legend elements',
+      'Using optgroup to group option elements inside a select',
+      'Using the aria-describedby property to provide a descriptive label for user interface controls',
+    ],
     Note: '',
     'Disability Impact':
-      'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
-  },
-  {
-    'Test Name': '2.4.3-focus-order-return',
-    'Test ID': '4.H',
-    'Test Category': 'Keyboard/focus',
-    'WCAG SC': '2.4.3',
-    Level: 'A',
-    'Test Conditions': 'Focus is returned to the logical sequence.',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+      'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
     'Test Name': '3.3.2-label-provided',
     'Test ID': '5.A',
     'Test Category': 'Forms',
-    'WCAG SC': '3.3.2',
+    'WCAG SC': ['3.3.2'],
+    'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions': 'Labels or instructions are provided for form elements.',
+    Techniques: [
+      'Providing descriptive labels AND:',
+      'Using the aria-describedby property to provide a descriptive label for user interface',
+      'Using aria-labelledby to concatenate a label from several text nodes',
+      'Using grouping roles to identify related form controls',
+      'Providing expected data format and example',
+      'Providing text instructions at the beginning of a form or set of fields that describes the necessary input',
+      'Positioning labels to maximize predictability of relationships',
+      'Providing text descriptions to identify required fields that were not completed',
+      'Indicating required form controls using label or legend',
+      'Providing a description for groups of form controls using fieldset and legend elements',
+    ],
+    Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
@@ -237,31 +262,30 @@ export const trustedTests = [
     'Test Name': '2.4.6-label-descriptive',
     'Test ID': '5.B',
     'Test Category': 'Forms',
-    'WCAG SC': '2.4.6',
+    'WCAG SC': ['2.4.6'],
+    'axe-rules': false, // all by WCAG SC if exist
     Level: 'AA',
-    'Test Conditions': 'Each form label is sufficiently descriptive. ',
+    'Test Conditions': 'Each form label is sufficiently descriptive.',
+    Techniques: ['Providing descriptive labels'],
+    Note: '',
     'Disability Impact':
-      "Without Vision, With Limited Vision, With Limited Manipulation','With Limited Language, Cognitive and Learning Abilities",
-  },
-  {
-    'Test Name': '1.3.1-programmatic-label',
-    'Test ID': '5.C',
-    'Test Category': 'Forms',
-    'WCAG SC': ['1.3.1', '4.1.2'],
-    Level: 'A',
-    'Test Conditions':
-      'The combination of the accessible name, accessible description, and other programmatic associations (e.g., table column and/or row associations) describes each input field and includes all relevant instructions and cues (textual and graphical).',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+      'Without Vision, With Limited Vision, With Limited Manipulation,With Limited Language, Cognitive and Learning Abilities',
   },
   {
     'Test Name': '3.2.2-on-input',
     'Test ID': '5.D',
     'Test Category': 'Forms',
-    'WCAG SC': '3.2.2',
+    'WCAG SC': ['3.2.2'],
+    'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions':
       'Changing field values/selections (e.g., entering data in a text field, changing a radio button section) does NOT initiate and unexpected change of context.',
+    Techniques: [
+      'Providing a submit button to initiate a change of context',
+      'Describing what will happen before a change to a form control that causes a change of context to occur is made',
+      'Using an onchange event on a select element without causing a change of context',
+    ],
+    Note: '',
     'Disability Impact':
       'Without Vision, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
@@ -269,32 +293,62 @@ export const trustedTests = [
     'Test Name': '4.1.2-change-notify-form',
     'Test ID': '5.E ',
     'Test Category': 'Forms',
-    'WCAG SC': '4.1.2',
+    'WCAG SC': ['4.1.2'],
+    'axe-rules': null, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions':
       'The page provides notification of each form-related change in content.',
+    Techniques: [
+      'Using the accessibility API features of a technology to expose names and notification',
+      'Creating components using a technology that supports the accessibility notification of changes',
+    ],
+    Note: '',
     'Disability Impact':
-      "Without Vision, With Limited Vision','With Limited Language, Cognitive and Learning Abilities",
+      'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
     'Test Name': '3.3.1-error-identification',
     'Test ID': '5.F ',
     'Test Category': 'Forms ',
-    'WCAG SC': '3.3.1',
+    'WCAG SC': ['3.3.1'],
+    'axe-rules': false, // all by WCAG SC if exist
     Level: 'A',
     'Test Conditions':
-      'The item in error is identified in text and sufficiently described to the user in text.',
+      'The item in error is identified in text and sufficiently described to the user in text. Not color-only.',
+    Techniques: [
+      'Providing text descriptions to identify required fields that were not completed',
+      'Providing errors identification using text, not color-only change',
+      'Using Aria-Invalid to Indicate An Error Field',
+      'Providing client-side validation and alert',
+      'Providing a text description when the user provides information that is not in the list of allowed values',
+      'Providing a text description when user input falls outside the required format or values',
+      'Providing client-side validation and adding error text via the DOM',
+      'Advisory: Creating a mechanism that allows users to jump to errors',
+      'Advisory: Providing success feedback when data is submitted successfully',
+    ],
+    Note: '',
     'Disability Impact':
       "Without Vision, With Limited Vision','Without Perception of Color, With Limited Language, Cognitive and Learning Abilities",
   },
   {
     'Test Name': '3.3.3-error-suggestion',
-    'Test ID': '5.G ',
+    'Test ID': '5.G',
     'Test Category': 'Forms',
-    'WCAG SC': '3.3.3',
+    'WCAG SC': ['3.3.3'],
+    'axe-rules': false, // all by WCAG SC if exist
     Level: 'AA',
     'Test Conditions':
       'Guidance (e.g., suggestion for corrected input) is provided about how to correct errors for form fields.',
+    Techniques: [
+      'Providing a text description when user input falls outside the required format or values',
+      'Providing suggested correction text',
+      'Using aria-alertdialog to Identify Errors',
+      'Providing client-side validation and adding error text via the DOM',
+      'Providing client-side validation and alert',
+      'Advisory: Creating a mechanism that allows users to jump to errors',
+      'Advisory: Providing success feedback when data is submitted successfully',
+    ],
+    Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
@@ -302,10 +356,19 @@ export const trustedTests = [
     'Test Name': '3.3.4-error-prevention',
     'Test ID': '5.H ',
     'Test Category': 'Forms',
-    'WCAG SC': '3.3.4',
+    'WCAG SC': ['3.3.4'],
+    'axe-rules': false, // all by WCAG SC if exist
     Level: 'AA',
     'Test Conditions':
       'The web page allows the user to check, reverse, and/or confirm submission.',
+    Techniques: [
+      'Providing the ability for the user to review and correct answers before submitting',
+      'Providing a checkbox in addition to a submit button',
+      'Providing the ability to recover deleted information',
+      'Requesting confirmation to continue with selected action',
+      'Providing a stated time within which an online request (or transaction) may be amended or canceled by the user after making the request',
+    ],
+    Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
   },
