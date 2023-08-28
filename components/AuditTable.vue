@@ -143,7 +143,7 @@ const confirmAuditRemoval = (id: number) => {
             :model-value="selectedColumns"
             :options="columns"
             option-label="header"
-            class="w-full lg:w-auto"
+            class="w-full overflow-auto lg:w-auto"
             display="chip"
             placeholder="Select Columns"
             @update:model-value="onToggle"
