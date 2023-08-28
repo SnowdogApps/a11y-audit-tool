@@ -10,7 +10,7 @@ const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
 </script>
 
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between gap-10">
     <h2>
       Result: #{{ result.id }} (<NuxtLink
         :to="result.results.url"
