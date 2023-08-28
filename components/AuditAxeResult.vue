@@ -40,7 +40,7 @@ const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
             <DynamicScroller
               :items="type.tests"
               :min-item-size="317"
-              class="h-screen"
+              page-mode
             >
               <template #default="{ item: test, index, active }">
                 <DynamicScrollerItem
