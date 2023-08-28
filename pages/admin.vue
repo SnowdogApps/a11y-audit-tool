@@ -31,6 +31,7 @@ const supabase = useSupabaseClient<Database>()
 const toast = useToast()
 
 const isLoading = ref(false)
+const isFetching = ref(true)
 const profiles = ref<Profile[]>([])
 const authData = ref<User[]>([])
 const projects = ref<Project[]>([])
@@ -61,34 +62,60 @@ const getProfileProject = computed((): ProfileProject[] =>
         name: projectData?.name ?? '',
         userId: user?.id ?? '',
         projectId: projectData!.id,
-        metadata: user!.app_metadata,
+        metadata: user?.app_metadata || {},
       }
     }
   )
 )
 
 async function fetchProfiles() {
-  const { data: authUsers } = await useFetch<{
-    users: User[]
-    aud: string
-    nextPage: number | null
-    lastPage: number
-    total: number
-  }>('/api/users')
-  const { data } = await supabase.from('profiles').select('*')
+  try {
+    const { data: authUsers } = await useFetch<{
+      users: User[]
+      aud: string
+      nextPage: number | null
+      lastPage: number
+      total: number
+    }>('/api/users')
 
-  authData.value = authUsers.value?.users || []
-  profiles.value = data || []
+    const { data } = await supabase.from('profiles').select('*')
+
+    authData.value = authUsers.value?.users || []
+    profiles.value = data || []
+  } catch (error) {
+    console.error('Error fetching profiles:', error)
+  }
 }
 
 async function fetchProjects() {
-  const { data } = await supabase.from('projects').select('*')
-  projects.value = data || []
+  try {
+    const { data } = await supabase.from('projects').select('*')
+    projects.value = data || []
+  } catch (error) {
+    console.error('Error fetching projects:', error)
+  }
 }
 
 async function fetchProjectProfile() {
-  const { data } = await supabase.from('profile_project').select('*')
-  profileProject.value = data || []
+  try {
+    const { data } = await supabase.from('profile_project').select('*')
+    profileProject.value = data || []
+  } catch (error) {
+    console.error('Error fetching project profiles:', error)
+  }
+}
+
+async function fetchData() {
+  try {
+    isFetching.value = true
+
+    await Promise.all([fetchProfiles(), fetchProjects(), fetchProjectProfile()])
+
+    isFetching.value = false
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    isFetching.value = false
+  }
 }
 
 async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
@@ -125,9 +152,11 @@ async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
   }
 }
 
-await fetchProfiles()
-await fetchProjects()
-await fetchProjectProfile()
+onMounted(() => {
+  nextTick(async () => {
+    await fetchData()
+  })
+})
 </script>
 
 <template>
