@@ -8,7 +8,7 @@ const props = defineProps<{
 const nodes = computed(() =>
   props.profiles.map((profile) => ({
     data: {
-      userType: profile.user_type?.replace(/^"(.*)"$/, '$1'),
+      userType: profile.user_type,
       ...profile,
       name: `${profile.email} ${
         profile.username ? `[${profile.username}]` : ''
