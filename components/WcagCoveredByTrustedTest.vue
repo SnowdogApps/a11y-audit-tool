@@ -14,7 +14,7 @@ defineProps<{
       <slot />
     </div>
     <div
-      v-if="test.results.length"
+      v-if="test.results?.length"
       class="mt-4"
     >
       <p class="mb-4 font-bold">
@@ -29,7 +29,7 @@ defineProps<{
           <template #header>
             <div>
               <span class="mr-4">
-                {{ result.helper.help }}
+                {{ result?.helper?.help }}
               </span>
               <Tag
                 :value="result.type"

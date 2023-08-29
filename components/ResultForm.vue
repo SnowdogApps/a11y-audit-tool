@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import type { FormData, FormDataField } from 'types/supabase'
+
 const props = defineProps<{
   testName: string
   testId: string
-  formData: Record<string, string | unknown>
+  formData: FormData
 }>()
 
 defineEmits<{
-  (e: 'update-field', value: unknown): void
+  (
+    e: 'update-field',
+    value: {
+      id: string
+      field: FormDataField
+      value: string
+    }
+  ): void
 }>()
 
 const status = computed(() => props.formData[props.testId].status)
@@ -37,7 +46,7 @@ const getFieldId = (suffix: string) =>
       :options="['Not tested', 'Not applicable', 'Passed', 'Failed']"
       :aria-labelledby="getFieldId('pass')"
       @update:model-value="
-        (value) =>
+        (value: string) =>
           $emit('update-field', {
             id: testId,
             field: 'status',
@@ -59,7 +68,7 @@ const getFieldId = (suffix: string) =>
       :model-value="manualTestDesc"
       rows="10"
       @update:model-value="
-        (value) =>
+        (value: string) =>
           $emit('update-field', {
             id: testId,
             field: 'manualTestDesc',
@@ -81,7 +90,7 @@ const getFieldId = (suffix: string) =>
       class="w-full"
       rows="10"
       @update:model-value="
-        (value) =>
+        (value: string) =>
           $emit('update-field', {
             id: testId,
             field: 'recommendationDesc',

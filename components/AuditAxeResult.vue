@@ -1,7 +1,10 @@
 <script lang="ts" setup>
+// @ts-ignore
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+import type { Database } from 'types/supabase'
+
 const props = defineProps<{
-  result: unknown
+  result: Database['public']['Tables']['axe']['Row'] | undefined
 }>()
 
 const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
@@ -10,14 +13,17 @@ const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
 </script>
 
 <template>
-  <div class="flex items-center justify-between gap-10">
+  <div
+    v-if="result"
+    class="flex items-center justify-between gap-10"
+  >
     <h2>
       Result: #{{ result.id }} (<NuxtLink
-        :to="result.results.url"
+        :to="result.results?.url"
         target="_blank"
         class="mr-auto"
       >
-        {{ result.results.url }} </NuxtLink
+        {{ result.results?.url }} </NuxtLink
       >)
     </h2>
     <Button

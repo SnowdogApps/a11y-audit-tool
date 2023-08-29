@@ -1,3 +1,5 @@
+import type { AuditConfiguration } from 'types/audit'
+
 export type Json =
   | string
   | number
@@ -6,12 +8,15 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type FormDataField = 'status' | 'manualTestDesc' | 'recommendationDesc'
+export type FormData = Record<string, Record<FormDataField, string>>
+
 export interface Database {
   public: {
     Tables: {
       audits: {
         Row: {
-          config: Json
+          config: AuditConfiguration
           created_at: string
           id: number
           issues: Json | null
@@ -21,7 +26,7 @@ export interface Database {
           updated_at: string | null
         }
         Insert: {
-          config?: Json
+          config?: AuditConfiguration
           created_at?: string
           id?: number
           issues?: Json | null
@@ -31,7 +36,7 @@ export interface Database {
           updated_at?: string | null
         }
         Update: {
-          config?: Json
+          config?: AuditConfiguration
           created_at?: string
           id?: number
           issues?: Json | null
@@ -63,6 +68,7 @@ export interface Database {
           results: Json
           selector: string | null
           size: string | null
+          form_data: FormData | null
         }
         Insert: {
           audit_id?: number
@@ -71,6 +77,7 @@ export interface Database {
           results?: Json
           selector?: string | null
           size?: string | null
+          form_data?: FormData | null
         }
         Update: {
           audit_id?: number
@@ -79,6 +86,7 @@ export interface Database {
           results?: Json
           selector?: string | null
           size?: string | null
+          form_data?: FormData | null
         }
         Relationships: [
           {
