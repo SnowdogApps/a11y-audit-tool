@@ -18,7 +18,13 @@ const nodes = computed(() =>
 </script>
 
 <template>
-  <TreeTable :value="nodes">
+  <TreeTable
+    :auto-layout="true"
+    :value="nodes"
+    :paginator="true"
+    :rows="10"
+    :rows-per-page-options="[10, 25, 50]"
+  >
     <Column
       field="id"
       header="Id"

@@ -6,7 +6,7 @@ export function useUser() {
   )
 
   const isAuditor = computed(
-    () => !isAdmin && user.value?.app_metadata?.user_role === 'auditor'
+    () => !isAdmin.value && user.value?.app_metadata?.user_role === 'auditor'
   )
 
   return {

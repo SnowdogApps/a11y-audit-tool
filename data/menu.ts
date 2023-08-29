@@ -19,11 +19,6 @@ export const customerMenuItems: MenuItem[] = [
         icon: PrimeIcons.LIST,
         to: '/audit',
       },
-      {
-        label: 'New',
-        icon: PrimeIcons.PLUS,
-        to: '/audit/new',
-      },
     ],
   },
 ]

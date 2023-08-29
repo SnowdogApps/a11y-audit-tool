@@ -3,7 +3,11 @@ import type { User } from '@supabase/gotrue-js'
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
 import type { Project, Profile, ProfileProjectKeys } from 'types/database'
-import type { ProfileProject, ProfileWithEmail } from 'types/user'
+import type {
+  ProfileProject,
+  ProfileWithEmail,
+  RemoveFromProjectPayload,
+} from 'types/user'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
@@ -53,8 +57,11 @@ const getProfileProject = computed((): ProfileProject[] =>
       )
 
       return {
-        email: user?.email || '',
-        name: projectData?.name || '',
+        email: user?.email ?? '',
+        name: projectData?.name ?? '',
+        userId: user?.id ?? '',
+        projectId: projectData!.id,
+        metadata: user!.app_metadata,
       }
     }
   )
@@ -84,14 +91,15 @@ async function fetchProjectProfile() {
   profileProject.value = data || []
 }
 
-async function removeProfileFromProject(id: number) {
+async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
   isLoading.value = true
 
   try {
     const { error } = await supabase
       .from('profile_project')
       .delete()
-      .eq('id', id)
+      .eq('profile_id', payload.userId)
+      .eq('project_id', payload.projectId)
 
     if (error) {
       if (isSupabaseError(error)) {
@@ -126,7 +134,7 @@ await fetchProjectProfile()
   <div class="grid">
     <h1>Admin page</h1>
 
-    <Card class="mb-6">
+    <Card class="mb-6 overflow-auto">
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Profile list</h2>
@@ -144,7 +152,7 @@ await fetchProjectProfile()
       </template>
     </Card>
 
-    <Card class="mb-6">
+    <Card class="mb-6 overflow-auto">
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Project list</h2>
@@ -162,7 +170,7 @@ await fetchProjectProfile()
       </template>
     </Card>
 
-    <Card class="mb-6">
+    <Card class="mb-6 overflow-auto">
       <template #content>
         <section class="mr-4">
           <h2 class="underline">Profile per Project list</h2>
