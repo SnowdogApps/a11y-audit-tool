@@ -3,7 +3,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import { useForm } from 'vee-validate'
 import { accountFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
-import type { Database } from 'types/supabase'
+import type { Database, Json } from 'types/supabase'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
@@ -17,7 +17,7 @@ interface InitialValues {
   username: string
   fullName: string
   avatarUrl: string
-  userType: string
+  userType: Json
 }
 
 const initialValues: InitialValues = {
