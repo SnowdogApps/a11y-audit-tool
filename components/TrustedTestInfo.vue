@@ -25,6 +25,14 @@ defineProps<{
           rounded
           class="text-xs tracking-wider"
         />
+        <a
+          v-else-if="['WCAG SC url'].includes(tTKey) && tTValue"
+          :href="tTValue"
+          target="_blank"
+          rel="noopener"
+        >
+          {{ tTValue }}
+        </a>
         <span v-else>{{ tTValue || 'n/a' }}</span>
       </div>
     </div>

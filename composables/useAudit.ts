@@ -1,56 +1,68 @@
 import { useToast } from 'primevue/usetoast'
 import { trustedTests } from '~/data/trustedTests'
 import { wcagSuccessCriteria } from '~/data/wcagSuccessCriteria'
-import type { Database } from 'types/supabase'
+import type { Database, FormDataField, FormData } from 'types/supabase'
 import type { SupabaseError } from '~/plugins/error'
 
-export function useAudit(axeResult?: unknown) {
+export function useAudit(
+  axeResult?: Database['public']['Tables']['axe']['Row']
+) {
   const toast = useToast()
-  const isLoading = ref(false)
+  const isSaving = ref(false)
   const results = toValue(axeResult?.results || [])
 
-  const formData = ref(
+  const formData = ref<FormData>(
     trustedTests.reduce((acc, test) => {
       const testId = test['Test ID']
       return {
         ...acc,
         [testId]: {
-          status: axeResult?.form_data[testId]?.status || 'Not tested',
-          manualTestDesc: axeResult?.form_data[testId]?.manualTestDesc || '',
+          status: axeResult?.form_data?.[testId]?.status || 'Not tested',
+          manualTestDesc: axeResult?.form_data?.[testId]?.manualTestDesc || '',
           recommendationDesc:
-            axeResult?.form_data[testId]?.recommendationDesc || '',
+            axeResult?.form_data?.[testId]?.recommendationDesc || '',
         },
       }
     }, {})
   )
 
-  const updateField = ({ id, field, value }) => {
+  const updateField = ({
+    id,
+    field,
+    value,
+  }: {
+    id: string
+    field: FormDataField
+    value: string
+  }) => {
     formData.value[id][field] = value
   }
 
   const saveFormData = async () => {
-    isLoading.value = true
+    isSaving.value = true
     const supabase = useSupabaseClient<Database>()
 
-    try {
-      const { data, error } = await supabase
-        .from('axe')
-        .update({ form_data: formData.value })
-        .eq('id', axeResult.id)
-        .select()
-      if (!error && data?.length === 1) {
-        toast.add({
-          severity: 'success',
-          summary: 'Successfully saved data',
-          life: 3000,
-        })
-      }
-    } catch (error) {
-      const { $handleError } = useNuxtApp()
+    if (axeResult) {
+      try {
+        const { data, error } = await supabase
+          .from('axe')
+          .update({ form_data: formData.value })
+          .eq('id', axeResult.id)
+          .select()
+        if (!error && data?.length === 1) {
+          toast.add({
+            severity: 'success',
+            summary: 'Successfully saved data',
+            life: 3000,
+          })
+        }
+      } catch (error) {
+        const { $handleError } = useNuxtApp()
 
-      $handleError(error as Error | SupabaseError)
-    } finally {
-      isLoading.value = false
+        $handleError(error as Error | SupabaseError)
+      } finally {
+        isSaving.value = false
+      }
     }
   }
 
@@ -131,7 +143,7 @@ export function useAudit(axeResult?: unknown) {
       const results = flattedResults.filter(({ tags }) =>
         tags.includes(`wcag${item['WCAG SC'].replaceAll('.', '')}`)
       )
-      return { info: item, results }
+      return { id: item['Test ID'], info: item, results }
     })
 
     const coveredWCAGsWithTrustedTestSet = new Set()
@@ -161,7 +173,7 @@ export function useAudit(axeResult?: unknown) {
         if (axeItem.length) {
           test.axeTests = axeItem
         }
-        return test
+        return { id: test.ref_id, ...test }
       })
 
     audit.value.axeAdditional.tests = flattedResults.filter(
@@ -172,7 +184,7 @@ export function useAudit(axeResult?: unknown) {
   return {
     audit,
     formData,
-    isLoading,
+    isSaving,
     updateField,
     saveFormData,
   }
