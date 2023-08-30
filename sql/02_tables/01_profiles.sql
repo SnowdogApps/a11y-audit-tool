@@ -5,7 +5,7 @@ create table profiles (
   username text unique,
   full_name text,
   avatar_url text,
-  user_type text,
+  user_type jsonb,
 
   constraint username_length check (char_length(username) >= 3)
 );
