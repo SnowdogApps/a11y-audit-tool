@@ -17,6 +17,7 @@ export const trustedTests = [
       'TT tests: 1.A, 1.B, 1.C. The alternate version can apply to the entire site, a single page or a specific element on the page. All alternative versions should be listed here',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
+    URLs: [''],
   },
   {
     'Test Name': '1.4.2-audio-control',
@@ -39,6 +40,7 @@ export const trustedTests = [
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
     Axe: 'no-autoplay-audio',
+    URLs: ['https://www.w3.org/TR/WCAG21/#audio-control'],
   },
   {
     'Test Name': '2.2.2-pause-stop-hide',
@@ -64,6 +66,7 @@ export const trustedTests = [
     Note: 'TT 2.B and 2.C',
     'Disability Impact':
       'Photosensitive Epilepsy / Photosensitive Seizure Disorders, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#pause-stop-hide'],
   },
   {
     'Test Name': '4.1.2-change-notify-auto',
@@ -87,6 +90,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
   },
   {
     'Test Name': '4.1.3-status-messages',
@@ -114,6 +118,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#status-messages'],
   },
   {
     'Test Name': '2.3.1-flashing',
@@ -136,6 +141,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Photosensitive Epilepsy / Photosensitive Seizure Disorders',
+    URLs: ['https://www.w3.org/TR/WCAG21/#three-flashes-or-below-threshold'],
   },
   {
     'Test Name': '2.1.1-keyboard-access',
@@ -157,6 +163,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Language, Cognitive and Learning Abilities, With Limited Vision, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#keyboard'],
   },
   {
     'Test Name': '2.1.1-no-keystroke-timing',
@@ -178,6 +185,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Language, Cognitive and Learning Abilities, With Limited Vision, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#keyboard'],
   },
   {
     'Test Name': '2.1.2-no-keyboard-trap',
@@ -197,6 +205,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#no-keyboard-trap'],
   },
   {
     'Test Name': '2.4.7-focus-visible',
@@ -222,6 +231,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#focus-visible'],
   },
   {
     'Test Name': '3.2.1-on-focus',
@@ -242,6 +252,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#on-focus'],
   },
   {
     'Test Name': '2.4.3-focus-order-meaning',
@@ -267,6 +278,7 @@ export const trustedTests = [
     Note: 'Trusted Tester 4.F, 4.G, 4.H',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#focus-order'],
   },
   {
     'Test Name': '1.4.13-hover-focus-content',
@@ -292,6 +304,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#content-on-hover-or-focus'],
   },
   {
     'Test Name': '2.1.4-character-key-shortcut',
@@ -312,6 +325,7 @@ export const trustedTests = [
     Note: 'For custom keyboard shortcut',
     'Disability Impact':
       'With Limited Manipulation, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#character-key-shortcuts'],
   },
   {
     'Test Name': '2.5.1-pointer-gestures',
@@ -333,6 +347,7 @@ export const trustedTests = [
     Note: 'This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).',
     'Disability Impact':
       'With Limited Manipulation, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#pointer-gestures'],
   },
   {
     'Test Name': '2.5.2-pointer-gestures',
@@ -355,6 +370,7 @@ export const trustedTests = [
     Note: 'This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).',
     'Disability Impact':
       'With Limited Manipulation, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#pointer-cancellation'],
   },
   {
     'Test Name': '1.3.1-programmatic-label',
@@ -399,6 +415,10 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [
+      'https://www.w3.org/TR/WCAG21/#info-and-relationships',
+      'https://www.w3.org/TR/WCAG21/#name-role-value',
+    ],
   },
   {
     'Test Name': '3.3.2-label-provided',
@@ -428,6 +448,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#labels-or-instructions'],
   },
   {
     'Test Name': '2.4.6-label-descriptive',
@@ -444,6 +465,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation,With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#headings-and-labels'],
   },
   {
     'Test Name': '3.2.2-on-input',
@@ -466,6 +488,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#on-input'],
   },
   {
     'Test Name': '4.1.2-change-notify-form',
@@ -487,6 +510,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
   },
   {
     'Test Name': '3.3.1-error-identification',
@@ -515,6 +539,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       "Without Vision, With Limited Vision','Without Perception of Color, With Limited Language, Cognitive and Learning Abilities",
+    URLs: ['https://www.w3.org/TR/WCAG21/#error-identification'],
   },
   {
     'Test Name': '3.3.3-error-suggestion',
@@ -541,6 +566,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#error-suggestion'],
   },
   {
     'Test Name': '3.3.4-error-prevention',
@@ -565,6 +591,9 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [
+      'https://www.w3.org/TR/WCAG21/#error-prevention-legal-financial-data',
+    ],
   },
   {
     'Test Name': '1.3.5-input-purpose',
@@ -583,6 +612,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#identify-input-purpose'],
   },
   {
     'Test Name': '2.4.4-link-purpose',
@@ -623,6 +653,10 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [
+      'https://www.w3.org/TR/WCAG21/#link-purpose-in-context',
+      'https://www.w3.org/TR/WCAG21/#name-role-value',
+    ],
   },
   {
     'Test Name': '4.1.2-change-notify-links',
@@ -644,6 +678,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
   },
   {
     'Test Name': '2.5.3-label-in-name',
@@ -667,6 +702,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Language, Cognitive and Learning Abilities, Speech Users',
+    URLs: ['https://www.w3.org/TR/WCAG21/#label-in-name'],
   },
   {
     'Test Name': '1.1.1-image-name',
@@ -702,6 +738,7 @@ export const trustedTests = [
     Note: 'Truster Tester 7.A, 7.B, 7.C',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#non-text-content'],
   },
   {
     'Test Name': '1.1.1-captcha-alternative',
@@ -720,6 +757,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#non-text-content'],
   },
   {
     'Test Name': '1.4.5-image-of-text',
@@ -742,6 +780,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#images-of-text'],
   },
   {
     'Test Name': '2.2.1-timing-adjustable',
@@ -770,6 +809,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#timing-adjustable'],
   },
   {
     'Test Name': '2.4.1-bypass-function',
@@ -797,6 +837,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#bypass-blocks'],
   },
   {
     'Test Name': '3.2.3-consistent-navigation',
@@ -818,6 +859,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#consistent-navigation'],
   },
   {
     'Test Name': '3.2.4-consistent-identification',
@@ -839,6 +881,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#consistent-identification'],
   },
   {
     'Test Name': '2.4.6-heading-purpose',
@@ -857,6 +900,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#headings-and-labels'],
   },
   {
     'Test Name': '1.3.1-heading-determinable',
@@ -879,6 +923,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-heading-level',
@@ -902,6 +947,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-list-type',
@@ -930,6 +976,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': 'landmarks',
@@ -963,6 +1010,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': 'hidden-content',
@@ -979,6 +1027,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+    URLs: [],
   },
   {
     'Test Name': '3.1.1-page-language-defined',
@@ -997,6 +1046,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#language-of-page'],
   },
   {
     'Test Name': '3.1.2-part-language-defined',
@@ -1017,6 +1067,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#language-of-parts'],
   },
   {
     'Test Name': '2.4.2-page-title-defined',
@@ -1036,6 +1087,7 @@ export const trustedTests = [
     Note: 'TT 12.A , 12.B',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#page-titled'],
   },
   {
     'Test Name': '4.1.2-frame-title-name',
@@ -1054,6 +1106,7 @@ export const trustedTests = [
     Note: 'TT 12.C, TT 12.D',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
   },
   {
     'Test Name': '1.4.1-color-meaning',
@@ -1078,6 +1131,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color',
+    URLs: ['https://www.w3.org/TR/WCAG21/#use-of-color'],
   },
   {
     'Test Name': '1.3.3-sensory-info',
@@ -1097,6 +1151,7 @@ export const trustedTests = [
     ],
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing',
+    URLs: ['https://www.w3.org/TR/WCAG21/#sensory-characteristics'],
   },
   {
     'Test Name': '1.4.3-contrast',
@@ -1119,6 +1174,7 @@ export const trustedTests = [
     ],
     Note: '',
     'Disability Impact': 'With Limited Vision, Without Perception of Color',
+    URLs: ['https://www.w3.org/TR/WCAG21/#contrast-minimum'],
   },
   {
     'Test Name': '1.4.11-non-text-contrast',
@@ -1142,6 +1198,7 @@ export const trustedTests = [
     ],
     Note: '',
     'Disability Impact': 'With Limited Vision, Without Perception of Color',
+    URLs: ['https://www.w3.org/TR/WCAG21/#non-text-contrast'],
   },
   {
     'Test Name': '1.3.1-table-identification',
@@ -1169,6 +1226,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-cell-header-association',
@@ -1195,6 +1253,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-layout-table-structure',
@@ -1213,6 +1272,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-meaningful-content-css-before-after',
@@ -1233,6 +1293,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.2-content-order-meaning-css-position',
@@ -1255,6 +1316,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#meaningful-sequence'],
   },
   {
     'Test Name': '1.2.1-audio-transcript-text',
@@ -1275,6 +1337,9 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [
+      'https://www.w3.org/TR/WCAG21/#audio-only-and-video-only-prerecorded',
+    ],
   },
   {
     'Test Name': '1.2.1-video-alternative-equivalent',
@@ -1297,6 +1362,9 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [
+      'https://www.w3.org/TR/WCAG21/#audio-only-and-video-only-prerecorded',
+    ],
   },
   {
     'Test Name': '1.2.2-captions-equivalent',
@@ -1319,6 +1387,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#captions-prerecorded'],
   },
   {
     'Test Name': '1.2.3-audio-alternative',
@@ -1344,6 +1413,9 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [
+      'https://www.w3.org/TR/WCAG21/#audio-description-or-media-alternative-prerecorded',
+    ],
   },
   {
     'Test Name': '1.2.5-audio-description-equivalent',
@@ -1368,6 +1440,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#audio-description-prerecorded'],
   },
   {
     'Test Name': '1.2.4-captions-live-equivalent',
@@ -1390,12 +1463,13 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#captions-live'],
   },
   {
     'Test Name': '503.4-caption-control',
     'Test ID': '17.D',
     'Test Category': "Sync'd Media",
-    'WCAG SC': false,
+    'WCAG SC': [''],
     'axe-rules': {
       tag: false,
       rules: false,
@@ -1412,6 +1486,7 @@ export const trustedTests = [
     Note: 'Section 508 503.4, Trusted Tester 17.D, 17.E and 17.F',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Hearing, With Limited Hearing, With Limited Language, Cognitive and Learning Abilities',
+    URLs: [''],
   },
   {
     'Test Name': '1.4.4-resize-text',
@@ -1436,6 +1511,7 @@ export const trustedTests = [
     ],
     Note: '',
     'Disability Impact': 'With Limited Vision',
+    URLs: ['https://www.w3.org/TR/WCAG21/#resize-text'],
   },
   {
     'Test Name': '1.3.4-orientation',
@@ -1456,6 +1532,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#orientation'],
   },
   {
     'Test Name': '1.4.10-reflow',
@@ -1486,6 +1563,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#reflow'],
   },
   {
     'Test Name': '1.4.12-text-spacing',
@@ -1515,6 +1593,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#text-spacing'],
   },
   {
     'Test Name': '2.5.4-motion-actuation',
@@ -1537,6 +1616,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'With Limited Vision, Cognitive and Learning Abilities, With Limited Manipulation',
+    URLs: ['https://www.w3.org/TR/WCAG21/#motion-actuation'],
   },
   {
     'Test Name': '2.4.5-multiple-ways',
@@ -1563,6 +1643,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#link-purpose-in-context'],
   },
   {
     'Test Name': '4.1.1-parsing',
@@ -1587,6 +1668,7 @@ export const trustedTests = [
     Note: 'Testing method is not clear, this is connected with general functioning of page or app, code validation and ocurred errors',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#parsing'],
   },
   {
     'Test Name': 'valid-aria',
@@ -1614,6 +1696,7 @@ export const trustedTests = [
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+    URLs: ['https://www.w3.org/TR/WCAG21/#parsing'],
   },
   {
     'Test Name': 'Non-interference',
@@ -1624,8 +1707,8 @@ export const trustedTests = [
     'Test Conditions': [
       "Content in the non-conforming version(s) meets following SCs: 1.4.2 - Audio Control, 2.1.2 - No Keyboard Trap, 2.3.1 - Three Flashes or Below Threshold, 2.2.2 - Pause, Stop, Hide. It's mean test with IDs 2.!, 2.B, 2.C, 3.A and 4.C should be conducted.",
     ],
-    url: 'https://www.w3.org/TR/WCAG21/#cc5',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
+    URLs: ['https://www.w3.org/TR/WCAG21/#cc5'],
   },
 ]
