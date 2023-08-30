@@ -4,13 +4,17 @@ export const trustedTests = [
     'Test ID': '1.A',
     'Test Category': 'Alternate version',
     'WCAG SC': ['Requirements'],
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    },
     Level: '',
     'Test Conditions': [
       'There is an alternative version for inaccessible content.',
       'The accessible version is up to date with the same information and functionality. 3. The mechanism to reach the accessible equivalent version from the non-conforming page is accessible.',
     ],
     Notes:
-      'TT tests: 1.A, 1.B, 1.C. The alternate version can apply to the entire site, a single subpage or a specific element on the page. All alternative versions should be listed here',
+      'TT tests: 1.A, 1.B, 1.C. The alternate version can apply to the entire site, a single page or a specific element on the page. All alternative versions should be listed here',
     'Disability Impact':
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
@@ -19,7 +23,10 @@ export const trustedTests = [
     'Test ID': '2.A',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['1.4.2'],
-    'axe-rules': true, // all by WCAG SC
+    'axe-rules': {
+      tag: 'wcag142',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The user can pause, stop, or control the volume of audio content that plays automatically. ',
@@ -38,7 +45,10 @@ export const trustedTests = [
     'Test ID': '2.B.custom',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['2.2.2'],
-    'axe-rules': true, // all by WCAG SC
+    'axe-rules': {
+      tag: 'wcag222',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The user can pause, stop, or hide moving, blinking, or scrolling content that 1) start automatically, 2) lasts more than five seconds and 3) is presented in parallel with other content unless the movement, blinking, or scrolling is part of an activity where it is essential',
@@ -60,7 +70,10 @@ export const trustedTests = [
     'Test ID': '2.D',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The page provides notification of each automatic update/change in content or other mechanism that inform user about changes.',
@@ -80,7 +93,10 @@ export const trustedTests = [
     'Test ID': '413.custom',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['4.1.3'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag413',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'In content implemented using markup languages, status messages can be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus',
@@ -104,7 +120,10 @@ export const trustedTests = [
     'Test ID': '3.A',
     'Test Category': 'Flashing',
     'WCAG SC': ['2.3.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag231',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'If NO flashing content is found, then this Test Condition is DOES NOT APPLY (Requirements). If flashing content IS found, then this test should be recorded as NOT TESTED.',
@@ -123,7 +142,10 @@ export const trustedTests = [
     'Test ID': '4.A.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag211',
+      rules: ['accesskeys', 'aria-hidden-focus', 'nested-interactive'],
+    },
     Level: 'A',
     'Test Conditions': [
       'All functionality can be accessed and executed using only the keyboard.',
@@ -141,7 +163,10 @@ export const trustedTests = [
     'Test ID': '4.B',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.1'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    }, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions': [
       'Individual keystrokes do not require specific timings for activation of functionality.',
@@ -159,7 +184,10 @@ export const trustedTests = [
     'Test ID': '4.C',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.2'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag212',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': ['There is no keyboard trap.'],
     Techniques: [
@@ -175,7 +203,10 @@ export const trustedTests = [
     'Test ID': '4.D',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.4.7'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag247',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'A visible indication of focus is provided when focus is on the interface component.',
@@ -197,7 +228,10 @@ export const trustedTests = [
     'Test ID': '4.E',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['3.2.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag321',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'When an interface component receives focus, it does not initiate an unexpected change of context.',
@@ -214,7 +248,10 @@ export const trustedTests = [
     'Test ID': '4.F',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.4.3'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag243',
+      rules: ['aria-text', 'tabindex', 'focus-order-semantics'],
+    },
     Level: 'A',
     'Test Conditions': [
       'The focus order preserves the meaning and operability of the web page.',
@@ -236,7 +273,10 @@ export const trustedTests = [
     'Test ID': '1413.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['1.4.13'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag1413',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Where receiving and then removing pointer hover or keyboard focus triggers additional content to become visible and then hidden, the content should be dismissable, hoverable and persistent unless the content is controlled by user agent',
@@ -258,7 +298,10 @@ export const trustedTests = [
     'Test ID': '214.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.4'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag214',
+      rules: ['accesskeys'],
+    },
     Level: 'A',
     'Test Conditions': [
       'If a keyboard shortcut is implemented in content using only letter (including upper-and lower-case letters), punctuation, number, or symbol characters a mechanism to turn shortcut off is implemented OR a mechanism to remap the shortcut is implemented OR the keyboard shortcut for a user interface component is only active when that component has focus',
@@ -275,7 +318,10 @@ export const trustedTests = [
     'Test ID': '251.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.5.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag251',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'All functionality that uses multipoint or path-based gestures for operation can be operated with a single pointer without a path-based gesture, unless a multipoint or path-based gesture is essential.',
@@ -293,7 +339,10 @@ export const trustedTests = [
     'Test ID': '252.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.5.2'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag252',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'For functionality that can be operated using a single pointer the down-event of the pointer is not used to execute any part of the function OR Completion of the function is on the up-event, and a mechanism is available to abort the function before completion or to undo the function after completion OR The up-event reverses any outcome of the preceding down-event',
@@ -312,14 +361,28 @@ export const trustedTests = [
     'Test ID': '5.C',
     'Test Category': 'Forms',
     'WCAG SC': ['1.3.1', '4.1.2'],
-    'axe-rules': [
-      'aria-input-field-name',
-      'aria-toggle-field-name',
-      'label',
-      'select-name',
-      'aria-required-children',
-      'aria-required-parent',
-    ],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'aria-command-name',
+        'aria-input-field-name',
+        'aria-required-attr',
+        'aria-required-children',
+        'aria-required-parent',
+        'aria-roles',
+        'aria-toggle-field-name',
+        'aria-tooltip-name',
+        'aria-valid-attr-value',
+        'aria-valid-attr',
+        'input-button-name',
+        'button-name',
+        'label',
+        'link-name',
+        'select-name',
+        'label-title-only',
+        'input-image-alt',
+      ],
+    },
     Level: 'A',
     'Test Conditions': [
       'The combination of the accessible name, accessible description, and other programmatic associations (e.g., table column and/or row associations) describes each input field and includes all relevant instructions and cues (textual and graphical).',
@@ -342,7 +405,10 @@ export const trustedTests = [
     'Test ID': '5.A',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.2'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag332',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'Labels or instructions are provided for form elements.',
@@ -368,7 +434,10 @@ export const trustedTests = [
     'Test ID': '5.B',
     'Test Category': 'Forms',
     'WCAG SC': ['2.4.6'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag246',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': ['Each form label is sufficiently descriptive.'],
     Techniques: ['Providing descriptive labels'],
@@ -381,7 +450,10 @@ export const trustedTests = [
     'Test ID': '5.D',
     'Test Category': 'Forms',
     'WCAG SC': ['3.2.2'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag322',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'Changing field values/selections (e.g., entering data in a text field, changing a radio button section) does NOT initiate and unexpected change of context.',
@@ -400,7 +472,10 @@ export const trustedTests = [
     'Test ID': '5.E ',
     'Test Category': 'Forms',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The page provides notification of each form-related change in content.',
@@ -418,7 +493,10 @@ export const trustedTests = [
     'Test ID': '5.F',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag331',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The item in error is identified in text and sufficiently described to the user in text. Not color-only.',
@@ -443,7 +521,10 @@ export const trustedTests = [
     'Test ID': '5.G',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.3'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag333',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Guidance (e.g., suggestion for corrected input) is provided about how to correct errors for form fields.',
@@ -466,7 +547,10 @@ export const trustedTests = [
     'Test ID': '5.H',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.4'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag334',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'The web page allows the user to check, reverse, and/or confirm submission.',
@@ -487,7 +571,10 @@ export const trustedTests = [
     'Test ID': '135.custom',
     'Test Category': 'Forms',
     'WCAG SC': ['1.3.5'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag135',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Input type and autocomplete is programmatically determined and appropriate',
@@ -502,15 +589,25 @@ export const trustedTests = [
     'Test ID': '6.A',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['2.4.4', '4.1.2'],
-    'axe-rules': [
-      'area-alt',
-      'link-name',
-      'aria-command-name',
-      'aria-tooltip-name',
-      'input-button-name',
-      'button-name',
-      'nested-interactive',
-    ],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'area-alt',
+        'aria-allowed-attr',
+        'aria-command-name',
+        'link-name',
+        'aria-required-attr',
+        'aria-roles',
+        'aria-tooltip-name',
+        'aria-valid-attr-value',
+        'aria-valid-attr',
+        'input-button-name',
+        'button-name',
+        'nested-interactive',
+        'aria-dialog-name',
+        'aria-treeitem-name',
+      ],
+    },
     Level: 'A',
     'Test Conditions': [
       'The purpose of each link or button can be determined from any combination of the link/button text, accessible name, accessible description, and/or programmatically determined link/button context.',
@@ -532,7 +629,10 @@ export const trustedTests = [
     'Test ID': '6.B',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    }, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions': [
       'The page provides notification of each change in content that is the result of interaction with a link or button.',
@@ -550,7 +650,10 @@ export const trustedTests = [
     'Test ID': '253.custom',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['2.5.3'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag253',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'For user interface components with labels that include text or images of text, the name contains the text that is presented visually',
@@ -570,7 +673,10 @@ export const trustedTests = [
     'Test ID': '7.A.custom',
     'Test Category': 'Images',
     'WCAG SC': ['1.1.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag111',
+      rules: ['image-redundant-alt', 'input-image-alt'],
+    },
     Level: 'A',
     'Test Conditions': [
       'The accessible name and accessible description for a meaningful image provides an equivalent description of the image.',
@@ -602,7 +708,10 @@ export const trustedTests = [
     'Test ID': '7. D',
     'Test Category': 'Images',
     'WCAG SC': ['1.1.1'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': 'Alternative forms of CAPTCHA are provided.',
     Techniques: [
@@ -617,7 +726,10 @@ export const trustedTests = [
     'Test ID': '7.E',
     'Test Category': 'Images',
     'WCAG SC': ['1.4.5'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag145',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'The image of text cannot be replaced by text or is customizable.',
@@ -636,7 +748,10 @@ export const trustedTests = [
     'Test ID': '8.A ',
     'Test Category': 'Adjustable time limits',
     'WCAG SC': ['2.2.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag221',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The user can turn off, adjust, or extend the time limit.',
@@ -661,7 +776,10 @@ export const trustedTests = [
     'Test ID': '9.A',
     'Test Category': 'Repetitive Content',
     'WCAG SC': ['2.4.1'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag241',
+      rules: ['skip-link'],
+    },
     Level: 'A',
     'Test Conditions': [
       'A keyboard-accessible method is provided to bypass repetitive content.',
@@ -685,7 +803,10 @@ export const trustedTests = [
     'Test ID': '9.B',
     'Test Category': 'Repetitive Content',
     'WCAG SC': ['3.2.3'],
-    'axe-rules': true, // all by WCAG SC if exist
+    'axe-rules': {
+      tag: 'wcag323',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Each navigational element occurs in the same relative order with regard to other repeated components on each web page where it appears.',
@@ -703,7 +824,10 @@ export const trustedTests = [
     'Test ID': '9.C',
     'Test Category': 'Repetitive Content',
     'WCAG SC': ['3.2.4'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag324',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'The accessible name and description is consistent for components that perform the same function.',
@@ -721,7 +845,10 @@ export const trustedTests = [
     'Test ID': '10.A',
     'Test Category': 'Content Structure',
     'WCAG SC': ['2.4.6'],
-    'axe-rules': ['empty-heading'], // + 2.4.6 if exists
+    'axe-rules': {
+      tag: 'wcag246',
+      rules: ['empty-heading'],
+    },
     Level: 'AA',
     'Test Conditions': [
       'Each heading describes the topic or purpose of its content.',
@@ -736,7 +863,10 @@ export const trustedTests = [
     'Test ID': '10.B ',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: ['p-as-heading'],
+    },
     Level: 'A',
     'Test Conditions':
       'Each programmatically determinable heading is a visual heading and each visual heading is programmatically determinable.',
@@ -755,7 +885,10 @@ export const trustedTests = [
     'Test ID': '10.C',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': ['heading-order', 'page-has-heading-one'],
+    'axe-rules': {
+      tag: false,
+      rules: ['heading-order', 'page-has-heading-one'],
+    },
     Level: 'A',
     'Test Conditions': [
       'Programmatic heading levels logically match the visual heading presentation within the heading structure.',
@@ -775,14 +908,17 @@ export const trustedTests = [
     'Test ID': '10.D',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': [
-      'aria-required-children',
-      'aria-required-parent',
-      'definition-list',
-      'dlitem',
-      'list',
-      'listitem',
-    ],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'aria-required-children',
+        'aria-required-parent',
+        'definition-list',
+        'dlitem',
+        'list',
+        'listitem',
+      ],
+    },
     Level: 'A',
     'Test Conditions': [
       'All visually apparent lists are programmatically identified according to their type.',
@@ -796,11 +932,82 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
+    'Test Name': 'valid-aria',
+    'Test ID': '10.E.custom',
+    'Test Category': 'Content Structure',
+    'WCAG SC': [],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'aria-allowed-role',
+        'aria-text',
+        'presentation-role-conflict',
+        'aria-allowed-attr',
+        'aria-required-attr',
+        'aria-roles',
+        'aria-valid-attr-value',
+        'aria-valid-attr',
+      ],
+    },
+    Level: 'AA',
+    'Test Conditions': [''],
+    Techniques: [''],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': 'landmarks',
+    'Test ID': '10.F.custom',
+    'Test Category': 'Content Structure',
+    'WCAG SC': [],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'landmark-banner-is-top-level',
+        'landmark-complementary-is-top-level',
+        'landmark-contentinfo-is-top-level',
+        'landmark-main-is-top-level',
+        'landmark-no-duplicate-banner',
+        'landmark-no-duplicate-contentinfo',
+        'landmark-no-duplicate-main',
+        'landmark-one-main',
+        'landmark-unique',
+        'region',
+      ],
+    },
+    Level: 'AA',
+    'Test Conditions': [''],
+    Techniques: [''],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': 'hidden-content',
+    'Test ID': '10.G.custom',
+    'Test Category': 'Content Structure',
+    'WCAG SC': [],
+    'axe-rules': {
+      tag: false,
+      rules: ['aria-hidden-body', 'aria-hidden-focus', 'hidden-content'],
+    },
+    Level: 'AA',
+    'Test Conditions': [''],
+    Techniques: [''],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+  },
+  {
     'Test Name': '3.1.1-page-language-defined',
     'Test ID': '11.A',
     'Test Category': 'Language',
     'WCAG SC': ['3.1.1'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag311',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The default human language of each web page can be programmatically determined.',
@@ -812,10 +1019,13 @@ export const trustedTests = [
   },
   {
     'Test Name': '3.1.2-part-language-defined',
-    'Test ID': '11.B ',
+    'Test ID': '11.B',
     'Test Category': 'Language',
     'WCAG SC': ['3.1.2'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag312',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The human language for any content segment that differs from the default human language of the page can be programmatically determined.',
@@ -832,7 +1042,10 @@ export const trustedTests = [
     'Test ID': '12.A.custom',
     'Test Category': 'Page and Frame Titles',
     'WCAG SC': ['2.4.2'],
-    'axe-rules': true, // all by WCAG SC if exists + one-level-heading ??
+    'axe-rules': {
+      tag: 'wcag242',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'A title element is defined for the web page.',
@@ -848,7 +1061,10 @@ export const trustedTests = [
     'Test ID': '12.D.custom',
     'Test Category': 'Page and Frame Titles',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': ['frame-title-unique', 'frame-title'],
+    'axe-rules': {
+      tag: false,
+      rules: ['frame-title-unique', 'frame-title', 'frame-tested'],
+    },
     Level: 'A',
     'Test Conditions': [
       'Each frame has a title attribute that describes its content. The combination of accessible name and description for each <iframe.> describes its content.',
@@ -863,7 +1079,10 @@ export const trustedTests = [
     'Test ID': '13.A',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.4.1'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag141',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.',
@@ -884,7 +1103,10 @@ export const trustedTests = [
     'Test ID': '13.B',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.3.3'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag133',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'Instructions provided for understanding and operating content do not rely solely on sensory characteristics of components, such as shape, size, visual location, orientation, or sound.',
@@ -900,7 +1122,10 @@ export const trustedTests = [
     'Test ID': '13.C',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.4.3'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag143',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'The visual presentation of text and images of text have sufficient contrast.',
@@ -919,7 +1144,10 @@ export const trustedTests = [
     'Test ID': '1411.custom',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.4.11'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag1411',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Important visual information meets the same minimum contrast required for larger text',
@@ -939,12 +1167,15 @@ export const trustedTests = [
     'Test ID': '14.A',
     'Test Category': 'Tables',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': [
-      'aria-required-children',
-      'aria-required-parent',
-      'table-duplicate-name',
-      'scope-attr-valid',
-    ],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'aria-required-children',
+        'aria-required-parent',
+        'table-duplicate-name',
+        'scope-attr-valid',
+      ],
+    },
     Level: 'A',
     'Test Conditions': [
       'Each data table has programmatic markup to identify it as a table.',
@@ -963,7 +1194,16 @@ export const trustedTests = [
     'Test ID': '14.B',
     'Test Category': 'Tables',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': ['td-headers-attr', 'th-has-data-cells'],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'td-headers-attr',
+        'th-has-data-cells',
+        'table-fake-caption',
+        'td-has-header',
+        'empty-table-header',
+      ],
+    },
     Level: 'A',
     'Test Conditions': [
       'All data cells are programmatically associated with relevant headers. ',
@@ -980,7 +1220,10 @@ export const trustedTests = [
     'Test ID': '14.C',
     'Test Category': 'Tables',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    }, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions': [
       'The layout table DOES NOT designate the layout table using ARIA role=table AND DOES NOT include table header structure and relationship elements and/or associated attributes.',
@@ -995,7 +1238,10 @@ export const trustedTests = [
     'Test ID': '15.A',
     'Test Category': 'CSS',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    }, // no axe rule appropriate for this issue
     Level: 'A',
     'Test Conditions': [
       'For the meaningful content provided via CSS pseudo-elements ::before and ::after, equivalent information is available in another way.',
@@ -1012,7 +1258,10 @@ export const trustedTests = [
     'Test ID': '15.B',
     'Test Category': 'CSS',
     'WCAG SC': ['1.3.2'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag132',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The reading order of the content (in context) is correct and the meaning of the content (in context) is preserved without CSS positioning.',
@@ -1031,7 +1280,10 @@ export const trustedTests = [
     'Test ID': '16.A',
     'Test Category': 'Audio/Video-Only',
     'WCAG SC': ['1.2.1'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag121',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'A text-based alternative is provided for audio-only content that provides an accurate and complete representation of the audio-only content.',
@@ -1048,7 +1300,10 @@ export const trustedTests = [
     'Test ID': '16.B',
     'Test Category': 'Audio/Video-Only',
     'WCAG SC': ['1.2.1'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag121',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The video-only content information is also available through an equivalent text or audio alternative.',
@@ -1067,7 +1322,10 @@ export const trustedTests = [
     'Test ID': '17.A',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.2'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag122',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The multimedia provides accurate captions for the audio content.',
@@ -1086,7 +1344,10 @@ export const trustedTests = [
     'Test ID': '17.1.custom',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.3'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag123',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'The multimedia provides an alternative version - audio description (equivalent soundtrack) OR text alternative for the video/audio content.',
@@ -1108,7 +1369,10 @@ export const trustedTests = [
     'Test ID': '17.B',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.5'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag125',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'The multimedia provides an equivalent soundtrack (combination of narration and audio descriptions) for the video content.',
@@ -1129,7 +1393,10 @@ export const trustedTests = [
     'Test ID': '17.C',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.4'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag124',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'The live multimedia provides accurate captions for the audio content.',
@@ -1148,7 +1415,10 @@ export const trustedTests = [
     'Test ID': '17.D',
     'Test Category': "Sync'd Media",
     'WCAG SC': false,
-    'axe-rules': null, // no axe rule appropriate for this issue
+    'axe-rules': {
+      tag: false,
+      rules: false,
+    }, // no axe rule appropriate for this issue
     Level: 'AA',
     'Test Conditions': [
       'The media player provides user controls for closed captions and audio descriptions.',
@@ -1167,7 +1437,10 @@ export const trustedTests = [
     'Test ID': '18.A',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.4'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag144',
+      rules: ['meta-viewport-large'],
+    },
     Level: 'AA',
     'Test Conditions': [
       'There is a mechanism to resize, scale, or zoom in on the text to at least 200% of its original size without loss of content or functionality.',
@@ -1188,7 +1461,10 @@ export const trustedTests = [
     'Test ID': '134.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.3.4'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag134',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Content does not restrict its view and operation to a single display orientation (portrait or landscape)',
@@ -1205,7 +1481,10 @@ export const trustedTests = [
     'Test ID': '1410.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.10'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag1410',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Content can be enlarged without requiring horizontal scrolling unless horizontal scrolling is essential for understanding (graphs, video, games, presentations, data tables etc)',
@@ -1232,7 +1511,10 @@ export const trustedTests = [
     'Test ID': '1412.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.12'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag1412',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'Line height (line spacing) to at least 1.5 times the font size',
@@ -1258,7 +1540,10 @@ export const trustedTests = [
     'Test ID': '254.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['2.5.4'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag254',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       "Content is not dependent on a user's ability to move a device",
@@ -1277,7 +1562,10 @@ export const trustedTests = [
     'Test ID': '19.A',
     'Test Category': 'Multiple Ways',
     'WCAG SC': ['2.4.5'],
-    'axe-rules': true, // all by WCAG SC if exists
+    'axe-rules': {
+      tag: 'wcag245',
+      rules: false,
+    },
     Level: 'AA',
     'Test Conditions': [
       'There are two or more ways to locate a web page within a set of web pages - search, sitemap, menu.',
@@ -1300,7 +1588,10 @@ export const trustedTests = [
     'Test ID': '20.A',
     'Test Category': 'Parsing',
     'WCAG SC': ['4.1.1'],
-    'axe-rules': true, // all by WCAG SC if exists + aria & semantic?
+    'axe-rules': {
+      tag: 'wcag411',
+      rules: false,
+    },
     Level: 'A',
     'Test Conditions': [
       'HTML is valid',
