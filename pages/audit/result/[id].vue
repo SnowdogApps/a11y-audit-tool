@@ -108,7 +108,7 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
                     <i class="pi pi-search" />
                     <InputText
                       v-model="searchValue"
-                      placeholder="Search"
+                      placeholder="Search (3 characters minimum)"
                       class="w-full max-w-3xl"
                     />
                   </div>

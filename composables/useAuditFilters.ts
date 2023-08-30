@@ -102,7 +102,10 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
       // Search part
       let foundObjects = filteredTests
 
-      if (searchValueDebounced.value) {
+      if (
+        searchValueDebounced.value &&
+        searchValueDebounced.value.length >= 3
+      ) {
         foundObjects = []
         filteredTests.forEach((item) => {
           const found = useDeepSearch(item, searchValueDebounced.value)
