@@ -39,7 +39,7 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
 
   function extractSelectedCodes(
     selectedItems: SelectedItem[],
-    key: string
+    key: keyof SelectedItem
   ): Set<string> {
     return new Set((selectedItems || []).map((item) => item[key]))
   }
@@ -51,7 +51,9 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
   })
 
   for (const [, value] of Object.entries(formData.value)) {
-    addToUniqueList(optionLists.value.statusList, value.status)
+    if (typeof value === 'object' && value !== null && 'status' in value) {
+      addToUniqueList(optionLists.value.statusList, value.status as string)
+    }
   }
 
   // All data in one object makes filtering easier
@@ -61,7 +63,7 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
     populateInfo(test, 'recommendationDesc', 'recommendationDesc')
   })
 
-  const filteredAudit: globalThis.Ref<Audit> = computed(() => {
+  const filteredAudit: Ref<AuditCategories> = computed(() => {
     if (
       selectedItems.value.selectedWcagSc.length === 0 &&
       selectedItems.value.selectedLevel.length === 0 &&
