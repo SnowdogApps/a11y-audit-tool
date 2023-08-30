@@ -1,4 +1,7 @@
 .p-dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: $inputBg;
     border: $inputBorder;
     transition: $formElementTransition;
@@ -135,7 +138,7 @@
         &:not(.p-disabled):hover {
             background-color: $inputFilledHoverBg;
         }
-    
+
         &:not(.p-disabled).p-focus {
             background-color: $inputFilledFocusBg;
 
