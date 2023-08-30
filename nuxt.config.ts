@@ -14,7 +14,12 @@ export default defineNuxtConfig({
     utils: resolve(__dirname, './utils'),
     validation: resolve(__dirname, './validation'),
   },
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo', '@nuxtjs/supabase'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    'nuxt-svgo',
+    '@nuxtjs/supabase',
+    '@vueuse/nuxt',
+  ],
   css: [
     '~/assets/reset.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
