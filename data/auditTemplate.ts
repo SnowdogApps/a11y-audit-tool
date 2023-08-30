@@ -19,7 +19,7 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, Without Perception of Color, Without Hearing, With Limited Hearing, Without Speech, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities, Photosensitive Epilepsy / Photosensitive Seizure Disorders',
   },
   {
-    'Test Name': '1.4.2-Audio-control',
+    'Test Name': '1.4.2-audio-control',
     'Test ID': '2.A',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['1.4.2'],
@@ -166,7 +166,7 @@ export const trustedTests = [
     'axe-rules': {
       tag: false,
       rules: false,
-    }, // no axe rule appropriate for this issue
+    },
     Level: 'A',
     'Test Conditions': [
       'Individual keystrokes do not require specific timings for activation of functionality.',
@@ -632,7 +632,7 @@ export const trustedTests = [
     'axe-rules': {
       tag: false,
       rules: false,
-    }, // no axe rule appropriate for this issue
+    },
     Level: 'A',
     'Test Conditions': [
       'The page provides notification of each change in content that is the result of interaction with a link or button.',
@@ -932,35 +932,10 @@ export const trustedTests = [
       'Without Vision, With Limited Vision, With Limited Language, Cognitive and Learning Abilities',
   },
   {
-    'Test Name': 'valid-aria',
-    'Test ID': '10.E.custom',
-    'Test Category': 'Content Structure',
-    'WCAG SC': [],
-    'axe-rules': {
-      tag: false,
-      rules: [
-        'aria-allowed-role',
-        'aria-text',
-        'presentation-role-conflict',
-        'aria-allowed-attr',
-        'aria-required-attr',
-        'aria-roles',
-        'aria-valid-attr-value',
-        'aria-valid-attr',
-      ],
-    },
-    Level: 'AA',
-    'Test Conditions': [''],
-    Techniques: [''],
-    Note: '',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
-  },
-  {
     'Test Name': 'landmarks',
     'Test ID': '10.F.custom',
     'Test Category': 'Content Structure',
-    'WCAG SC': [],
+    'WCAG SC': ['1.3.1'],
     'axe-rules': {
       tag: false,
       rules: [
@@ -976,9 +951,15 @@ export const trustedTests = [
         'region',
       ],
     },
-    Level: 'AA',
-    'Test Conditions': [''],
-    Techniques: [''],
+    Level: 'A',
+    'Test Conditions': [
+      'Landmarks are properly used to identify regions. Landmarks are unique.',
+    ],
+    Techniques: [
+      'Using ARIA landmarks to identify regions of a page',
+      'Landmarks are unique - if multiple, they have different accessible name',
+      'Landmarks banner, complementary, contentinfo and main are not nested in others landmarks',
+    ],
     Note: '',
     'Disability Impact':
       'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
@@ -1223,7 +1204,7 @@ export const trustedTests = [
     'axe-rules': {
       tag: false,
       rules: false,
-    }, // no axe rule appropriate for this issue
+    },
     Level: 'A',
     'Test Conditions': [
       'The layout table DOES NOT designate the layout table using ARIA role=table AND DOES NOT include table header structure and relationship elements and/or associated attributes.',
@@ -1241,7 +1222,7 @@ export const trustedTests = [
     'axe-rules': {
       tag: false,
       rules: false,
-    }, // no axe rule appropriate for this issue
+    },
     Level: 'A',
     'Test Conditions': [
       'For the meaningful content provided via CSS pseudo-elements ::before and ::after, equivalent information is available in another way.',
@@ -1418,7 +1399,7 @@ export const trustedTests = [
     'axe-rules': {
       tag: false,
       rules: false,
-    }, // no axe rule appropriate for this issue
+    },
     Level: 'AA',
     'Test Conditions': [
       'The media player provides user controls for closed captions and audio descriptions.',
@@ -1606,6 +1587,33 @@ export const trustedTests = [
     Note: 'Testing method is not clear, this is connected with general functioning of page or app, code validation and ocurred errors',
     'Disability Impact':
       'Without Vision, With Limited Vision, With Limited Manipulation, With Limited Language, Cognitive and Learning Abilities',
+  },
+  {
+    'Test Name': 'valid-aria',
+    'Test ID': '20.B.custom',
+    'Test Category': 'Parsing',
+    'WCAG SC': ['4.1.1'],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'aria-allowed-role',
+        'aria-text',
+        'presentation-role-conflict',
+        'aria-allowed-attr',
+        'aria-required-attr',
+        'aria-roles',
+        'aria-valid-attr-value',
+        'aria-valid-attr',
+      ],
+    },
+    Level: 'A',
+    'Test Conditions': [
+      'All ARIA roles and attribute used are valid and have valid values',
+    ],
+    Techniques: [],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
   },
   {
     'Test Name': 'Non-interference',

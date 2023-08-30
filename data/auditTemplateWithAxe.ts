@@ -1735,104 +1735,6 @@ export default [
     ],
   },
   {
-    'Test Name': 'valid-aria',
-    'Test ID': '10.E.custom',
-    'Test Category': 'Content Structure',
-    'WCAG SC': [],
-    'axe-rules': {
-      tag: false,
-      rules: [
-        'aria-allowed-role',
-        'aria-text',
-        'presentation-role-conflict',
-        'aria-allowed-attr',
-        'aria-required-attr',
-        'aria-roles',
-        'aria-valid-attr-value',
-        'aria-valid-attr',
-      ],
-    },
-    Level: 'AA',
-    'Test Conditions': [''],
-    Techniques: [''],
-    Note: '',
-    'Disability Impact':
-      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
-    axe_tests: [
-      {
-        'rule-id': 'aria-allowed-role',
-        description:
-          'Ensures role attribute has an appropriate value for the element',
-        impact: 'Minor',
-        tags: ['cat.aria', 'best-practice'],
-        'issue-type': 'failure, needs review',
-        'act-rules': '',
-      },
-      {
-        'rule-id': 'aria-text',
-        description:
-          'Ensures "role=text" is used on elements with no focusable descendants',
-        impact: 'Serious',
-        tags: ['cat.aria', 'best-practice'],
-        'issue-type': 'failure, needs review',
-        'act-rules': '',
-      },
-      {
-        'rule-id': 'presentation-role-conflict',
-        description:
-          'Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them',
-        impact: 'Minor',
-        tags: ['cat.aria', 'best-practice', 'ACT'],
-        'issue-type': 'failure',
-        'act-rules': '46ca7f',
-      },
-      {
-        'rule-id': 'aria-allowed-attr',
-        description:
-          "Ensures ARIA attributes are allowed for an element's role",
-        impact: 'Serious, Critical',
-        tags: ['cat.aria', 'wcag2a', 'wcag412'],
-        'issue-type': 'failure, needs review',
-        'act-rules': '5c01ea',
-      },
-      {
-        'rule-id': 'aria-required-attr',
-        description:
-          'Ensures elements with ARIA roles have all required ARIA attributes',
-        impact: 'Critical',
-        tags: ['cat.aria', 'wcag2a', 'wcag412'],
-        'issue-type': 'failure',
-        'act-rules': '4e8ab6',
-      },
-      {
-        'rule-id': 'aria-roles',
-        description:
-          'Ensures all elements with a role attribute use a valid value',
-        impact: 'Minor, Serious, Critical',
-        tags: ['cat.aria', 'wcag2a', 'wcag412'],
-        'issue-type': 'failure',
-        'act-rules': '674b10',
-      },
-      {
-        'rule-id': 'aria-valid-attr-value',
-        description: 'Ensures all ARIA attributes have valid values',
-        impact: 'Serious, Critical',
-        tags: ['cat.aria', 'wcag2a', 'wcag412'],
-        'issue-type': 'failure, needs review',
-        'act-rules': '6a7281',
-      },
-      {
-        'rule-id': 'aria-valid-attr',
-        description:
-          'Ensures attributes that begin with aria- are valid ARIA attributes',
-        impact: 'Critical',
-        tags: ['cat.aria', 'wcag2a', 'wcag412'],
-        'issue-type': 'failure',
-        'act-rules': '5f99a7',
-      },
-    ],
-  },
-  {
     'Test Name': 'landmarks',
     'Test ID': '10.F.custom',
     'Test Category': 'Content Structure',
@@ -2912,6 +2814,104 @@ export default [
         tags: ['cat.parsing', 'wcag2a', 'wcag411'],
         'issue-type': 'failure',
         'act-rules': '3ea0c8',
+      },
+    ],
+  },
+  {
+    'Test Name': 'valid-aria',
+    'Test ID': '20.B.custom',
+    'Test Category': 'Parsing',
+    'WCAG SC': ['4.1.1'],
+    'axe-rules': {
+      tag: false,
+      rules: [
+        'aria-allowed-role',
+        'aria-text',
+        'presentation-role-conflict',
+        'aria-allowed-attr',
+        'aria-required-attr',
+        'aria-roles',
+        'aria-valid-attr-value',
+        'aria-valid-attr',
+      ],
+    },
+    Level: 'AA',
+    'Test Conditions': [''],
+    Techniques: [''],
+    Note: '',
+    'Disability Impact':
+      'Without Vision, With Limited Vision, Cognitive and Learning Abilities',
+    axe_tests: [
+      {
+        'rule-id': 'aria-allowed-role',
+        description:
+          'Ensures role attribute has an appropriate value for the element',
+        impact: 'Minor',
+        tags: ['cat.aria', 'best-practice'],
+        'issue-type': 'failure, needs review',
+        'act-rules': '',
+      },
+      {
+        'rule-id': 'aria-text',
+        description:
+          'Ensures "role=text" is used on elements with no focusable descendants',
+        impact: 'Serious',
+        tags: ['cat.aria', 'best-practice'],
+        'issue-type': 'failure, needs review',
+        'act-rules': '',
+      },
+      {
+        'rule-id': 'presentation-role-conflict',
+        description:
+          'Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them',
+        impact: 'Minor',
+        tags: ['cat.aria', 'best-practice', 'ACT'],
+        'issue-type': 'failure',
+        'act-rules': '46ca7f',
+      },
+      {
+        'rule-id': 'aria-allowed-attr',
+        description:
+          "Ensures ARIA attributes are allowed for an element's role",
+        impact: 'Serious, Critical',
+        tags: ['cat.aria', 'wcag2a', 'wcag412'],
+        'issue-type': 'failure, needs review',
+        'act-rules': '5c01ea',
+      },
+      {
+        'rule-id': 'aria-required-attr',
+        description:
+          'Ensures elements with ARIA roles have all required ARIA attributes',
+        impact: 'Critical',
+        tags: ['cat.aria', 'wcag2a', 'wcag412'],
+        'issue-type': 'failure',
+        'act-rules': '4e8ab6',
+      },
+      {
+        'rule-id': 'aria-roles',
+        description:
+          'Ensures all elements with a role attribute use a valid value',
+        impact: 'Minor, Serious, Critical',
+        tags: ['cat.aria', 'wcag2a', 'wcag412'],
+        'issue-type': 'failure',
+        'act-rules': '674b10',
+      },
+      {
+        'rule-id': 'aria-valid-attr-value',
+        description: 'Ensures all ARIA attributes have valid values',
+        impact: 'Serious, Critical',
+        tags: ['cat.aria', 'wcag2a', 'wcag412'],
+        'issue-type': 'failure, needs review',
+        'act-rules': '6a7281',
+      },
+      {
+        'rule-id': 'aria-valid-attr',
+        description:
+          'Ensures attributes that begin with aria- are valid ARIA attributes',
+        impact: 'Critical',
+        tags: ['cat.aria', 'wcag2a', 'wcag412'],
+        'issue-type': 'failure',
+        'act-rules': '5f99a7',
       },
     ],
   },
