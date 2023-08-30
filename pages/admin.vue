@@ -68,19 +68,19 @@ const getProfileProject = computed((): ProfileProject[] =>
   )
 )
 
+const { data } = await useFetch<{
+  users: User[]
+  aud: string
+  nextPage: number | null
+  lastPage: number
+  total: number
+}>('/api/users')
+
+authData.value = data.value?.users || []
+
 async function fetchProfiles() {
   try {
-    const { data: authUsers } = await useFetch<{
-      users: User[]
-      aud: string
-      nextPage: number | null
-      lastPage: number
-      total: number
-    }>('/api/users')
-
     const { data } = await supabase.from('profiles').select('*')
-
-    authData.value = authUsers.value?.users || []
     profiles.value = data || []
   } catch (error) {
     console.error('Error fetching profiles:', error)
@@ -152,10 +152,8 @@ async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
   }
 }
 
-onMounted(() => {
-  nextTick(async () => {
-    await fetchData()
-  })
+onMounted(async () => {
+  await fetchData()
 })
 </script>
 
