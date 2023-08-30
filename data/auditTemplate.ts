@@ -4,7 +4,7 @@ export const trustedTests = [
     'Test ID': '1.A',
     'Test Category': 'Alternate version',
     'WCAG SC': ['Requirements'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -24,7 +24,7 @@ export const trustedTests = [
     'Test ID': '2.A',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['1.4.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag142',
       rules: false,
     },
@@ -47,7 +47,7 @@ export const trustedTests = [
     'Test ID': '2.B.custom',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['2.2.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag222',
       rules: false,
     },
@@ -73,7 +73,7 @@ export const trustedTests = [
     'Test ID': '2.D',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -97,7 +97,7 @@ export const trustedTests = [
     'Test ID': '413.custom',
     'Test Category': 'Autoplay/update',
     'WCAG SC': ['4.1.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag413',
       rules: false,
     },
@@ -125,7 +125,7 @@ export const trustedTests = [
     'Test ID': '3.A',
     'Test Category': 'Flashing',
     'WCAG SC': ['2.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag231',
       rules: false,
     },
@@ -148,7 +148,7 @@ export const trustedTests = [
     'Test ID': '4.A.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag211',
       rules: ['accesskeys', 'aria-hidden-focus', 'nested-interactive'],
     },
@@ -170,7 +170,7 @@ export const trustedTests = [
     'Test ID': '4.B',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -192,7 +192,7 @@ export const trustedTests = [
     'Test ID': '4.C',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag212',
       rules: false,
     },
@@ -212,7 +212,7 @@ export const trustedTests = [
     'Test ID': '4.D',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.4.7'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag247',
       rules: false,
     },
@@ -238,7 +238,7 @@ export const trustedTests = [
     'Test ID': '4.E',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['3.2.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag321',
       rules: false,
     },
@@ -259,7 +259,7 @@ export const trustedTests = [
     'Test ID': '4.F',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.4.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag243',
       rules: ['aria-text', 'tabindex', 'focus-order-semantics'],
     },
@@ -285,7 +285,7 @@ export const trustedTests = [
     'Test ID': '1413.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['1.4.13'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag1413',
       rules: false,
     },
@@ -311,7 +311,7 @@ export const trustedTests = [
     'Test ID': '214.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.1.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag214',
       rules: ['accesskeys'],
     },
@@ -332,7 +332,7 @@ export const trustedTests = [
     'Test ID': '251.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.5.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag251',
       rules: false,
     },
@@ -354,7 +354,7 @@ export const trustedTests = [
     'Test ID': '252.custom',
     'Test Category': 'Keyboard/focus',
     'WCAG SC': ['2.5.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag252',
       rules: false,
     },
@@ -377,7 +377,7 @@ export const trustedTests = [
     'Test ID': '5.C',
     'Test Category': 'Forms',
     'WCAG SC': ['1.3.1', '4.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'aria-command-name',
@@ -425,7 +425,7 @@ export const trustedTests = [
     'Test ID': '5.A',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag332',
       rules: false,
     },
@@ -455,7 +455,7 @@ export const trustedTests = [
     'Test ID': '5.B',
     'Test Category': 'Forms',
     'WCAG SC': ['2.4.6'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag246',
       rules: false,
     },
@@ -472,7 +472,7 @@ export const trustedTests = [
     'Test ID': '5.D',
     'Test Category': 'Forms',
     'WCAG SC': ['3.2.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag322',
       rules: false,
     },
@@ -495,7 +495,7 @@ export const trustedTests = [
     'Test ID': '5.E ',
     'Test Category': 'Forms',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -517,7 +517,7 @@ export const trustedTests = [
     'Test ID': '5.F',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag331',
       rules: false,
     },
@@ -546,7 +546,7 @@ export const trustedTests = [
     'Test ID': '5.G',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag333',
       rules: false,
     },
@@ -573,7 +573,7 @@ export const trustedTests = [
     'Test ID': '5.H',
     'Test Category': 'Forms',
     'WCAG SC': ['3.3.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag334',
       rules: false,
     },
@@ -600,7 +600,7 @@ export const trustedTests = [
     'Test ID': '135.custom',
     'Test Category': 'Forms',
     'WCAG SC': ['1.3.5'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag135',
       rules: false,
     },
@@ -619,7 +619,7 @@ export const trustedTests = [
     'Test ID': '6.A',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['2.4.4', '4.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'area-alt',
@@ -663,7 +663,7 @@ export const trustedTests = [
     'Test ID': '6.B',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -685,7 +685,7 @@ export const trustedTests = [
     'Test ID': '253.custom',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['2.5.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag253',
       rules: false,
     },
@@ -709,7 +709,7 @@ export const trustedTests = [
     'Test ID': '7.A.custom',
     'Test Category': 'Images',
     'WCAG SC': ['1.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag111',
       rules: ['image-redundant-alt', 'input-image-alt'],
     },
@@ -745,7 +745,7 @@ export const trustedTests = [
     'Test ID': '7. D',
     'Test Category': 'Images',
     'WCAG SC': ['1.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -764,7 +764,7 @@ export const trustedTests = [
     'Test ID': '7.E',
     'Test Category': 'Images',
     'WCAG SC': ['1.4.5'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag145',
       rules: false,
     },
@@ -787,7 +787,7 @@ export const trustedTests = [
     'Test ID': '8.A ',
     'Test Category': 'Adjustable time limits',
     'WCAG SC': ['2.2.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag221',
       rules: false,
     },
@@ -816,7 +816,7 @@ export const trustedTests = [
     'Test ID': '9.A',
     'Test Category': 'Repetitive Content',
     'WCAG SC': ['2.4.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag241',
       rules: ['skip-link'],
     },
@@ -844,7 +844,7 @@ export const trustedTests = [
     'Test ID': '9.B',
     'Test Category': 'Repetitive Content',
     'WCAG SC': ['3.2.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag323',
       rules: false,
     },
@@ -866,7 +866,7 @@ export const trustedTests = [
     'Test ID': '9.C',
     'Test Category': 'Repetitive Content',
     'WCAG SC': ['3.2.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag324',
       rules: false,
     },
@@ -888,7 +888,7 @@ export const trustedTests = [
     'Test ID': '10.A',
     'Test Category': 'Content Structure',
     'WCAG SC': ['2.4.6'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag246',
       rules: ['empty-heading'],
     },
@@ -907,7 +907,7 @@ export const trustedTests = [
     'Test ID': '10.B ',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: ['p-as-heading'],
     },
@@ -930,7 +930,7 @@ export const trustedTests = [
     'Test ID': '10.C',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: ['heading-order', 'page-has-heading-one'],
     },
@@ -954,7 +954,7 @@ export const trustedTests = [
     'Test ID': '10.D',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'aria-required-children',
@@ -983,7 +983,7 @@ export const trustedTests = [
     'Test ID': '10.F.custom',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'landmark-banner-is-top-level',
@@ -1017,7 +1017,7 @@ export const trustedTests = [
     'Test ID': '10.G.custom',
     'Test Category': 'Content Structure',
     'WCAG SC': [],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: ['aria-hidden-body', 'aria-hidden-focus', 'hidden-content'],
     },
@@ -1034,7 +1034,7 @@ export const trustedTests = [
     'Test ID': '11.A',
     'Test Category': 'Language',
     'WCAG SC': ['3.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag311',
       rules: false,
     },
@@ -1053,7 +1053,7 @@ export const trustedTests = [
     'Test ID': '11.B',
     'Test Category': 'Language',
     'WCAG SC': ['3.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag312',
       rules: false,
     },
@@ -1074,7 +1074,7 @@ export const trustedTests = [
     'Test ID': '12.A.custom',
     'Test Category': 'Page and Frame Titles',
     'WCAG SC': ['2.4.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag242',
       rules: false,
     },
@@ -1094,7 +1094,7 @@ export const trustedTests = [
     'Test ID': '12.D.custom',
     'Test Category': 'Page and Frame Titles',
     'WCAG SC': ['4.1.2'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: ['frame-title-unique', 'frame-title', 'frame-tested'],
     },
@@ -1113,7 +1113,7 @@ export const trustedTests = [
     'Test ID': '13.A',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.4.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag141',
       rules: false,
     },
@@ -1138,7 +1138,7 @@ export const trustedTests = [
     'Test ID': '13.B',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.3.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag133',
       rules: false,
     },
@@ -1158,7 +1158,7 @@ export const trustedTests = [
     'Test ID': '13.C',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.4.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag143',
       rules: false,
     },
@@ -1181,7 +1181,7 @@ export const trustedTests = [
     'Test ID': '1411.custom',
     'Test Category': 'Sensory and Color',
     'WCAG SC': ['1.4.11'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag1411',
       rules: false,
     },
@@ -1205,7 +1205,7 @@ export const trustedTests = [
     'Test ID': '14.A',
     'Test Category': 'Tables',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'aria-required-children',
@@ -1233,7 +1233,7 @@ export const trustedTests = [
     'Test ID': '14.B',
     'Test Category': 'Tables',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'td-headers-attr',
@@ -1260,7 +1260,7 @@ export const trustedTests = [
     'Test ID': '14.C',
     'Test Category': 'Tables',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -1279,7 +1279,7 @@ export const trustedTests = [
     'Test ID': '15.A',
     'Test Category': 'CSS',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -1300,7 +1300,7 @@ export const trustedTests = [
     'Test ID': '15.B',
     'Test Category': 'CSS',
     'WCAG SC': ['1.3.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag132',
       rules: false,
     },
@@ -1323,7 +1323,7 @@ export const trustedTests = [
     'Test ID': '16.A',
     'Test Category': 'Audio/Video-Only',
     'WCAG SC': ['1.2.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag121',
       rules: false,
     },
@@ -1346,7 +1346,7 @@ export const trustedTests = [
     'Test ID': '16.B',
     'Test Category': 'Audio/Video-Only',
     'WCAG SC': ['1.2.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag121',
       rules: false,
     },
@@ -1371,7 +1371,7 @@ export const trustedTests = [
     'Test ID': '17.A',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.2'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag122',
       rules: false,
     },
@@ -1394,7 +1394,7 @@ export const trustedTests = [
     'Test ID': '17.1.custom',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.3'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag123',
       rules: false,
     },
@@ -1422,7 +1422,7 @@ export const trustedTests = [
     'Test ID': '17.B',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.5'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag125',
       rules: false,
     },
@@ -1447,7 +1447,7 @@ export const trustedTests = [
     'Test ID': '17.C',
     'Test Category': "Sync'd Media",
     'WCAG SC': ['1.2.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag124',
       rules: false,
     },
@@ -1470,7 +1470,7 @@ export const trustedTests = [
     'Test ID': '17.D',
     'Test Category': "Sync'd Media",
     'WCAG SC': [''],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: false,
     },
@@ -1493,7 +1493,7 @@ export const trustedTests = [
     'Test ID': '18.A',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag144',
       rules: ['meta-viewport-large'],
     },
@@ -1518,7 +1518,7 @@ export const trustedTests = [
     'Test ID': '134.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.3.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag134',
       rules: false,
     },
@@ -1539,7 +1539,7 @@ export const trustedTests = [
     'Test ID': '1410.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.10'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag1410',
       rules: false,
     },
@@ -1570,7 +1570,7 @@ export const trustedTests = [
     'Test ID': '1412.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['1.4.12'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag1412',
       rules: false,
     },
@@ -1600,7 +1600,7 @@ export const trustedTests = [
     'Test ID': '254.custom',
     'Test Category': 'Presentation and resize',
     'WCAG SC': ['2.5.4'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag254',
       rules: false,
     },
@@ -1623,7 +1623,7 @@ export const trustedTests = [
     'Test ID': '19.A',
     'Test Category': 'Multiple Ways',
     'WCAG SC': ['2.4.5'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag245',
       rules: false,
     },
@@ -1650,7 +1650,7 @@ export const trustedTests = [
     'Test ID': '20.A',
     'Test Category': 'Parsing',
     'WCAG SC': ['4.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: 'wcag411',
       rules: false,
     },
@@ -1675,7 +1675,7 @@ export const trustedTests = [
     'Test ID': '20.B.custom',
     'Test Category': 'Parsing',
     'WCAG SC': ['4.1.1'],
-    'axe-rules': {
+    axeRules: {
       tag: false,
       rules: [
         'aria-allowed-role',
