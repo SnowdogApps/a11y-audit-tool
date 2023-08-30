@@ -1,14 +1,19 @@
-import type { Audit } from 'types/audit'
+import type { AuditCategories } from 'types/audit'
+interface ListItem {
+  name: string
+  code: string
+}
 
-export default function useAuditFilters(
-  audit: globalThis.Ref<Audit>,
-  formData
-) {
-  interface ListItem {
-    name: string
-    code: string
+function addToUniqueList(list: ListItem[], item: string): void {
+  if (!list.some((listItem) => listItem.name === item)) {
+    list.push({
+      name: item,
+      code: item,
+    })
   }
+}
 
+export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
   interface SelectedItem {
     code: string
   }
@@ -23,16 +28,9 @@ export default function useAuditFilters(
     levelList: [],
     statusList: [],
   })
-  const searchValue = useDebouncedRef('', 300)
 
-  function addToUniqueList(list: ListItem[], item: string): void {
-    if (!list.some((listItem) => listItem.name === item)) {
-      list.push({
-        name: item,
-        code: item,
-      })
-    }
-  }
+  const searchValue = ref('')
+  const searchValueDebounced = refDebounced(searchValue, 300)
 
   // Populate test.info with FormData
   function populateInfo(test: any, infoKey: string, formDataKey: string): void {
@@ -68,7 +66,7 @@ export default function useAuditFilters(
       selectedItems.value.selectedWcagSc.length === 0 &&
       selectedItems.value.selectedLevel.length === 0 &&
       selectedItems.value.selectedStatus.length === 0 &&
-      !searchValue.value
+      !searchValueDebounced.value
     ) {
       return audit.value
     } else {
@@ -104,10 +102,10 @@ export default function useAuditFilters(
       // Search part
       let foundObjects = filteredTests
 
-      if (searchValue.value) {
+      if (searchValueDebounced.value) {
         foundObjects = []
         filteredTests.forEach((item) => {
-          const found = useDeepSearch(item, searchValue.value)
+          const found = useDeepSearch(item, searchValueDebounced.value)
           if (found.length > 0) {
             foundObjects.push(item)
           }
