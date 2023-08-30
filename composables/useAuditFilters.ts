@@ -22,11 +22,13 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
     selectedWcagSc: [],
     selectedLevel: [],
     selectedStatus: [],
+    selectedCategory: [],
   })
   const optionLists = ref({
     wcagScList: [],
     levelList: [],
     statusList: [],
+    categoryList: [],
   })
 
   const searchValue = ref('')
@@ -48,6 +50,7 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
   audit.value.wcagCoveredByTrustedTest.tests.forEach((test: any) => {
     addToUniqueList(optionLists.value.wcagScList, test.info['WCAG SC'])
     addToUniqueList(optionLists.value.levelList, test.info.Level)
+    addToUniqueList(optionLists.value.categoryList, test.info['Test Category'])
   })
 
   for (const [, value] of Object.entries(formData.value)) {
@@ -68,6 +71,7 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
       selectedItems.value.selectedWcagSc.length === 0 &&
       selectedItems.value.selectedLevel.length === 0 &&
       selectedItems.value.selectedStatus.length === 0 &&
+      selectedItems.value.selectedCategory.length === 0 &&
       !searchValueDebounced.value
     ) {
       return audit.value
@@ -85,6 +89,10 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
         selectedItems.value.selectedStatus,
         'code'
       )
+      const selectedCategories = extractSelectedCodes(
+        selectedItems.value.selectedCategory,
+        'code'
+      )
 
       const filteredTests = audit.value.wcagCoveredByTrustedTest.tests.filter(
         (element) => {
@@ -96,8 +104,16 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
           const filteredStatus =
             selectedStatuses.size === 0 ||
             selectedStatuses.has(element.info.status)
+          const filteredCategories =
+            selectedCategories.size === 0 ||
+            selectedCategories.has(element.info['Test Category'])
 
-          return filteredWcag && filteredLevel && filteredStatus
+          return (
+            filteredWcag &&
+            filteredLevel &&
+            filteredStatus &&
+            filteredCategories
+          )
         }
       )
 

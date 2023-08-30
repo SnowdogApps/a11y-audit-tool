@@ -69,6 +69,24 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
                   </span>
                   <span class="flex flex-col">
                     <label
+                      for="categoryList"
+                      class="mb-2 text-xs"
+                    >
+                      Test Category
+                    </label>
+                    <MultiSelect
+                      id="categoryList"
+                      v-model="selectedItems.selectedCategory"
+                      filter
+                      :options="optionLists.categoryList"
+                      option-label="name"
+                      placeholder="Category"
+                      class="md:w-20rem"
+                      :max-selected-labels="2"
+                    />
+                  </span>
+                  <span class="flex flex-col">
+                    <label
                       for="levelList"
                       class="mb-2 text-xs"
                     >
