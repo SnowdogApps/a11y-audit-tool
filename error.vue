@@ -1,7 +1,11 @@
-<script>
-export default {
-  props: ['error'],
-}
+<script setup lang="ts">
+import type { ErrorResponse } from 'types/error'
+
+defineProps<{
+  error: ErrorResponse
+}>()
+
+const handleError = () => clearError({ redirect: '/' })
 </script>
 
 <template>
@@ -14,13 +18,13 @@ export default {
         <div class="mb-6 text-xl">
           {{ error.message }}
         </div>
-        <NuxtLink
-          to="/"
-          class="p-button p-button-outlined"
+        <Button
+          outlined
+          @click="handleError"
         >
           <i class="pi pi-home mr-2" />
           <span> Back to home </span>
-        </NuxtLink>
+        </Button>
       </div>
     </div>
   </div>
