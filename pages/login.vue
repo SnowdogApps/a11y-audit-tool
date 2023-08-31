@@ -39,7 +39,7 @@ const signIn = handleSubmit(async ({ email, password }) => {
   if (data.user) {
     toast.add({
       severity: 'success',
-      summary: 'You successfully login',
+      summary: 'You successfully logged in',
       life: 3000,
     })
 
