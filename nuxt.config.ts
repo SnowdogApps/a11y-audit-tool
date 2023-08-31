@@ -17,7 +17,6 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo', '@nuxtjs/supabase'],
   css: [
     '~/assets/reset.css',
-    'primevue/resources/themes/lara-light-blue/theme.css',
     'primevue/resources/primevue.css',
     'primeicons/primeicons.css',
     '~/assets/themes/snowdog/theme.scss',
