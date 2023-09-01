@@ -2,7 +2,7 @@ export const trustedTests = [
   {
     'Test Name': 'Alt-version-conformant ',
     'Test ID': '1.A',
-    'Test Category': 'Alternate version ',
+    'Test Category': 'Alternate version',
     'WCAG SC': 'Requirements',
     Level: '',
     'Test Condition':
@@ -274,7 +274,7 @@ export const trustedTests = [
   {
     'Test Name': '3.3.1-error-identification',
     'Test ID': '5.F ',
-    'Test Category': '5 Forms ',
+    'Test Category': '5 Forms',
     'WCAG SC': '3.3.1',
     Level: 'A',
     'Test Condition':
@@ -286,7 +286,7 @@ export const trustedTests = [
   {
     'Test Name': '3.3.3-error-suggestion',
     'Test ID': '5.G ',
-    'Test Category': '5 Forms ',
+    'Test Category': '5 Forms',
     'WCAG SC': '3.3.3',
     Level: 'AA',
     'Test Condition':
@@ -298,7 +298,7 @@ export const trustedTests = [
   {
     'Test Name': '3.3.4-error-prevention',
     'Test ID': '5.H ',
-    'Test Category': '5 Forms ',
+    'Test Category': '5 Forms',
     'WCAG SC': '3.3.4',
     Level: 'AA',
     'Test Condition':
@@ -323,7 +323,7 @@ export const trustedTests = [
   {
     'Test Name': '4.1.2-change-notify-links',
     'Test ID': '6. B',
-    'Test Category': '6 Links/buttons ',
+    'Test Category': '6 Links/buttons',
     'WCAG SC': '4.1.2',
     Level: 'A',
     'Test Condition':
@@ -359,7 +359,7 @@ export const trustedTests = [
   {
     'Test Name': '1.1.1-decorative-background-image',
     'Test ID': '7.C',
-    'Test Category': '7 Images ',
+    'Test Category': '7 Images',
     'WCAG SC': '1.1.1',
     Level: 'A',
     'Test Condition':
@@ -382,7 +382,7 @@ export const trustedTests = [
   {
     'Test Name': '1.4.5-image-of-text',
     'Test ID': '7.E',
-    'Test Category': '7 Images ',
+    'Test Category': '7 Images',
     'WCAG SC': '1.4.5',
     Level: 'AA',
     'Test Condition':
@@ -454,7 +454,7 @@ export const trustedTests = [
   {
     'Test Name': '1.3.1-heading-determinable',
     'Test ID': '10.B ',
-    'Test Category': '10 Content Structure ',
+    'Test Category': '10 Content Structure',
     'WCAG SC': '1.3.1',
     Level: 'A',
     'Test Condition':
@@ -466,7 +466,7 @@ export const trustedTests = [
   {
     'Test Name': '1.3.1-heading-level',
     'Test ID': '10.C',
-    'Test Category': '10 Content Structure ',
+    'Test Category': '10 Content Structure',
     'WCAG SC': '1.3.1',
     Level: 'A',
     'Test Condition':
@@ -585,7 +585,7 @@ export const trustedTests = [
   {
     'Test Name': '1.4.3-contrast',
     'Test ID': '13.C',
-    'Test Category': '13 Sensory and Color ',
+    'Test Category': '13 Sensory and Color',
     'WCAG SC': '1.4.3',
     Level: 'AA',
     'Test Condition':
@@ -620,7 +620,7 @@ export const trustedTests = [
   {
     'Test Name': '1.3.1-layout-table-structure',
     'Test ID': '14.C',
-    'Test Category': '14 Tables ',
+    'Test Category': '14 Tables',
     'WCAG SC': '1.3.1 ',
     Level: 'A',
     'Test Condition':

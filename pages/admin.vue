@@ -31,6 +31,7 @@ const supabase = useSupabaseClient<Database>()
 const toast = useToast()
 
 const isLoading = ref(false)
+const isFetching = ref(true)
 const profiles = ref<Profile[]>([])
 const authData = ref<User[]>([])
 const projects = ref<Project[]>([])
@@ -61,34 +62,60 @@ const getProfileProject = computed((): ProfileProject[] =>
         name: projectData?.name ?? '',
         userId: user?.id ?? '',
         projectId: projectData!.id,
-        metadata: user!.app_metadata,
+        metadata: user?.app_metadata || {},
       }
     }
   )
 )
 
-async function fetchProfiles() {
-  const { data: authUsers } = await useFetch<{
-    users: User[]
-    aud: string
-    nextPage: number | null
-    lastPage: number
-    total: number
-  }>('/api/users')
-  const { data } = await supabase.from('profiles').select('*')
+const { data } = await useFetch<{
+  users: User[]
+  aud: string
+  nextPage: number | null
+  lastPage: number
+  total: number
+}>('/api/users')
 
-  authData.value = authUsers.value?.users || []
-  profiles.value = data || []
+authData.value = data.value?.users || []
+
+async function fetchProfiles() {
+  try {
+    const { data } = await supabase.from('profiles').select('*')
+    profiles.value = data || []
+  } catch (error) {
+    console.error('Error fetching profiles:', error)
+  }
 }
 
 async function fetchProjects() {
-  const { data } = await supabase.from('projects').select('*')
-  projects.value = data || []
+  try {
+    const { data } = await supabase.from('projects').select('*')
+    projects.value = data || []
+  } catch (error) {
+    console.error('Error fetching projects:', error)
+  }
 }
 
 async function fetchProjectProfile() {
-  const { data } = await supabase.from('profile_project').select('*')
-  profileProject.value = data || []
+  try {
+    const { data } = await supabase.from('profile_project').select('*')
+    profileProject.value = data || []
+  } catch (error) {
+    console.error('Error fetching project profiles:', error)
+  }
+}
+
+async function fetchData() {
+  try {
+    isFetching.value = true
+
+    await Promise.all([fetchProfiles(), fetchProjects(), fetchProjectProfile()])
+
+    isFetching.value = false
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    isFetching.value = false
+  }
 }
 
 async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
@@ -125,82 +152,87 @@ async function removeProfileFromProject(payload: RemoveFromProjectPayload) {
   }
 }
 
-await fetchProfiles()
-await fetchProjects()
-await fetchProjectProfile()
+onMounted(async () => {
+  await fetchData()
+})
 </script>
 
 <template>
   <div class="grid">
     <h1>Admin page</h1>
 
-    <Card class="mb-6 overflow-auto">
-      <template #content>
-        <section class="mr-4">
-          <h2 class="underline">Profile list</h2>
-          <ProfileTable
-            v-if="getUsersWithEmails.length"
-            :profiles="getUsersWithEmails"
-          />
-          <p
-            v-else
-            class="ml-4"
-          >
-            Profile list is empty.
-          </p>
-        </section>
-      </template>
-    </Card>
-
-    <Card class="mb-6 overflow-auto">
-      <template #content>
-        <section class="mr-4">
-          <h2 class="underline">Project list</h2>
-          <ProjectTable
-            v-if="projects.length"
-            :projects="projects"
-          />
-          <p
-            v-else
-            class="ml-4"
-          >
-            Project list is empty.
-          </p>
-        </section>
-      </template>
-    </Card>
-
-    <Card class="mb-6 overflow-auto">
-      <template #content>
-        <section class="mr-4">
-          <h2 class="underline">Profile per Project list</h2>
-          <ClaimTable
-            v-if="getProfileProject.length"
-            :is-loading="isLoading"
-            :profiles-to-projects="getProfileProject"
-            @remove="removeProfileFromProject"
-          />
-          <p
-            v-else
-            class="ml-4"
-          >
-            Profile per Project list is empty.
-          </p>
-        </section>
-      </template>
-    </Card>
-
-    <EditUserTypeForm
-      :users="getUsersWithEmails"
-      @after-submit="fetchProfiles"
+    <Spinner
+      v-if="isFetching"
+      class="mx-auto my-10 w-40"
     />
+    <div v-else>
+      <Card class="mb-6 overflow-auto">
+        <template #content>
+          <section class="mr-4">
+            <h2 class="underline">Profile list</h2>
+            <ProfileTable
+              v-if="getUsersWithEmails.length"
+              :profiles="getUsersWithEmails"
+            />
+            <p
+              v-else
+              class="ml-4"
+            >
+              Profile list is empty.
+            </p>
+          </section>
+        </template>
+      </Card>
 
-    <CreateProjectForm @after-submit="fetchProjects" />
+      <Card class="mb-6 overflow-auto">
+        <template #content>
+          <section class="mr-4">
+            <h2 class="underline">Project list</h2>
+            <ProjectTable
+              v-if="projects.length"
+              :projects="projects"
+            />
+            <p
+              v-else
+              class="ml-4"
+            >
+              Project list is empty.
+            </p>
+          </section>
+        </template>
+      </Card>
 
-    <AddProfileToProjectForm
-      :profiles="getUsersWithEmails"
-      :projects="projects"
-      @after-submit="fetchProjectProfile()"
-    />
+      <Card class="mb-6 overflow-auto">
+        <template #content>
+          <section class="mr-4">
+            <h2 class="underline">Profile per Project list</h2>
+            <ClaimTable
+              v-if="getProfileProject.length"
+              :is-loading="isLoading"
+              :profiles-to-projects="getProfileProject"
+              @remove="removeProfileFromProject"
+            />
+            <p
+              v-else
+              class="ml-4"
+            >
+              Profile per Project list is empty.
+            </p>
+          </section>
+        </template>
+      </Card>
+      <EditUserTypeForm
+        :users="getUsersWithEmails"
+        @after-submit="fetchProfiles"
+      />
+
+      <CreateProjectForm @after-submit="fetchProjects" />
+
+      <AddProfileToProjectForm
+        :profiles="getUsersWithEmails"
+        :projects="projects"
+        @after-submit="fetchProjectProfile()"
+      />
+    </div>
   </div>
 </template>
