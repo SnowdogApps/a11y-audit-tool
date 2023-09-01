@@ -145,7 +145,7 @@ watch(resultId, () => {
         </AccordionTab>
       </Accordion>
       <div>
-        <div class="grid gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
+        <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
           <div>
             <label
               for="url-selector"
@@ -159,7 +159,7 @@ watch(resultId, () => {
               :options="urlAndSelectorOptionsForSelectedDevice"
               option-label="name"
               option-value="id"
-              input-id="device"
+              input-id="url-selector"
             />
           </div>
           <div>
