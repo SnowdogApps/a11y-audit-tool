@@ -17,17 +17,6 @@ export interface AuditConfiguration {
   viewports: Viewport[]
 }
 
-interface AuditCategory {
-  name: string
-  tests: never[]
-}
-
-export interface AuditCategories {
-  wcagCoveredByTrustedTest: AuditCategory
-  wcagNotCoveredByTrustedTest: AuditCategory
-  axeAdditional: AuditCategory
-}
-
 export interface AutomaticTestGroupedResult {
   type: string
   results: Result[]
