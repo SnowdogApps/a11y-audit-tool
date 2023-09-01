@@ -1620,7 +1620,10 @@ export default [
     'Test ID': '10.C',
     'Test Category': 'Content Structure',
     'WCAG SC': ['1.3.1'],
-    'axe-rules': ['heading-order', 'page-has-heading-one'],
+    'axe-rules': {
+      tag: false,
+      rules: ['heading-order', 'page-has-heading-one'],
+    },
     Level: 'A',
     'Test Conditions': [
       'Programmatic heading levels logically match the visual heading presentation within the heading structure.',
