@@ -17,12 +17,12 @@ export interface AuditConfiguration {
   viewports: Viewport[]
 }
 
-export type AutomaticTestGroupedResult = {
+export interface AutomaticTestGroupedResult {
   type: string
   results: Result[]
 }
 
-export type AuditItem = {
+export interface AuditItem {
   id: string
   info: Record<string, string>
   automaticTestGroupedResults: AutomaticTestGroupedResult[]

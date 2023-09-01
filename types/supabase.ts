@@ -18,7 +18,7 @@ export type FormDataField =
 
 export type FormData = Record<string, Record<FormDataField, string>>
 
-export type Result = {
+export interface Result {
   id: string
   help: string
   tags: string[]
@@ -32,7 +32,7 @@ export type Result = {
   description: string
 }
 
-export type Results = {
+export interface Results {
   passes: Result[]
   testEngine: Json
   testEnvironment: Json
