@@ -10,25 +10,31 @@ defineProps<{
       v-for="(tTValue, tTKey) in info"
       :key="tTKey"
     >
-      <span class="mr-2 inline-block font-bold first-letter:uppercase">
-        {{ tTKey }}:
-      </span>
-      <Tag
-        v-if="['Level', 'Test ID'].includes(tTKey)"
-        :value="tTValue || 'n/a'"
-        severity="info"
-        rounded
-        class="text-xs tracking-wider"
-      />
-      <a
-        v-else-if="['WCAG SC url'].includes(tTKey) && tTValue"
-        :href="tTValue"
-        target="_blank"
-        rel="noopener"
+      <div
+        v-if="
+          !['status', 'manualTestDesc', 'recommendationDesc'].includes(tTKey)
+        "
       >
-        {{ tTValue }}
-      </a>
-      <span v-else>{{ tTValue || 'n/a' }}</span>
+        <span class="mr-2 inline-block font-bold first-letter:uppercase">
+          {{ tTKey }}:
+        </span>
+        <Tag
+          v-if="['Level', 'Test ID'].includes(tTKey)"
+          :value="tTValue || 'n/a'"
+          severity="info"
+          rounded
+          class="text-xs tracking-wider"
+        />
+        <a
+          v-else-if="['WCAG SC url'].includes(tTKey) && tTValue"
+          :href="tTValue"
+          target="_blank"
+          rel="noopener"
+        >
+          {{ tTValue }}
+        </a>
+        <span v-else>{{ tTValue || 'n/a' }}</span>
+      </div>
     </div>
   </div>
 </template>

@@ -14,3 +14,14 @@ export interface AuditConfiguration {
   title: string
   viewports: Viewport[]
 }
+
+interface AuditCategory {
+  name: string
+  tests: never[]
+}
+
+export interface AuditCategories {
+  wcagCoveredByTrustedTest: AuditCategory
+  wcagNotCoveredByTrustedTest: AuditCategory
+  axeAdditional: AuditCategory
+}
