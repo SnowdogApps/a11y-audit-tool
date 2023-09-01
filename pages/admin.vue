@@ -20,7 +20,7 @@ definePageMeta({
 
       if (!data) {
         abortNavigation({
-          message: 'You are not allowed to be here. Go away!',
+          message: 'Access Denied: Contact Administrator for Assistance.',
         })
       }
     }),
