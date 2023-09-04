@@ -102,12 +102,13 @@ export function useAudit(
           results: testResults,
         })
 
-        if (!isAutomaticTestResultsStatusDefined && testResults.length) {
-          if (type === 'violations') {
-            defaultAutomaticTestResultsStatus = 'Failed'
-          } else if (defaultAutomaticTestResultsStatus !== 'Failed') {
-            defaultAutomaticTestResultsStatus = 'Passed'
-          }
+        if (isAutomaticTestResultsStatusDefined || !testResults.length) {
+          return
+        }
+        if (type === 'violations') {
+          defaultAutomaticTestResultsStatus = 'Failed'
+        } else if (defaultAutomaticTestResultsStatus !== 'Failed') {
+          defaultAutomaticTestResultsStatus = 'Passed'
         }
       })
       audit.value.push({
