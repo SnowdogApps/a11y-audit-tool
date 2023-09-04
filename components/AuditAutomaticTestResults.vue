@@ -83,7 +83,7 @@ defineProps<{
                       <code
                         class="break-words rounded-md bg-gray-100 px-2 py-1"
                       >
-                        {{ node.target.join(',') }}
+                        {{ node.target.join(', ') }}
                       </code>
                     </div>
                     <div
