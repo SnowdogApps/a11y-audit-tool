@@ -98,7 +98,7 @@ const getFieldId = (suffix: string) =>
                     (value: string) =>
                       $emit('update-field', {
                         field: 'notes',
-                        value: value,
+                        value,
                       })
                   "
                 />
