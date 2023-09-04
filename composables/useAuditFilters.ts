@@ -1,4 +1,6 @@
-import type { AuditCategories } from 'types/audit'
+import type { Audit } from 'types/audit'
+import type { FormData } from 'types/supabase'
+
 interface ListItem {
   name: string
   code: string
@@ -13,7 +15,10 @@ function addToUniqueList(list: ListItem[], item: string): void {
   }
 }
 
-export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
+export default function useAuditFilters(
+  audit: Ref<Audit>,
+  formData: Ref<FormData>
+) {
   interface SelectedItem {
     code: string
   }
@@ -34,11 +39,6 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
   const searchValue = ref('')
   const searchValueDebounced = refDebounced(searchValue, 300)
 
-  // Populate test.info with FormData
-  function populateInfo(test: any, infoKey: string, formDataKey: string): void {
-    test.info[infoKey] = formData.value[test.info['Test ID']][formDataKey]
-  }
-
   function extractSelectedCodes(
     selectedItems: SelectedItem[],
     key: keyof SelectedItem
@@ -47,7 +47,7 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
   }
 
   // Get available filters
-  audit.value.wcagCoveredByTrustedTest.tests.forEach((test: any) => {
+  audit.value.forEach((test) => {
     addToUniqueList(optionLists.value.wcagScList, test.info['WCAG SC'])
     addToUniqueList(optionLists.value.levelList, test.info.Level)
     addToUniqueList(optionLists.value.categoryList, test.info['Test Category'])
@@ -60,13 +60,11 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
   }
 
   // All data in one object makes filtering easier
-  audit.value.wcagCoveredByTrustedTest.tests.forEach((test) => {
-    populateInfo(test, 'status', 'status')
-    populateInfo(test, 'manualTestDesc', 'manualTestDesc')
-    populateInfo(test, 'recommendationDesc', 'recommendationDesc')
+  audit.value.forEach((test) => {
+    test.info.status = formData.value[test.id].status
   })
 
-  const filteredAudit: Ref<AuditCategories> = computed(() => {
+  const filteredAudit: Ref<Audit> = computed(() => {
     if (
       selectedItems.value.selectedWcagSc.length === 0 &&
       selectedItems.value.selectedLevel.length === 0 &&
@@ -94,28 +92,23 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
         'code'
       )
 
-      const filteredTests = audit.value.wcagCoveredByTrustedTest.tests.filter(
-        (element) => {
-          const filteredWcag =
-            selectedWcagCodes.size === 0 ||
-            selectedWcagCodes.has(element.info['WCAG SC'])
-          const filteredLevel =
-            selectedLevels.size === 0 || selectedLevels.has(element.info.Level)
-          const filteredStatus =
-            selectedStatuses.size === 0 ||
-            selectedStatuses.has(element.info.status)
-          const filteredCategories =
-            selectedCategories.size === 0 ||
-            selectedCategories.has(element.info['Test Category'])
+      const filteredTests = audit.value.filter((element) => {
+        const filteredWcag =
+          selectedWcagCodes.size === 0 ||
+          selectedWcagCodes.has(element.info['WCAG SC'])
+        const filteredLevel =
+          selectedLevels.size === 0 || selectedLevels.has(element.info.Level)
+        const filteredStatus =
+          selectedStatuses.size === 0 ||
+          selectedStatuses.has(element.info.status)
+        const filteredCategories =
+          selectedCategories.size === 0 ||
+          selectedCategories.has(element.info['Test Category'])
 
-          return (
-            filteredWcag &&
-            filteredLevel &&
-            filteredStatus &&
-            filteredCategories
-          )
-        }
-      )
+        return (
+          filteredWcag && filteredLevel && filteredStatus && filteredCategories
+        )
+      })
 
       // Search part
       let foundObjects = filteredTests
@@ -133,16 +126,7 @@ export default function useAuditFilters(audit: Ref<AuditCategories>, formData) {
         })
       }
 
-      // Combined results
-      const combinedFilterResults = {
-        ...audit.value,
-        wcagCoveredByTrustedTest: {
-          ...audit.value.wcagCoveredByTrustedTest,
-          tests: foundObjects,
-        },
-      }
-
-      return combinedFilterResults
+      return foundObjects
     }
   })
 

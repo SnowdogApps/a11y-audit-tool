@@ -1,3 +1,5 @@
+import type { Result } from 'types/supabase'
+
 export interface Page {
   selector: string | undefined
   url: string
@@ -15,13 +17,16 @@ export interface AuditConfiguration {
   viewports: Viewport[]
 }
 
-interface AuditCategory {
-  name: string
-  tests: never[]
+export interface AutomaticTestGroupedResult {
+  type: string
+  results: Result[]
 }
 
-export interface AuditCategories {
-  wcagCoveredByTrustedTest: AuditCategory
-  wcagNotCoveredByTrustedTest: AuditCategory
-  axeAdditional: AuditCategory
+export interface AuditItem {
+  id: string
+  info: Record<string, string>
+  automaticTestGroupedResults: AutomaticTestGroupedResult[]
+  automaticTestResultsStatus: string
 }
+
+export type Audit = AuditItem[]

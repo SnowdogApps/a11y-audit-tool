@@ -10,11 +10,7 @@ defineProps<{
       v-for="(tTValue, tTKey) in info"
       :key="tTKey"
     >
-      <div
-        v-if="
-          !['status', 'manualTestDesc', 'recommendationDesc'].includes(tTKey)
-        "
-      >
+      <div v-if="!['status'].includes(tTKey)">
         <span class="mr-2 inline-block font-bold first-letter:uppercase">
           {{ tTKey }}:
         </span>

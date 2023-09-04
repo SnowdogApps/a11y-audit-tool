@@ -8,8 +8,41 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type FormDataField = 'status' | 'manualTestDesc' | 'recommendationDesc'
+export type FormDataField =
+  | 'status'
+  | 'notes'
+  | 'manualTestResultsStatus'
+  | 'manualTestIssues'
+  | 'manualTestRecommendedFixes'
+
 export type FormData = Record<string, Record<FormDataField, string>>
+
+export interface Result {
+  id: string
+  help: string
+  tags: string[]
+  nodes: {
+    html: string
+    target: string[]
+    failureSummary: string
+  }[]
+  impact: string
+  helpUrl: string
+  description: string
+}
+
+export interface Results {
+  passes: Result[]
+  testEngine: Json
+  testEnvironment: Json
+  testRunner: {
+    name: string
+  }
+  timestamp: string
+  toolOptions: unknown
+  url: string
+  violations: Result[]
+}
 
 export interface Database {
   public: {
@@ -65,7 +98,7 @@ export interface Database {
           audit_id: number
           created_at: string
           id: number
-          results: Json
+          results: Results
           selector: string | null
           size: string | null
           form_data: FormData | null
@@ -74,7 +107,7 @@ export interface Database {
           audit_id?: number
           created_at?: string
           id?: number
-          results?: Json
+          results?: Results
           selector?: string | null
           size?: string | null
           form_data?: FormData | null
@@ -83,7 +116,7 @@ export interface Database {
           audit_id?: number
           created_at?: string
           id?: number
-          results?: Json
+          results?: Results
           selector?: string | null
           size?: string | null
           form_data?: FormData | null

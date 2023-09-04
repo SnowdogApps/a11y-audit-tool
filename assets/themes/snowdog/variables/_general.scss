@@ -13,11 +13,11 @@ $fontWeight: normal;
 
 /// Primary text color
 /// @group general
-$textColor: #565a66;
+$textColor: #1e293b;
 
 /// Secondary text color
 /// @group general
-$textSecondaryColor: #6c757d;
+$textSecondaryColor: #475569;
 
 /// Background of a highlighted item
 /// @group general
@@ -33,7 +33,7 @@ $highlightFocusBg: rgba($primaryColor, .24) !default;
 
 /// Radius of the corners
 /// @group general
-$borderRadius: 5px;
+$borderRadius: 6px;
 
 /// Duration of the property transitions
 /// @group general

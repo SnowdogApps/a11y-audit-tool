@@ -149,7 +149,7 @@ watch(resultId, () => {
           <div>
             <label
               for="url-selector"
-              class="mb-4 block font-bold"
+              class="mb-2 block font-medium"
             >
               Url and selector
             </label>
@@ -165,7 +165,7 @@ watch(resultId, () => {
           <div>
             <label
               for="device"
-              class="mb-4 block font-bold"
+              class="mb-2 block font-medium"
             >
               Device
             </label>
@@ -186,7 +186,7 @@ watch(resultId, () => {
           Save your changes before selecting different url, selector or device.
         </InlineMessage>
       </div>
-      <AuditAxeResult
+      <AuditResults
         :key="resultId"
         :result="axeResults.find((result) => result.id === resultId)"
       />

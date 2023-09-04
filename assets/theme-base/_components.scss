@@ -6,7 +6,7 @@
 //@import './components/input/_autocomplete';
 //@import './components/input/_calendar';
 //@import './components/input/_cascadeselect';
-//@import './components/input/_checkbox';
+@import './components/input/_checkbox';
 //@import './components/input/_chips';
 //@import './components/input/_colorpicker';
 @import './components/input/_dropdown';
@@ -20,7 +20,7 @@
 @import './components/input/_password';
 //@import './components/input/_radiobutton';
 //@import './components/input/_rating';
-// @import './components/input/_selectbutton';
+@import './components/input/_selectbutton';
 //@import './components/input/_slider';
 //@import './components/input/_treeselect';
 //@import './components/input/_togglebutton';
@@ -32,7 +32,7 @@
 
 //Data
 //@import './components/data/_carousel';
-//@import './components/data/_datatable';
+@import './components/data/_datatable';
 //@import './components/data/_dataview';
 //@import './components/data/_filter';
 //@import './components/data/_fullcalendar';
@@ -42,7 +42,7 @@
 //@import './components/data/_picklist';
 //@import './components/data/_timeline';
 //@import './components/data/_tree';
-//@import './components/data/_treetable';
+@import './components/data/_treetable';
 
 //Panel
 @import './components/panel/_accordion';
@@ -78,9 +78,9 @@
 //@import './components/menu/_tieredmenu';
 
 //Messages
-//@import './components/messages/_inlinemessage';
-//@import './components/messages/_message';
-//@import 'components/messages/toast';
+@import './components/messages/_inlinemessage';
+// @import './components/messages/_message';
+@import 'components/messages/toast';
 
 //MultiMedia
 //@import './components/multimedia/_galleria';

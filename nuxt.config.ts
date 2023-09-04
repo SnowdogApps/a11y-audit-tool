@@ -22,10 +22,8 @@ export default defineNuxtConfig({
   ],
   css: [
     '~/assets/reset.css',
-    'primevue/resources/themes/lara-light-blue/theme.css',
     'primevue/resources/primevue.css',
     'primeicons/primeicons.css',
-    'vue-json-pretty/lib/styles.css',
     '~/assets/themes/snowdog/theme.scss',
     'vue-virtual-scroller/dist/vue-virtual-scroller.css',
   ],
