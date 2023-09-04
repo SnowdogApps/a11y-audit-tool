@@ -47,12 +47,13 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
       >
         WCAG SC
       </label>
+      <!-- option-label prop is required for filtering -->
       <MultiSelect
         id="wcagScList"
         v-model="selectedItems.selectedWcagSc"
         :options="optionLists.wcagScList"
         filter
-        option-label="name"
+        :option-label="(data) => data"
         placeholder="WCAG SC"
         class="w-full"
         :max-selected-labels="3"
@@ -70,7 +71,7 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
         v-model="selectedItems.selectedCategory"
         filter
         :options="optionLists.categoryList"
-        option-label="name"
+        :option-label="(data) => data"
         placeholder="Category"
         class="w-full"
         :max-selected-labels="2"
@@ -87,7 +88,6 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
         id="levelList"
         v-model="selectedItems.selectedLevel"
         :options="optionLists.levelList"
-        option-label="name"
         placeholder="Level"
         class="w-full"
         :max-selected-labels="2"
@@ -104,7 +104,6 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
         id="statusList"
         v-model="selectedItems.selectedStatus"
         :options="optionLists.statusList"
-        option-label="name"
         placeholder="Status"
         class="w-full"
         :max-selected-labels="2"
