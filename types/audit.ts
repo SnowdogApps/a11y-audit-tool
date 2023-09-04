@@ -26,6 +26,7 @@ export interface AuditItem {
   id: string
   info: Record<string, string>
   automaticTestGroupedResults: AutomaticTestGroupedResult[]
+  automaticTestResultsStatus: string
 }
 
 export type Audit = AuditItem[]

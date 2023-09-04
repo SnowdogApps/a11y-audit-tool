@@ -11,7 +11,6 @@ export type Json =
 export type FormDataField =
   | 'status'
   | 'notes'
-  | 'automaticTestResultsStatus'
   | 'manualTestResultsStatus'
   | 'manualTestIssues'
   | 'manualTestRecommendedFixes'

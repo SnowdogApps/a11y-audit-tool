@@ -17,21 +17,8 @@ defineEmits<{
   ): void
 }>()
 
-const automaticTestsCount = computed(() =>
-  props.test.automaticTestGroupedResults.reduce((totalCount, group) => {
-    if (group.results && Array.isArray(group.results)) {
-      return totalCount + group.results.length
-    } else {
-      return totalCount
-    }
-  }, 0)
-)
-
 const status = computed(() => props.formDataItem.status)
 const notes = computed(() => props.formDataItem.notes)
-const automaticTestResultsStatus = computed(
-  () => props.formDataItem.automaticTestResultsStatus
-)
 const manualTestResultsStatus = computed(
   () => props.formDataItem.manualTestResultsStatus
 )
@@ -107,34 +94,43 @@ const getFieldId = (suffix: string) =>
           </div>
           <Accordion>
             <AccordionTab
-              :header="`Automatic Test Results (${automaticTestsCount})`"
+              :disabled="test.automaticTestResultsStatus === 'Not applicable'"
             >
-              <div class="mb-8">
-                <label
-                  :for="getFieldId('automatic-test-results-status')"
-                  class="mb-2 block font-medium"
-                >
-                  Status
-                </label>
-                <Dropdown
-                  class="w-full md:max-w-[200px]"
-                  :model-value="automaticTestResultsStatus"
-                  :options="['Not applicable', 'Passed', 'Failed']"
-                  :input-id="getFieldId('automaticTestResultsStatus')"
-                  @update:model-value="
-                    (value: string) =>
-                      $emit('update-field', {
-                        field: 'automaticTestResultsStatus',
-                        value: value,
-                      })
+              <template #header>
+                <span class="mr-3">Automatic Test Results</span>
+                <Tag
+                  :value="test.automaticTestResultsStatus"
+                  rounded
+                  :severity="
+                    test.automaticTestResultsStatus === 'Passed'
+                      ? 'success'
+                      : test.automaticTestResultsStatus === 'Failed'
+                      ? 'danger'
+                      : 'info'
                   "
                 />
-              </div>
+              </template>
               <AuditAutomaticTestResults
                 :grouped-results="test.automaticTestGroupedResults"
               />
             </AccordionTab>
-            <AccordionTab header="Manual Test Results">
+            <AccordionTab>
+              <template #header>
+                <span class="mr-3">Manual Test Results</span>
+                <Tag
+                  :value="manualTestResultsStatus"
+                  rounded
+                  :severity="
+                    manualTestResultsStatus === 'Passed'
+                      ? 'success'
+                      : manualTestResultsStatus === 'Failed'
+                      ? 'danger'
+                      : manualTestResultsStatus === 'Not tested'
+                      ? 'primary'
+                      : 'info'
+                  "
+                />
+              </template>
               <div class="space-y-4">
                 <div>
                   <label

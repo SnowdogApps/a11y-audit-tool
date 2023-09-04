@@ -18,8 +18,6 @@ export function useAudit(
         [testId]: {
           status: axeResult?.form_data?.[testId]?.status || 'Not tested',
           notes: axeResult?.form_data?.[testId]?.notes || '',
-          automaticTestResultsStatus:
-            axeResult?.form_data?.[testId]?.automaticTestResultsStatus,
           manualTestResultsStatus:
             axeResult?.form_data?.[testId]?.manualTestResultsStatus ||
             'Not tested',
@@ -88,9 +86,7 @@ export function useAudit(
     ]
 
     trustedTests.forEach((test) => {
-      let defaultAutomaticTestResultsStatus = 'Not applicable'
-      const isAutomaticTestResultsStatusDefined =
-        !!formData.value[test['Test ID']].automaticTestResultsStatus
+      let automaticTestResultsStatus = 'Not applicable'
       const automaticTestGroupedResults: AutomaticTestGroupedResult[] = []
       automaticTestsGroupedResults.forEach(({ type, results }) => {
         const testResults = results.filter(({ tags }) =>
@@ -102,25 +98,21 @@ export function useAudit(
           results: testResults,
         })
 
-        if (isAutomaticTestResultsStatusDefined || !testResults.length) {
+        if (!testResults.length) {
           return
         }
         if (type === 'violations') {
-          defaultAutomaticTestResultsStatus = 'Failed'
-        } else if (defaultAutomaticTestResultsStatus !== 'Failed') {
-          defaultAutomaticTestResultsStatus = 'Passed'
+          automaticTestResultsStatus = 'Failed'
+        } else if (automaticTestResultsStatus !== 'Failed') {
+          automaticTestResultsStatus = 'Passed'
         }
       })
       audit.value.push({
         id: test['Test ID'],
         info: test,
         automaticTestGroupedResults,
+        automaticTestResultsStatus,
       })
-
-      if (!isAutomaticTestResultsStatusDefined) {
-        formData.value[test['Test ID']].automaticTestResultsStatus =
-          defaultAutomaticTestResultsStatus
-      }
     })
   }
 
