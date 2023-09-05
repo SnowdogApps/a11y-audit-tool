@@ -53,7 +53,7 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
       </h2>
       <Button
         :disabled="isSaving || !isFormDataEdited"
-        class="p-button-lg w-full shrink justify-center disabled:border-gray-500 disabled:bg-gray-500 md:w-60"
+        class="p-button-lg w-full shrink justify-center md:w-60"
         @click="saveFormData"
       >
         Save
