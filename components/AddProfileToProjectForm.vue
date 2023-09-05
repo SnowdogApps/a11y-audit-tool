@@ -54,7 +54,7 @@ const addProfileToProject = handleSubmit(async ({ profile, project }) => {
       emit('after-submit')
       toast.add({
         severity: 'success',
-        summary: 'You successfully add profile to project',
+        summary: 'You successfully added profile to project',
         life: 3000,
       })
 
@@ -89,7 +89,7 @@ const addProfileToProject = handleSubmit(async ({ profile, project }) => {
               "
               option-value="id"
               placeholder="Select"
-              class="md:w-14rem w-full"
+              class="w-full"
               data-testid="claims-user-field"
               name="client"
               :class="[{ 'p-invalid': errors.profile && isSubmitted }]"
@@ -116,7 +116,7 @@ const addProfileToProject = handleSubmit(async ({ profile, project }) => {
               :option-label="({ id, name }) => `${name} [${id}]`"
               option-value="id"
               placeholder="Select"
-              class="md:w-14rem w-full"
+              class="w-full"
               data-testid="claims-project-field"
               name="project"
               :class="[{ 'p-invalid': errors.project && isSubmitted }]"
