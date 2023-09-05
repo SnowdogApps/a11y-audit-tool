@@ -21,7 +21,7 @@ const menuItems = computed<MenuItem[]>(() =>
 </script>
 
 <template>
-  <div class="layout">
+  <div class="layout mx-auto xl:container">
     <div
       class="layout-wrapper"
       :class="{
