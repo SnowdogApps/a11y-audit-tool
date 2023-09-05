@@ -57,10 +57,25 @@ const toast = useToast()
 const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 const projects = ref<Project[]>([])
+const userProjectIds = ref<number[]>([])
+const { isAdmin } = useUser()
+
+const isAllowedToAddAuditToSelectedProject = computed<boolean>(
+  () =>
+    !project.value ||
+    isAdmin.value ||
+    userProjectIds.value.includes(project.value)
+)
 
 if (user.value) {
   const { data: projectsData } = await supabase.from('projects').select('*')
   projects.value = projectsData || []
+  const { data: profileProjectData } = await supabase
+    .from('profile_project')
+    .select('project_id')
+    .eq('profile_id', user.value.id)
+  userProjectIds.value =
+    profileProjectData?.map((item) => item.project_id) || []
 }
 
 const isLoading = ref(false)
@@ -326,8 +341,15 @@ const sendForm = handleSubmit(async (values) => {
         class="p-button-lg w-full"
         data-testid="audit-submit-button"
         :loading="isLoading"
-        :disabled="isLoading"
+        :disabled="isLoading || !isAllowedToAddAuditToSelectedProject"
       />
+      <small
+        v-if="!isAllowedToAddAuditToSelectedProject"
+        class="mt-3 block text-red-700"
+      >
+        You don't have permissions to add an audit to the selected project. To
+        gain access please contact administrator.
+      </small>
     </form>
   </section>
 </template>
