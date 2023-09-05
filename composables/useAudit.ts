@@ -1,6 +1,6 @@
 import { useToast } from 'primevue/usetoast'
-import { trustedTests } from '~/data/trustedTests'
-import type { Database, FormDataField, FormData } from 'types/supabase'
+import { auditTemplate } from '~/data/auditTemplate'
+import type { Database, FormDataField, FormData, Result } from 'types/supabase'
 import type { AutomaticTestGroupedResult, Audit } from 'types/audit'
 import type { SupabaseError } from '~/plugins/error'
 
@@ -11,7 +11,7 @@ export function useAudit(
   const isSaving = ref(false)
 
   const formData = ref<FormData>(
-    trustedTests.reduce((acc, test) => {
+    auditTemplate.reduce((acc, test) => {
       const testId = test['Test ID']
       return {
         ...acc,
@@ -85,13 +85,25 @@ export function useAudit(
       },
     ]
 
-    trustedTests.forEach((test) => {
+    auditTemplate.forEach((test) => {
       let automaticTestResultsStatus = 'Not applicable'
       const automaticTestGroupedResults: AutomaticTestGroupedResult[] = []
       automaticTestsGroupedResults.forEach(({ type, results }) => {
-        const testResults = results.filter(({ tags }) =>
-          tags.includes(`wcag${test['WCAG SC'].replaceAll('.', '')}`)
-        )
+        let testResults: Result[] = []
+        if (test['Axe Rules']?.tag || test['Axe Rules']?.rules) {
+          testResults = results.filter(({ tags, id }) => {
+            if (
+              typeof test['Axe Rules'].tag === 'string' &&
+              tags.includes(test['Axe Rules'].tag)
+            ) {
+              return true
+            }
+            if (Array.isArray(test['Axe Rules'].rules)) {
+              return test['Axe Rules'].rules.includes(id)
+            }
+            return false
+          })
+        }
 
         automaticTestGroupedResults.push({
           type,
