@@ -144,47 +144,38 @@ watch(resultId, () => {
           </ul>
         </AccordionTab>
       </Accordion>
-      <div>
-        <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
-          <div>
-            <label
-              for="url-selector"
-              class="mb-2 block font-medium"
-            >
-              Url and selector
-            </label>
-            <Dropdown
-              v-model="resultId"
-              class="w-full"
-              :options="urlAndSelectorOptionsForSelectedDevice"
-              option-label="name"
-              option-value="id"
-              input-id="url-selector"
-            />
-          </div>
-          <div>
-            <label
-              for="device"
-              class="mb-2 block font-medium"
-            >
-              Device
-            </label>
-            <Dropdown
-              :model-value="device"
-              class="w-full"
-              :options="auditInfo.config.viewports"
-              input-id="device"
-              @update:model-value="changeDevice"
-            />
-          </div>
+      <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
+        <div>
+          <label
+            for="url-selector"
+            class="mb-2 block font-medium"
+          >
+            Url and selector
+          </label>
+          <Dropdown
+            v-model="resultId"
+            class="w-full"
+            :options="urlAndSelectorOptionsForSelectedDevice"
+            option-label="name"
+            option-value="id"
+            input-id="url-selector"
+          />
         </div>
-        <InlineMessage
-          v-if="resultId"
-          severity="warn"
-          class="!mt-4 flex w-full items-center !justify-start"
-        >
-          Save your changes before selecting different url, selector or device.
-        </InlineMessage>
+        <div>
+          <label
+            for="device"
+            class="mb-2 block font-medium"
+          >
+            Device
+          </label>
+          <Dropdown
+            :model-value="device"
+            class="w-full"
+            :options="auditInfo.config.viewports"
+            input-id="device"
+            @update:model-value="changeDevice"
+          />
+        </div>
       </div>
       <AuditResults
         :key="resultId"
