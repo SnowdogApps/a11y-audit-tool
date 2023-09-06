@@ -110,7 +110,7 @@ const confirmAuditRemoval = (id: number) => {
     message: 'Do you want to delete this audit?',
     header: 'Delete Confirmation',
     icon: 'pi pi-info-circle',
-    acceptClass: 'p-button-danger',
+    acceptClass: 'p-button-danger !pr-6',
     accept: () => {
       emit('delete-audit', id)
     },
