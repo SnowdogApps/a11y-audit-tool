@@ -9,6 +9,7 @@ export function useAudit(
 ) {
   const toast = useToast()
   const isSaving = ref(false)
+  const isFormDataEdited = ref(false)
 
   const formData = ref<FormData>(
     auditTemplate.reduce((acc, test) => {
@@ -40,6 +41,7 @@ export function useAudit(
     value: string
   }) => {
     formData.value[id][field] = value
+    isFormDataEdited.value = true
   }
 
   const saveFormData = async () => {
@@ -59,6 +61,7 @@ export function useAudit(
             summary: 'Successfully saved data',
             life: 3000,
           })
+          isFormDataEdited.value = false
         }
       } catch (error) {
         const { $handleError } = useNuxtApp()
@@ -132,6 +135,7 @@ export function useAudit(
     audit,
     formData,
     isSaving,
+    isFormDataEdited,
     updateField,
     saveFormData,
   }
