@@ -5,3 +5,16 @@ export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Project = Database['public']['Tables']['projects']['Row']
 export type ProfileProjectKeys =
   Database['public']['Tables']['profile_project']['Row'][]
+
+export interface ExtendedAudit extends Audit {
+  projects: {
+    name: string
+  }
+  profiles: {
+    username: string
+    full_name: string
+  }
+  axe: {
+    id: string
+  }
+}

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
-import type { Audit } from 'types/database'
+import type { ExtendedAudit } from 'types/database'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
-  audits: Audit[]
+  audits: ExtendedAudit[]
 }>()
 
 const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()

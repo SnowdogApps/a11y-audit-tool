@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
-import type { Audit } from 'types/database'
+import type { ExtendedAudit } from 'types/database'
 
 definePageMeta({
   middleware: 'auth',
@@ -9,7 +9,7 @@ definePageMeta({
 
 const { isAdmin, isAuditor } = useUser()
 const supabase = useSupabaseClient<Database>()
-const audits = ref<Audit[]>([])
+const audits = ref<ExtendedAudit[]>([])
 const isLoading = ref(true)
 
 const toast = useToast()
