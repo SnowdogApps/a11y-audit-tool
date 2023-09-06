@@ -27,7 +27,7 @@ async function fetchAudits() {
   isLoading.value = false
 }
 
-const deleteAudit = async (auditId) => {
+const deleteAudit = async (auditId: number) => {
   const { error } = await supabase.from('audits').delete().eq('id', auditId)
   if (!error) {
     audits.value = audits.value.filter(({ id }) => id !== auditId)

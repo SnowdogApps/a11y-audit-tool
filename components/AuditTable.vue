@@ -8,7 +8,7 @@ const props = defineProps<{
   audits: Audit[]
 }>()
 
-const emit = defineEmits<{ (e: 'delete-audit'): void }>()
+const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()
 
 const confirm = useConfirm()
 const nodes = computed(() =>
@@ -91,19 +91,16 @@ const filters = computed<TreeTableExpandedKeys>(() => ({
   status: selectedStatus.value.value,
 }))
 
-const columns = ref([
+const columns = [
   { field: 'config.title', header: 'Title', sortable: true, start: true },
   { field: 'project', header: 'Project', sortable: true, start: true },
   { field: 'auditor', header: 'Auditor', sortable: true },
   { field: 'status', header: 'Status', sortable: true },
   { field: 'urls', header: 'Urls', start: true },
-])
-const selectedColumns = ref(columns.value.filter((col) => col.start))
-const onToggle = (val) => {
-  selectedColumns.value = columns.value.filter((col) => val.includes(col))
-}
+]
+const selectedColumns = ref(columns.filter((col) => col.start))
 
-const isFilterActive = (filterField) =>
+const isFilterActive = (filterField: string) =>
   selectedColumns.value.some(({ field }) => field === filterField)
 
 const { isAdmin } = useUser()
@@ -139,14 +136,13 @@ const confirmAuditRemoval = (id: number) => {
             Select columns
           </label>
           <MultiSelect
+            v-model="selectedColumns"
             input-id="select-columns"
-            :model-value="selectedColumns"
             :options="columns"
             option-label="header"
             class="w-full overflow-auto lg:w-auto"
             display="chip"
             placeholder="Select Columns"
-            @update:model-value="onToggle"
           />
         </div>
 
