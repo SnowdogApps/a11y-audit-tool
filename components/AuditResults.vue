@@ -13,11 +13,18 @@ const { audit, isSaving, formData, updateField, saveFormData } = await useAudit(
 
 const { filteredAudit, optionLists, searchValue, selectedItems } =
   useAuditFilters(audit, formData)
+
+const resultsHeader = ref<HTMLElement | null>(null)
+const isResultsHeaderVisible = ref(false)
+useIntersectionObserver(resultsHeader, ([{ isIntersecting }]) => {
+  isResultsHeaderVisible.value = isIntersecting
+})
 </script>
 
 <template>
   <div
     v-if="result"
+    ref="resultsHeader"
     class="flex flex-col items-center justify-between gap-x-10 gap-y-4 md:flex-row"
   >
     <h2>
@@ -30,13 +37,33 @@ const { filteredAudit, optionLists, searchValue, selectedItems } =
         {{ result.results.url }}
       </NuxtLink>
     </h2>
-    <Button
-      :disabled="isSaving"
-      class="p-button-lg w-full shrink justify-center md:w-60"
-      @click="saveFormData"
+    <div
+      class="w-full"
+      :class="{
+        'md:w-[320px]': isResultsHeaderVisible,
+        'fixed bottom-0 right-0 z-20 border-t bg-white shadow-[0_-1px_6px_0_rgba(0,0,0,0.1)] md:border-none md:bg-transparent md:shadow-none':
+          !isResultsHeaderVisible,
+      }"
     >
-      Save
-    </Button>
+      <div
+        class="w-full"
+        :class="{
+          'flex justify-end p-4 xl:container xl:mx-auto':
+            !isResultsHeaderVisible,
+        }"
+      >
+        <Button
+          :disabled="isSaving"
+          class="p-button-lg w-full shrink justify-center"
+          :class="{
+            'md:w-[320px]': !isResultsHeaderVisible,
+          }"
+          @click="saveFormData"
+        >
+          Save
+        </Button>
+      </div>
+    </div>
   </div>
 
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 lg:grid-cols-3">
