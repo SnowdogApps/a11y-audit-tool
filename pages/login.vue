@@ -10,7 +10,7 @@ definePageMeta({
   layout: 'simple',
 })
 const user = useSupabaseUser()
-const { auth } = useSupabaseAuthClient()
+const { auth } = useSupabaseClient()
 const toast = useToast()
 
 const { useFieldModel, handleSubmit, errors, submitCount } = useForm({

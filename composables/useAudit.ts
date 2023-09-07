@@ -1,7 +1,8 @@
 import { useToast } from 'primevue/usetoast'
-import { auditTemplate } from '~/data/auditTemplate'
+
 import type { Database, FormDataField, FormData, Result } from 'types/supabase'
 import type { AutomaticTestGroupedResult, Audit } from 'types/audit'
+import { auditTemplate } from '~/data/auditTemplate'
 import type { SupabaseError } from '~/plugins/error'
 
 export function useAudit(

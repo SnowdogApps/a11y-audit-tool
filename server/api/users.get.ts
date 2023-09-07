@@ -1,16 +1,9 @@
-import {
-  serverSupabaseClient,
-  serverSupabaseServiceRole,
-} from '#supabase/server'
-
-import type { Database } from 'types/supabase'
+import { serverSupabaseUser, serverSupabaseServiceRole } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
-  const { data: isAdmin } = await serverSupabaseClient<Database>(event).rpc(
-    'is_claims_admin'
-  )
+  const serverUser = await serverSupabaseUser(event)
 
-  if (!isAdmin) {
+  if (!serverUser?.app_metadata.claims_admin) {
     return
   }
 
