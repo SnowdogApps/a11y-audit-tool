@@ -7,11 +7,13 @@ import { statuses } from '~/data/auditStatuses'
 const props = defineProps<{
   audits: ExtendedAudit[]
   projectId?: number
+  showMy?: boolean
 }>()
 
 const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()
 
 const confirm = useConfirm()
+const { user } = useUser()
 const router = useRouter()
 const nodes = computed(() =>
   props.audits.map((audit) => ({
@@ -61,33 +63,43 @@ const statusOptions = computed(() => {
   return options
 })
 
-const auditorIds = computed(() =>
+const allAuditorIds = computed(() =>
   props.audits.map(({ profile_id: profileId }) => profileId)
 )
 
-const auditorOptions = computed(() => {
+const uniqueAuditorOptions = computed(() => {
   const options = props.audits
     .filter(
       ({ profile_id: profileId }, index) =>
-        !auditorIds.value.includes(profileId, index + 1)
+        !allAuditorIds.value.includes(profileId, index + 1)
     )
     .map((audit) => ({
       name: audit.profiles.username,
       value: audit.profiles.username,
+      id: audit.profile_id,
     }))
 
   options.unshift({
     name: 'All',
     value: '',
+    id: 0,
   })
 
   return options
 })
-
-const selectedProject = ref(
+console.log(
   uniqueProjectOptions.value.find(({ id }) => id === (props?.projectId || 0))
 )
-const selectedAuditor = ref(auditorOptions.value[0])
+
+const selectedProject = ref(
+  uniqueProjectOptions.value.find(({ id }) => id === props?.projectId) ||
+    uniqueProjectOptions.value[0]
+)
+const selectedAuditor = ref(
+  props.showMy
+    ? uniqueAuditorOptions.value.find(({ id }) => id === user.value.id)
+    : uniqueAuditorOptions.value[0]
+)
 const selectedStatus = ref(statusOptions.value[0])
 
 const filters = computed<TreeTableExpandedKeys>(() => ({
@@ -100,7 +112,7 @@ const filters = computed<TreeTableExpandedKeys>(() => ({
 const columns = [
   { field: 'config.title', header: 'Title', sortable: true, start: true },
   { field: 'project', header: 'Project', sortable: true, start: true },
-  { field: 'auditor', header: 'Auditor', sortable: true },
+  { field: 'auditor', header: 'Auditor', sortable: true, start: props.showMy },
   { field: 'status', header: 'Status', sortable: true },
   { field: 'urls', header: 'Urls', start: true },
 ]
@@ -123,13 +135,25 @@ const confirmAuditRemoval = (id: number) => {
   })
 }
 
-watch(selectedProject, (newValue) => {
+watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
+  let query = {}
+
+  if (
+    newValues[2].some(({ field }) => field === 'project') &&
+    newValues[0].id
+  ) {
+    query = { ...query, projectId: newValues[0].id }
+  }
+
+  if (
+    newValues[2].some(({ field }) => field === 'auditor') &&
+    newValues[1].id === user.value.id
+  ) {
+    query = { ...query, user: 'me' }
+  }
+
   router.replace({
-    query: newValue.id
-      ? {
-          projectId: newValue.id,
-        }
-      : {},
+    query,
   })
 })
 </script>
@@ -208,7 +232,7 @@ watch(selectedProject, (newValue) => {
             id="auditor-filter"
             v-model="selectedAuditor"
             aria-label="Filter by auditor"
-            :options="auditorOptions"
+            :options="uniqueAuditorOptions"
             option-label="name"
             placeholder="Filter by auditor"
             class="w-full"
