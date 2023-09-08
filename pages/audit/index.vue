@@ -11,6 +11,9 @@ const { isAdmin, isAuditor } = useUser()
 const supabase = useSupabaseClient<Database>()
 const audits = ref<ExtendedAudit[]>([])
 const isLoading = ref(true)
+const route = useRoute()
+
+const projectId = ref(Number(route.query.projectId))
 
 const toast = useToast()
 
@@ -76,6 +79,7 @@ onMounted(async () => {
           <AuditTable
             v-else-if="audits.length"
             :audits="audits"
+            :project-id="projectId"
             @delete-audit="deleteAudit"
           />
           <p v-else>Your audit list is empty</p>

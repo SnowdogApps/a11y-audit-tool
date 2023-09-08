@@ -6,11 +6,13 @@ import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
   audits: ExtendedAudit[]
+  projectId?: number
 }>()
 
 const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()
 
 const confirm = useConfirm()
+const router = useRouter()
 const nodes = computed(() =>
   props.audits.map((audit) => ({
     data: {
@@ -21,24 +23,26 @@ const nodes = computed(() =>
   }))
 )
 
-const projectsIds = computed(() =>
+const allProjectsIds = computed(() =>
   props.audits.map(({ project_id: profileId }) => profileId)
 )
 
-const projectOptions = computed(() => {
+const uniqueProjectOptions = computed(() => {
   const options = props.audits
     .filter(
       ({ project_id: projectId }, index) =>
-        !projectsIds.value.includes(projectId, index + 1)
+        !allProjectsIds.value.includes(projectId, index + 1)
     )
     .map((audit) => ({
       name: audit.projects.name,
       value: audit.projects.name,
+      id: audit.project_id,
     }))
 
   options.unshift({
     name: 'All',
     value: '',
+    id: 0,
   })
 
   return options
@@ -80,7 +84,9 @@ const auditorOptions = computed(() => {
   return options
 })
 
-const selectedProject = ref(projectOptions.value[0])
+const selectedProject = ref(
+  uniqueProjectOptions.value.find(({ id }) => id === (props?.projectId || 0))
+)
 const selectedAuditor = ref(auditorOptions.value[0])
 const selectedStatus = ref(statusOptions.value[0])
 
@@ -116,6 +122,16 @@ const confirmAuditRemoval = (id: number) => {
     },
   })
 }
+
+watch(selectedProject, (newValue) => {
+  router.replace({
+    query: newValue.id
+      ? {
+          projectId: newValue.id,
+        }
+      : {},
+  })
+})
 </script>
 
 <template>
@@ -171,7 +187,7 @@ const confirmAuditRemoval = (id: number) => {
             v-model="selectedProject"
             input-id="filter-projects"
             aria-label="Filter by project"
-            :options="projectOptions"
+            :options="uniqueProjectOptions"
             option-label="name"
             placeholder="Filter by project"
             class="w-full"
