@@ -7,6 +7,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
+const { isViewer } = useUser()
 const projects = ref<Project[]>([])
 const audits = ref<Audit[]>([])
 const isLoading = ref(true)
@@ -61,8 +62,12 @@ onMounted(async () => await fetchData())
       Create new audit
     </NuxtLink>
 
-    <div class="grid gap-4 md:grid-cols-2">
+    <div
+      class="grid gap-4 md:grid-cols-2"
+      :class="{ 'md:w-3/5 md:grid-cols-1': isViewer }"
+    >
       <AuditList
+        v-if="!isViewer"
         :audits="audits"
         :initial-count="5"
         :is-loading="isLoading"
