@@ -87,9 +87,6 @@ const uniqueAuditorOptions = computed(() => {
 
   return options
 })
-console.log(
-  uniqueProjectOptions.value.find(({ id }) => id === (props?.projectId || 0))
-)
 
 const selectedProject = ref(
   uniqueProjectOptions.value.find(({ id }) => id === props?.projectId) ||
