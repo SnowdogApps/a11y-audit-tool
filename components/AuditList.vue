@@ -19,13 +19,18 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
 
 <template>
   <Card>
-    <template #title><h2>Your recent audits</h2></template>
+    <template #title>
+      <h2 id="audits-card-title">Your recent audits</h2>
+    </template>
     <template #content>
       <Spinner
         v-if="isLoading"
         class="mx-auto w-20"
       />
-      <ul v-else-if="audits.length">
+      <ul
+        v-else-if="audits.length"
+        aria-labelledby="audits-card-title"
+      >
         <li
           v-for="{ id, config, axe } in visibleAudits"
           :key="id"
