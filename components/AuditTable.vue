@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
-import type { ExtendedAudit } from 'types/database'
+import type { ExtendedAudit, Project } from 'types/database'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
   audits: ExtendedAudit[]
+  projects: Project[]
   projectId?: number
   showMy?: boolean
 }>()
@@ -25,21 +26,12 @@ const nodes = computed(() =>
   }))
 )
 
-const allProjectsIds = computed(() =>
-  props.audits.map(({ project_id: profileId }) => profileId)
-)
-
-const uniqueProjectOptions = computed(() => {
-  const options = props.audits
-    .filter(
-      ({ project_id: projectId }, index) =>
-        !allProjectsIds.value.includes(projectId, index + 1)
-    )
-    .map((audit) => ({
-      name: audit.projects.name,
-      value: audit.projects.name,
-      id: audit.project_id,
-    }))
+const projectFilterOptions = computed(() => {
+  const options = props.projects.map(({ name, id }) => ({
+    name,
+    value: name,
+    id,
+  }))
 
   options.unshift({
     name: 'All',
@@ -67,7 +59,7 @@ const allAuditorIds = computed(() =>
   props.audits.map(({ profile_id: profileId }) => profileId)
 )
 
-const uniqueAuditorOptions = computed(() => {
+const uniqueAuditorFilterOptions = computed(() => {
   const options = props.audits
     .filter(
       ({ profile_id: profileId }, index) =>
@@ -82,20 +74,20 @@ const uniqueAuditorOptions = computed(() => {
   options.unshift({
     name: 'All',
     value: '',
-    id: 0,
+    id: '',
   })
 
   return options
 })
 
 const selectedProject = ref(
-  uniqueProjectOptions.value.find(({ id }) => id === props?.projectId) ||
-    uniqueProjectOptions.value[0]
+  projectFilterOptions.value.find(({ id }) => id === props?.projectId) ||
+    projectFilterOptions.value[0]
 )
 const selectedAuditor = ref(
   props.showMy
-    ? uniqueAuditorOptions.value.find(({ id }) => id === user.value.id)
-    : uniqueAuditorOptions.value[0]
+    ? uniqueAuditorFilterOptions.value.find(({ id }) => id === user.value.id)
+    : uniqueAuditorFilterOptions.value[0]
 )
 const selectedStatus = ref(statusOptions.value[0])
 
@@ -208,7 +200,7 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
             v-model="selectedProject"
             input-id="filter-projects"
             aria-label="Filter by project"
-            :options="uniqueProjectOptions"
+            :options="projectFilterOptions"
             option-label="name"
             placeholder="Filter by project"
             class="w-full"
@@ -229,7 +221,7 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
             id="auditor-filter"
             v-model="selectedAuditor"
             aria-label="Filter by auditor"
-            :options="uniqueAuditorOptions"
+            :options="uniqueAuditorFilterOptions"
             option-label="name"
             placeholder="Filter by auditor"
             class="w-full"
@@ -316,5 +308,8 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
         </div>
       </template>
     </Column>
+    <template #empty>
+      <div class="p-2 text-center">The list is empty</div>
+    </template>
   </TreeTable>
 </template>
