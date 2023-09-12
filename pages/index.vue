@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Audit, Project } from 'types/database'
+import type { ExtendedAudit, Project } from 'types/database'
 import type { Database } from 'types/supabase'
 import AuditList from '~/components/AuditList.vue'
 
@@ -9,7 +9,7 @@ definePageMeta({
 
 const { isViewer } = useUser()
 const projects = ref<Project[]>([])
-const audits = ref<Audit[]>([])
+const audits = ref<ExtendedAudit[]>([])
 const isLoading = ref(true)
 
 async function fetchProjects() {

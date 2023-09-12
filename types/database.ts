@@ -16,5 +16,5 @@ export interface ExtendedAudit extends Audit {
   }
   axe: {
     id: string
-  }
+  }[]
 }

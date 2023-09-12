@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Audit } from 'types/database'
+import type { ExtendedAudit } from 'types/database'
 
 const props = withDefaults(
   defineProps<{
-    audits: Audit[]
+    audits: ExtendedAudit[]
     initialCount?: number
     isLoading?: boolean
   }>(),
@@ -31,7 +31,7 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
           :key="id"
         >
           <NuxtLink
-            v-if="axe.length"
+            v-if="axe?.length"
             class="p-button p-button-text grid w-full justify-between"
             :to="`/audit/${id}/?resultId=${axe[0].id}`"
           >
