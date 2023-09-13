@@ -343,7 +343,7 @@ const sendForm = handleSubmit(async (values) => {
         :disabled="isLoading || !isAllowedToAddAuditToSelectedProject"
       />
       <small
-        v-if="!project || !isAllowedToAddAuditToSelectedProject"
+        v-if="project && !isAllowedToAddAuditToSelectedProject"
         class="mt-3 block text-red-700"
       >
         You don't have permissions to add an audit to the selected project. To
