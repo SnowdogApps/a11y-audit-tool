@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { breakpointsTailwind } from '@vueuse/core'
+
 import type { MenuItem } from 'primevue/menuitem'
 
 import {
@@ -7,8 +9,9 @@ import {
   customerMenuItems,
 } from '~/data/menu'
 
-const isSideNavigationVisible = ref(false)
-
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isDesktop = breakpoints.greater('lg')
+const isSideNavigationVisible = ref(isDesktop.value)
 const { isAdmin, isAuditor } = useUser()
 
 const menuItems = computed<MenuItem[]>(() =>
@@ -18,6 +21,14 @@ const menuItems = computed<MenuItem[]>(() =>
     ? auditorMenuItems
     : customerMenuItems
 )
+
+watch(isDesktop, (newValue: boolean) => {
+  isSideNavigationVisible.value = newValue
+})
+
+onMounted(() => {
+  isSideNavigationVisible.value = isDesktop.value
+})
 </script>
 
 <template>
@@ -28,7 +39,7 @@ const menuItems = computed<MenuItem[]>(() =>
         'layout-wrapper--slim': isSideNavigationVisible,
       }"
     >
-      <AppHeader
+      <LazyAppHeader
         :is-side-navigation-visible="isSideNavigationVisible"
         @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
       />
