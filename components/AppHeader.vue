@@ -25,7 +25,7 @@ const profileMenuList: ProfileMenuLink[] = [
 
 const isProfileMenuVisible = ref(false)
 
-const client = useSupabaseAuthClient()
+const client = useSupabaseClient()
 const user: Ref<User | null> = useSupabaseUser()
 
 const logout = async () => {

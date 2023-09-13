@@ -1,4 +1,5 @@
 import type { Result } from 'types/supabase'
+import type { auditTemplate } from '~/data/auditTemplate'
 
 export interface Page {
   selector: string | undefined
@@ -22,9 +23,11 @@ export interface AutomaticTestGroupedResult {
   results: Result[]
 }
 
+export type AuditInfo = (typeof auditTemplate)[0] & { status?: string }
+
 export interface AuditItem {
   id: string
-  info: Record<string, string>
+  info: AuditInfo
   automaticTestGroupedResults: AutomaticTestGroupedResult[]
   automaticTestResultsStatus: string
 }

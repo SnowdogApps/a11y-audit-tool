@@ -93,7 +93,7 @@ watch(resultId, () => {
             </li>
             <li v-if="auditInfo.config?.basicAuth?.username?.length">
               <span class="font-bold">Basic Authentication:</span>
-              <ul class="pl-4">
+              <ul class="list-disc pl-8">
                 <li
                   v-for="(tTValue, tTKey) in auditInfo.config.basicAuth"
                   :key="tTKey"
@@ -108,31 +108,34 @@ watch(resultId, () => {
             </li>
             <li>
               <span class="font-bold">Pages:</span>
-              <ul class="pl-4">
+              <ul class="list-disc pl-8">
                 <li
                   v-for="(page, index) in auditInfo.config.pages"
                   :key="index"
-                  class="flex min-h-[28px] flex-wrap items-center gap-2"
                 >
-                  <NuxtLink
-                    :to="page.url"
-                    target="_blank"
+                  <span
+                    class="inline-flex min-h-[28px] flex-wrap items-center gap-2"
                   >
-                    {{ page.url }}
-                  </NuxtLink>
-                  <Tag
-                    v-if="page.selector?.length"
-                    :value="page.selector"
-                    severity="info"
-                    rounded
-                    class="max-w-full [&>.p-tag-value]:truncate"
-                  />
+                    <NuxtLink
+                      :to="page.url"
+                      target="_blank"
+                    >
+                      {{ page.url }}
+                    </NuxtLink>
+                    <Tag
+                      v-if="page.selector?.length"
+                      :value="page.selector"
+                      severity="info"
+                      rounded
+                      class="max-w-full [&>.p-tag-value]:truncate"
+                    />
+                  </span>
                 </li>
               </ul>
             </li>
             <li>
               <span class="font-bold">Viewports:</span>
-              <ul class="pl-4">
+              <ul class="list-disc pl-8">
                 <li
                   v-for="(viewport, index) in auditInfo.config.viewports"
                   :key="index"
@@ -144,47 +147,38 @@ watch(resultId, () => {
           </ul>
         </AccordionTab>
       </Accordion>
-      <div>
-        <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
-          <div>
-            <label
-              for="url-selector"
-              class="mb-2 block font-medium"
-            >
-              Url and selector
-            </label>
-            <Dropdown
-              v-model="resultId"
-              class="w-full"
-              :options="urlAndSelectorOptionsForSelectedDevice"
-              option-label="name"
-              option-value="id"
-              input-id="url-selector"
-            />
-          </div>
-          <div>
-            <label
-              for="device"
-              class="mb-2 block font-medium"
-            >
-              Device
-            </label>
-            <Dropdown
-              :model-value="device"
-              class="w-full"
-              :options="auditInfo.config.viewports"
-              input-id="device"
-              @update:model-value="changeDevice"
-            />
-          </div>
+      <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
+        <div>
+          <label
+            for="url-selector"
+            class="mb-2 block font-medium"
+          >
+            Url and selector
+          </label>
+          <Dropdown
+            v-model="resultId"
+            class="w-full"
+            :options="urlAndSelectorOptionsForSelectedDevice"
+            option-label="name"
+            option-value="id"
+            input-id="url-selector"
+          />
         </div>
-        <InlineMessage
-          v-if="resultId"
-          severity="warn"
-          class="!mt-4 flex w-full items-center !justify-start"
-        >
-          Save your changes before selecting different url, selector or device.
-        </InlineMessage>
+        <div>
+          <label
+            for="device"
+            class="mb-2 block font-medium"
+          >
+            Device
+          </label>
+          <Dropdown
+            :model-value="device"
+            class="w-full"
+            :options="auditInfo.config.viewports"
+            input-id="device"
+            @update:model-value="changeDevice"
+          />
+        </div>
       </div>
       <AuditResults
         :key="resultId"

@@ -3,7 +3,7 @@ stages:
   - build
 
 lint:
-  image: node:gallium-alpine3.15
+  image: node:hydrogen-alpine3.18
   stage: test
   except:
     - master

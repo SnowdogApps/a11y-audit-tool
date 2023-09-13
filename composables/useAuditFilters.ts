@@ -1,35 +1,30 @@
-import type { Audit } from 'types/audit'
+import type { Audit, AuditInfo } from 'types/audit'
 import type { FormData } from 'types/supabase'
 
-interface ListItem {
-  name: string
-  code: string
-}
-
-function addToUniqueList(list: ListItem[], item: string): void {
-  if (!list.some((listItem) => listItem.name === item)) {
-    list.push({
-      name: item,
-      code: item,
-    })
-  }
+function addToUniqueList(
+  list: string[],
+  value: AuditInfo['Level' | 'WCAG SC' | 'Test Category']
+): void {
+  const items =
+    typeof value === 'string' ? [value] : Array.isArray(value) ? [...value] : []
+  items.forEach((item) => {
+    if (!list.includes(item)) {
+      list.push(item)
+    }
+  })
 }
 
 export default function useAuditFilters(
   audit: Ref<Audit>,
   formData: Ref<FormData>
 ) {
-  interface SelectedItem {
-    code: string
-  }
-
   const selectedItems = ref({
     selectedWcagSc: [],
     selectedLevel: [],
     selectedStatus: [],
     selectedCategory: [],
   })
-  const optionLists = ref({
+  const optionLists = ref<Record<string, string[]>>({
     wcagScList: [],
     levelList: [],
     statusList: [],
@@ -39,11 +34,8 @@ export default function useAuditFilters(
   const searchValue = ref('')
   const searchValueDebounced = refDebounced(searchValue, 300)
 
-  function extractSelectedCodes(
-    selectedItems: SelectedItem[],
-    key: keyof SelectedItem
-  ): Set<string> {
-    return new Set((selectedItems || []).map((item) => item[key]))
+  function extractSelectedCodes(selectedItems: string[]): Set<string> {
+    return new Set((selectedItems || []).map((value) => value))
   }
 
   // Get available filters
@@ -52,6 +44,8 @@ export default function useAuditFilters(
     addToUniqueList(optionLists.value.levelList, test.info.Level)
     addToUniqueList(optionLists.value.categoryList, test.info['Test Category'])
   })
+  optionLists.value.wcagScList.sort()
+  optionLists.value.categoryList.sort()
 
   for (const [, value] of Object.entries(formData.value)) {
     if (typeof value === 'object' && value !== null && 'status' in value) {
@@ -76,31 +70,28 @@ export default function useAuditFilters(
     } else {
       // Filters part
       const selectedWcagCodes = extractSelectedCodes(
-        selectedItems.value.selectedWcagSc,
-        'code'
+        selectedItems.value.selectedWcagSc
       )
       const selectedLevels = extractSelectedCodes(
-        selectedItems.value.selectedLevel,
-        'code'
+        selectedItems.value.selectedLevel
       )
       const selectedStatuses = extractSelectedCodes(
-        selectedItems.value.selectedStatus,
-        'code'
+        selectedItems.value.selectedStatus
       )
       const selectedCategories = extractSelectedCodes(
-        selectedItems.value.selectedCategory,
-        'code'
+        selectedItems.value.selectedCategory
       )
 
       const filteredTests = audit.value.filter((element) => {
         const filteredWcag =
           selectedWcagCodes.size === 0 ||
-          selectedWcagCodes.has(element.info['WCAG SC'])
+          element.info['WCAG SC']?.some((value) => selectedWcagCodes.has(value))
         const filteredLevel =
-          selectedLevels.size === 0 || selectedLevels.has(element.info.Level)
+          selectedLevels.size === 0 ||
+          (element.info.Level && selectedLevels?.has(element.info.Level))
         const filteredStatus =
           selectedStatuses.size === 0 ||
-          selectedStatuses.has(element.info.status)
+          (element.info.status && selectedStatuses.has(element.info.status))
         const filteredCategories =
           selectedCategories.size === 0 ||
           selectedCategories.has(element.info['Test Category'])

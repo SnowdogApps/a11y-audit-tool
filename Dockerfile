@@ -1,4 +1,4 @@
-FROM node:16.20-alpine as builder
+FROM node:18.17-alpine as builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ RUN pnpm build
 
 ##########
 
-FROM node:16.20-alpine as server
+FROM node:18.17-alpine as server
 
 ENV NODE_ENV=production
 
