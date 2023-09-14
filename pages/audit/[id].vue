@@ -67,7 +67,7 @@ watch(resultId, () => {
 <template>
   <div class="space-y-6">
     <template v-if="auditInfo && auditInfo.config">
-      <h1>Audit: {{ auditInfo.config.title }}</h1>
+      <h1 class="font-medium">Audit: {{ auditInfo.config.title }}</h1>
       <Accordion>
         <AccordionTab header="Audit Information">
           <ul class="space-y-1">

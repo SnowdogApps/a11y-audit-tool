@@ -18,8 +18,6 @@ export function useAudit(
       return {
         ...acc,
         [testId]: {
-          status: axeResult?.form_data?.[testId]?.status || 'Not tested',
-          notes: axeResult?.form_data?.[testId]?.notes || '',
           manualTestResultsStatus:
             axeResult?.form_data?.[testId]?.manualTestResultsStatus ||
             'Not tested',

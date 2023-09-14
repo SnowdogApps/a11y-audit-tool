@@ -3,6 +3,7 @@ import type { AuditInfo } from 'types/audit'
 
 defineProps<{
   info: AuditInfo
+  status: string
 }>()
 
 const collapsibleItemsState = ref<Record<string, { isOpen: boolean }>>({
@@ -13,6 +14,27 @@ const collapsibleItemsState = ref<Record<string, { isOpen: boolean }>>({
 </script>
 
 <template>
+  <div
+    class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <h3 class="text-xl font-semibold">{{ info['Test Name'] }}</h3>
+    <div class="-order-1 sm:order-1">
+      <Tag
+        class="!text-base sm:min-w-[200px] sm:!py-2"
+        :value="status"
+        rounded
+        :severity="
+          status === 'Passed'
+            ? 'success'
+            : status === 'Failed'
+            ? 'danger'
+            : status === 'Not tested'
+            ? 'primary'
+            : 'info'
+        "
+      />
+    </div>
+  </div>
   <ul class="space-y-1">
     <li
       v-for="(tTValue, tTKey) in info"
@@ -20,7 +42,7 @@ const collapsibleItemsState = ref<Record<string, { isOpen: boolean }>>({
     >
       <Component
         :is="tTKey in collapsibleItemsState ? 'details' : 'div'"
-        v-if="!['status', 'Axe Rules'].includes(tTKey) && tTValue"
+        v-if="!['status', 'Axe Rules', 'Test Name'].includes(tTKey) && tTValue"
       >
         <summary
           v-if="tTKey in collapsibleItemsState"
