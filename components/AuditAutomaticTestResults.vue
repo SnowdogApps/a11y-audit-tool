@@ -12,12 +12,12 @@ defineProps<{
       v-for="{ type, results } in groupedResults"
       :key="type"
     >
-      <div
+      <h4
         v-if="results.length"
         class="mb-4 text-lg font-medium first-letter:uppercase"
       >
         {{ type }} ({{ results.length }})
-      </div>
+      </h4>
       <ul
         v-if="results.length"
         class="space-y-4"
@@ -31,7 +31,7 @@ defineProps<{
             'border-red-600 ': type === 'violations',
           }"
         >
-          <p
+          <h5
             class="text-lg font-medium"
             :class="{
               'text-green-800': type === 'passes',
@@ -39,7 +39,7 @@ defineProps<{
             }"
           >
             {{ result.id }}
-          </p>
+          </h5>
           <p class="font-medium">{{ result.description }}.</p>
           <p v-if="type === 'violations'">
             <span class="font-medium">Impact: </span>
