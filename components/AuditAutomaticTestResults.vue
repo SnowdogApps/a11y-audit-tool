@@ -63,7 +63,7 @@ defineProps<{
             <li
               v-for="(node, nodeIndex) in result.nodes"
               :key="nodeIndex"
-              class="grid grid-cols-[34px_1fr] py-6 pr-1 first-of-type:pt-3 last-of-type:pb-0"
+              class="grid grid-cols-[34px_minmax(0,1fr)] py-6 pr-1 first-of-type:pt-3 last-of-type:pb-0"
             >
               <span
                 class="font-medium text-red-800"
