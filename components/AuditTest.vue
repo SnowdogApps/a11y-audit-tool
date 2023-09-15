@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { getStatus } from '~/utils/get-status'
+import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 import type { AuditItem } from 'types/audit'
 import type { FormData, FormDataField } from 'types/supabase'
 
@@ -24,21 +26,12 @@ const manualTestIssues = computed(() => props.formDataItem.manualTestIssues)
 const manualTestRecommendedFixes = computed(
   () => props.formDataItem.manualTestRecommendedFixes
 )
-const status = computed(() => {
-  if (
-    [
-      'Passed',
-      'Not applicable',
-      props.test.automaticTestResultsStatus,
-    ].includes(manualTestResultsStatus.value)
-  ) {
-    return manualTestResultsStatus.value
-  }
-  if (props.test.automaticTestResultsStatus === 'Failed') {
-    return props.test.automaticTestResultsStatus
-  }
-  return manualTestResultsStatus.value
-})
+const status = computed(() =>
+  getStatus(
+    props.test.automaticTestResultsStatus,
+    manualTestResultsStatus.value
+  )
+)
 
 const { $toCamelCase } = useNuxtApp()
 
@@ -109,12 +102,7 @@ const getFieldId = (suffix: string) =>
                   <Dropdown
                     class="w-full md:max-w-[200px]"
                     :model-value="manualTestResultsStatus"
-                    :options="[
-                      'Not tested',
-                      'Not applicable',
-                      'Passed',
-                      'Failed',
-                    ]"
+                    :options="manualTestResultsStatusOptions"
                     :input-id="getFieldId('manualTestResultsStatus')"
                     @update:model-value="
                       (value: string) =>
