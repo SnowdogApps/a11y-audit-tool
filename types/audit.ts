@@ -33,3 +33,13 @@ export interface AuditItem {
 }
 
 export type Audit = AuditItem[]
+
+export interface AutomaticTestGroupedNodes {
+  id: string
+  description: string
+  impact?: string
+  groupedNodes: {
+    pageName?: string
+    nodes: Result['nodes']
+  }[]
+}

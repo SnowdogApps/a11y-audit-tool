@@ -100,6 +100,7 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 - `profile_id` (references public.profiles)
 - `project_id` (references public.projects)
 - `status` (`draft` or `completed`)
+- `report_type` (`review`, `functional` or `wcag`)
 - `config` (optional, JSON data)
 - `issues` (optional, JSON data)
 

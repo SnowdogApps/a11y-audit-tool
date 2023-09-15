@@ -3,4 +3,4 @@ export const manualTestResultsStatusOptions = [
   'Not applicable',
   'Passed',
   'Failed',
-]
+] as const
