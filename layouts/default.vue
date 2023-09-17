@@ -11,7 +11,7 @@ import {
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isDesktop = breakpoints.greater('lg')
-const isSideNavigationVisible = ref(isDesktop.value)
+const isSideNavigationVisible = ref(false)
 const { isAdmin, isAuditor } = useUser()
 
 const menuItems = computed<MenuItem[]>(() =>
@@ -39,10 +39,12 @@ onMounted(() => {
         'layout-wrapper--slim': isSideNavigationVisible,
       }"
     >
-      <LazyAppHeader
-        :is-side-navigation-visible="isSideNavigationVisible"
-        @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
-      />
+      <ClientOnly>
+        <AppHeader
+          :is-side-navigation-visible="isSideNavigationVisible"
+          @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
+        />
+      </ClientOnly>
       <main>
         <slot />
       </main>
