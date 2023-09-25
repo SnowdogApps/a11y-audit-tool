@@ -334,6 +334,14 @@ const sendForm = handleSubmit(async (values) => {
         </AccordionTab>
       </Accordion>
 
+      <small
+        v-if="project && !isAllowedToAddAuditToSelectedProject"
+        class="mb-4 mt-3 block text-red-700"
+        aria-live="assertive"
+      >
+        You don't have permission to add an audit to the selected project. To
+        gain access please contact the administrator.
+      </small>
       <Button
         :label="isLoading ? 'Sending...' : 'Send'"
         type="submit"
@@ -342,13 +350,6 @@ const sendForm = handleSubmit(async (values) => {
         :loading="isLoading"
         :disabled="isLoading || !isAllowedToAddAuditToSelectedProject"
       />
-      <small
-        v-if="project && !isAllowedToAddAuditToSelectedProject"
-        class="mt-3 block text-red-700"
-      >
-        You don't have permissions to add an audit to the selected project. To
-        gain access please contact administrator.
-      </small>
     </form>
   </section>
 </template>
