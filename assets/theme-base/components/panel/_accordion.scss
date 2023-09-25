@@ -24,6 +24,12 @@
             }
         }
 
+        &.p-disabled {
+            .p-accordion-toggle-icon {
+                display: none;
+            }
+        }
+
         &:not(.p-highlight):not(.p-disabled):hover {
             .p-accordion-header-link {
                 background: $accordionHeaderHoverBg;

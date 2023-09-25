@@ -48,7 +48,7 @@ useIntersectionObserver(resultsHeader, ([{ isIntersecting }]) => {
       ref="resultsHeader"
       class="flex flex-col items-center justify-between gap-x-10 gap-y-4 md:flex-row"
     >
-      <h2>
+      <h2 class="font-medium">
         #{{ result.id }}: Results for
         <NuxtLink
           :to="result.results.url"
