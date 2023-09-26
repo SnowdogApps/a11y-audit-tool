@@ -79,6 +79,11 @@ if (user.value) {
 
 const isLoading = ref(false)
 const { isSubmitted } = useValidation(submitCount)
+const selectedProjectName = computed(
+  () =>
+    projects.value.find((item) => item.id === project.value)?.name ||
+    'this project'
+)
 
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
@@ -334,14 +339,16 @@ const sendForm = handleSubmit(async (values) => {
         </AccordionTab>
       </Accordion>
 
-      <small
-        v-if="project && !isAllowedToAddAuditToSelectedProject"
-        class="mb-4 mt-3 block text-red-700"
-        aria-live="assertive"
-      >
-        You don't have permission to add an audit to the selected project. To
-        gain access please contact the administrator.
-      </small>
+      <div aria-live="assertive">
+        <small
+          v-if="project && !isAllowedToAddAuditToSelectedProject"
+          class="mb-4 mt-3 block text-red-700"
+        >
+          You don't have permission to add an audit to the
+          {{ selectedProjectName }}. To gain access please contact the
+          administrator.
+        </small>
+      </div>
       <Button
         :label="isLoading ? 'Sending...' : 'Send'"
         type="submit"
