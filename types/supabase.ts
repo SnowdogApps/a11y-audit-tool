@@ -9,8 +9,6 @@ export type Json =
   | Json[]
 
 export type FormDataField =
-  | 'status'
-  | 'notes'
   | 'manualTestResultsStatus'
   | 'manualTestIssues'
   | 'manualTestRecommendedFixes'

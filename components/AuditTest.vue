@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { getStatus } from '~/utils/get-status'
+import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 import type { AuditItem } from 'types/audit'
 import type { FormData, FormDataField } from 'types/supabase'
 
@@ -17,14 +19,18 @@ defineEmits<{
   ): void
 }>()
 
-const status = computed(() => props.formDataItem.status)
-const notes = computed(() => props.formDataItem.notes)
 const manualTestResultsStatus = computed(
   () => props.formDataItem.manualTestResultsStatus
 )
 const manualTestIssues = computed(() => props.formDataItem.manualTestIssues)
 const manualTestRecommendedFixes = computed(
   () => props.formDataItem.manualTestRecommendedFixes
+)
+const status = computed(() =>
+  getStatus(
+    props.test.automaticTestResultsStatus,
+    manualTestResultsStatus.value
+  )
 )
 
 const { $toCamelCase } = useNuxtApp()
@@ -38,58 +44,12 @@ const getFieldId = (suffix: string) =>
     <Card>
       <template #content>
         <div class="space-y-8">
-          <div
-            class="grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr]"
-          >
-            <TrustedTestInfo :info="test.info" />
-            <div class="space-y-4">
-              <div>
-                <label
-                  :for="getFieldId('status')"
-                  class="mb-2 block font-medium"
-                >
-                  Status
-                </label>
-                <Dropdown
-                  class="w-full"
-                  :model-value="status"
-                  :options="[
-                    'Not tested',
-                    'Not applicable',
-                    'Passed',
-                    'Failed',
-                  ]"
-                  :input-id="getFieldId('status')"
-                  @update:model-value="
-                    (value: string) =>
-                      $emit('update-field', {
-                        field: 'status',
-                        value: value,
-                      })
-                  "
-                />
-              </div>
-              <div>
-                <label
-                  :for="getFieldId('notes')"
-                  class="mb-2 block font-medium"
-                >
-                  Notes
-                </label>
-                <Textarea
-                  :id="getFieldId('notes')"
-                  :model-value="notes"
-                  class="w-full"
-                  rows="10"
-                  @update:model-value="
-                    (value: string) =>
-                      $emit('update-field', {
-                        field: 'notes',
-                        value,
-                      })
-                  "
-                />
-              </div>
+          <div class="grid gap-x-10 gap-y-4">
+            <div>
+              <TrustedTestInfo
+                :info="test.info"
+                :status="status"
+              />
             </div>
           </div>
           <Accordion>
@@ -142,12 +102,7 @@ const getFieldId = (suffix: string) =>
                   <Dropdown
                     class="w-full md:max-w-[200px]"
                     :model-value="manualTestResultsStatus"
-                    :options="[
-                      'Not tested',
-                      'Not applicable',
-                      'Passed',
-                      'Failed',
-                    ]"
+                    :options="manualTestResultsStatusOptions"
                     :input-id="getFieldId('manualTestResultsStatus')"
                     @update:model-value="
                       (value: string) =>

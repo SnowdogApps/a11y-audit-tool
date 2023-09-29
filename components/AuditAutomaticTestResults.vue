@@ -12,12 +12,12 @@ defineProps<{
       v-for="{ type, results } in groupedResults"
       :key="type"
     >
-      <div
+      <h4
         v-if="results.length"
         class="mb-4 text-lg font-medium first-letter:uppercase"
       >
         {{ type }} ({{ results.length }})
-      </div>
+      </h4>
       <ul
         v-if="results.length"
         class="space-y-4"
@@ -31,78 +31,75 @@ defineProps<{
             'border-red-600 ': type === 'violations',
           }"
         >
-          <ul class="space-y-1">
-            <li><span class="font-medium">Id: </span>{{ result.id }}</li>
-            <li v-if="type === 'violations'">
-              <span class="font-medium">Impact: </span>
-              {{ result.impact || 'n/a' }}
-              <div
-                v-if="result.impact"
-                class="inline-block h-3 w-3 rounded-full border border-gray-700"
-                :class="{
-                  'bg-red-700': result.impact === 'critical',
-                  'bg-red-500': result.impact === 'serious',
-                  'bg-red-300': result.impact === 'moderate',
-                  'bg-red-100': result.impact === 'minor',
-                }"
-              />
-            </li>
-            <ol
-              title="HTML nodes"
+          <h5
+            class="text-lg font-medium"
+            :class="{
+              'text-green-800': type === 'passes',
+              'text-red-800 ': type === 'violations',
+            }"
+          >
+            {{ result.id }}
+          </h5>
+          <p class="font-medium">{{ result.description }}.</p>
+          <p v-if="type === 'violations'">
+            <span class="font-medium">Impact: </span>
+            {{ result.impact || 'n/a' }}
+            <span
+              v-if="result.impact"
+              class="inline-block h-3 w-3 rounded-full border border-gray-700"
               :class="{
-                'divide-y divide-red-600 ': type === 'violations',
+                'bg-red-700': result.impact === 'critical',
+                'bg-red-500': result.impact === 'serious',
+                'bg-red-300': result.impact === 'moderate',
+                'bg-red-100': result.impact === 'minor',
               }"
+            />
+          </p>
+          <ol
+            v-if="type === 'violations'"
+            title="HTML nodes"
+            class="divide-y divide-red-600"
+          >
+            <li
+              v-for="(node, nodeIndex) in result.nodes"
+              :key="nodeIndex"
+              class="grid grid-cols-[34px_minmax(0,1fr)] py-6 pr-1 first-of-type:pt-3 last-of-type:pb-0"
             >
-              <li
-                v-for="(node, nodeIndex) in result.nodes"
-                :key="nodeIndex"
-                :class="{
-                  'py-2': type === 'passes',
-                  'py-4 ': type === 'violations',
-                }"
+              <span
+                class="font-medium text-red-800"
+                aria-hidden="true"
               >
-                <ul class="space-y-4">
-                  <li class="space-y-4">
-                    <div class="space-x-1 space-y-1">
-                      <span
-                        class="font-medium"
-                        :class="{
-                          'text-green-600': type === 'passes',
-                          'text-red-600 ': type === 'violations',
-                        }"
-                        aria-hidden="true"
-                      >
-                        {{ nodeIndex + 1 }}.
-                      </span>
-                      <span
-                        v-if="type === 'violations'"
-                        class="font-medium"
-                      >
-                        HTML target:
-                      </span>
-                      <code
-                        class="break-words rounded-md bg-gray-100 px-2 py-1"
-                      >
-                        {{ node.target.join(', ') }}
-                      </code>
-                    </div>
-                    <div
-                      v-if="type === 'violations'"
-                      class="rounded-md border border-red-300 p-4"
-                    >
-                      <code class="break-words">
-                        {{ node.html }}
-                      </code>
-                    </div>
-                  </li>
-                  <li v-if="type === 'violations'">
-                    <span class="font-medium">How to fix: </span>
-                    {{ node.failureSummary }}
-                  </li>
-                </ul>
-              </li>
-            </ol>
-          </ul>
+                {{ nodeIndex + 1 }}.
+              </span>
+              <div>
+                <div class="mb-1">
+                  <span class="font-medium">How to fix: </span>
+                  {{ node.failureSummary }}.
+                </div>
+                <div class="mb-2 space-x-1 space-y-1">
+                  <span class="font-medium">HTML target:</span>
+                  <code class="break-words rounded-md bg-gray-100 px-2 py-1">
+                    {{ node.target.join(', ') }}
+                  </code>
+                </div>
+                <div class="rounded-md bg-gray-100 p-4">
+                  <code class="break-words">
+                    {{ node.html }}
+                  </code>
+                </div>
+              </div>
+            </li>
+          </ol>
+          <p
+            v-else
+            class="mt-3"
+          >
+            <span class="font-medium text-green-800">
+              {{ result.nodes.length }}
+            </span>
+            HTML {{ result.nodes.length === 1 ? 'node' : 'nodes' }} passed the
+            test.
+          </p>
         </li>
       </ul>
     </li>
