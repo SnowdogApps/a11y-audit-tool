@@ -89,10 +89,11 @@ export default function useAuditFilters(
         const filteredStatus =
           selectedStatuses.size === 0 ||
           selectedStatuses.has(
-            getStatus(
-              element.automaticTestResultsStatus,
-              formData.value[element.id].manualTestResultsStatus
-            )
+            getStatus({
+              automaticTestResultsStatus: element.automaticTestResultsStatus,
+              manualTestResultsStatus:
+                formData.value[element.id].manualTestResultsStatus,
+            })
           )
         const filteredCategories =
           selectedCategories.size === 0 ||

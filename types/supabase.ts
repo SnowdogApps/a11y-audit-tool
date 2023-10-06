@@ -54,6 +54,7 @@ export interface Database {
           profile_id: string
           project_id: number
           status: string | null
+          report_type: string | null
           updated_at: string | null
         }
         Insert: {
@@ -64,6 +65,7 @@ export interface Database {
           profile_id: string
           project_id?: number
           status?: string | null
+          report_type?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -74,6 +76,7 @@ export interface Database {
           profile_id?: string
           project_id?: number
           status?: string | null
+          report_type?: string | null
           updated_at?: string | null
         }
         Relationships: [
