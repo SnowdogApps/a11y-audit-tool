@@ -38,7 +38,6 @@ onMounted(async () => {
       }
     }
     areManualTestsValidated.value = true
-    console.log('mount')
   }
 })
 </script>
