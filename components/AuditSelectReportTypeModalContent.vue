@@ -24,19 +24,13 @@ onMounted(async () => {
       life: 3000,
     })
   } else {
-    for (const result of axeResults) {
-      if (result.form_data) {
-        for (const value of Object.values(result.form_data)) {
-          if (value.manualTestResultsStatus === 'Not tested') {
-            areManualTestsValid.value = false
-            break
-          }
-        }
-      }
-      if (!areManualTestsValid) {
-        break
-      }
-    }
+    areManualTestsValid.value = !axeResults.some((result) =>
+      result.form_data && Object.values(result.form_data).length > 0
+        ? Object.values(result.form_data).some(
+            (value) => value.manualTestResultsStatus === 'Not tested'
+          )
+        : true
+    )
     areManualTestsValidated.value = true
   }
 })
