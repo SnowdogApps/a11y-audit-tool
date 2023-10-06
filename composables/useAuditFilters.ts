@@ -1,7 +1,8 @@
+import type { FormData } from 'types/supabase'
+import type { Audit, AuditInfo } from 'types/audit'
+
 import { getStatus } from '~/utils/get-status'
 import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
-import type { Audit, AuditInfo } from 'types/audit'
-import type { FormData } from 'types/supabase'
 
 function addToUniqueList(
   list: string[],
