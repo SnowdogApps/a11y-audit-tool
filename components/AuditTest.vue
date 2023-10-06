@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { getStatus } from '~/utils/get-status'
-import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 import type { AuditItem } from 'types/audit'
 import type { FormData, FormDataField } from 'types/supabase'
+
+import { getStatus } from '~/utils/get-status'
+import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 
 const props = defineProps<{
   test: AuditItem
