@@ -16,5 +16,20 @@ export interface ExtendedAudit extends Audit {
   }
   axe: {
     id: string
+    errors: {
+      name: string
+      message: string
+      stack: string
+      codeFrame: {
+        line: number
+        column: number
+        originalFile: string
+        relativeFile: string
+        absoluteFile: string
+        frame: string
+        language: string
+      }
+      url: string
+    }[]
   }
 }
