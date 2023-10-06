@@ -97,6 +97,7 @@ export interface Database {
           created_at: string
           id: number
           results: Results
+          errors: Json[] | null
           selector: string | null
           size: string | null
           form_data: FormData | null
