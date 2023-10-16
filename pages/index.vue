@@ -54,7 +54,7 @@ onMounted(async () => await fetchData())
 </script>
 
 <template>
-  <div class="grid grid-cols-1 space-y-4">
+  <div class="grid grid-cols-1 space-y-8">
     <NuxtLink
       class="p-button p-button-lg justify-center md:w-2/5"
       to="/audit/new"
