@@ -46,6 +46,10 @@ const logout = async () => {
       @click="$emit('toggle-main-menu')"
     />
 
+    <span class="text-lg md:ml-4 md:w-full md:justify-self-start md:text-xl">
+      Accessibility audits
+    </span>
+
     <Button
       class="p-button-link !m-0 !rounded-full border !border-gray-500 !p-0"
       aria-label="Profile menu"
