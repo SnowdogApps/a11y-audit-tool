@@ -55,13 +55,18 @@ onMounted(async () => await fetchData())
 
 <template>
   <div class="grid grid-cols-1 space-y-8">
-    <NuxtLink
-      class="p-button p-button-lg justify-center md:w-2/5"
-      to="/audit/new"
+    <div
+      class="flex flex-wrap justify-between space-y-6 sm:flex-nowrap sm:space-y-0"
     >
-      Create new audit
-    </NuxtLink>
+      <h1>Your a11y tools</h1>
 
+      <NuxtLink
+        class="p-button p-button-lg w-full justify-center sm:w-2/5"
+        to="/audit/new"
+      >
+        Create new audit
+      </NuxtLink>
+    </div>
     <div
       class="grid gap-4"
       :class="{
