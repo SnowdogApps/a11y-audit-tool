@@ -1,7 +1,8 @@
+import type { FormData } from 'types/supabase'
+import type { Audit, AuditInfo } from 'types/audit'
+
 import { getStatus } from '~/utils/get-status'
 import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
-import type { Audit, AuditInfo } from 'types/audit'
-import type { FormData } from 'types/supabase'
 
 function addToUniqueList(
   list: string[],
@@ -89,10 +90,11 @@ export default function useAuditFilters(
         const filteredStatus =
           selectedStatuses.size === 0 ||
           selectedStatuses.has(
-            getStatus(
-              element.automaticTestResultsStatus,
-              formData.value[element.id].manualTestResultsStatus
-            )
+            getStatus({
+              automaticTestResultsStatus: element.automaticTestResultsStatus,
+              manualTestResultsStatus:
+                formData.value[element.id].manualTestResultsStatus,
+            })
           )
         const filteredCategories =
           selectedCategories.size === 0 ||

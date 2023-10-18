@@ -25,9 +25,10 @@
     }
 
     &.p-button-outlined {
-        background-color: transparent;
+        background-color: #fff;
         color: $buttonBg;
         border: $outlinedButtonBorder;
+        font-weight: 500;
 
         &:enabled:hover {
             background: rgba($buttonBg, $textButtonHoverBgOpacity);
