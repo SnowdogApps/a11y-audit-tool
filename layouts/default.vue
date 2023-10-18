@@ -52,7 +52,8 @@ const { y: windowScrollY } = useWindowScroll()
         v-show="windowScrollY > 800"
         class="fixed right-4 z-20 w-full"
         :class="
-          typeof $route.name === 'string' && ['audit-id'].includes($route.name)
+          typeof $route.name === 'string' &&
+          ['audit-id', 'audit-report-id'].includes($route.name)
             ? 'bottom-[80px]'
             : 'bottom-4'
         "
