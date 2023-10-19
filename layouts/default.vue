@@ -65,7 +65,10 @@ const { y: windowScrollY } = useWindowScroll()
             aria-label="Go back to top"
             href="#main-content"
           >
-            <i class="pi pi-arrow-up" />
+            <i
+              class="pi pi-arrow-up"
+              aria-hidden="true"
+            />
           </a>
         </div>
       </div>
