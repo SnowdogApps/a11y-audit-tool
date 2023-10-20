@@ -51,7 +51,7 @@ const logout = async () => {
     </span>
 
     <Button
-      class="p-button-link !m-0 !rounded-full border !border-gray-500 !p-0"
+      class="p-button-link !m-0 shrink-0 !rounded-full border !border-gray-500 !p-0"
       aria-label="Profile menu"
       @click="isProfileMenuVisible = true"
     >
