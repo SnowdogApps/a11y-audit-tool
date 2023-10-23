@@ -185,7 +185,7 @@ const sendForm = handleSubmit(async (values) => {
               </div>
 
               <div class="w-full">
-                <label for="`selector-${index}`">HTML Selector</label>
+                <label :for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
                   v-model="page.value.selector"
