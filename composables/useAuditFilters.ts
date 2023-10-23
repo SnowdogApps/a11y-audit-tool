@@ -1,5 +1,8 @@
-import type { Audit, AuditInfo } from 'types/audit'
 import type { FormData } from 'types/supabase'
+import type { Audit, AuditInfo } from 'types/audit'
+
+import { getStatus } from '~/utils/get-status'
+import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 
 function addToUniqueList(
   list: string[],
@@ -27,7 +30,7 @@ export default function useAuditFilters(
   const optionLists = ref<Record<string, string[]>>({
     wcagScList: [],
     levelList: [],
-    statusList: [],
+    statusList: manualTestResultsStatusOptions,
     categoryList: [],
   })
 
@@ -52,11 +55,6 @@ export default function useAuditFilters(
       addToUniqueList(optionLists.value.statusList, value.status as string)
     }
   }
-
-  // All data in one object makes filtering easier
-  audit.value.forEach((test) => {
-    test.info.status = formData.value[test.id].status
-  })
 
   const filteredAudit: Ref<Audit> = computed(() => {
     if (
@@ -91,7 +89,13 @@ export default function useAuditFilters(
           (element.info.Level && selectedLevels?.has(element.info.Level))
         const filteredStatus =
           selectedStatuses.size === 0 ||
-          (element.info.status && selectedStatuses.has(element.info.status))
+          selectedStatuses.has(
+            getStatus({
+              automaticTestResultsStatus: element.automaticTestResultsStatus,
+              manualTestResultsStatus:
+                formData.value[element.id].manualTestResultsStatus,
+            })
+          )
         const filteredCategories =
           selectedCategories.size === 0 ||
           selectedCategories.has(element.info['Test Category'])

@@ -30,30 +30,39 @@ if (!axeResults || !auditInfo) {
   })
 }
 
-const initialResultDevice = axeResults?.find(
+const initialResultScreenSize = axeResults?.find(
   (result) => result.id === resultId.value
 )?.size
-const device = ref(initialResultDevice || auditInfo.config?.viewports?.[0])
+const screenSize = ref(
+  initialResultScreenSize || auditInfo.config?.viewports?.[0]
+)
 
 const urlAndSelectorOptions = axeResults?.map((result) => ({
   id: result.id,
   name: `${result.results?.url} - ${result.selector ?? ''}`,
-  device: result.size,
+  screenSize: result.size,
 }))
-const urlAndSelectorOptionsForSelectedDevice = computed(() =>
-  urlAndSelectorOptions.filter((result) => result.device === device.value)
+const urlAndSelectorOptionsForSelectedScreenSize = computed(() =>
+  urlAndSelectorOptions.filter(
+    (result) => result.screenSize === screenSize.value
+  )
 )
 
-const changeDevice = (value: string) => {
-  const previousResultName = urlAndSelectorOptionsForSelectedDevice.value.find(
-    (value) => value.id === resultId.value
-  )?.name
-  device.value = value
+const changeScreenSize = (value: string) => {
+  const previousResultName =
+    urlAndSelectorOptionsForSelectedScreenSize.value.find(
+      (value) => value.id === resultId.value
+    )?.name
+  screenSize.value = value
   resultId.value =
-    urlAndSelectorOptionsForSelectedDevice.value.find(
+    urlAndSelectorOptionsForSelectedScreenSize.value.find(
       (option) => option.name === previousResultName
     )?.id || resultId.value
 }
+
+const auditResult = computed(() =>
+  axeResults.find((result) => result.id === resultId.value)
+)
 
 watch(resultId, () => {
   router.replace({
@@ -62,12 +71,16 @@ watch(resultId, () => {
     },
   })
 })
+
+if (!resultId.value) {
+  resultId.value = urlAndSelectorOptionsForSelectedScreenSize.value[0]?.id
+}
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="mb-24 space-y-6">
     <template v-if="auditInfo && auditInfo.config">
-      <h1>Audit: {{ auditInfo.config.title }}</h1>
+      <h1 class="font-medium">Audit: {{ auditInfo.config.title }}</h1>
       <Accordion>
         <AccordionTab header="Audit Information">
           <ul class="space-y-1">
@@ -108,33 +121,28 @@ watch(resultId, () => {
             </li>
             <li>
               <span class="font-bold">Pages:</span>
-              <ul class="list-disc pl-8">
+              <ul class="list-disc space-y-2 pl-8">
                 <li
                   v-for="(page, index) in auditInfo.config.pages"
                   :key="index"
                 >
-                  <span
-                    class="inline-flex min-h-[28px] flex-wrap items-center gap-2"
+                  <NuxtLink
+                    :to="page.url"
+                    target="_blank"
                   >
-                    <NuxtLink
-                      :to="page.url"
-                      target="_blank"
-                    >
-                      {{ page.url }}
-                    </NuxtLink>
-                    <Tag
-                      v-if="page.selector?.length"
-                      :value="page.selector"
-                      severity="info"
-                      rounded
-                      class="max-w-full [&>.p-tag-value]:truncate"
-                    />
-                  </span>
+                    {{ page.url }}
+                  </NuxtLink>
+                  <template v-if="page.selector?.length">
+                    - selector:
+                    <code class="break-words rounded-md bg-gray-100 px-2 py-1">
+                      page.selector
+                    </code>
+                  </template>
                 </li>
               </ul>
             </li>
             <li>
-              <span class="font-bold">Viewports:</span>
+              <span class="font-bold">Screen sizes:</span>
               <ul class="list-disc pl-8">
                 <li
                   v-for="(viewport, index) in auditInfo.config.viewports"
@@ -158,7 +166,7 @@ watch(resultId, () => {
           <Dropdown
             v-model="resultId"
             class="w-full"
-            :options="urlAndSelectorOptionsForSelectedDevice"
+            :options="urlAndSelectorOptionsForSelectedScreenSize"
             option-label="name"
             option-value="id"
             input-id="url-selector"
@@ -166,23 +174,23 @@ watch(resultId, () => {
         </div>
         <div>
           <label
-            for="device"
+            for="screen-size"
             class="mb-2 block font-medium"
           >
-            Device
+            Screen size
           </label>
           <Dropdown
-            :model-value="device"
+            :model-value="screenSize"
             class="w-full"
             :options="auditInfo.config.viewports"
-            input-id="device"
-            @update:model-value="changeDevice"
+            input-id="screen-size"
+            @update:model-value="changeScreenSize"
           />
         </div>
       </div>
       <AuditResults
-        :key="resultId"
-        :result="axeResults.find((result) => result.id === resultId)"
+        v-if="auditResult"
+        :result="auditResult"
       />
     </template>
   </div>

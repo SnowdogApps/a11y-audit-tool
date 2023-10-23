@@ -5,5 +5,6 @@ create table axe (
   audit_id serial references public.audits on delete cascade not null,
   selector text,
   size text,
-  results JSONB not null DEFAULT '{}'::jsonb
+  results JSONB not null DEFAULT '{}'::jsonb,
+  errors JSONB null
 );

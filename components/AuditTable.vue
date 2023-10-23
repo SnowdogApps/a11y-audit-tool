@@ -258,10 +258,18 @@ const confirmAuditRemoval = (id: number) => {
       <template #body="scope">
         <div class="flex gap-2">
           <NuxtLink
-            v-if="scope.node.data.axe.length"
+            v-if="scope.node.data.status === 'completed'"
+            class="p-button p-button-info mr-2"
+            :to="`/audit/report/${scope.node.data.id}?type=${scope.node.data.report_type}`"
+            aria-label="Report"
+            title="Display report"
+          >
+            <i class="pi pi-list" />
+          </NuxtLink>
+          <NuxtLink
+            v-else-if="scope.node.data.axe.length"
             class="p-button p-button-info mr-2"
             :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
-            icon="pi pi-file-edit"
             aria-label="Results"
             title="Display results"
           >
