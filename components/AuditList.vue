@@ -61,7 +61,7 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
         class="p-button"
         to="/audit/?user=me"
       >
-        See my all audits
+        See all my audits
       </NuxtLink>
     </template>
   </Card>
