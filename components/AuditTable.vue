@@ -134,14 +134,14 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
 
   if (
     newValues[2].some(({ field }) => field === 'project') &&
-    newValues[0].id
+    newValues[0]?.id
   ) {
     query = { ...query, projectId: newValues[0].id }
   }
 
   if (
     newValues[2].some(({ field }) => field === 'auditor') &&
-    newValues[1].id === user.value.id
+    newValues[1]?.id === user.value.id
   ) {
     query = { ...query, user: 'me' }
   }
