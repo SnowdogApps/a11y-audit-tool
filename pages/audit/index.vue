@@ -14,7 +14,7 @@ const projects = ref<Project[]>([])
 const isLoading = ref(true)
 const route = useRoute()
 const projectId = ref(Number(route.query.projectId))
-const showMyAudits = ref(route.query.user === 'me')
+const showUserAudits = ref(route.query.user === 'me')
 
 const toast = useToast()
 
@@ -107,7 +107,7 @@ onMounted(async () => {
             :audits="audits"
             :projects="projects"
             :project-id="projectId"
-            :show-my="showMyAudits"
+            :show-user-audits="showUserAudits"
             @delete-audit="deleteAudit"
           />
           <p v-else>Your audit list is empty</p>

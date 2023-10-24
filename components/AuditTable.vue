@@ -8,7 +8,7 @@ const props = defineProps<{
   audits: ExtendedAudit[]
   projects: Project[]
   projectId?: number
-  showMy?: boolean
+  showUserAudits?: boolean
 }>()
 
 const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()
@@ -85,7 +85,7 @@ const selectedProject = ref(
     projectFilterOptions.value[0]
 )
 const selectedAuditor = ref(
-  props.showMy
+  props.showUserAudits
     ? uniqueAuditorFilterOptions.value.find(({ id }) => id === user.value.id)
     : uniqueAuditorFilterOptions.value[0]
 )
@@ -101,7 +101,12 @@ const filters = computed<TreeTableExpandedKeys>(() => ({
 const columns = [
   { field: 'config.title', header: 'Title', sortable: true, start: true },
   { field: 'project', header: 'Project', sortable: true, start: true },
-  { field: 'auditor', header: 'Auditor', sortable: true, start: props.showMy },
+  {
+    field: 'auditor',
+    header: 'Auditor',
+    sortable: true,
+    start: props.showUserAudits,
+  },
   { field: 'status', header: 'Status', sortable: true },
   { field: 'urls', header: 'Urls', start: true },
 ]
