@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { getStatus } from '~/utils/get-status'
-import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 import type { AuditItem } from 'types/audit'
 import type { FormData, FormDataField } from 'types/supabase'
+
+import { getStatus } from '~/utils/get-status'
+import { manualTestResultsStatusOptions } from '~/data/manualTestResultsStatusOptions'
 
 const props = defineProps<{
   test: AuditItem
@@ -20,17 +21,17 @@ defineEmits<{
 }>()
 
 const manualTestResultsStatus = computed(
-  () => props.formDataItem.manualTestResultsStatus
+  () => props.formDataItem?.manualTestResultsStatus
 )
-const manualTestIssues = computed(() => props.formDataItem.manualTestIssues)
+const manualTestIssues = computed(() => props.formDataItem?.manualTestIssues)
 const manualTestRecommendedFixes = computed(
-  () => props.formDataItem.manualTestRecommendedFixes
+  () => props.formDataItem?.manualTestRecommendedFixes
 )
 const status = computed(() =>
-  getStatus(
-    props.test.automaticTestResultsStatus,
-    manualTestResultsStatus.value
-  )
+  getStatus({
+    automaticTestResultsStatus: props.test.automaticTestResultsStatus,
+    manualTestResultsStatus: manualTestResultsStatus.value,
+  })
 )
 
 const { $toCamelCase } = useNuxtApp()
@@ -48,11 +49,23 @@ const getFieldId = (suffix: string) =>
             <div>
               <TrustedTestInfo
                 :info="test.info"
+                :displayed-info-keys="[
+                  'Test Name',
+                  'Test ID',
+                  'Test Category',
+                  'WCAG SC',
+                  'Level',
+                  'Test Conditions',
+                  'Techniques',
+                  'Disability Impact',
+                  'Note',
+                  'URLs',
+                ]"
                 :status="status"
               />
             </div>
           </div>
-          <Accordion>
+          <Accordion :multiple="true">
             <AccordionTab
               :disabled="test.automaticTestResultsStatus === 'Not applicable'"
             >

@@ -64,7 +64,7 @@ $textButtonActiveBgOpacity:.16;
 
 /// Border style of a outlined button
 /// @group button
-$outlinedButtonBorder:1px solid;
+$outlinedButtonBorder:2px solid;
 
 /// Text color of a plain text button
 /// @group button
@@ -160,7 +160,7 @@ $infoButtonFocusShadow: 0 0 0 0.2rem lighten($infoButtonBg, 35%);
 
 /// Background of a success button
 /// @group button
-$successButtonBg: #4CAF50;
+$successButtonBg: #16A34A;
 
 /// Text color of a success button
 /// @group button
@@ -168,7 +168,7 @@ $successButtonTextColor: #ffffff;
 
 /// Border of a success button
 /// @group button
-$successButtonBorder: 1px solid #4CAF50;
+$successButtonBorder: 1px solid #16A34A;
 
 /// Background of a success button in hover state
 /// @group button
@@ -280,7 +280,7 @@ $helpButtonFocusShadow:0 0 0 0.2rem #CE93D8;
 
 /// Background of a danger button
 /// @group button
-$dangerButtonBg: #f44336;
+$dangerButtonBg: #DC2626;
 
 /// Text color of a danger button
 /// @group button
@@ -288,7 +288,7 @@ $dangerButtonTextColor: #ffffff;
 
 /// Border of a danger button
 /// @group button
-$dangerButtonBorder: 1px solid #f44336;
+$dangerButtonBorder: 1px solid #DC2626;
 
 /// Background of a danger button in hover state
 /// @group button

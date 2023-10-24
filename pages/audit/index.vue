@@ -21,7 +21,9 @@ const toast = useToast()
 async function fetchAudits() {
   const { data } = await supabase
     .from('audits')
-    .select('*, projects(name), profiles(username, full_name), axe (id)')
+    .select(
+      '*, projects(name), profiles(username, full_name), axe (id, errors)'
+    )
     .order('created_at', { ascending: false })
 
   // @todo: fix possibly infinite issue for issues `Json` type

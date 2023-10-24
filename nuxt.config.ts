@@ -40,6 +40,13 @@ export default defineNuxtConfig({
       ],
     },
   },
+  supabase: {
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      exclude: ['/audit/report/*', '/register', '/reset-password'],
+    },
+  },
   typescript: {
     strict: true,
   },
