@@ -5,8 +5,6 @@
 import { useForm, useFieldArray } from 'vee-validate'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext } from 'vee-validate'
-import type Ref from 'vue'
-import type { User } from '@supabase/gotrue-js'
 import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
@@ -54,8 +52,8 @@ const password = useFieldModel('password')
 const viewports = useFieldModel('viewports')
 
 const toast = useToast()
-const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
+const user = useSupabaseUser()
 const projects = ref<Project[]>([])
 
 if (user.value) {
