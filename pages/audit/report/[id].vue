@@ -172,9 +172,7 @@ const completeReport = async () => {
               class="md:col-span-2"
             >
               <h2 class="mb-2 text-lg font-medium">Auditor comment:</h2>
-              <div class="">
-                <p class="whitespace-pre-line">{{ comment }}</p>
-              </div>
+              <p class="whitespace-pre-line">{{ comment }}</p>
             </div>
             <div
               v-else-if="!isAuditCompleted"
