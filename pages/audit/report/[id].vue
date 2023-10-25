@@ -56,6 +56,7 @@ if (!axeResults || !auditInfo) {
 
 const auditReport = getAuditReport(axeResults)
 const isAuditCompleted = ref(auditInfo.status === 'completed')
+const comment = ref(auditInfo.comment)
 
 const toast = useToast()
 const isCompletingReport = ref(false)
@@ -66,7 +67,11 @@ const completeReport = async () => {
   try {
     const { data, error } = await supabase
       .from('audits')
-      .update({ status: 'completed', report_type: reportType })
+      .update({
+        status: 'completed',
+        report_type: reportType,
+        comment: comment.value,
+      })
       .eq('id', auditId)
       .select()
     if (error) {
@@ -162,6 +167,28 @@ const completeReport = async () => {
             <AuditReportIssuesCount
               :count="auditReport.testedElementsCount.issues"
             />
+            <div class="md:col-span-2">
+              <template v-if="isAuditCompleted">
+                <h2 class="mb-2 text-lg font-medium">Auditor comment:</h2>
+                <div class="">
+                  <p class="whitespace-pre-line">{{ comment }}</p>
+                </div>
+              </template>
+              <template v-else>
+                <label
+                  for="auditor-comment"
+                  class="mb-2 block text-lg font-medium"
+                >
+                  Auditor comment:
+                </label>
+                <Textarea
+                  id="auditor-comment"
+                  v-model="comment"
+                  class="w-full"
+                  rows="10"
+                />
+              </template>
+            </div>
           </div>
           <div
             v-if="!isAuditCompleted"
