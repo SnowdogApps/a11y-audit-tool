@@ -167,27 +167,31 @@ const completeReport = async () => {
             <AuditReportIssuesCount
               :count="auditReport.testedElementsCount.issues"
             />
-            <div class="md:col-span-2">
-              <template v-if="isAuditCompleted">
-                <h2 class="mb-2 text-lg font-medium">Auditor comment:</h2>
-                <div class="">
-                  <p class="whitespace-pre-line">{{ comment }}</p>
-                </div>
-              </template>
-              <template v-else>
-                <label
-                  for="auditor-comment"
-                  class="mb-2 block text-lg font-medium"
-                >
-                  Auditor comment:
-                </label>
-                <Textarea
-                  id="auditor-comment"
-                  v-model="comment"
-                  class="w-full"
-                  rows="10"
-                />
-              </template>
+            <div
+              v-if="isAuditCompleted && comment.length"
+              class="md:col-span-2"
+            >
+              <h2 class="mb-2 text-lg font-medium">Auditor comment:</h2>
+              <div class="">
+                <p class="whitespace-pre-line">{{ comment }}</p>
+              </div>
+            </div>
+            <div
+              v-else-if="!isAuditCompleted"
+              class="md:col-span-2"
+            >
+              <label
+                for="auditor-comment"
+                class="mb-2 block text-lg font-medium"
+              >
+                Auditor comment:
+              </label>
+              <Textarea
+                id="auditor-comment"
+                v-model="comment"
+                class="w-full"
+                rows="10"
+              />
             </div>
           </div>
           <div
