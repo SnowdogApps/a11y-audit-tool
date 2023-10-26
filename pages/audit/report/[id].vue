@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useToast } from 'primevue/usetoast'
-import { getAuditReport } from '~/utils/get-audit-report'
 import type { Database } from 'types/supabase'
+import { getAuditReport } from '~/utils/get-audit-report'
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -100,6 +100,12 @@ const completeReport = async () => {
       :class="{ 'mb-24': !isAuditCompleted }"
     >
       <AuditReportSharableLink v-if="isAuditCompleted && !isSharableReport" />
+      <NuxtLink
+        :to="`/audit/new?baseAuditId=${auditId}`"
+        class="p-button p-button-outlined"
+      >
+        Repeat audit
+      </NuxtLink>
       <Card>
         <template #content>
           <div class="mb-16 space-y-4 text-center">
