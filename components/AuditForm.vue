@@ -2,49 +2,29 @@
 // (error as any) is intentional one used to eliminate ts error,
 // more info in https://github.com/logaretm/vee-validate/issues/3784
 
-import { useForm, useFieldArray } from 'vee-validate'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/yup'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
-import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
-import { availableViewports, defaultViewports } from '~/data/viewports'
+import { availableViewports } from '~/data/viewports'
 
-interface InitialValues {
-  pages: Page[]
-  password: string
-  project?: number
-  title: string
-  username: string
-  viewports: string[]
-}
+const {
+  useFieldModel,
+  handleSubmit,
+  errors,
+  submitCount,
+  resetForm,
+  setValues,
+} = useForm({ validationSchema: toTypedSchema(auditFormSchema) })
+const { isSubmitted } = useValidation(submitCount)
 
-const initialValues: InitialValues = {
-  pages: [
-    {
-      selector: '',
-      url: '',
-    },
-  ],
-  password: '',
-  title: '',
-  project: undefined,
-  username: '',
-  viewports: defaultViewports.map((item) => item.name),
-}
-
-const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
-  {
-    validationSchema: auditFormSchema,
-    initialValues,
-  }
-)
-
-const { fields, push, remove } = useFieldArray<Page>('pages')
+const pages = useFieldModel('pages')
 const title = useFieldModel('title')
 const project = useFieldModel('project')
 const username = useFieldModel('username')
@@ -53,6 +33,43 @@ const viewports = useFieldModel('viewports')
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
+const route = useRoute()
+const router = useRouter()
+const baseAuditId = route.query.baseAuditId
+
+if (baseAuditId) {
+  const { data: baseAudit, error } = await supabase
+    .from('audits')
+    .select('*, projects(id)')
+    .eq('id', baseAuditId)
+    .single()
+
+  if (error) {
+    const errorWithUpdatedMessage = {
+      ...error,
+      message: `Failed to copy configuration from audit #${baseAuditId}. ${error.message}`,
+    }
+
+    if (isSupabaseError(errorWithUpdatedMessage)) {
+      throw new SupabaseError(errorWithUpdatedMessage)
+    }
+    throw new Error(errorWithUpdatedMessage.message)
+  }
+
+  setValues({
+    pages: baseAudit.config.pages,
+    title: baseAudit.config.title,
+    project: baseAudit.projects?.id,
+    username: baseAudit.config.basicAuth.username,
+    password: baseAudit.config.basicAuth.password,
+    viewports: availableViewports
+      .filter((viewport) => baseAudit.config.viewports.includes(viewport.name))
+      .map((viewport) => viewport.name),
+  })
+
+  router.replace({ query: {} })
+}
+
 const user = useSupabaseUser()
 const projects = ref<Project[]>([])
 
@@ -62,7 +79,6 @@ if (user.value) {
 }
 
 const isLoading = ref(false)
-const { isSubmitted } = useValidation(submitCount)
 
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
@@ -71,10 +87,10 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const form = {
+    const config = {
       basicAuth: {
-        password: values?.password || '',
-        username: values?.username || '',
+        password: values.password || '',
+        username: values.username || '',
       },
       pages: values.pages,
       title: values.title,
@@ -85,9 +101,9 @@ const sendForm = handleSubmit(async (values) => {
       .from('audits')
       .insert({
         project_id: values.project,
-        profile_id: user?.value?.id || '',
+        profile_id: user.value.id,
         status: 'draft',
-        config: form,
+        config,
       })
       .select()
       .single()
@@ -136,7 +152,7 @@ const sendForm = handleSubmit(async (values) => {
       >
         <AccordionTab header="Pages">
           <div
-            v-for="(page, index) in fields"
+            v-for="(page, index) in pages"
             :key="`page-${index}`"
             class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
@@ -145,7 +161,7 @@ const sendForm = handleSubmit(async (values) => {
                 <label :for="`url-${index}`">Url</label>
                 <InputText
                   :id="`url-${index}`"
-                  v-model="page.value.url"
+                  v-model="page.url"
                   class="w-full"
                   :data-testid="`audit-page-url-field-${index}`"
                   :name="`pages[${index}].url`"
@@ -167,7 +183,7 @@ const sendForm = handleSubmit(async (values) => {
                 <label for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
-                  v-model="page.value.selector"
+                  v-model="page.selector"
                   :name="`pages[${index}].selector`"
                   class="w-full"
                   :aria-describedby="`selector-help-${index}`"
@@ -202,7 +218,7 @@ const sendForm = handleSubmit(async (values) => {
               :pt="{
                 icon: { 'aria-hidden': true },
               }"
-              @click="remove(index)"
+              @click="pages?.splice(index, 1)"
             />
           </div>
 
@@ -215,7 +231,7 @@ const sendForm = handleSubmit(async (values) => {
             :pt="{
               icon: { 'aria-hidden': true },
             }"
-            @click="push({ url: '', selector: '' })"
+            @click="pages?.push({ url: '', selector: '' })"
           />
         </AccordionTab>
         <AccordionTab header="General">
@@ -264,14 +280,14 @@ const sendForm = handleSubmit(async (values) => {
         <AccordionTab header="Axe configuration">
           <div class="grid gap-6 md:grid-rows-2 md:gap-4">
             <div class="grid gap-6 gap-x-8">
-              <label id="viewports">Viewports</label>
+              <label id="viewports">Screen sizes</label>
               <MultiSelect
                 v-model="viewports"
                 aria-labelledby="viewports"
                 :options="availableViewports"
                 option-label="name"
                 option-value="name"
-                placeholder="Select Cities"
+                placeholder="Select screen sizes"
                 :max-selected-labels="3"
                 name="viewports"
                 :class="[{ 'p-invalid': errors.viewports && isSubmitted }]"
