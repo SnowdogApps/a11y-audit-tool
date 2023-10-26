@@ -9,9 +9,14 @@ export function useUser() {
     () => !isAdmin.value && user.value?.app_metadata?.user_role === 'auditor'
   )
 
+  const isViewer = computed(
+    () => !isAdmin.value && user.value?.app_metadata?.user_role === 'viewer'
+  )
+
   return {
     user,
     isAdmin,
     isAuditor,
+    isViewer,
   }
 }
