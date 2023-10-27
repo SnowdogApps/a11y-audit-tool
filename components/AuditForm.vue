@@ -65,6 +65,13 @@ if (user.value) {
 
 const isLoading = ref(false)
 const { isSubmitted } = useValidation(submitCount)
+const isAuditProcessingDialogVisible = ref(false)
+const newAuditId = ref<number>()
+const selectedProjectName = computed(
+  () =>
+    projects.value.find((item) => item.id === project.value)?.name ||
+    'this project'
+)
 
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
@@ -107,16 +114,15 @@ const sendForm = handleSubmit(async (values) => {
       body: newAudit,
     })
 
-    toast.add({
-      severity: apiTestError.value ? 'error' : 'success',
-      summary: apiTestError.value
-        ? apiTestError.value?.message
-        : 'New audit successfully created',
-      life: 3000,
-    })
-
-    if (!apiTestError.value) {
-      resetForm()
+    if (apiTestError.value) {
+      toast.add({
+        severity: 'error',
+        summary: apiTestError.value?.message,
+        life: 3000,
+      })
+    } else {
+      newAuditId.value = newAudit.id
+      isAuditProcessingDialogVisible.value = true
     }
   } catch (error) {
     const { $handleError } = useNuxtApp()
@@ -126,6 +132,12 @@ const sendForm = handleSubmit(async (values) => {
     isLoading.value = false
   }
 }, onInvalidSubmit)
+
+const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
+  isAuditProcessingDialogVisible.value = false
+  newAuditId.value = undefined
+  resetAuditForm && resetForm()
+}
 </script>
 
 <template>
@@ -329,5 +341,14 @@ const sendForm = handleSubmit(async (values) => {
         :disabled="isLoading"
       />
     </form>
+    <LazyAuditProcessingDialog
+      v-if="newAuditId"
+      v-model:visible="isAuditProcessingDialogVisible"
+      :audit-id="newAuditId"
+      @close="
+        (options) => onAuditProcessingDialogClose(options?.resetAuditForm)
+      "
+      @hide="onAuditProcessingDialogClose"
+    />
   </section>
 </template>
