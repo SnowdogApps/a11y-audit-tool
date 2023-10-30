@@ -29,7 +29,7 @@ export const auditFormSchema = object({
     .of(
       object()
         .shape({
-          url: string().required().url(),
+          url: string().url().required(),
           selector: string(),
         })
         .test('isUnique', `The entry is not unique`, function (currentPage) {
@@ -42,14 +42,13 @@ export const auditFormSchema = object({
           return count <= 1
         })
     )
-    .required()
-    .min(1)
     .default([
       {
         selector: '',
         url: '',
       },
-    ]),
+    ])
+    .min(1),
   title: string().required(),
   project: number().required(),
   username: string(),

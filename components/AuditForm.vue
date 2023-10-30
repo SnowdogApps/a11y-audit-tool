@@ -1,14 +1,12 @@
 <script setup lang="ts">
-// (error as any) is intentional one used to eliminate ts error,
-// more info in https://github.com/logaretm/vee-validate/issues/3784
-
-import { useForm } from 'vee-validate'
+import { useForm, useFieldArray } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/yup'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
+import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
@@ -24,7 +22,11 @@ const {
 } = useForm({ validationSchema: toTypedSchema(auditFormSchema) })
 const { isSubmitted } = useValidation(submitCount)
 
-const pages = useFieldModel('pages')
+const {
+  fields: pages,
+  push: pushPage,
+  remove: removePage,
+} = useFieldArray<Page>('pages')
 const title = useFieldModel('title')
 const project = useFieldModel('project')
 const username = useFieldModel('username')
@@ -161,21 +163,24 @@ const sendForm = handleSubmit(async (values) => {
                 <label :for="`url-${index}`">Url</label>
                 <InputText
                   :id="`url-${index}`"
-                  v-model="page.url"
+                  v-model="page.value.url"
                   class="w-full"
                   :data-testid="`audit-page-url-field-${index}`"
                   :name="`pages[${index}].url`"
                   :class="[
                     {
-                      'p-invalid': ((errors as any)[`pages[${index}].url`] || (errors as any)[`pages[${index}]`]) && isSubmitted,
+                      'p-invalid':
+                        (errors[`pages[${index}].url` as `pages.${number}.url`] ||
+                          errors[`pages[${index}]` as `pages.${number}`]) &&
+                        isSubmitted,
                     },
                   ]"
                 />
                 <small
-                  v-if="(errors as any)[`pages[${index}].url`] && isSubmitted"
+                  v-if="errors[`pages[${index}].url` as `pages.${number}.url`] && isSubmitted"
                   class="p-error mt-1"
                 >
-                  {{ (errors as any)[`pages[${index}].url`] }}
+                  {{ errors[`pages[${index}].url` as `pages.${number}.url`] }}
                 </small>
               </div>
 
@@ -183,14 +188,17 @@ const sendForm = handleSubmit(async (values) => {
                 <label for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
-                  v-model="page.selector"
+                  v-model="page.value.selector"
                   :name="`pages[${index}].selector`"
                   class="w-full"
                   :aria-describedby="`selector-help-${index}`"
                   :data-testid="`audit-page-selector-field-${index}`"
                   :class="[
                     {
-                      'p-invalid': ((errors as any)[`pages[${index}].selector`] || (errors as any)[`pages[${index}]`]) && isSubmitted,
+                      'p-invalid':
+                        (errors[`pages[${index}].selector` as `pages.${number}.selector`] ||
+                          errors[`pages[${index}]` as `pages.${number}`]) &&
+                        isSubmitted,
                     },
                   ]"
                 />
@@ -200,10 +208,10 @@ const sendForm = handleSubmit(async (values) => {
                 </small>
               </div>
               <small
-                v-if="(errors as any)[`pages[${index}]`] && isSubmitted"
+                v-if="errors[`pages[${index}]` as `pages.${number}`] && isSubmitted"
                 class="p-error w-full"
               >
-                {{ (errors as any)[`pages[${index}]`] }}
+                {{ errors[`pages[${index}]` as `pages.${number}`] }}
               </small>
             </div>
 
@@ -218,7 +226,7 @@ const sendForm = handleSubmit(async (values) => {
               :pt="{
                 icon: { 'aria-hidden': true },
               }"
-              @click="pages?.splice(index, 1)"
+              @click="removePage(index)"
             />
           </div>
 
@@ -231,7 +239,7 @@ const sendForm = handleSubmit(async (values) => {
             :pt="{
               icon: { 'aria-hidden': true },
             }"
-            @click="pages?.push({ url: '', selector: '' })"
+            @click="pushPage({ url: '', selector: '' })"
           />
         </AccordionTab>
         <AccordionTab header="General">
