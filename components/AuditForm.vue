@@ -136,6 +136,7 @@ const sendForm = handleSubmit(async (values) => {
 const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
   isAuditProcessingDialogVisible.value = false
   newAuditId.value = undefined
+  isLoading.value = false
   resetAuditForm && resetForm()
 }
 </script>
