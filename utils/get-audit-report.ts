@@ -1,4 +1,3 @@
-import { getStatus } from '~/utils/get-status'
 import type { Axe } from 'types/database'
 import type {
   AuditReport,
@@ -6,6 +5,7 @@ import type {
   TestedElementsCount,
   ManualTestResult,
 } from 'types/audit-report'
+import { getStatus } from '~/utils/get-status'
 
 export const getAuditReport = (axeResults: Axe[]): AuditReport => {
   const route = useRoute()
