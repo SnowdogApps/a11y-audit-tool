@@ -41,9 +41,9 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
         reportType,
       })
 
-      let relatedTestInAuditReport = auditReport.categories[category]?.find(
-        (test) => test.name === name
-      )
+      let relatedTestInAuditReport = auditReport.categories[
+        category
+      ]?.tests.find((test) => test.name === name)
 
       if (!relatedTestInAuditReport) {
         relatedTestInAuditReport = {
@@ -53,12 +53,21 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
           info: test.info,
           groupedResults: [],
         }
-        auditReport.categories[category] =
-          auditReport.categories[category] || []
-        auditReport.categories[category].push(relatedTestInAuditReport)
+        auditReport.categories[category] = {
+          status: auditReport.categories[category]?.status || 'Passed',
+          tests: auditReport.categories[category]?.tests || [],
+        }
+        auditReport.categories[category].tests.push(relatedTestInAuditReport)
       }
 
       relatedTestInAuditReport.pageStatuses.push({ pageName, status })
+
+      if (
+        !['Passed', 'Not applicable'].includes(status) &&
+        auditReport.categories[category].status !== 'Failed'
+      ) {
+        auditReport.categories[category].status = status
+      }
 
       test.automaticTestGroupedResults.forEach((group) => {
         let relatedTestGroupedResults =
@@ -141,8 +150,8 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
       0
     )
 
-  for (const categoryTests of Object.values(auditReport.categories)) {
-    for (const test of categoryTests) {
+  for (const category of Object.values(auditReport.categories)) {
+    for (const test of category.tests) {
       let testedElementsCount = 0
 
       for (const group of test.groupedResults) {
@@ -160,6 +169,26 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
       auditReport.testedElementsCount.total += testedElementsCount
     }
   }
+
+  // Sort categories to display categories with status "Failed" first
+  const sortedCategories = Object.entries(auditReport.categories)
+    .sort(([, categoryA], [, categoryB]) => {
+      const hasFailedA = categoryA.status === 'Failed'
+      const hasFailedB = categoryB.status === 'Failed'
+
+      if (hasFailedA && !hasFailedB) {
+        return -1 // Move categoryA to the front
+      } else if (!hasFailedA && hasFailedB) {
+        return 1 // Move categoryB to the front
+      }
+      return 0 // No change in order
+    })
+    .reduce((result, [categoryName, category]) => {
+      result[categoryName] = category
+      return result
+    }, {} as AuditReport['categories'])
+
+  auditReport.categories = sortedCategories
 
   return auditReport
 }

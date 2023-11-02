@@ -188,13 +188,14 @@ const completeReport = async () => {
         </template>
       </Card>
       <Card
-        v-for="(tests, categoryName) in auditReport.categories"
+        v-for="(categoryData, categoryName) in auditReport.categories"
         :key="categoryName"
       >
         <template #content>
           <AuditReportCategoryTests
             :name="categoryName"
-            :tests="tests"
+            :tests="categoryData.tests"
+            :status="categoryData.status"
           />
         </template>
       </Card>
