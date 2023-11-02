@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useToast } from 'primevue/usetoast'
-import { getAuditReport } from '~/utils/get-audit-report'
 import type { Database } from 'types/supabase'
+import { getAuditReport } from '~/utils/get-audit-report'
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
