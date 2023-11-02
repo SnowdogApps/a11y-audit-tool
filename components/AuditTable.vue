@@ -282,7 +282,6 @@ const confirmAuditRemoval = (id: number) => {
             severity="danger"
             outlined
             class="justify-center"
-            aria-label="Remove audit"
             @click="confirmAuditRemoval(scope.node.data.id)"
           >
             Remove
