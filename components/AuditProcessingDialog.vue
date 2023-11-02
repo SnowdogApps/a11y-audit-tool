@@ -90,8 +90,8 @@ defineEmits<{
       <template v-else>
         <p class="mb-6 text-center text-lg">
           Your audit has been initiated and is currently being processed. Please
-          wait a few minutes for the results to be generated. The audit results
-          will be provided in a link below and in the
+          wait a few minutes for automatic tests results to be generated. A link
+          to the audit results will be provided here and in the
           <NuxtLink to="/audit">Audit List</NuxtLink>.
         </p>
         <ProgressBar
