@@ -32,16 +32,32 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
         aria-labelledby="audits-card-title"
       >
         <li
-          v-for="{ id, config, axe } in visibleAudits"
+          v-for="{ id, config, axe, status, report_type } in visibleAudits"
           :key="id"
         >
           <NuxtLink
-            v-if="axe?.length"
-            class="p-button p-button-text grid w-full justify-between"
-            :to="`/audit/${id}/?resultId=${axe[0].id}`"
+            v-if="status === 'completed'"
+            class="p-button p-button-text w-full justify-between"
+            :to="`/audit/report/${id}?type=${report_type}`"
           >
             <span class="text-left">{{ config.title }}</span>
-            <span class="p-button p-button-info ml-4">See results</span>
+            <span
+              class="p-button p-button-info ml-4 min-w-[116px] justify-center"
+            >
+              See report
+            </span>
+          </NuxtLink>
+          <NuxtLink
+            v-else-if="axe?.length"
+            class="p-button p-button-text w-full justify-between"
+            :to="`/audit/${id}?resultId=${axe[0].id}`"
+          >
+            <span class="text-left">{{ config.title }}</span>
+            <span
+              class="p-button p-button-info ml-4 min-w-[116px] justify-center"
+            >
+              See results
+            </span>
           </NuxtLink>
           <div
             v-else
