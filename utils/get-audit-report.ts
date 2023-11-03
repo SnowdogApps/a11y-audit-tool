@@ -54,7 +54,7 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
           groupedResults: [],
         }
         auditReport.categories[category] = {
-          status: auditReport.categories[category]?.status || 'Passed',
+          status: auditReport.categories[category]?.status || 'Not applicable',
           tests: auditReport.categories[category]?.tests || [],
         }
         auditReport.categories[category].tests.push(relatedTestInAuditReport)
@@ -63,8 +63,18 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
       relatedTestInAuditReport.pageStatuses.push({ pageName, status })
 
       if (
-        !['Passed', 'Not applicable'].includes(status) &&
-        auditReport.categories[category].status !== 'Failed'
+        /*
+        Statuses have different importance:
+        1. Failed
+        2. Not tested
+        3. Passed
+        4. Not applicable
+        "Failed" overwrites all. Not tested overwrites "Not applicable" and "Passed", and so on.
+        */
+        (status !== 'Not applicable' &&
+          auditReport.categories[category].status !== 'Failed') ||
+        (status === 'Passed' &&
+          auditReport.categories[category].status === 'Not applicable')
       ) {
         auditReport.categories[category].status = status
       }

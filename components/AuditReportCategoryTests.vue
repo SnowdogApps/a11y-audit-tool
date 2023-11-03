@@ -23,6 +23,11 @@ defineProps<{
       class="h-12 w-12"
       role="img"
     />
+    <SvgoWithoutMouthFace
+      v-else-if="status === 'Not applicable'"
+      class="h-12 w-12"
+      role="img"
+    />
     <SvgoSmilingFace
       v-else
       class="h-12 w-12"
@@ -51,6 +56,13 @@ defineProps<{
           role="img"
         />
         <SvgoSmilingFace
+          v-else-if="
+            test.pageStatuses.some(({ status }) => status === 'Passed')
+          "
+          class="h-8 w-8"
+          role="img"
+        />
+        <SvgoWithoutMouthFace
           v-else
           class="h-8 w-8"
           role="img"

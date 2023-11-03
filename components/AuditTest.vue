@@ -79,8 +79,12 @@ const getFieldId = (suffix: string) =>
                       ? 'success'
                       : test.automaticTestResultsStatus === 'Failed'
                       ? 'danger'
-                      : 'info'
+                      : 'primary'
                   "
+                  :class="{
+                    '!bg-gray-600':
+                      test.automaticTestResultsStatus === 'Not applicable',
+                  }"
                 />
               </template>
               <AuditAutomaticTestResults
@@ -98,10 +102,12 @@ const getFieldId = (suffix: string) =>
                       ? 'success'
                       : manualTestResultsStatus === 'Failed'
                       ? 'danger'
-                      : manualTestResultsStatus === 'Not tested'
-                      ? 'primary'
-                      : 'info'
+                      : 'primary'
                   "
+                  :class="{
+                    '!bg-gray-600':
+                      manualTestResultsStatus === 'Not applicable',
+                  }"
                 />
               </template>
               <div class="space-y-4">
