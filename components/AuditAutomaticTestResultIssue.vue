@@ -29,6 +29,7 @@ const isCollapsible = computed(() => props.groupedNodes[0]?.pageName)
     <Component
       :is="isCollapsible ? 'Accordion' : 'div'"
       :multiple="true"
+      class="break-inside-avoid"
       :class="{ 'mt-6': isCollapsible }"
     >
       <Component
@@ -51,7 +52,7 @@ const isCollapsible = computed(() => props.groupedNodes[0]?.pageName)
           <li
             v-for="(node, nodeIndex) in nodes"
             :key="nodeIndex"
-            class="grid grid-cols-[34px_minmax(0,1fr)] py-6 pr-1 first-of-type:pt-3 last-of-type:pb-0"
+            class="grid break-inside-avoid grid-cols-[34px_minmax(0,1fr)] py-6 pr-1 first-of-type:pt-3 last-of-type:pb-0"
           >
             <span
               class="font-medium text-red-800"

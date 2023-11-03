@@ -12,7 +12,7 @@ const { copy, copied, isSupported } = useClipboard({
 </script>
 
 <template>
-  <div>
+  <div class="print:hidden">
     <h2 class="text-blue-900">Share report</h2>
     <div
       class="flex justify-between rounded-md border border-blue-900 bg-white"

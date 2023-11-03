@@ -14,6 +14,7 @@ defineProps<AutomaticTestGroupedNodes>()
       <li
         v-for="({ pageName, nodes }, index) in groupedNodes"
         :key="index"
+        class="break-inside-avoid"
         :class="{ 'py-6 last-of-type:pb-0': groupedNodes.length > 1 }"
       >
         <h6

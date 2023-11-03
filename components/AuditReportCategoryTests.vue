@@ -8,9 +8,11 @@ defineProps<{
 </script>
 
 <template>
-  <h2 class="mb-6 text-2xl font-medium">
-    {{ name }}
-  </h2>
+  <div class="break-after-avoid">
+    <h2 class="mb-6 text-2xl font-medium">
+      {{ name }}
+    </h2>
+  </div>
   <Accordion :multiple="true">
     <AccordionTab
       v-for="(test, testIndex) in tests"
@@ -19,7 +21,9 @@ defineProps<{
       <template #header>
         {{ test.name }}
       </template>
-      <div class="mb-4 grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2">
+      <div
+        class="mb-4 grid break-inside-avoid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2"
+      >
         <div class="flex h-full flex-col space-y-4">
           <div class="flex-1 rounded-md border p-6">
             <TrustedTestInfo

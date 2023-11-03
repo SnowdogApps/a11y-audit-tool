@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <li
-    class="rounded-md border p-6"
+    class="break-inside-avoid rounded-md border p-6"
     :class="{
       'border-red-600': type === 'issues',
       'border-green-600': type === 'passes',

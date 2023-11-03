@@ -63,7 +63,7 @@ const { y: windowScrollY } = useWindowScroll()
       </main>
       <div
         v-show="windowScrollY > 800"
-        class="fixed right-4 z-20 w-full"
+        class="fixed right-4 z-20 w-full print:hidden"
         :class="
           typeof $route.name === 'string' &&
           ['audit-id', 'audit-report-id'].includes($route.name)
@@ -86,15 +86,20 @@ const { y: windowScrollY } = useWindowScroll()
         </div>
       </div>
     </div>
-    <AppSidebar
-      :is-visible="isSideNavigationVisible"
-      @close-main-menu="isSideNavigationVisible = false"
-    >
-      <Menu
-        :model="menuItems"
-        class="layout-menu"
-      />
-    </AppSidebar>
+    <div class="print:hidden">
+      <AppSidebar
+        :is-visible="isSideNavigationVisible"
+        @close-main-menu="isSideNavigationVisible = false"
+      >
+        <Menu
+          :model="menuItems"
+          class="layout-menu"
+        />
+      </AppSidebar>
+    </div>
+    <div class="hidden print:block">
+      <AppFooter />
+    </div>
   </div>
 </template>
 
