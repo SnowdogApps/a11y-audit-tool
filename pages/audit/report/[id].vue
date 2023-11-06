@@ -54,7 +54,7 @@ if (!axeResults || !auditInfo) {
   })
 }
 
-const auditReport = getAuditReport(axeResults)
+const auditReport = getAuditReport(axeResults, reportType)
 const isAuditCompleted = ref(auditInfo.status === 'completed')
 
 const toast = useToast()
