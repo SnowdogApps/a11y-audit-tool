@@ -260,7 +260,12 @@ const sendForm = handleSubmit(async (values) => {
             </div>
 
             <div class="w-full">
-              <label for="project">Project</label>
+              <label
+                id="project-label"
+                for="project"
+              >
+                Project
+              </label>
               <Dropdown
                 id="project"
                 v-model="project"
@@ -272,6 +277,7 @@ const sendForm = handleSubmit(async (values) => {
                 data-testid="audit-project-field"
                 name="project"
                 :class="[{ 'p-invalid': errors.project && isSubmitted }]"
+                aria-labelledby="project-label"
               />
               <small
                 v-if="errors.project && isSubmitted"
