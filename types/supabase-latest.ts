@@ -48,16 +48,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "audits_profile_id_fkey"
-            columns: ["profile_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'audits_profile_id_fkey'
+            columns: ['profile_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "audits_project_id_fkey"
-            columns: ["project_id"]
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
+            foreignKeyName: 'audits_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
           }
         ]
       }
@@ -94,16 +94,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "axe_audit_id_fkey"
-            columns: ["audit_id"]
-            referencedRelation: "audits"
-            referencedColumns: ["id"]
+            foreignKeyName: 'axe_audit_id_fkey'
+            columns: ['audit_id']
+            referencedRelation: 'audits'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "axe_audit_id_fkey"
-            columns: ["audit_id"]
-            referencedRelation: "extended_audits"
-            referencedColumns: ["id"]
+            foreignKeyName: 'axe_audit_id_fkey'
+            columns: ['audit_id']
+            referencedRelation: 'extended_audits'
+            referencedColumns: ['id']
           }
         ]
       }
@@ -122,16 +122,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "profile_project_profile_id_fkey"
-            columns: ["profile_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'profile_project_profile_id_fkey'
+            columns: ['profile_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "profile_project_project_id_fkey"
-            columns: ["project_id"]
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
+            foreignKeyName: 'profile_project_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
           }
         ]
       }
@@ -162,10 +162,10 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            foreignKeyName: 'profiles_id_fkey'
+            columns: ['id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
           }
         ]
       }
@@ -208,16 +208,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "audits_profile_id_fkey"
-            columns: ["profile_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'audits_profile_id_fkey'
+            columns: ['profile_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "audits_project_id_fkey"
-            columns: ["project_id"]
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
+            foreignKeyName: 'audits_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
           }
         ]
       }
