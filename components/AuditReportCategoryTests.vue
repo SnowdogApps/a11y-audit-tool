@@ -13,25 +13,9 @@ defineProps<{
     <h2 class="order-1 ml-3 text-2xl font-medium">
       {{ name }}
     </h2>
-    <SvgoWorriedFace
-      v-if="status === 'Failed'"
+    <StatusFaceIcon
+      :status-list="[status]"
       class="h-12 w-12"
-      role="img"
-    />
-    <SvgoConfusedFace
-      v-else-if="status === 'Not tested'"
-      class="h-12 w-12"
-      role="img"
-    />
-    <SvgoWithoutMouthFace
-      v-else-if="status === 'Not applicable'"
-      class="h-12 w-12"
-      role="img"
-    />
-    <SvgoSmilingFace
-      v-else
-      class="h-12 w-12"
-      role="img"
     />
   </div>
   <Accordion :multiple="true">
@@ -43,29 +27,9 @@ defineProps<{
         <span class="mr-2">
           {{ test.name }}
         </span>
-        <SvgoWorriedFace
-          v-if="test.pageStatuses.some(({ status }) => status === 'Failed')"
+        <StatusFaceIcon
+          :status-list="test.pageStatuses.map(({ status }) => status)"
           class="h-8 w-8"
-          role="img"
-        />
-        <SvgoConfusedFace
-          v-else-if="
-            test.pageStatuses.some(({ status }) => status === 'Not tested')
-          "
-          class="h-8 w-8"
-          role="img"
-        />
-        <SvgoSmilingFace
-          v-else-if="
-            test.pageStatuses.some(({ status }) => status === 'Passed')
-          "
-          class="h-8 w-8"
-          role="img"
-        />
-        <SvgoWithoutMouthFace
-          v-else
-          class="h-8 w-8"
-          role="img"
         />
       </template>
       <div class="mb-4 grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2">
