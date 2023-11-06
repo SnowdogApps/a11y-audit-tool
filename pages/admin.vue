@@ -81,6 +81,7 @@ authData.value = data.value?.users || []
 async function fetchProfiles() {
   try {
     const { data } = await supabase.from('profiles').select('*')
+    // @ts-ignore
     profiles.value = data || []
   } catch (error) {
     console.error('Error fetching profiles:', error)
