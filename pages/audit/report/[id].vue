@@ -102,7 +102,7 @@ const completeReport = async () => {
       <AuditReportSharableLink v-if="isAuditCompleted && !isSharableReport" />
       <NuxtLink
         :to="`/audit/new?baseAuditId=${auditId}`"
-        class="p-button p-button-outlined print:hidden"
+        class="p-button p-button-outlined print:!hidden"
       >
         Repeat audit
       </NuxtLink>
