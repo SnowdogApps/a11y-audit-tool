@@ -68,7 +68,7 @@ export interface Database {
           status?: string | null
           report_type?: string | null
           updated_at?: string | null
-          comment: string
+          comment?: string
         }
         Update: {
           config?: AuditConfiguration
