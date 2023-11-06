@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { breakpointsTailwind } from '@vueuse/core'
+
 import type { MenuItem } from 'primevue/menuitem'
 
 import {
@@ -7,8 +9,9 @@ import {
   customerMenuItems,
 } from '~/data/menu'
 
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isDesktop = breakpoints.greater('lg')
 const isSideNavigationVisible = ref(false)
-
 const { isAdmin, isAuditor } = useUser()
 
 const menuItems = computed<MenuItem[]>(() =>
@@ -18,6 +21,14 @@ const menuItems = computed<MenuItem[]>(() =>
     ? auditorMenuItems
     : customerMenuItems
 )
+
+watch(isDesktop, (newValue: boolean) => {
+  isSideNavigationVisible.value = newValue
+})
+
+onMounted(() => {
+  isSideNavigationVisible.value = isDesktop.value
+})
 
 const { y: windowScrollY } = useWindowScroll()
 </script>
@@ -37,10 +48,12 @@ const { y: windowScrollY } = useWindowScroll()
       >
         <div class="p-button">Skip Navigation</div>
       </a>
-      <AppHeader
-        :is-side-navigation-visible="isSideNavigationVisible"
-        @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
-      />
+      <ClientOnly>
+        <AppHeader
+          :is-side-navigation-visible="isSideNavigationVisible"
+          @toggle-main-menu="isSideNavigationVisible = !isSideNavigationVisible"
+        />
+      </ClientOnly>
       <main
         id="main-content"
         ref="mainContent"

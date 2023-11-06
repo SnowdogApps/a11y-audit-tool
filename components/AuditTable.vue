@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
-import type { ExtendedAudit } from 'types/database'
+import type { ExtendedAudit, Project } from 'types/database'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
   audits: ExtendedAudit[]
+  projects: Project[]
+  projectId?: number
+  showUserAudits?: boolean
 }>()
 
 const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()
 
 const confirm = useConfirm()
+const { user } = useUser()
+const router = useRouter()
 const nodes = computed(() =>
   props.audits.map((audit) => ({
     data: {
@@ -21,24 +26,17 @@ const nodes = computed(() =>
   }))
 )
 
-const projectsIds = computed(() =>
-  props.audits.map(({ project_id: profileId }) => profileId)
-)
-
-const projectOptions = computed(() => {
-  const options = props.audits
-    .filter(
-      ({ project_id: projectId }, index) =>
-        !projectsIds.value.includes(projectId, index + 1)
-    )
-    .map((audit) => ({
-      name: audit.projects.name,
-      value: audit.projects.name,
-    }))
+const projectFilterOptions = computed(() => {
+  const options = props.projects.map(({ name, id }) => ({
+    name,
+    value: name,
+    id,
+  }))
 
   options.unshift({
     name: 'All',
     value: '',
+    id: 0,
   })
 
   return options
@@ -57,44 +55,58 @@ const statusOptions = computed(() => {
   return options
 })
 
-const auditorIds = computed(() =>
+const allAuditorIds = computed(() =>
   props.audits.map(({ profile_id: profileId }) => profileId)
 )
 
-const auditorOptions = computed(() => {
+const uniqueAuditorFilterOptions = computed(() => {
   const options = props.audits
     .filter(
       ({ profile_id: profileId }, index) =>
-        !auditorIds.value.includes(profileId, index + 1)
+        !allAuditorIds.value.includes(profileId, index + 1)
     )
     .map((audit) => ({
       name: audit.profiles.username,
       value: audit.profiles.username,
+      id: audit.profile_id,
     }))
 
   options.unshift({
     name: 'All',
     value: '',
+    id: '',
   })
 
   return options
 })
 
-const selectedProject = ref(projectOptions.value[0])
-const selectedAuditor = ref(auditorOptions.value[0])
+const selectedProject = ref(
+  projectFilterOptions.value.find(({ id }) => id === props?.projectId) ||
+    projectFilterOptions.value[0]
+)
+const selectedAuditor = ref(
+  props.showUserAudits
+    ? uniqueAuditorFilterOptions.value.find(({ id }) => id === user.value.id)
+    : uniqueAuditorFilterOptions.value[0]
+)
 const selectedStatus = ref(statusOptions.value[0])
 
 const filters = computed<TreeTableExpandedKeys>(() => ({
   global: '',
   project: selectedProject.value.value,
-  auditor: selectedAuditor.value.value,
+  auditor: selectedAuditor.value?.value,
   status: selectedStatus.value.value,
 }))
 
 const columns = [
   { field: 'config.title', header: 'Title', sortable: true, start: true },
   { field: 'project', header: 'Project', sortable: true, start: true },
-  { field: 'auditor', header: 'Auditor', sortable: true },
+  {
+    field: 'auditor',
+    header: 'Auditor',
+    sortable: true,
+    start: props.showUserAudits,
+  },
   { field: 'status', header: 'Status', sortable: true },
   { field: 'urls', header: 'Urls', start: true },
 ]
@@ -116,6 +128,28 @@ const confirmAuditRemoval = (id: number) => {
     },
   })
 }
+
+watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
+  let query = {}
+
+  if (
+    newValues[2].some(({ field }) => field === 'project') &&
+    newValues[0]?.id
+  ) {
+    query = { ...query, projectId: newValues[0].id }
+  }
+
+  if (
+    newValues[2].some(({ field }) => field === 'auditor') &&
+    newValues[1]?.id === user.value.id
+  ) {
+    query = { ...query, user: 'me' }
+  }
+
+  router.replace({
+    query,
+  })
+})
 </script>
 
 <template>
@@ -171,7 +205,7 @@ const confirmAuditRemoval = (id: number) => {
             v-model="selectedProject"
             input-id="filter-projects"
             aria-label="Filter by project"
-            :options="projectOptions"
+            :options="projectFilterOptions"
             option-label="name"
             placeholder="Filter by project"
             class="w-full"
@@ -192,7 +226,7 @@ const confirmAuditRemoval = (id: number) => {
             id="auditor-filter"
             v-model="selectedAuditor"
             aria-label="Filter by auditor"
-            :options="auditorOptions"
+            :options="uniqueAuditorFilterOptions"
             option-label="name"
             placeholder="Filter by auditor"
             class="w-full"
@@ -287,5 +321,8 @@ const confirmAuditRemoval = (id: number) => {
         </div>
       </template>
     </Column>
+    <template #empty>
+      <div class="p-2 text-center">The list is empty</div>
+    </template>
   </TreeTable>
 </template>

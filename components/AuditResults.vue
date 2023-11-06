@@ -164,7 +164,7 @@ const isSelectReportTypeModalVisible = ref(false)
       <MultiSelect
         id="statusList"
         v-model="selectedItems.selectedStatus"
-        :options="optionLists.statusList"
+        :options="(optionLists.statusList as unknown as any[])"
         placeholder="Status"
         class="w-full"
         :max-selected-labels="2"
