@@ -103,7 +103,7 @@ defineEmits<{
           text
           @click="$emit('close')"
         >
-          Create another audit
+          Create another audit in the meantime
         </Button>
       </template>
     </div>
