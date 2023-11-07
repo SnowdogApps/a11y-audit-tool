@@ -144,7 +144,7 @@ const completeReport = async () => {
                   <template v-if="page.selector?.length">
                     - selector:
                     <code class="break-words rounded-md bg-gray-100 px-2 py-1">
-                      page.selector
+                      {{ page.selector }}
                     </code>
                   </template>
                 </li>
