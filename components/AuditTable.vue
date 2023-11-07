@@ -2,6 +2,7 @@
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
 import type { ExtendedAudit, Project } from 'types/database'
+import { getAuditLink } from '~/utils/get-audit-link'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
@@ -292,20 +293,24 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
       <template #body="scope">
         <div class="flex gap-2">
           <NuxtLink
-            v-if="scope.node.data.status === 'completed'"
+            v-if="
+              scope.node.data.status === 'completed' ||
+              scope.node.data.axe.length
+            "
             class="p-button p-button-info mr-2"
-            :to="`/audit/report/${scope.node.data.id}?type=${scope.node.data.report_type}`"
-            aria-label="Report"
-            title="Display report"
-          >
-            <i class="pi pi-list" />
-          </NuxtLink>
-          <NuxtLink
-            v-else-if="scope.node.data.axe.length"
-            class="p-button p-button-info mr-2"
-            :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
-            aria-label="Results"
-            title="Display results"
+            :to="
+              getAuditLink({
+                id: scope.node.data.id,
+                axeId: scope.node.data.axe[0].id,
+                status: scope.node.data.status,
+                reportType: scope.node.data.report_type,
+              })
+            "
+            :aria-label="
+              scope.node.data.status === 'completed'
+                ? 'See report'
+                : 'See results'
+            "
           >
             <i class="pi pi-list" />
           </NuxtLink>

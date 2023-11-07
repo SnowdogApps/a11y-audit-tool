@@ -16,7 +16,7 @@ export interface ExtendedAudit extends Audit {
     full_name: string
   }
   axe: {
-    id: string
+    id: number
     errors: {
       name: string
       message: string

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ExtendedAudit } from 'types/database'
+import { getAuditLink } from '~/utils/get-audit-link'
 
 const props = withDefaults(
   defineProps<{
@@ -36,27 +37,23 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
           :key="id"
         >
           <NuxtLink
-            v-if="status === 'completed'"
+            v-if="status === 'completed' || axe?.length"
             class="p-button p-button-text w-full justify-between"
-            :to="`/audit/report/${id}?type=${report_type}`"
+            :to="
+              getAuditLink({
+                id,
+                axeId: axe[0].id,
+                status,
+                reportType: report_type,
+              })
+            "
           >
             <span class="text-left">{{ config.title }}</span>
             <span
               class="p-button p-button-info ml-4 min-w-[116px] justify-center"
             >
-              See report
-            </span>
-          </NuxtLink>
-          <NuxtLink
-            v-else-if="axe?.length"
-            class="p-button p-button-text w-full justify-between"
-            :to="`/audit/${id}?resultId=${axe[0].id}`"
-          >
-            <span class="text-left">{{ config.title }}</span>
-            <span
-              class="p-button p-button-info ml-4 min-w-[116px] justify-center"
-            >
-              See results
+              <template v-if="status === 'completed'">See report</template>
+              <template v-else>See results</template>
             </span>
           </NuxtLink>
           <div
