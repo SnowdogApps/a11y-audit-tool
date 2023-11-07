@@ -95,7 +95,7 @@ const selectedStatus = ref(statusOptions.value[0])
 const filters = computed<TreeTableExpandedKeys>(() => ({
   global: '',
   project: selectedProject.value.value,
-  auditor: selectedAuditor.value.value,
+  auditor: selectedAuditor.value?.value,
   status: selectedStatus.value.value,
 }))
 

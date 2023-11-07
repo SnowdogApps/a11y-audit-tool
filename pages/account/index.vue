@@ -55,13 +55,11 @@ const { useFieldModel, handleSubmit, errors, submitCount } = useForm({
   initialValues,
 })
 
-const [email, username, fullName, avatarUrl, userType] = useFieldModel([
-  'email',
-  'username',
-  'fullName',
-  'avatarUrl',
-  'userType',
-])
+const email = useFieldModel('email')
+const username = useFieldModel('username')
+const fullName = useFieldModel('fullName')
+const avatarUrl = useFieldModel('avatarUrl')
+const userType = useFieldModel('userType')
 
 const { isSubmitted } = useValidation(submitCount)
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
