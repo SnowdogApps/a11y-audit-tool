@@ -101,6 +101,7 @@ const completeReport = async () => {
     >
       <AuditReportSharableLink v-if="isAuditCompleted && !isSharableReport" />
       <NuxtLink
+        v-if="!isSharableReport"
         :to="`/audit/new?baseAuditId=${auditId}`"
         class="p-button p-button-outlined print:!hidden"
       >
