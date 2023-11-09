@@ -147,7 +147,7 @@ const isWaitingForResults = (auditData) =>
 const openDialog = (auditData) => {
   dialogHeader.value = `Audit ${auditData.id} - errors during automatic test processing`
   axeErrorMessage.value =
-    auditData.axe[0]?.errors[0]?.message ||
+    auditData.axe.find(({ errors }) => errors)?.errors[0]?.message ||
     'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
   isDialogVisible.value = true
 }
