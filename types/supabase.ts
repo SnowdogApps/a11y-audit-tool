@@ -56,6 +56,7 @@ export interface Database {
           status: string | null
           report_type: string | null
           updated_at: string | null
+          comment: string
         }
         Insert: {
           config?: AuditConfiguration
@@ -67,6 +68,7 @@ export interface Database {
           status?: string | null
           report_type?: string | null
           updated_at?: string | null
+          comment?: string
         }
         Update: {
           config?: AuditConfiguration
@@ -78,6 +80,7 @@ export interface Database {
           status?: string | null
           report_type?: string | null
           updated_at?: string | null
+          comment: string
         }
         Relationships: [
           {
