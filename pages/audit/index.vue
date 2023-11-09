@@ -8,7 +8,7 @@ definePageMeta({
 })
 
 const { isAdmin, isAuditor } = useUser()
-const supabase = useSupabaseClient<Database>()
+const supabase = useSupabaseClient()
 const audits = ref<ExtendedAudit[]>([])
 const projects = ref<Project[]>([])
 const isLoading = ref(true)
@@ -18,8 +18,6 @@ const showUserAudits = ref(route.query.user === 'me')
 const notTestedAuditMap = ref(new Map())
 
 const toast = useToast()
-
-const axeChannel = supabase.channel('axe')
 
 const handleChanges = async ({ new: newRow, errors }) => {
   const auditId = newRow.audit_id
@@ -53,17 +51,14 @@ const handleChanges = async ({ new: newRow, errors }) => {
   }
 }
 
-const realtimeChannel = axeChannel
+const axeTableInsertChannel = supabase
+  .channel('axe')
   .on(
     'postgres_changes',
     { event: 'INSERT', schema: 'public', table: 'axe' },
     (payload) => handleChanges(payload)
   )
   .subscribe()
-
-onUnmounted(() => {
-  supabase.removeChannel(axeChannel)
-})
 
 async function fetchAudits() {
   const { data } = await supabase
@@ -127,6 +122,10 @@ async function fetchData() {
 
 onMounted(async () => {
   await fetchData()
+})
+
+onUnmounted(() => {
+  supabase.removeChannel(axeTableInsertChannel)
 })
 </script>
 
