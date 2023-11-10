@@ -32,5 +32,5 @@ export interface ExtendedAudit extends Audit {
       }
       url: string
     }[]
-  }
+  }[]
 }

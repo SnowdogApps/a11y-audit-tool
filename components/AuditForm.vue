@@ -74,13 +74,34 @@ if (baseAuditId) {
 
 const user = useSupabaseUser()
 const projects = ref<Project[]>([])
+const userProjectIds = ref<number[]>([])
+const { isAdmin } = useUser()
+
+const isAllowedToAddAuditToSelectedProject = computed<boolean>(
+  () =>
+    project.value &&
+    (isAdmin.value || userProjectIds.value.includes(project.value))
+)
 
 if (user.value) {
   const { data: projectsData } = await supabase.from('projects').select('*')
   projects.value = projectsData || []
+  const { data: profileProjectData } = await supabase
+    .from('profile_project')
+    .select('project_id')
+    .eq('profile_id', user.value.id)
+  userProjectIds.value =
+    profileProjectData?.map((item) => item.project_id) || []
 }
 
 const isLoading = ref(false)
+const isAuditProcessingDialogVisible = ref(false)
+const newAuditId = ref<number>()
+const selectedProjectName = computed(
+  () =>
+    projects.value.find((item) => item.id === project.value)?.name ||
+    'this project'
+)
 
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
@@ -123,16 +144,15 @@ const sendForm = handleSubmit(async (values) => {
       body: newAudit,
     })
 
-    toast.add({
-      severity: apiTestError.value ? 'error' : 'success',
-      summary: apiTestError.value
-        ? apiTestError.value?.message
-        : 'New audit successfully created',
-      life: 3000,
-    })
-
-    if (!apiTestError.value) {
-      resetForm()
+    if (apiTestError.value) {
+      toast.add({
+        severity: 'error',
+        summary: apiTestError.value?.message,
+        life: 3000,
+      })
+    } else {
+      newAuditId.value = newAudit.id
+      isAuditProcessingDialogVisible.value = true
     }
   } catch (error) {
     const { $handleError } = useNuxtApp()
@@ -142,6 +162,13 @@ const sendForm = handleSubmit(async (values) => {
     isLoading.value = false
   }
 }, onInvalidSubmit)
+
+const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
+  isAuditProcessingDialogVisible.value = false
+  newAuditId.value = undefined
+  isLoading.value = false
+  resetAuditForm && resetForm()
+}
 </script>
 
 <template>
@@ -185,7 +212,7 @@ const sendForm = handleSubmit(async (values) => {
               </div>
 
               <div class="w-full">
-                <label for="`selector-${index}`">HTML Selector</label>
+                <label :for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
                   v-model="page.value.selector"
@@ -263,7 +290,12 @@ const sendForm = handleSubmit(async (values) => {
             </div>
 
             <div class="w-full">
-              <label for="project">Project</label>
+              <label
+                id="project-label"
+                for="project"
+              >
+                Project
+              </label>
               <Dropdown
                 id="project"
                 v-model="project"
@@ -275,6 +307,7 @@ const sendForm = handleSubmit(async (values) => {
                 data-testid="audit-project-field"
                 name="project"
                 :class="[{ 'p-invalid': errors.project && isSubmitted }]"
+                aria-labelledby="project-label"
               />
               <small
                 v-if="errors.project && isSubmitted"
@@ -342,14 +375,33 @@ const sendForm = handleSubmit(async (values) => {
         </AccordionTab>
       </Accordion>
 
+      <div aria-live="assertive">
+        <small
+          v-if="project && !isAllowedToAddAuditToSelectedProject"
+          class="mb-4 mt-3 block text-red-700"
+        >
+          You don't have permission to add an audit to the
+          {{ selectedProjectName }}. To gain access please contact the
+          administrator.
+        </small>
+      </div>
       <Button
         :label="isLoading ? 'Sending...' : 'Send'"
         type="submit"
         class="p-button-lg w-full"
         data-testid="audit-submit-button"
         :loading="isLoading"
-        :disabled="isLoading"
+        :disabled="isLoading || !isAllowedToAddAuditToSelectedProject"
       />
     </form>
+    <LazyAuditProcessingDialog
+      v-if="newAuditId"
+      v-model:visible="isAuditProcessingDialogVisible"
+      :audit-id="newAuditId"
+      @close="
+        (options) => onAuditProcessingDialogClose(options?.resetAuditForm)
+      "
+      @hide="onAuditProcessingDialogClose"
+    />
   </section>
 </template>

@@ -115,7 +115,7 @@ const getFieldId = (suffix: string) =>
                   <Dropdown
                     class="w-full md:max-w-[200px]"
                     :model-value="manualTestResultsStatus"
-                    :options="manualTestResultsStatusOptions"
+                    :options="(manualTestResultsStatusOptions as unknown as any[])"
                     :input-id="getFieldId('manualTestResultsStatus')"
                     @update:model-value="
                       (value: string) =>
