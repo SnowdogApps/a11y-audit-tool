@@ -115,7 +115,7 @@ const selectedColumns = ref(columns.filter((col) => col.start))
 const isFilterActive = (filterField: string) =>
   selectedColumns.value.some(({ field }) => field === filterField)
 
-const { isAdmin } = useUser()
+const { isAdmin, isAuditor } = useUser()
 
 const confirmAuditRemoval = (id: number) => {
   confirm.require({
@@ -290,34 +290,36 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
 
     <Column header="Action">
       <template #body="scope">
-        <div class="flex gap-2">
+        <div class="grid min-w-[386px] grid-cols-3 gap-2">
           <NuxtLink
             v-if="scope.node.data.status === 'completed'"
-            class="p-button p-button-info mr-2"
+            class="p-button p-button-info justify-center"
             :to="`/audit/report/${scope.node.data.id}?type=${scope.node.data.report_type}`"
-            aria-label="Report"
-            title="Display report"
           >
-            <i class="pi pi-list" />
+            View report
           </NuxtLink>
           <NuxtLink
             v-else-if="scope.node.data.axe.length"
-            class="p-button p-button-info mr-2"
+            class="p-button p-button-info justify-center"
             :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
-            aria-label="Results"
-            title="Display results"
           >
-            <i class="pi pi-list" />
+            View results
           </NuxtLink>
-
+          <NuxtLink
+            :to="`/audit/new?baseAuditId=${scope.node.data.id}`"
+            class="p-button p-button-info p-button-outlined justify-center"
+          >
+            Repeat
+          </NuxtLink>
           <Button
-            v-if="isAdmin"
-            text
-            icon="pi pi-times"
+            v-if="isAdmin || (isAuditor && scope.node.data.status === 'draft')"
             severity="danger"
-            aria-label="Remove audit"
+            outlined
+            class="justify-center"
             @click="confirmAuditRemoval(scope.node.data.id)"
-          />
+          >
+            Remove
+          </Button>
         </div>
       </template>
     </Column>
