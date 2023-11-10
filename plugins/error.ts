@@ -37,7 +37,6 @@ export default defineNuxtPlugin(() => {
             severity: 'error',
             summary,
             detail: message,
-            life: 3000,
           })
         } else {
           if (isSupabaseError(error)) {
