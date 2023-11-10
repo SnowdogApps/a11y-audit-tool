@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
-import type { ExtendedAudit, Project } from 'types/database'
+import type { Axe, ExtendedAudit, Project } from 'types/database'
 import { checkTimeElapsedInMinutes } from 'utils/time'
 import { statuses } from '~/data/auditStatuses'
 
@@ -134,20 +134,20 @@ const confirmAuditRemoval = (id: number) => {
   })
 }
 
-const hasAxeResponseErrors = (axeResponse) =>
+const hasAxeResponseErrors = (axeResponse: Axe[]) =>
   axeResponse.some((result) => result?.errors?.length)
 
-const has15MinutesPassed = (axeResponseCreationDate) => {
+const has15MinutesPassed = (axeResponseCreationDate: string) => {
   return checkTimeElapsedInMinutes(axeResponseCreationDate, 15)
 }
 
-const isWaitingForResults = (auditData) =>
+const isWaitingForResults = (auditData: ExtendedAudit) =>
   !auditData.axe.length && !has15MinutesPassed(auditData.created_at)
 
-const openDialog = (auditData) => {
+const openDialog = (auditData: ExtendedAudit) => {
   dialogHeader.value = `Audit ${auditData.id} - errors during automatic test processing`
   axeErrorMessage.value =
-    auditData.axe.find(({ errors }) => errors)?.errors[0]?.message ||
+    auditData.axe?.find(({ errors }) => errors)?.errors[0]?.message ||
     'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
   isDialogVisible.value = true
 }

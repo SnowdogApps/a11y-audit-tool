@@ -43,3 +43,9 @@ export interface AutomaticTestGroupedNodes {
     nodes: Result['nodes']
   }[]
 }
+
+export interface AuditMapValue {
+  totalNumberOfAllTests: number
+  automaticTestsCount: number
+  haveAutomaticTestsError: boolean
+}

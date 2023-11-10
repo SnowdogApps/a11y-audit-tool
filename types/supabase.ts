@@ -58,7 +58,7 @@ export interface Database {
           updated_at: string | null
         }
         Insert: {
-          config?: AuditConfiguration
+          config?: Json
           created_at?: string
           id?: number
           issues?: Json | null
