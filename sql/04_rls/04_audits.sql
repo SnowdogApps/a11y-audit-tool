@@ -23,5 +23,10 @@ create policy "Admin can edit all audits." on audits
 create policy "Auditor type user can update their draft audits." on audits
   for update using ((coalesce(get_my_claim('claims_admin')::bool,false) = false) AND (profile_id = auth.uid())) with check (status = 'completed');
 
-create policy "Only admins can delete audits." on profile_project
-  for delete using (coalesce(get_my_claim('claims_admin')::bool,false) OR current_user = 'postgres');
+create policy "Admins can delete all audits. Auditors can delete their draft audits." on audits
+  for delete using (coalesce(get_my_claim('claims_admin')::bool,false) OR current_user = 'postgres' OR (
+    ((get_my_claim('user_role'::text)) = '"auditor"'::jsonb) AND (project_id IN (
+      SELECT profile_project.project_id FROM profile_project
+      WHERE profile_project.profile_id = auth.uid()
+    )) AND (status = 'draft'))
+  );
