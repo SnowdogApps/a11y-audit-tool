@@ -52,18 +52,8 @@ if (baseAuditId) {
       message: `Failed to copy configuration from audit #${baseAuditId}. ${error.message}`,
     }
 
-    if (process.client) {
-      toast.add({
-        severity: 'error',
-        summary: errorWithUpdatedMessage.message,
-      })
-    } else {
-      if (isSupabaseError(errorWithUpdatedMessage)) {
-        throw new SupabaseError(errorWithUpdatedMessage)
-      }
-
-      throw new Error(errorWithUpdatedMessage.message)
-    }
+    const { $handleError } = useNuxtApp()
+    $handleError(errorWithUpdatedMessage as Error | SupabaseError)
   } else {
     setValues({
       pages: baseAudit.config.pages,
