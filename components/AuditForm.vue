@@ -52,24 +52,34 @@ if (baseAuditId) {
       message: `Failed to copy configuration from audit #${baseAuditId}. ${error.message}`,
     }
 
-    if (isSupabaseError(errorWithUpdatedMessage)) {
-      throw new SupabaseError(errorWithUpdatedMessage)
+    if (process.client) {
+      toast.add({
+        severity: 'error',
+        summary: errorWithUpdatedMessage.message,
+      })
+    } else {
+      if (isSupabaseError(errorWithUpdatedMessage)) {
+        throw new SupabaseError(errorWithUpdatedMessage)
+      }
+
+      throw new Error(errorWithUpdatedMessage.message)
     }
-    throw new Error(errorWithUpdatedMessage.message)
+  } else {
+    setValues({
+      pages: baseAudit.config.pages,
+      title: baseAudit.config.title,
+      project: baseAudit.projects?.id,
+      username: baseAudit.config.basicAuth.username,
+      password: baseAudit.config.basicAuth.password,
+      viewports: availableViewports
+        .filter((viewport) =>
+          baseAudit.config.viewports.includes(viewport.name)
+        )
+        .map((viewport) => viewport.name),
+    })
+
+    router.replace({ query: {} })
   }
-
-  setValues({
-    pages: baseAudit.config.pages,
-    title: baseAudit.config.title,
-    project: baseAudit.projects?.id,
-    username: baseAudit.config.basicAuth.username,
-    password: baseAudit.config.basicAuth.password,
-    viewports: availableViewports
-      .filter((viewport) => baseAudit.config.viewports.includes(viewport.name))
-      .map((viewport) => viewport.name),
-  })
-
-  router.replace({ query: {} })
 }
 
 const user = useSupabaseUser()
