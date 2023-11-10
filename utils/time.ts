@@ -1,15 +1,14 @@
-export const checkTimeElapsedInMinutes = (
-  eventCreationDate: string,
+export const oneMinuteInMilliseconds = 1000 * 60
+
+export const timezoneOffsetInMilliseconds =
+  new Date().getTimezoneOffset() * oneMinuteInMilliseconds
+
+export const hasTimeElapsedInMinutes = (
+  eventUTCDatetime: string, // UTC time from supabase
   minutes: number = 1
 ): boolean => {
-  const OneMinuteInMilliseconds = 1000 * 60
-  const creationUTCDateTime = eventCreationDate
-  const currentUTCDateTime = new Date().toISOString()
-  const timezoneOffset = new Date().getTimezoneOffset()
-
   const timeDifference =
-    Date.parse(currentUTCDateTime) - Date.parse(creationUTCDateTime)
-  const timeElapsedInMinutes = timeDifference / OneMinuteInMilliseconds // convert milliseconds to minutes
+    Date.now() + timezoneOffsetInMilliseconds - Date.parse(eventUTCDatetime)
 
-  return timeElapsedInMinutes + timezoneOffset >= minutes
+  return timeDifference - minutes * oneMinuteInMilliseconds >= 0
 }

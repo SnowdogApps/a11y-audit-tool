@@ -2,7 +2,7 @@
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
 import type { Axe, ExtendedAudit, Project } from 'types/database'
-import { checkTimeElapsedInMinutes } from 'utils/time'
+import { hasTimeElapsedInMinutes } from 'utils/time'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
@@ -137,8 +137,8 @@ const confirmAuditRemoval = (id: number) => {
 const hasAxeResponseErrors = (axeResponse: Axe[]) =>
   axeResponse.some((result) => result?.errors?.length)
 
-const has15MinutesPassed = (axeResponseCreationDate: string) => {
-  return checkTimeElapsedInMinutes(axeResponseCreationDate, 15)
+const has15MinutesPassed = (auditCreationDate: string) => {
+  return hasTimeElapsedInMinutes(auditCreationDate, 15)
 }
 
 const isWaitingForResults = (auditData: ExtendedAudit) =>

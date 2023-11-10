@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { oneMinuteInMilliseconds } from 'utils/time'
+
 const props = defineProps<{
   auditId: number
 }>()
@@ -29,15 +31,12 @@ const axeTableInsertChannel = client
   )
   .subscribe()
 
-const timeout = setTimeout(
-  () => {
-    client.removeChannel(axeTableInsertChannel)
-    axeErrorMessage.value =
-      'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
-    isAuditFinished.value = true
-  },
-  900000 // 15 minutes
-)
+const timeout = setTimeout(() => {
+  client.removeChannel(axeTableInsertChannel)
+  axeErrorMessage.value =
+    'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
+  isAuditFinished.value = true
+}, 15 * oneMinuteInMilliseconds)
 
 defineEmits<{
   (e: 'close', { resetAuditForm }?: { resetAuditForm: boolean }): void
