@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
-import type { Axe, ExtendedAudit, Project } from 'types/database'
+import type { ExtendedAudit, Project } from 'types/database'
 import type { AuditMapValue } from 'types/audit'
 
 definePageMeta({
