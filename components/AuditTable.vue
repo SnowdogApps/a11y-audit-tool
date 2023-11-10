@@ -325,12 +325,16 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
             'grid-cols-1': isWaitingForResults(scope.node.data),
           }"
         >
-          <Button
+          <span
             v-if="isWaitingForResults(scope.node.data)"
-            :loading="true"
-            label="Tests in progress"
-          />
-
+            class="flex items-center px-4"
+          >
+            <i
+              class="pi pi-spin pi-cog mr-4"
+              aria-hidden="true"
+            />
+            Tests in progress
+          </span>
           <template v-else>
             <NuxtLink
               v-if="scope.node.data.status === 'completed'"
