@@ -17,8 +17,11 @@ create policy "Both admin (globally) and auditor type user (only to approved pro
     )))
   );
 
-create policy "Both admin and auditor (owner, while `status` is not `completed`) type user can update audits." on audits
-  for update using (coalesce(get_my_claim('claims_admin')::bool,false) OR (profile_id = auth.uid() AND status != 'completed'));
+create policy "Admin can edit all audits." on audits
+  for update using (coalesce(get_my_claim('claims_admin')::bool,false));
+
+create policy "Auditor type user can update their draft audits." on audits
+  for update using ((coalesce(get_my_claim('claims_admin')::bool,false) = false) AND (profile_id = auth.uid())) with check (status = 'completed');
 
 create policy "Only admins can delete audits." on profile_project
   for delete using (coalesce(get_my_claim('claims_admin')::bool,false) OR current_user = 'postgres');
