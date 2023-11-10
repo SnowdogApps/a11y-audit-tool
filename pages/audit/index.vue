@@ -3,22 +3,27 @@ import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
 import type { ExtendedAudit, Project } from 'types/database'
 import type { AuditMapValue } from 'types/audit'
+import { oneMinuteInMilliseconds, hasTimeElapsedInMinutes } from 'utils/time'
 
 definePageMeta({
   middleware: 'auth',
 })
 
 const { isAdmin, isAuditor } = useUser()
+const route = useRoute()
 const supabase = useSupabaseClient()
+const toast = useToast()
+
 const audits = ref<ExtendedAudit[]>([])
 const projects = ref<Project[]>([])
 const isLoading = ref(true)
-const route = useRoute()
 const projectId = ref(Number(route.query.projectId))
 const showUserAudits = ref(route.query.user === 'me')
 const notTestedAuditMap = ref(new Map<number, AuditMapValue>())
 
-const toast = useToast()
+const areAllAuditsFinished = computed(() =>
+  audits.value.every((audit) => hasTimeElapsedInMinutes(audit.created_at, 15))
+)
 
 const axeTableInsertChannel = supabase
   .channel('axe')
@@ -113,6 +118,14 @@ async function fetchData() {
   } finally {
     isLoading.value = false
   }
+}
+
+const timeout = setTimeout(async () => {
+  await fetchData()
+}, 15 * oneMinuteInMilliseconds)
+
+if (areAllAuditsFinished.value) {
+  clearTimeout(timeout)
 }
 
 onMounted(async () => {
