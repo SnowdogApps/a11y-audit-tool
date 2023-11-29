@@ -2,6 +2,8 @@
 defineProps<{
   statusList: string[]
 }>()
+
+// Icons source: https://www.svgrepo.com/collection/duotone-face-emoji-icons/
 </script>
 
 <template>
