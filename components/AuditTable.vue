@@ -2,6 +2,7 @@
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
 import type { ExtendedAudit, Project } from 'types/database'
+import { getAuditLink } from '~/utils/get-audit-link'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
@@ -292,18 +293,24 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
       <template #body="scope">
         <div class="grid min-w-[386px] grid-cols-3 gap-2">
           <NuxtLink
-            v-if="scope.node.data.status === 'completed'"
-            class="p-button p-button-info justify-center"
-            :to="`/audit/report/${scope.node.data.id}?type=${scope.node.data.report_type}`"
+            v-if="
+              scope.node.data.status === 'completed' ||
+              scope.node.data.axe.length
+            "
+            class="p-button p-button-info"
+            :to="
+              getAuditLink({
+                id: scope.node.data.id,
+                axeId: scope.node.data.axe[0].id,
+                status: scope.node.data.status,
+                reportType: scope.node.data.report_type,
+              })
+            "
           >
-            View report
-          </NuxtLink>
-          <NuxtLink
-            v-else-if="scope.node.data.axe.length"
-            class="p-button p-button-info justify-center"
-            :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
-          >
-            View results
+            <template v-if="scope.node.data.status === 'completed'">
+              View report
+            </template>
+            <template v-else>View results</template>
           </NuxtLink>
           <NuxtLink
             :to="`/audit/new?baseAuditId=${scope.node.data.id}`"

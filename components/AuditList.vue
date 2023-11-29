@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ExtendedAudit } from 'types/database'
+import { getAuditLink } from '~/utils/get-audit-link'
 
 const props = withDefaults(
   defineProps<{
@@ -32,16 +33,28 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
         aria-labelledby="audits-card-title"
       >
         <li
-          v-for="{ id, config, axe } in visibleAudits"
+          v-for="{ id, config, axe, status, report_type } in visibleAudits"
           :key="id"
         >
           <NuxtLink
-            v-if="axe?.length"
-            class="p-button p-button-text grid w-full justify-between"
-            :to="`/audit/${id}/?resultId=${axe[0].id}`"
+            v-if="status === 'completed' || axe?.length"
+            class="p-button p-button-text w-full justify-between"
+            :to="
+              getAuditLink({
+                id,
+                axeId: axe[0].id,
+                status,
+                reportType: report_type,
+              })
+            "
           >
             <span class="text-left">{{ config.title }}</span>
-            <span class="p-button p-button-info ml-4">See results</span>
+            <span
+              class="p-button p-button-info ml-4 min-w-[116px] justify-center"
+            >
+              <template v-if="status === 'completed'">See report</template>
+              <template v-else>See results</template>
+            </span>
           </NuxtLink>
           <div
             v-else
