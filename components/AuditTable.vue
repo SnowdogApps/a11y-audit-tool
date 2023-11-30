@@ -361,7 +361,7 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
                 (!scope.node.data.axe.length &&
                   has15MinutesPassed(scope.node.data.created_at))
               "
-              severity="info"
+              severity="danger"
               label="View errors"
               @click="openDialog(scope.node.data)"
             />
