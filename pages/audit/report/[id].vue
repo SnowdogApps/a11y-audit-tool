@@ -105,6 +105,13 @@ const completeReport = async () => {
       :class="{ 'mb-24': !isAuditCompleted }"
     >
       <AuditReportSharableLink v-if="isAuditCompleted && !isSharableReport" />
+      <NuxtLink
+        v-if="!isSharableReport"
+        :to="`/audit/new?baseAuditId=${auditId}`"
+        class="p-button p-button-outlined print:!hidden"
+      >
+        Repeat audit
+      </NuxtLink>
       <Card>
         <template #content>
           <div class="mb-16 space-y-4 text-center">

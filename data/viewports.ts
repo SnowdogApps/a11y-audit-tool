@@ -24,6 +24,4 @@ export const availableViewports: AvailableViewport[] = [
   { name: 'samsung-s10', viewport: [360, 760] },
 ]
 
-export const defaultViewports = availableViewports.filter(({ name }) =>
-  ['samsung-s10', 'macbook-13'].includes(name)
-)
+export const defaultViewports = ['samsung-s10', 'macbook-13']

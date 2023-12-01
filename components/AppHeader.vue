@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type Ref from 'vue'
-import type { User } from '@supabase/gotrue-js'
 import type { ProfileMenuLink } from '~/types/profile-menu-link'
 
 defineProps<{
@@ -26,7 +24,7 @@ const profileMenuList: ProfileMenuLink[] = [
 const isProfileMenuVisible = ref(false)
 
 const client = useSupabaseClient()
-const user: Ref<User | null> = useSupabaseUser()
+const user = useSupabaseUser()
 
 const logout = async () => {
   await client.auth.signOut()

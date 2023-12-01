@@ -29,6 +29,7 @@
   "dependencies": {
     "@nuxtjs/supabase": "^1.0.2",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@vee-validate/yup": "^4.11.8",
     "@vueuse/core": "^10.4.1",
     "@vueuse/nuxt": "^10.4.1",
     "nuxt": "^3.7.0",

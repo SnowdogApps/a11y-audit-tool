@@ -80,7 +80,19 @@ if (!resultId.value) {
 <template>
   <div class="mb-24 space-y-6">
     <template v-if="auditInfo && auditInfo.config">
-      <h1 class="font-medium">Audit: {{ auditInfo.config.title }}</h1>
+      <div
+        class="flex flex-col-reverse gap-x-2 gap-y-4 md:flex-row md:justify-between"
+      >
+        <h1 class="font-medium">Audit: {{ auditInfo.config.title }}</h1>
+        <div>
+          <NuxtLink
+            :to="`/audit/new?baseAuditId=${auditId}`"
+            class="p-button p-button-outlined"
+          >
+            Repeat audit
+          </NuxtLink>
+        </div>
+      </div>
       <Accordion>
         <AccordionTab header="Audit Information">
           <ul class="space-y-1">

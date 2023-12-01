@@ -2,7 +2,7 @@ import type { Result } from 'types/supabase'
 import type { auditTemplate } from '~/data/auditTemplate'
 
 export interface Page {
-  selector: string | undefined
+  selector?: string | undefined
   url: string
 }
 

@@ -11,6 +11,9 @@ dependencies:
   '@nuxtjs/tailwindcss':
     specifier: ^6.8.0
     version: 6.8.0(webpack@5.88.2)
+  '@vee-validate/yup':
+    specifier: ^4.11.8
+    version: 4.11.8(vue@3.3.4)
   '@vueuse/core':
     specifier: ^10.4.1
     version: 10.4.1(vue@3.3.4)
@@ -1798,6 +1801,16 @@ packages:
       hookable: 5.5.3
       unhead: 1.5.0
       vue: 3.3.4
+    dev: false
+
+  /@vee-validate/yup@4.11.8(vue@3.3.4):
+    resolution: {integrity: sha512-TUmL8UeUu5Iirth8XRg33VYyMYumt15ZMF4Ni5tjMHVluVcysSGdHIMxTJSwTN8BkMGs2/JR/28IM8eJGHnBQw==}
+    dependencies:
+      type-fest: 4.3.1
+      vee-validate: 4.11.8(vue@3.3.4)
+      yup: 1.2.0
+    transitivePeerDependencies:
+      - vue
     dev: false
 
   /@vercel/nft@0.23.1:
@@ -7394,6 +7407,16 @@ packages:
 
   /vee-validate@4.11.3(vue@3.3.4):
     resolution: {integrity: sha512-YhWORdZRE1GL6vXKj3r9f+Y8fJH5JMwMUJ4DFS44+WcTtiNXggyE3pyJPlZBqS9AgYGZ47EOv4UczkLxHqufiw==}
+    peerDependencies:
+      vue: ^3.3.4
+    dependencies:
+      '@vue/devtools-api': 6.5.0
+      type-fest: 4.3.1
+      vue: 3.3.4
+    dev: false
+
+  /vee-validate@4.11.8(vue@3.3.4):
+    resolution: {integrity: sha512-ZuVpw0axWYBM3aVTD/bm94hcWHumqeUgNjptOqfBT0gyqyHaGYCrm0tSD/0bygEbWUDwEPJOQaEKaUGM82j8TQ==}
     peerDependencies:
       vue: ^3.3.4
     dependencies:
