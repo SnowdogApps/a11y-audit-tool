@@ -433,6 +433,11 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                   name="password"
                   :feedback="false"
                   toggle-mask
+                  :pt="{
+                    input: {
+                      autocomplete: 'off',
+                    },
+                  }"
                 />
               </div>
             </div>
