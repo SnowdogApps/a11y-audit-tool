@@ -143,7 +143,9 @@ const sendForm = handleSubmit(async (values) => {
       throw new Error(error?.message || '')
     }
 
-    if (!noAxe.value) {
+    if (noAxe.value) {
+      navigateTo(`/audit/${newAudit.id}`)
+    } else {
       const { error: apiTestError } = await useFetch('/api/test', {
         method: 'POST',
         body: newAudit,
