@@ -27,7 +27,12 @@ export default function useAuditFilters(
     selectedStatus: [],
     selectedCategory: [],
   })
-  const optionLists = ref<Record<string, string[]>>({
+  const optionLists = ref<{
+    wcagScList: string[]
+    levelList: string[]
+    statusList: typeof manualTestResultsStatusOptions
+    categoryList: string[]
+  }>({
     wcagScList: [],
     levelList: [],
     statusList: manualTestResultsStatusOptions,
@@ -52,7 +57,10 @@ export default function useAuditFilters(
 
   for (const [, value] of Object.entries(formData.value)) {
     if (typeof value === 'object' && value !== null && 'status' in value) {
-      addToUniqueList(optionLists.value.statusList, value.status as string)
+      addToUniqueList(
+        optionLists.value.statusList as unknown as string[],
+        value.status as string
+      )
     }
   }
 

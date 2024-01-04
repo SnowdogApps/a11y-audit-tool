@@ -34,7 +34,12 @@ export interface TestedElementsCount {
   passes: number
 }
 
+export interface CategoryData {
+  tests: Test[]
+  status: string
+}
+
 export interface AuditReport {
-  categories: Record<CategoryName, Test[]>
+  categories: Record<CategoryName, CategoryData>
   testedElementsCount: TestedElementsCount
 }

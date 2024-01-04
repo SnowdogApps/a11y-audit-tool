@@ -8,4 +8,7 @@ create table audits (
   status text,
   config JSON not null DEFAULT '{}'::json
   issues JSON DEFAULT '{}'::json
+  is_triggered boolean not null default false,
+  report_type text null,
+  comment text not null default ''::text,
 );

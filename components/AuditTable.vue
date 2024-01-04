@@ -2,6 +2,7 @@
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
 import type { ExtendedAudit, Project } from 'types/database'
+import { getAuditLink } from '~/utils/get-audit-link'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
@@ -94,7 +95,7 @@ const selectedStatus = ref(statusOptions.value[0])
 const filters = computed<TreeTableExpandedKeys>(() => ({
   global: '',
   project: selectedProject.value.value,
-  auditor: selectedAuditor.value.value,
+  auditor: selectedAuditor.value?.value,
   status: selectedStatus.value.value,
 }))
 
@@ -115,7 +116,7 @@ const selectedColumns = ref(columns.filter((col) => col.start))
 const isFilterActive = (filterField: string) =>
   selectedColumns.value.some(({ field }) => field === filterField)
 
-const { isAdmin } = useUser()
+const { isAdmin, isAuditor } = useUser()
 
 const confirmAuditRemoval = (id: number) => {
   confirm.require({
@@ -290,34 +291,42 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
 
     <Column header="Action">
       <template #body="scope">
-        <div class="flex gap-2">
+        <div class="grid min-w-[386px] grid-cols-3 gap-2">
           <NuxtLink
-            v-if="scope.node.data.status === 'completed'"
-            class="p-button p-button-info mr-2"
-            :to="`/audit/report/${scope.node.data.id}?type=${scope.node.data.report_type}`"
-            aria-label="Report"
-            title="Display report"
+            v-if="
+              scope.node.data.status === 'completed' ||
+              scope.node.data.axe.length
+            "
+            class="p-button p-button-info"
+            :to="
+              getAuditLink({
+                id: scope.node.data.id,
+                axeId: scope.node.data.axe[0].id,
+                status: scope.node.data.status,
+                reportType: scope.node.data.report_type,
+              })
+            "
           >
-            <i class="pi pi-list" />
+            <template v-if="scope.node.data.status === 'completed'">
+              View report
+            </template>
+            <template v-else>View results</template>
           </NuxtLink>
           <NuxtLink
-            v-else-if="scope.node.data.axe.length"
-            class="p-button p-button-info mr-2"
-            :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
-            aria-label="Results"
-            title="Display results"
+            :to="`/audit/new?baseAuditId=${scope.node.data.id}`"
+            class="p-button p-button-info p-button-outlined justify-center"
           >
-            <i class="pi pi-list" />
+            Repeat
           </NuxtLink>
-
           <Button
-            v-if="isAdmin"
-            text
-            icon="pi pi-times"
+            v-if="isAdmin || (isAuditor && scope.node.data.status === 'draft')"
             severity="danger"
-            aria-label="Remove audit"
+            outlined
+            class="justify-center"
             @click="confirmAuditRemoval(scope.node.data.id)"
-          />
+          >
+            Remove
+          </Button>
         </div>
       </template>
     </Column>

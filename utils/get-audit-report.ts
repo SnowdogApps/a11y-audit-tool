@@ -4,14 +4,15 @@ import type {
   GroupedResult,
   TestedElementsCount,
   ManualTestResult,
+  Test,
 } from 'types/audit-report'
+import type { AuditItem } from 'types/audit'
 import { getStatus } from '~/utils/get-status'
 
-export const getAuditReport = (axeResults: Axe[]): AuditReport => {
-  const route = useRoute()
-  const reportType =
-    typeof route.query.type === 'string' ? route.query.type : 'review'
-
+export const getAuditReport = (
+  axeResults: Axe[],
+  reportType: string
+): AuditReport => {
   const auditReport: AuditReport = {
     categories: {},
     testedElementsCount: {
@@ -27,112 +28,170 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
     } | Screen size: ${axeResult.size}`
     const { audit, formData } = useAudit(axeResult)
 
-    audit.value.forEach((test) => {
-      const category = test.info['Test Category']
-      const name = test.info['Test Name']
+    audit.value.forEach((auditItem) => {
+      const category = auditItem.info['Test Category']
+      const name = auditItem.info['Test Name']
       const {
         manualTestResultsStatus,
         manualTestIssues,
         manualTestRecommendedFixes,
-      } = formData.value[test.id]
+      } = formData.value[auditItem.id]
       const status = getStatus({
-        automaticTestResultsStatus: test.automaticTestResultsStatus,
+        automaticTestResultsStatus: auditItem.automaticTestResultsStatus,
         manualTestResultsStatus,
         reportType,
       })
 
-      let relatedTestInAuditReport = auditReport.categories[category]?.find(
-        (test) => test.name === name
-      )
+      let relatedTestInAuditReport = auditReport.categories[
+        category
+      ]?.tests.find((test) => test.name === name)
 
       if (!relatedTestInAuditReport) {
         relatedTestInAuditReport = {
           name,
           pageStatuses: [],
           testedElementsCount: 0,
-          info: test.info,
+          info: auditItem.info,
           groupedResults: [],
         }
-        auditReport.categories[category] =
-          auditReport.categories[category] || []
-        auditReport.categories[category].push(relatedTestInAuditReport)
+        auditReport.categories[category] = {
+          status: auditReport.categories[category]?.status || 'Not applicable',
+          tests: [
+            ...(auditReport.categories[category]?.tests || []),
+            relatedTestInAuditReport,
+          ],
+        }
       }
 
       relatedTestInAuditReport.pageStatuses.push({ pageName, status })
 
-      test.automaticTestGroupedResults.forEach((group) => {
-        let relatedTestGroupedResults =
-          relatedTestInAuditReport?.groupedResults.find(
-            (statusGroup) => statusGroup.type === group.type
-          )
+      auditReport.categories[category].status = getUpdatedCategoryStatus(
+        auditReport.categories[category].status,
+        status
+      )
 
-        if (!relatedTestGroupedResults) {
-          relatedTestGroupedResults = {
-            type: group.type,
-            testedElementsCount: 0,
-            automaticTestResults: [],
-            manualTestResults: [],
-          }
-          relatedTestInAuditReport?.groupedResults.push(
-            relatedTestGroupedResults
-          )
-        }
-
-        group.results.forEach(({ id, description, impact, nodes }) => {
-          let relatedAutomaticTestResult =
-            relatedTestGroupedResults?.automaticTestResults.find(
-              (result) => result.id === id
-            )
-
-          if (!relatedAutomaticTestResult) {
-            relatedAutomaticTestResult = {
-              id,
-              description,
-              impact,
-              groupedNodes: [],
-            }
-            relatedTestGroupedResults?.automaticTestResults.push(
-              relatedAutomaticTestResult
-            )
-          }
-
-          relatedAutomaticTestResult.groupedNodes.push({ pageName, nodes })
-        })
-      })
-
-      let manualTestResultType = 'requires manual tests'
-      if (manualTestResultsStatus === 'Failed') {
-        manualTestResultType = 'issues'
-      } else if (manualTestResultsStatus === 'Passed') {
-        manualTestResultType = 'passes'
-      } else if (manualTestResultsStatus === 'Not applicable') {
-        manualTestResultType = 'not applicable'
-      }
-
-      const manualTestResult: ManualTestResult = {
-        pageName,
-        issues: manualTestIssues,
-        recommendedFixes: manualTestRecommendedFixes,
-      }
-
-      const relatedTestGroupedResults =
-        relatedTestInAuditReport.groupedResults.find(
-          ({ type }) => type === manualTestResultType
-        )
-
-      if (relatedTestGroupedResults) {
-        relatedTestGroupedResults.manualTestResults.push(manualTestResult)
-      } else {
-        relatedTestInAuditReport.groupedResults.push({
-          type: manualTestResultType,
-          testedElementsCount: 0,
-          automaticTestResults: [],
-          manualTestResults: [manualTestResult],
-        })
-      }
+      addAutomaticTestResults(auditItem, relatedTestInAuditReport, pageName)
+      addManualTestResults(
+        manualTestResultsStatus,
+        manualTestIssues,
+        manualTestRecommendedFixes,
+        relatedTestInAuditReport,
+        pageName
+      )
     })
   })
 
+  addTestedElementsCount(auditReport)
+  moveFailedCategoriesToTop(auditReport)
+
+  return auditReport
+}
+
+const getUpdatedCategoryStatus = (
+  currentCategoryStatus: string,
+  testStatus: string
+) => {
+  if (
+    /*
+    Statuses have different importance:
+    1. Failed
+    2. Not tested
+    3. Passed
+    4. Not applicable
+    "Failed" overwrites all. Not tested overwrites "Not applicable" and "Passed", and so on.
+    */
+    (testStatus !== 'Not applicable' && currentCategoryStatus !== 'Failed') ||
+    (testStatus === 'Passed' && currentCategoryStatus === 'Not applicable')
+  ) {
+    return testStatus
+  }
+  return currentCategoryStatus
+}
+
+const addAutomaticTestResults = (
+  auditItem: AuditItem,
+  relatedTestInAuditReport: Test,
+  pageName: string
+) => {
+  auditItem.automaticTestGroupedResults.forEach((group) => {
+    let relatedTestGroupedResults =
+      relatedTestInAuditReport?.groupedResults.find(
+        (statusGroup) => statusGroup.type === group.type
+      )
+
+    if (!relatedTestGroupedResults) {
+      relatedTestGroupedResults = {
+        type: group.type,
+        testedElementsCount: 0,
+        automaticTestResults: [],
+        manualTestResults: [],
+      }
+      relatedTestInAuditReport?.groupedResults.push(relatedTestGroupedResults)
+    }
+
+    group.results.forEach(({ id, description, impact, nodes }) => {
+      let relatedAutomaticTestResult =
+        relatedTestGroupedResults?.automaticTestResults.find(
+          (result) => result.id === id
+        )
+
+      if (!relatedAutomaticTestResult) {
+        relatedAutomaticTestResult = {
+          id,
+          description,
+          impact,
+          groupedNodes: [],
+        }
+        relatedTestGroupedResults?.automaticTestResults.push(
+          relatedAutomaticTestResult
+        )
+      }
+
+      relatedAutomaticTestResult.groupedNodes.push({ pageName, nodes })
+    })
+  })
+}
+
+const addManualTestResults = (
+  manualTestResultsStatus: string,
+  manualTestIssues: string,
+  manualTestRecommendedFixes: string,
+  relatedTestInAuditReport: Test,
+  pageName: string
+) => {
+  let manualTestResultType = 'requires manual tests'
+  if (manualTestResultsStatus === 'Failed') {
+    manualTestResultType = 'issues'
+  } else if (manualTestResultsStatus === 'Passed') {
+    manualTestResultType = 'passes'
+  } else if (manualTestResultsStatus === 'Not applicable') {
+    manualTestResultType = 'not applicable'
+  }
+
+  const manualTestResult: ManualTestResult = {
+    pageName,
+    issues: manualTestIssues,
+    recommendedFixes: manualTestRecommendedFixes,
+  }
+
+  const relatedTestGroupedResults =
+    relatedTestInAuditReport.groupedResults.find(
+      ({ type }) => type === manualTestResultType
+    )
+
+  if (relatedTestGroupedResults) {
+    relatedTestGroupedResults.manualTestResults.push(manualTestResult)
+  } else {
+    relatedTestInAuditReport.groupedResults.push({
+      type: manualTestResultType,
+      testedElementsCount: 0,
+      automaticTestResults: [],
+      manualTestResults: [manualTestResult],
+    })
+  }
+}
+
+const addTestedElementsCount = (auditReport: AuditReport) => {
   const getResultCount = (group: GroupedResult) =>
     group.automaticTestResults.reduce(
       (acc, result) =>
@@ -141,8 +200,8 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
       0
     )
 
-  for (const categoryTests of Object.values(auditReport.categories)) {
-    for (const test of categoryTests) {
+  for (const category of Object.values(auditReport.categories)) {
+    for (const test of category.tests) {
       let testedElementsCount = 0
 
       for (const group of test.groupedResults) {
@@ -160,6 +219,23 @@ export const getAuditReport = (axeResults: Axe[]): AuditReport => {
       auditReport.testedElementsCount.total += testedElementsCount
     }
   }
+}
 
-  return auditReport
+const moveFailedCategoriesToTop = (auditReport: AuditReport) => {
+  auditReport.categories = Object.entries(auditReport.categories)
+    .sort(([, categoryA], [, categoryB]) => {
+      const hasFailedA = categoryA.status === 'Failed'
+      const hasFailedB = categoryB.status === 'Failed'
+
+      if (hasFailedA && !hasFailedB) {
+        return -1 // Move categoryA to the front
+      } else if (!hasFailedA && hasFailedB) {
+        return 1 // Move categoryB to the front
+      }
+      return 0 // No change in order
+    })
+    .reduce((result, [categoryName, category]) => {
+      result[categoryName] = category
+      return result
+    }, {} as AuditReport['categories'])
 }

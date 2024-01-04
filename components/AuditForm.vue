@@ -1,52 +1,32 @@
 <script setup lang="ts">
-// (error as any) is intentional one used to eliminate ts error,
-// more info in https://github.com/logaretm/vee-validate/issues/3784
-
 import { useForm, useFieldArray } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/yup'
 import { useToast } from 'primevue/usetoast'
 import type { InvalidSubmissionContext } from 'vee-validate'
-import type Ref from 'vue'
-import type { User } from '@supabase/gotrue-js'
-import type { Database, Json } from 'types/supabase'
+import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
 import type { Page } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
-import { availableViewports, defaultViewports } from '~/data/viewports'
+import { availableViewports } from '~/data/viewports'
 
-interface InitialValues {
-  pages: Page[]
-  password: string
-  project?: number
-  title: string
-  username: string
-  viewports: string[]
-}
+const {
+  useFieldModel,
+  handleSubmit,
+  errors,
+  submitCount,
+  resetForm,
+  setValues,
+} = useForm({ validationSchema: toTypedSchema(auditFormSchema) })
+const { isSubmitted } = useValidation(submitCount)
 
-const initialValues: InitialValues = {
-  pages: [
-    {
-      selector: '',
-      url: '',
-    },
-  ],
-  password: '',
-  title: '',
-  project: undefined,
-  username: '',
-  viewports: defaultViewports.map((item) => item.name),
-}
-
-const { useFieldModel, handleSubmit, errors, submitCount, resetForm } = useForm(
-  {
-    validationSchema: auditFormSchema,
-    initialValues,
-  }
-)
-
-const { fields, push, remove } = useFieldArray<Page>('pages')
+const {
+  fields: pages,
+  push: pushPage,
+  remove: removePage,
+} = useFieldArray<Page>('pages')
 const title = useFieldModel('title')
 const project = useFieldModel('project')
 const username = useFieldModel('username')
@@ -54,17 +34,74 @@ const password = useFieldModel('password')
 const viewports = useFieldModel('viewports')
 
 const toast = useToast()
-const user: Ref<User | null> = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
+const route = useRoute()
+const router = useRouter()
+const baseAuditId = route.query.baseAuditId
+
+if (baseAuditId) {
+  const { data: baseAudit, error } = await supabase
+    .from('audits')
+    .select('*, projects(id)')
+    .eq('id', baseAuditId)
+    .single()
+
+  if (error) {
+    const errorWithUpdatedMessage = {
+      ...error,
+      message: `Failed to copy configuration from audit #${baseAuditId}. ${error.message}`,
+    }
+
+    const { $handleError } = useNuxtApp()
+    $handleError(errorWithUpdatedMessage as Error | SupabaseError)
+  } else {
+    setValues({
+      pages: baseAudit.config.pages,
+      title: baseAudit.config.title,
+      project: baseAudit.projects?.id,
+      username: baseAudit.config.basicAuth.username,
+      password: baseAudit.config.basicAuth.password,
+      viewports: availableViewports
+        .filter((viewport) =>
+          baseAudit.config.viewports.includes(viewport.name)
+        )
+        .map((viewport) => viewport.name),
+    })
+
+    router.replace({ query: {} })
+  }
+}
+
+const user = useSupabaseUser()
 const projects = ref<Project[]>([])
+const userProjectIds = ref<number[]>([])
+const { isAdmin } = useUser()
+
+const isAllowedToAddAuditToSelectedProject = computed<boolean>(
+  () =>
+    project.value &&
+    (isAdmin.value || userProjectIds.value.includes(project.value))
+)
 
 if (user.value) {
   const { data: projectsData } = await supabase.from('projects').select('*')
   projects.value = projectsData || []
+  const { data: profileProjectData } = await supabase
+    .from('profile_project')
+    .select('project_id')
+    .eq('profile_id', user.value.id)
+  userProjectIds.value =
+    profileProjectData?.map((item) => item.project_id) || []
 }
 
 const isLoading = ref(false)
-const { isSubmitted } = useValidation(submitCount)
+const isAuditProcessingDialogVisible = ref(false)
+const newAuditId = ref<number>()
+const selectedProjectName = computed(
+  () =>
+    projects.value.find((item) => item.id === project.value)?.name ||
+    'this project'
+)
 
 const onInvalidSubmit = ({ errors }: InvalidSubmissionContext) =>
   displayFirstError(errors)
@@ -73,23 +110,23 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const form = {
+    const config = {
       basicAuth: {
-        password: values?.password || '',
-        username: values?.username || '',
+        password: values.password || '',
+        username: values.username || '',
       },
-      pages: values.pages as unknown as Json,
+      pages: values.pages,
       title: values.title,
       viewports: values.viewports,
-    } as unknown as Json
+    }
 
     const { data: newAudit, error } = await supabase
       .from('audits')
       .insert({
         project_id: values.project,
-        profile_id: user?.value?.id || '',
+        profile_id: user.value.id,
         status: 'draft',
-        config: form,
+        config,
       })
       .select()
       .single()
@@ -107,16 +144,15 @@ const sendForm = handleSubmit(async (values) => {
       body: newAudit,
     })
 
-    toast.add({
-      severity: apiTestError.value ? 'error' : 'success',
-      summary: apiTestError.value
-        ? apiTestError.value?.message
-        : 'New audit successfully created',
-      life: 3000,
-    })
-
-    if (!apiTestError.value) {
-      resetForm()
+    if (apiTestError.value) {
+      toast.add({
+        severity: 'error',
+        summary: apiTestError.value?.message,
+        life: 3000,
+      })
+    } else {
+      newAuditId.value = newAudit.id
+      isAuditProcessingDialogVisible.value = true
     }
   } catch (error) {
     const { $handleError } = useNuxtApp()
@@ -126,6 +162,13 @@ const sendForm = handleSubmit(async (values) => {
     isLoading.value = false
   }
 }, onInvalidSubmit)
+
+const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
+  isAuditProcessingDialogVisible.value = false
+  newAuditId.value = undefined
+  isLoading.value = false
+  resetAuditForm && resetForm()
+}
 </script>
 
 <template>
@@ -138,7 +181,7 @@ const sendForm = handleSubmit(async (values) => {
       >
         <AccordionTab header="Pages">
           <div
-            v-for="(page, index) in fields"
+            v-for="(page, index) in pages"
             :key="`page-${index}`"
             class="mb-4 grid gap-6 border-b border-b-gray-300 pb-4"
           >
@@ -153,20 +196,23 @@ const sendForm = handleSubmit(async (values) => {
                   :name="`pages[${index}].url`"
                   :class="[
                     {
-                      'p-invalid': ((errors as any)[`pages[${index}].url`] || (errors as any)[`pages[${index}]`]) && isSubmitted,
+                      'p-invalid':
+                        (errors[`pages[${index}].url` as `pages.${number}.url`] ||
+                          errors[`pages[${index}]` as `pages.${number}`]) &&
+                        isSubmitted,
                     },
                   ]"
                 />
                 <small
-                  v-if="(errors as any)[`pages[${index}].url`] && isSubmitted"
+                  v-if="errors[`pages[${index}].url` as `pages.${number}.url`] && isSubmitted"
                   class="p-error mt-1"
                 >
-                  {{ (errors as any)[`pages[${index}].url`] }}
+                  {{ errors[`pages[${index}].url` as `pages.${number}.url`] }}
                 </small>
               </div>
 
               <div class="w-full">
-                <label for="`selector-${index}`">HTML Selector</label>
+                <label :for="`selector-${index}`">HTML Selector</label>
                 <InputText
                   :id="`selector-${index}`"
                   v-model="page.value.selector"
@@ -176,7 +222,10 @@ const sendForm = handleSubmit(async (values) => {
                   :data-testid="`audit-page-selector-field-${index}`"
                   :class="[
                     {
-                      'p-invalid': ((errors as any)[`pages[${index}].selector`] || (errors as any)[`pages[${index}]`]) && isSubmitted,
+                      'p-invalid':
+                        (errors[`pages[${index}].selector` as `pages.${number}.selector`] ||
+                          errors[`pages[${index}]` as `pages.${number}`]) &&
+                        isSubmitted,
                     },
                   ]"
                 />
@@ -186,10 +235,10 @@ const sendForm = handleSubmit(async (values) => {
                 </small>
               </div>
               <small
-                v-if="(errors as any)[`pages[${index}]`] && isSubmitted"
+                v-if="errors[`pages[${index}]` as `pages.${number}`] && isSubmitted"
                 class="p-error w-full"
               >
-                {{ (errors as any)[`pages[${index}]`] }}
+                {{ errors[`pages[${index}]` as `pages.${number}`] }}
               </small>
             </div>
 
@@ -204,7 +253,7 @@ const sendForm = handleSubmit(async (values) => {
               :pt="{
                 icon: { 'aria-hidden': true },
               }"
-              @click="remove(index)"
+              @click="removePage(index)"
             />
           </div>
 
@@ -217,7 +266,7 @@ const sendForm = handleSubmit(async (values) => {
             :pt="{
               icon: { 'aria-hidden': true },
             }"
-            @click="push({ url: '', selector: '' })"
+            @click="pushPage({ url: '', selector: '' })"
           />
         </AccordionTab>
         <AccordionTab header="General">
@@ -241,7 +290,12 @@ const sendForm = handleSubmit(async (values) => {
             </div>
 
             <div class="w-full">
-              <label for="project">Project</label>
+              <label
+                id="project-label"
+                for="project"
+              >
+                Project
+              </label>
               <Dropdown
                 id="project"
                 v-model="project"
@@ -253,6 +307,7 @@ const sendForm = handleSubmit(async (values) => {
                 data-testid="audit-project-field"
                 name="project"
                 :class="[{ 'p-invalid': errors.project && isSubmitted }]"
+                aria-labelledby="project-label"
               />
               <small
                 v-if="errors.project && isSubmitted"
@@ -266,14 +321,14 @@ const sendForm = handleSubmit(async (values) => {
         <AccordionTab header="Axe configuration">
           <div class="grid gap-6 md:grid-rows-2 md:gap-4">
             <div class="grid gap-6 gap-x-8">
-              <label id="viewports">Viewports</label>
+              <label id="viewports">Screen sizes</label>
               <MultiSelect
                 v-model="viewports"
                 aria-labelledby="viewports"
                 :options="availableViewports"
                 option-label="name"
                 option-value="name"
-                placeholder="Select Cities"
+                placeholder="Select screen sizes"
                 :max-selected-labels="3"
                 name="viewports"
                 :class="[{ 'p-invalid': errors.viewports && isSubmitted }]"
@@ -320,14 +375,33 @@ const sendForm = handleSubmit(async (values) => {
         </AccordionTab>
       </Accordion>
 
+      <div aria-live="assertive">
+        <small
+          v-if="project && !isAllowedToAddAuditToSelectedProject"
+          class="mb-4 mt-3 block text-red-700"
+        >
+          You don't have permission to add an audit to the
+          {{ selectedProjectName }}. To gain access please contact the
+          administrator.
+        </small>
+      </div>
       <Button
         :label="isLoading ? 'Sending...' : 'Send'"
         type="submit"
         class="p-button-lg w-full"
         data-testid="audit-submit-button"
         :loading="isLoading"
-        :disabled="isLoading"
+        :disabled="isLoading || !isAllowedToAddAuditToSelectedProject"
       />
     </form>
+    <LazyAuditProcessingDialog
+      v-if="newAuditId"
+      v-model:visible="isAuditProcessingDialogVisible"
+      :audit-id="newAuditId"
+      @close="
+        (options) => onAuditProcessingDialogClose(options?.resetAuditForm)
+      "
+      @hide="onAuditProcessingDialogClose"
+    />
   </section>
 </template>

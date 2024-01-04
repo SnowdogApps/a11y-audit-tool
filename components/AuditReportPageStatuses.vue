@@ -26,10 +26,9 @@ defineProps<{
               ? 'success'
               : status === 'Failed'
               ? 'danger'
-              : status === 'Not tested'
-              ? 'primary'
-              : 'info'
+              : 'primary'
           "
+          :class="{ '!bg-gray-600': status === 'Not applicable' }"
         />
       </li>
     </ul>

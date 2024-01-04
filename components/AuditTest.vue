@@ -79,8 +79,12 @@ const getFieldId = (suffix: string) =>
                       ? 'success'
                       : test.automaticTestResultsStatus === 'Failed'
                       ? 'danger'
-                      : 'info'
+                      : 'primary'
                   "
+                  :class="{
+                    '!bg-gray-600':
+                      test.automaticTestResultsStatus === 'Not applicable',
+                  }"
                 />
               </template>
               <AuditAutomaticTestResults
@@ -98,10 +102,12 @@ const getFieldId = (suffix: string) =>
                       ? 'success'
                       : manualTestResultsStatus === 'Failed'
                       ? 'danger'
-                      : manualTestResultsStatus === 'Not tested'
-                      ? 'primary'
-                      : 'info'
+                      : 'primary'
                   "
+                  :class="{
+                    '!bg-gray-600':
+                      manualTestResultsStatus === 'Not applicable',
+                  }"
                 />
               </template>
               <div class="space-y-4">
@@ -115,7 +121,7 @@ const getFieldId = (suffix: string) =>
                   <Dropdown
                     class="w-full md:max-w-[200px]"
                     :model-value="manualTestResultsStatus"
-                    :options="manualTestResultsStatusOptions"
+                    :options="(manualTestResultsStatusOptions as unknown as any[])"
                     :input-id="getFieldId('manualTestResultsStatus')"
                     @update:model-value="
                       (value: string) =>

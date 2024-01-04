@@ -3,15 +3,20 @@ import type { Test } from 'types/audit-report'
 
 defineProps<{
   name: string
+  status: string
   tests: Test[]
 }>()
 </script>
 
 <template>
-  <div class="break-after-avoid">
-    <h2 class="mb-6 text-2xl font-medium">
+  <div class="mb-6 flex break-after-avoid items-center">
+    <h2 class="order-1 ml-3 text-2xl font-medium">
       {{ name }}
     </h2>
+    <StatusFaceIcon
+      :status-list="[status]"
+      class="h-12 w-12"
+    />
   </div>
   <Accordion :multiple="true">
     <AccordionTab
@@ -19,7 +24,13 @@ defineProps<{
       :key="testIndex"
     >
       <template #header>
-        {{ test.name }}
+        <span class="mr-2">
+          {{ test.name }}
+        </span>
+        <StatusFaceIcon
+          :status-list="test.pageStatuses.map(({ status }) => status)"
+          class="h-8 w-8"
+        />
       </template>
       <div
         class="mb-4 grid break-inside-avoid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2"
