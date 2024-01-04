@@ -30,7 +30,9 @@ export const auditFormSchema = object({
     .of(
       object()
         .shape({
-          url: string().url(),
+          url: string().when('noAxe', ([noAxe]) =>
+            noAxe ? string() : string().required()
+          ),
           selector: string(),
         })
         .test('isUnique', `The entry is not unique`, function (currentPage) {
@@ -58,7 +60,9 @@ export const auditFormSchema = object({
     .required()
     .min(1)
     .default(defaultViewports),
-  description: string(),
+  description: string().when('noAxe', ([noAxe]) =>
+    noAxe ? string().required() : string()
+  ),
 })
 
 export const accountFormSchema = object({

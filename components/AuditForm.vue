@@ -6,7 +6,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
-import type { Page } from 'types/audit'
+import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
@@ -68,6 +68,8 @@ if (baseAuditId) {
           baseAudit.config.viewports.includes(viewport.name)
         )
         .map((viewport) => viewport.name),
+      noAxe: baseAudit.config.noAxe,
+      description: baseAudit.config.description,
     })
 
     router.replace({ query: {} })
@@ -112,16 +114,27 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const config = {
+    let config: AuditConfiguration = {
       basicAuth: {
-        password: values.password || '',
-        username: values.username || '',
+        password: '',
+        username: '',
       },
-      pages: values.pages,
+      pages: [],
       title: values.title,
       viewports: values.viewports,
       noAxe: values.noAxe,
       description: values.description || '',
+    }
+
+    if (!values.noAxe) {
+      config = {
+        ...config,
+        basicAuth: {
+          password: values.password || '',
+          username: values.username || '',
+        },
+        pages: values.pages,
+      }
     }
 
     const { data: newAudit, error } = await supabase
@@ -181,13 +194,24 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
 
 <template>
   <section>
-    <h2>Configuration</h2>
+    <h2 class="mb-4">Configuration</h2>
     <form @submit="sendForm">
+      <label class="mb-4 flex cursor-pointer items-center">
+        <InputSwitch
+          v-model="noAxe"
+          data-testid="audit-no-axe-field"
+          class="mr-3"
+        />
+        <span>Skip Axe automatic tests. I only want to test manually.</span>
+      </label>
       <Accordion
         :active-index="[0, 1]"
         :multiple="true"
       >
-        <AccordionTab header="Pages">
+        <AccordionTab
+          v-if="!noAxe"
+          header="Pages"
+        >
           <div
             v-for="(page, index) in pages"
             :key="`page-${index}`"
@@ -276,45 +300,11 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
             }"
             @click="pushPage({ url: '', selector: '' })"
           />
-          <div class="mt-4">
-            <Checkbox
-              id="noAxe"
-              v-model="noAxe"
-              name="noAxe"
-              data-testid="audit-noaxe-field"
-              :binary="true"
-            />
-            <label
-              for="noAxe"
-              class="ml-3"
-              >without automatic axe tests (only manual, urls not
-              required)</label
-            >
-          </div>
-          <div
-            v-if="noAxe"
-            class="mt-4"
-          >
-            <label
-              for="description"
-              class="mb-2 block font-medium"
-            >
-              Description (instead of urls, please provide a description of
-              manual-only audit)
-            </label>
-            <Textarea
-              id="description"
-              v-model="description"
-              name="description"
-              class="w-full"
-              rows="5"
-            />
-          </div>
         </AccordionTab>
         <AccordionTab header="General">
           <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
             <div class="w-full">
-              <label for="title">Audit title</label>
+              <label for="title">Title</label>
               <InputText
                 id="title"
                 v-model="title"
@@ -358,12 +348,42 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                 {{ errors.project }}
               </small>
             </div>
+            <div class="col-span-2">
+              <label for="description">Description</label>
+              <Textarea
+                id="description"
+                v-model="description"
+                name="description"
+                class="w-full"
+                rows="5"
+                :aria-describedby="noAxe ? 'description-help' : undefined"
+              />
+              <small
+                v-if="noAxe"
+                id="description-help"
+                class="block"
+              >
+                In case the audit only includes manual tests, be sure to
+                disclose exactly what you'll be testing.
+              </small>
+              <small
+                v-if="errors.description && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.description }}
+              </small>
+            </div>
           </div>
         </AccordionTab>
-        <AccordionTab header="Axe configuration">
-          <div class="grid gap-6 md:grid-rows-2 md:gap-4">
-            <div class="grid gap-6 gap-x-8">
-              <label id="viewports">Screen sizes</label>
+        <AccordionTab :header="noAxe ? 'Devices' : 'Axe configuration'">
+          <div :class="{ 'grid gap-6 md:grid-rows-2 md:gap-4': !noAxe }">
+            <div class="grid">
+              <label
+                id="viewports"
+                :class="{ 'sr-only': noAxe }"
+              >
+                Screen sizes
+              </label>
               <MultiSelect
                 v-model="viewports"
                 aria-labelledby="viewports"
@@ -387,7 +407,10 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
               </MultiSelect>
             </div>
 
-            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
+            <div
+              v-if="!noAxe"
+              class="grid w-full gap-6 gap-x-8 md:grid-cols-2"
+            >
               <div class="w-full">
                 <label for="username">Basic Auth username</label>
                 <InputText

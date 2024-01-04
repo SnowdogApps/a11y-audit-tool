@@ -101,6 +101,10 @@ if (!resultId.value) {
               <span class="font-bold">Project: </span>
               {{ auditInfo.projects?.name }}
             </li>
+            <li v-if="auditInfo.config?.description">
+              <span class="font-bold">Description: </span>
+              {{ auditInfo.config.description }}
+            </li>
             <li>
               <span class="font-bold">Created at: </span>
               <time>
@@ -131,7 +135,7 @@ if (!resultId.value) {
                 </li>
               </ul>
             </li>
-            <li>
+            <li v-if="auditInfo.config.pages.length">
               <span class="font-bold">Pages:</span>
               <ul class="list-disc space-y-2 pl-8">
                 <li

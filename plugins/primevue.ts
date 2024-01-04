@@ -5,12 +5,12 @@ import Button from 'primevue/button'
 import Card from 'primevue/card'
 import Column from 'primevue/column'
 import ConfirmDialog from 'primevue/confirmdialog'
-import Checkbox from 'primevue/checkbox'
 import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 import InlineMessage from 'primevue/inlinemessage'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
+import InputSwitch from 'primevue/inputswitch'
 import Menu from 'primevue/menu'
 import MultiSelect from 'primevue/multiselect'
 import Password from 'primevue/password'
@@ -34,12 +34,12 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('Card', Card)
   nuxtApp.vueApp.component('Column', Column)
   nuxtApp.vueApp.component('ConfirmDialog', ConfirmDialog)
-  nuxtApp.vueApp.component('Checkbox', Checkbox)
   nuxtApp.vueApp.component('Dialog', Dialog)
   nuxtApp.vueApp.component('Dropdown', Dropdown)
   nuxtApp.vueApp.component('InlineMessage', InlineMessage)
   nuxtApp.vueApp.component('InputNumber', InputNumber)
   nuxtApp.vueApp.component('InputText', InputText)
+  nuxtApp.vueApp.component('InputSwitch', InputSwitch)
   nuxtApp.vueApp.component('Menu', Menu)
   nuxtApp.vueApp.component('MultiSelect', MultiSelect)
   nuxtApp.vueApp.component('Password', Password)
