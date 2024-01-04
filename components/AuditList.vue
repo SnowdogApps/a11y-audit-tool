@@ -42,7 +42,7 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
             :to="
               getAuditLink({
                 id,
-                axeId: axe[0].id,
+                axeId: axe[0]?.id,
                 status,
                 reportType: report_type,
               })
