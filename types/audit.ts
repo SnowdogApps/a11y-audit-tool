@@ -16,6 +16,8 @@ export interface AuditConfiguration {
   pages: Page[]
   title: string
   viewports: Viewport[]
+  noAxe?: boolean
+  description?: string
 }
 
 export interface AutomaticTestGroupedResult {

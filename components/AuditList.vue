@@ -37,7 +37,7 @@ const visibleAudits = computed(() => props.audits.slice(0, count.value))
           :key="id"
         >
           <NuxtLink
-            v-if="status === 'completed' || axe?.length"
+            v-if="status === 'completed' || config.noAxe || axe?.length"
             class="p-button p-button-text w-full justify-between"
             :to="
               getAuditLink({

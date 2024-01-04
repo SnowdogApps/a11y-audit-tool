@@ -5,6 +5,7 @@ import Button from 'primevue/button'
 import Card from 'primevue/card'
 import Column from 'primevue/column'
 import ConfirmDialog from 'primevue/confirmdialog'
+import Checkbox from 'primevue/checkbox'
 import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 import InlineMessage from 'primevue/inlinemessage'
@@ -33,6 +34,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('Card', Card)
   nuxtApp.vueApp.component('Column', Column)
   nuxtApp.vueApp.component('ConfirmDialog', ConfirmDialog)
+  nuxtApp.vueApp.component('Checkbox', Checkbox)
   nuxtApp.vueApp.component('Dialog', Dialog)
   nuxtApp.vueApp.component('Dropdown', Dropdown)
   nuxtApp.vueApp.component('InlineMessage', InlineMessage)

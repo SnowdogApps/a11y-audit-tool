@@ -32,6 +32,8 @@ const project = useFieldModel('project')
 const username = useFieldModel('username')
 const password = useFieldModel('password')
 const viewports = useFieldModel('viewports')
+const noAxe = useFieldModel('noAxe')
+const description = useFieldModel('description')
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
@@ -118,6 +120,8 @@ const sendForm = handleSubmit(async (values) => {
       pages: values.pages,
       title: values.title,
       viewports: values.viewports,
+      noAxe: values.noAxe,
+      description: values.description || '',
     }
 
     const { data: newAudit, error } = await supabase
@@ -139,20 +143,22 @@ const sendForm = handleSubmit(async (values) => {
       throw new Error(error?.message || '')
     }
 
-    const { error: apiTestError } = await useFetch('/api/test', {
-      method: 'POST',
-      body: newAudit,
-    })
-
-    if (apiTestError.value) {
-      toast.add({
-        severity: 'error',
-        summary: apiTestError.value?.message,
-        life: 3000,
+    if (!noAxe.value) {
+      const { error: apiTestError } = await useFetch('/api/test', {
+        method: 'POST',
+        body: newAudit,
       })
-    } else {
-      newAuditId.value = newAudit.id
-      isAuditProcessingDialogVisible.value = true
+
+      if (apiTestError.value) {
+        toast.add({
+          severity: 'error',
+          summary: apiTestError.value?.message,
+          life: 3000,
+        })
+      } else {
+        newAuditId.value = newAudit.id
+        isAuditProcessingDialogVisible.value = true
+      }
     }
   } catch (error) {
     const { $handleError } = useNuxtApp()
@@ -268,6 +274,40 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
             }"
             @click="pushPage({ url: '', selector: '' })"
           />
+          <div class="mt-4">
+            <Checkbox
+              id="noAxe"
+              v-model="noAxe"
+              name="noAxe"
+              data-testid="audit-noaxe-field"
+              :binary="true"
+            />
+            <label
+              for="noAxe"
+              class="ml-3"
+              >without automatic axe tests (only manual, urls not
+              required)</label
+            >
+          </div>
+          <div
+            v-if="noAxe"
+            class="mt-4"
+          >
+            <label
+              for="description"
+              class="mb-2 block font-medium"
+            >
+              Description (instead of urls, please provide a description of
+              manual-only audit)
+            </label>
+            <Textarea
+              id="description"
+              v-model="description"
+              name="description"
+              class="w-full"
+              rows="5"
+            />
+          </div>
         </AccordionTab>
         <AccordionTab header="General">
           <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">

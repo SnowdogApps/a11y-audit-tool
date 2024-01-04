@@ -1,4 +1,4 @@
-import { object, string, array, number } from 'yup'
+import { object, string, array, number, boolean } from 'yup'
 import type { Page } from 'types/audit'
 import validationRules from 'validation/rules'
 import { defaultViewports } from '~/data/viewports'
@@ -25,11 +25,12 @@ export const newPasswordSchema = object({
 })
 
 export const auditFormSchema = object({
+  noAxe: boolean().default(false),
   pages: array()
     .of(
       object()
         .shape({
-          url: string().url().required(),
+          url: string().url(),
           selector: string(),
         })
         .test('isUnique', `The entry is not unique`, function (currentPage) {
@@ -57,6 +58,7 @@ export const auditFormSchema = object({
     .required()
     .min(1)
     .default(defaultViewports),
+  description: string(),
 })
 
 export const accountFormSchema = object({
