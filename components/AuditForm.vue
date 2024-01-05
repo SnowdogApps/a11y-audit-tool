@@ -222,7 +222,6 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
           id="no-axe"
           v-model="noAxe"
           data-testid="audit-no-axe-field"
-          class=""
         />
         <label
           for="no-axe"
