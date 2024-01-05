@@ -23,9 +23,15 @@ export const getAuditReport = (
   }
 
   axeResults.forEach((axeResult) => {
-    const pageName = `${axeResult.results.url}${
-      axeResult.selector ? ' | Selector: ' + axeResult.selector : ''
-    } | Screen size: ${axeResult.size}`
+    let pageName = ''
+    if (axeResult.results.url) {
+      pageName += `URL: ${axeResult.results.url} | `
+    }
+    if (axeResult.selector) {
+      pageName += `Selector: ${axeResult.selector} | `
+    }
+    pageName += `Screen size: ${axeResult.size}`
+
     const { audit, formData } = useAudit(axeResult)
 
     audit.value.forEach((auditItem) => {
