@@ -207,8 +207,9 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
           for="no-axe"
           class="cursor-pointer"
           @click="noAxe = !noAxe"
-          >Skip Axe automatic tests. I only want to test manually.</label
         >
+          Skip Axe automatic tests. I only want to test manually.
+        </label>
       </div>
       <Accordion
         :active-index="[0, 1]"

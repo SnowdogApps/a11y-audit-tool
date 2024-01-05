@@ -30,9 +30,7 @@ export const auditFormSchema = object({
     .of(
       object()
         .shape({
-          url: string().when('noAxe', ([noAxe]) =>
-            noAxe ? string() : string().required()
-          ),
+          url: string(),
           selector: string(),
         })
         .test('isUnique', `The entry is not unique`, function (currentPage) {
