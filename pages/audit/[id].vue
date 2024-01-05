@@ -172,7 +172,7 @@ if (!resultId.value) {
         </AccordionTab>
       </Accordion>
       <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
-        <div>
+        <div v-if="!auditInfo.config.noAxe">
           <label
             for="url-selector"
             class="mb-2 block font-medium"
@@ -188,7 +188,7 @@ if (!resultId.value) {
             input-id="url-selector"
           />
         </div>
-        <div>
+        <div :class="{ 'col-span-2': auditInfo.config.noAxe }">
           <label
             for="screen-size"
             class="mb-2 block font-medium"

@@ -76,10 +76,11 @@ export function useAudit(axeResult: Axe) {
   const audit = ref<Audit>([])
 
   const results = toValue(axeResult.results)
+
   const automaticTestsGroupedResults = [
     {
       type: 'issues',
-      results: results.violations || [],
+      results: results?.violations || [],
     },
     {
       type: 'passes',
@@ -88,39 +89,45 @@ export function useAudit(axeResult: Axe) {
   ]
 
   auditTemplate.forEach((test) => {
-    let automaticTestResultsStatus = 'Not applicable'
+    let automaticTestResultsStatus = 'Not included'
     const automaticTestGroupedResults: AutomaticTestGroupedResult[] = []
-    automaticTestsGroupedResults.forEach(({ type, results }) => {
-      let testResults: Result[] = []
-      if (test['Axe Rules']?.tag || test['Axe Rules']?.rules) {
-        testResults = results.filter(({ tags, id }) => {
-          if (
-            typeof test['Axe Rules'].tag === 'string' &&
-            tags.includes(test['Axe Rules'].tag)
-          ) {
-            return true
-          }
-          if (Array.isArray(test['Axe Rules'].rules)) {
-            return test['Axe Rules'].rules.includes(id)
-          }
-          return false
+
+    if (Object.keys(results).length) {
+      automaticTestResultsStatus = 'Not applicable'
+
+      automaticTestsGroupedResults.forEach(({ type, results }) => {
+        let testResults: Result[] = []
+        if (test['Axe Rules']?.tag || test['Axe Rules']?.rules) {
+          testResults = results.filter(({ tags, id }) => {
+            if (
+              typeof test['Axe Rules'].tag === 'string' &&
+              tags.includes(test['Axe Rules'].tag)
+            ) {
+              return true
+            }
+            if (Array.isArray(test['Axe Rules'].rules)) {
+              return test['Axe Rules'].rules.includes(id)
+            }
+            return false
+          })
+        }
+
+        automaticTestGroupedResults.push({
+          type,
+          results: testResults,
         })
-      }
 
-      automaticTestGroupedResults.push({
-        type,
-        results: testResults,
+        if (!testResults.length) {
+          return
+        }
+        if (type === 'issues') {
+          automaticTestResultsStatus = 'Failed'
+        } else if (automaticTestResultsStatus !== 'Failed') {
+          automaticTestResultsStatus = 'Passed'
+        }
       })
+    }
 
-      if (!testResults.length) {
-        return
-      }
-      if (type === 'issues') {
-        automaticTestResultsStatus = 'Failed'
-      } else if (automaticTestResultsStatus !== 'Failed') {
-        automaticTestResultsStatus = 'Passed'
-      }
-    })
     audit.value.push({
       id: test['Test ID'],
       info: test,

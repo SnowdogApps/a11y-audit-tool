@@ -52,12 +52,19 @@ const isSelectReportTypeModalVisible = ref(false)
     <h2 class="font-medium">
       #{{ result.id }}: Results for
       <NuxtLink
+        v-if="result.results.url"
         :to="result.results.url"
         target="_blank"
         class="mr-auto break-all"
       >
         {{ result.results.url }}
       </NuxtLink>
+      <span
+        v-else
+        class="mr-auto break-all"
+      >
+        {{ result.size }}
+      </span>
     </h2>
     <div
       class="w-full"
@@ -222,6 +229,7 @@ const isSelectReportTypeModalVisible = ref(false)
   >
     <LazyAuditSelectReportTypeModalContent
       v-if="isSelectReportTypeModalVisible"
+      :no-axe="!Object.keys(result.results).length"
     />
   </Dialog>
 </template>
