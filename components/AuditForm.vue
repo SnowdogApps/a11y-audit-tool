@@ -196,12 +196,12 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
   <section>
     <h2 class="mb-4">Configuration</h2>
     <form @submit="sendForm">
-      <div class="mb-4 flex items-center">
+      <div class="mb-4 grid grid-cols-[48px_1fr] items-center gap-3">
         <InputSwitch
           id="no-axe"
           v-model="noAxe"
           data-testid="audit-no-axe-field"
-          class="mr-3"
+          class=""
         />
         <label
           for="no-axe"
