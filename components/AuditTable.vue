@@ -295,14 +295,13 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
           <NuxtLink
             v-if="
               scope.node.data.status === 'completed' ||
-              scope.node.data.config.noAxe ||
               scope.node.data.axe.length
             "
             class="p-button p-button-info"
             :to="
               getAuditLink({
                 id: scope.node.data.id,
-                axeId: scope.node.data.axe[0]?.id,
+                axeId: scope.node.data.axe[0].id,
                 status: scope.node.data.status,
                 reportType: scope.node.data.report_type,
               })
