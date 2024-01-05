@@ -159,6 +159,25 @@ const sendForm = handleSubmit(async (values) => {
     }
 
     if (noAxe.value) {
+      values.viewports.forEach(async (viewport) => {
+        const { error } = await supabase
+          .from('axe')
+          .insert({
+            audit_id: newAudit.id,
+            size: viewport,
+          })
+          .select()
+          .single()
+
+        if (error) {
+          if (isSupabaseError(error)) {
+            throw new SupabaseError(error)
+          }
+
+          throw new Error(error?.message || '')
+        }
+      })
+
       navigateTo(`/audit/${newAudit.id}`)
     } else {
       const { error: apiTestError } = await useFetch('/api/test', {
