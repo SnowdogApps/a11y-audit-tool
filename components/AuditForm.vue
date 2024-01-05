@@ -58,7 +58,9 @@ if (baseAuditId) {
     $handleError(errorWithUpdatedMessage as Error | SupabaseError)
   } else {
     setValues({
-      pages: baseAudit.config.pages,
+      pages: baseAudit.config.noAxe
+        ? [{ selector: '', url: '' }]
+        : baseAudit.config.pages,
       title: baseAudit.config.title,
       project: baseAudit.projects?.id,
       username: baseAudit.config.basicAuth.username,
