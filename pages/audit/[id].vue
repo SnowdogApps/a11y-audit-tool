@@ -193,7 +193,7 @@ if (!resultId.value) {
             for="screen-size"
             class="mb-2 block font-medium"
           >
-            Screen size
+            Screen size / Device
           </label>
           <Dropdown
             :model-value="screenSize"

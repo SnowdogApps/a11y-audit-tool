@@ -403,14 +403,16 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
             </div>
           </div>
         </AccordionTab>
-        <AccordionTab :header="noAxe ? 'Devices' : 'Axe configuration'">
+        <AccordionTab
+          :header="noAxe ? 'Screen sizes / Devices' : 'Axe configuration'"
+        >
           <div :class="{ 'grid gap-6 md:grid-rows-2 md:gap-4': !noAxe }">
             <div class="grid">
               <label
                 id="viewports"
                 :class="{ 'sr-only': noAxe }"
               >
-                Screen sizes
+                Screen sizes / Devices
               </label>
               <MultiSelect
                 v-model="viewports"

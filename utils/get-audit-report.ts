@@ -30,7 +30,7 @@ export const getAuditReport = (
     if (axeResult.selector) {
       pageName += `Selector: ${axeResult.selector} | `
     }
-    pageName += `Screen size: ${axeResult.size}`
+    pageName += `Screen size / Device: ${axeResult.size}`
 
     const { audit, formData } = useAudit(axeResult)
 

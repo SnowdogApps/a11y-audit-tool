@@ -168,7 +168,7 @@ const completeReport = async () => {
                   </li>
                 </ul>
               </template>
-              <h2 class="text-lg font-medium">Screen sizes:</h2>
+              <h2 class="text-lg font-medium">Screen sizes / Devices:</h2>
               <ul class="list-disc pl-8">
                 <li
                   v-for="(viewport, index) in auditInfo.config.viewports"
