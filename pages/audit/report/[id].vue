@@ -54,6 +54,11 @@ if (!axeResults || !auditInfo) {
   })
 }
 
+useHead({
+  title: `Snowdog Accessibility Audit Report - ${auditInfo.config.title}`,
+  titleTemplate: '%s',
+})
+
 const auditReport = getAuditReport(axeResults, reportType)
 const isAuditCompleted = ref(auditInfo.status === 'completed')
 const comment = ref(auditInfo.comment)
@@ -114,6 +119,10 @@ const completeReport = async () => {
       </NuxtLink>
       <Card>
         <template #content>
+          <SvgoLogo
+            class="mx-auto mb-8 w-60"
+            aria-hidden="true"
+          />
           <div class="mb-16 space-y-4 text-center">
             <Tag
               v-if="!isAuditCompleted"
@@ -123,7 +132,7 @@ const completeReport = async () => {
               rounded
             />
             <h1 class="font-medium">
-              Audit report "{{ auditInfo.config.title }}"
+              Accessibility Audit Report "{{ auditInfo.config.title }}"
             </h1>
             <p>
               Created by {{ auditInfo.profiles?.full_name }} in "{{
@@ -201,7 +210,7 @@ const completeReport = async () => {
           </div>
           <div
             v-if="!isAuditCompleted"
-            class="fixed bottom-0 right-0 z-20 w-full border-t bg-white shadow-[0_-1px_6px_0_rgba(0,0,0,0.1)] md:border-none md:bg-transparent md:shadow-none"
+            class="fixed bottom-0 right-0 z-20 w-full border-t bg-white shadow-[0_-1px_6px_0_rgba(0,0,0,0.1)] print:hidden md:border-none md:bg-transparent md:shadow-none"
           >
             <div
               class="flex w-full justify-end space-x-4 p-4 xl:container xl:mx-auto"

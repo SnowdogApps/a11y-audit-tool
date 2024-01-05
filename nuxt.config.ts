@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     'primeicons/primeicons.css',
     '~/assets/themes/snowdog/theme.scss',
     'vue-virtual-scroller/dist/vue-virtual-scroller.css',
+    '~/assets/print.css',
   ],
   build: {
     transpile: ['primevue'],

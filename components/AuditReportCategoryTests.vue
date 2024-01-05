@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mb-6 flex items-center">
+  <div class="mb-6 flex break-after-avoid items-center">
     <h2 class="order-1 ml-3 text-2xl font-medium">
       {{ name }}
     </h2>
@@ -32,7 +32,9 @@ defineProps<{
           class="h-8 w-8"
         />
       </template>
-      <div class="mb-4 grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2">
+      <div
+        class="mb-4 grid break-inside-avoid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2"
+      >
         <div class="flex h-full flex-col space-y-4">
           <div class="flex-1 rounded-md border p-6">
             <TrustedTestInfo

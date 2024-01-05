@@ -33,7 +33,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <header class="my-4 flex w-full items-center justify-between">
+  <header class="my-4 flex w-full items-center justify-between print:hidden">
     <Button
       text
       rounded
