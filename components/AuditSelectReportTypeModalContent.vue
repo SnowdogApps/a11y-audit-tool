@@ -2,6 +2,10 @@
 import { useToast } from 'primevue/usetoast'
 import type { Database } from 'types/supabase'
 
+defineProps<{
+  noAxe: boolean
+}>()
+
 const route = useRoute()
 const auditId = route.params.id
 const supabase = useSupabaseClient<Database>()
@@ -39,7 +43,10 @@ onMounted(async () => {
 <template>
   <h2 class="font-medium">Select the type of report</h2>
   <div class="divide-y">
-    <div class="py-4">
+    <div
+      v-if="!noAxe"
+      class="py-4"
+    >
       <div class="grid grid-cols-[1fr_42px] items-center gap-4 md:gap-14">
         <div>
           <h3 class="font-medium">Review</h3>
@@ -62,8 +69,17 @@ onMounted(async () => {
         <div>
           <h3 class="font-medium">Functional</h3>
           <p>
-            The same report as the review but it requires complete manual tests
-            for all pages and screen sizes.
+            <template v-if="noAxe">
+              Presents manual test results for all screen sizes sorted by
+              categories. To generate this report you need to have manual tests
+              completed.
+            </template>
+            <template v-else>
+              The same report as the review but it requires complete manual
+              tests for all pages and screen sizes.
+            </template>
+            This means each test should have the status different than "Not
+            tested".
           </p>
           <p
             v-if="areManualTestsValidated && !areManualTestsValid"
