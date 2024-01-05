@@ -196,14 +196,20 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
   <section>
     <h2 class="mb-4">Configuration</h2>
     <form @submit="sendForm">
-      <label class="mb-4 flex cursor-pointer items-center">
+      <div class="mb-4 flex items-center">
         <InputSwitch
+          id="no-axe"
           v-model="noAxe"
           data-testid="audit-no-axe-field"
           class="mr-3"
         />
-        <span>Skip Axe automatic tests. I only want to test manually.</span>
-      </label>
+        <label
+          for="no-axe"
+          class="cursor-pointer"
+          @click="noAxe = !noAxe"
+          >Skip Axe automatic tests. I only want to test manually.</label
+        >
+      </div>
       <Accordion
         :active-index="[0, 1]"
         :multiple="true"
