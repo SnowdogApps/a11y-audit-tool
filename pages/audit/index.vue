@@ -34,12 +34,12 @@ const axeTableInsertChannel = supabase
       const auditId = payload.new.audit_id
       const item = notTestedAuditMap.value.get(auditId)
 
-      if (!item || item.haveAutomaticTestsError) {
+      if (!item || item.didAutomaticTestsFail) {
         return
       }
 
       if (payload.new.errors?.length) {
-        item.haveAutomaticTestsError = true
+        item.didAutomaticTestsFail = true
         notTestedAuditMap.value.set(auditId, item)
         await fetchAudits()
         return
@@ -78,7 +78,7 @@ async function fetchAudits() {
       notTestedAuditMap.value.set(id, {
         totalNumberOfAllTests: config.pages.length * config.viewports.length,
         automaticTestsCount: 0,
-        haveAutomaticTestsError: false,
+        didAutomaticTestsFail: false,
       })
     })
 }
