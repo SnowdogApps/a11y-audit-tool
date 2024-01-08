@@ -26,30 +26,47 @@ export const newPasswordSchema = object({
 
 export const auditFormSchema = object({
   noAxe: boolean().default(false),
-  pages: array()
-    .of(
-      object()
-        .shape({
-          url: string(),
-          selector: string(),
-        })
-        .test('isUnique', `The entry is not unique`, function (currentPage) {
-          const pages = this.parent
-          const count = pages.filter(
-            (page: Page) =>
-              page.selector === currentPage.selector &&
-              page.url === currentPage.url
-          ).length
-          return count <= 1
-        })
-    )
-    .default([
-      {
-        selector: '',
-        url: '',
-      },
-    ])
-    .min(1),
+  pages: array().when('noAxe', ([noAxe]) => {
+    if (noAxe) {
+      return array()
+        .of(
+          object().shape({
+            url: string(),
+            selector: string(),
+          })
+        )
+        .default([
+          {
+            selector: '',
+            url: '',
+          },
+        ])
+    }
+    return array()
+      .of(
+        object()
+          .shape({
+            url: string().url().required(),
+            selector: string(),
+          })
+          .test('isUnique', `The entry is not unique`, function (currentPage) {
+            const pages = this.parent
+            const count = pages.filter(
+              (page: Page) =>
+                page.selector === currentPage.selector &&
+                page.url === currentPage.url
+            ).length
+            return count <= 1
+          })
+      )
+      .min(1)
+      .default([
+        {
+          selector: '',
+          url: '',
+        },
+      ])
+  }),
   title: string().required(),
   project: number().required(),
   username: string(),
