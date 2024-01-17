@@ -170,11 +170,9 @@ const sendForm = handleSubmit(async (values) => {
           .single()
 
         if (error) {
-          if (isSupabaseError(error)) {
-            throw new SupabaseError(error)
-          }
-
-          throw new Error(error?.message || '')
+          throw isSupabaseError(error)
+            ? new SupabaseError(error)
+            : new Error(error?.message || '')
         }
       })
 
