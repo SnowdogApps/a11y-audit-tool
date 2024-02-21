@@ -82,7 +82,8 @@ export const getAuditReport = (
         manualTestIssues,
         manualTestRecommendedFixes,
         relatedTestInAuditReport,
-        pageName
+        pageName,
+        auditReport
       )
     })
   })
@@ -163,13 +164,16 @@ const addManualTestResults = (
   manualTestIssues: string,
   manualTestRecommendedFixes: string,
   relatedTestInAuditReport: Test,
-  pageName: string
+  pageName: string,
+  auditReport: AuditReport
 ) => {
   let manualTestResultType = 'requires manual tests'
   if (manualTestResultsStatus === 'Failed') {
     manualTestResultType = 'issues'
+    auditReport.testedElementsCount.issues++
   } else if (manualTestResultsStatus === 'Passed') {
     manualTestResultType = 'passes'
+    auditReport.testedElementsCount.passes++
   } else if (manualTestResultsStatus === 'Not applicable') {
     manualTestResultType = 'not applicable'
   }
