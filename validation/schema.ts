@@ -1,4 +1,4 @@
-import { object, string, array, number } from 'yup'
+import { object, string, array, number, boolean } from 'yup'
 import type { Page } from 'types/audit'
 import validationRules from 'validation/rules'
 import { defaultViewports } from '~/data/viewports'
@@ -25,30 +25,48 @@ export const newPasswordSchema = object({
 })
 
 export const auditFormSchema = object({
-  pages: array()
-    .of(
-      object()
-        .shape({
-          url: string().url().required(),
-          selector: string(),
-        })
-        .test('isUnique', `The entry is not unique`, function (currentPage) {
-          const pages = this.parent
-          const count = pages.filter(
-            (page: Page) =>
-              page.selector === currentPage.selector &&
-              page.url === currentPage.url
-          ).length
-          return count <= 1
-        })
-    )
-    .default([
-      {
-        selector: '',
-        url: '',
-      },
-    ])
-    .min(1),
+  noAxe: boolean().default(false),
+  pages: array().when('noAxe', ([noAxe]) => {
+    if (noAxe) {
+      return array()
+        .of(
+          object().shape({
+            url: string(),
+            selector: string(),
+          })
+        )
+        .default([
+          {
+            selector: '',
+            url: '',
+          },
+        ])
+    }
+    return array()
+      .of(
+        object()
+          .shape({
+            url: string().url().required(),
+            selector: string(),
+          })
+          .test('isUnique', `The entry is not unique`, function (currentPage) {
+            const pages = this.parent
+            const count = pages.filter(
+              (page: Page) =>
+                page.selector === currentPage.selector &&
+                page.url === currentPage.url
+            ).length
+            return count <= 1
+          })
+      )
+      .min(1)
+      .default([
+        {
+          selector: '',
+          url: '',
+        },
+      ])
+  }),
   title: string().required(),
   project: number().required(),
   username: string(),
@@ -57,6 +75,9 @@ export const auditFormSchema = object({
     .required()
     .min(1)
     .default(defaultViewports),
+  description: string().when('noAxe', ([noAxe]) =>
+    noAxe ? string().required() : string()
+  ),
 })
 
 export const accountFormSchema = object({

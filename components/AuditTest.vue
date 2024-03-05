@@ -67,6 +67,7 @@ const getFieldId = (suffix: string) =>
           </div>
           <Accordion :multiple="true">
             <AccordionTab
+              v-if="test.automaticTestResultsStatus !== 'Not included'"
               :disabled="test.automaticTestResultsStatus === 'Not applicable'"
             >
               <template #header>

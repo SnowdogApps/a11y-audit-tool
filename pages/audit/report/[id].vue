@@ -134,6 +134,9 @@ const completeReport = async () => {
             <h1 class="font-medium">
               Accessibility Audit Report "{{ auditInfo.config.title }}"
             </h1>
+            <p v-if="auditInfo.config.description">
+              {{ auditInfo.config.description }}
+            </p>
             <p>
               Created by {{ auditInfo.profiles?.full_name }} in "{{
                 auditInfo.projects?.name
@@ -149,28 +152,32 @@ const completeReport = async () => {
             class="mx-auto grid max-w-4xl grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-[1fr_240px]"
           >
             <div class="flex flex-col justify-center">
-              <h2 class="text-lg font-medium">Pages:</h2>
-              <ul class="mb-4 list-disc space-y-2 pl-8">
-                <li
-                  v-for="(page, index) in auditInfo.config.pages"
-                  :key="index"
-                >
-                  <NuxtLink
-                    :to="page.url"
-                    target="_blank"
-                    class="break-all"
+              <template v-if="auditInfo.config.pages.length">
+                <h2 class="text-lg font-medium">Pages:</h2>
+                <ul class="mb-4 list-disc space-y-2 pl-8">
+                  <li
+                    v-for="(page, index) in auditInfo.config.pages"
+                    :key="index"
                   >
-                    {{ page.url }}
-                  </NuxtLink>
-                  <template v-if="page.selector?.length">
-                    - selector:
-                    <code class="break-words rounded-md bg-gray-100 px-2 py-1">
-                      {{ page.selector }}
-                    </code>
-                  </template>
-                </li>
-              </ul>
-              <h2 class="text-lg font-medium">Screen sizes:</h2>
+                    <NuxtLink
+                      :to="page.url"
+                      target="_blank"
+                      class="break-all"
+                    >
+                      {{ page.url }}
+                    </NuxtLink>
+                    <template v-if="page.selector?.length">
+                      - selector:
+                      <code
+                        class="break-words rounded-md bg-gray-100 px-2 py-1"
+                      >
+                        {{ page.selector }}
+                      </code>
+                    </template>
+                  </li>
+                </ul>
+              </template>
+              <h2 class="text-lg font-medium">Screen sizes / Devices:</h2>
               <ul class="list-disc pl-8">
                 <li
                   v-for="(viewport, index) in auditInfo.config.viewports"

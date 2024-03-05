@@ -23,9 +23,15 @@ export const getAuditReport = (
   }
 
   axeResults.forEach((axeResult) => {
-    const pageName = `${axeResult.results.url}${
-      axeResult.selector ? ' | Selector: ' + axeResult.selector : ''
-    } | Screen size: ${axeResult.size}`
+    let pageName = ''
+    if (axeResult.results.url) {
+      pageName += `URL: ${axeResult.results.url} | `
+    }
+    if (axeResult.selector) {
+      pageName += `Selector: ${axeResult.selector} | `
+    }
+    pageName += `Screen size / Device: ${axeResult.size}`
+
     const { audit, formData } = useAudit(axeResult)
 
     audit.value.forEach((auditItem) => {
@@ -76,7 +82,8 @@ export const getAuditReport = (
         manualTestIssues,
         manualTestRecommendedFixes,
         relatedTestInAuditReport,
-        pageName
+        pageName,
+        auditReport
       )
     })
   })
@@ -157,13 +164,16 @@ const addManualTestResults = (
   manualTestIssues: string,
   manualTestRecommendedFixes: string,
   relatedTestInAuditReport: Test,
-  pageName: string
+  pageName: string,
+  auditReport: AuditReport
 ) => {
   let manualTestResultType = 'requires manual tests'
   if (manualTestResultsStatus === 'Failed') {
     manualTestResultType = 'issues'
+    auditReport.testedElementsCount.issues++
   } else if (manualTestResultsStatus === 'Passed') {
     manualTestResultType = 'passes'
+    auditReport.testedElementsCount.passes++
   } else if (manualTestResultsStatus === 'Not applicable') {
     manualTestResultType = 'not applicable'
   }

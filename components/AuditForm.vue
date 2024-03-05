@@ -6,7 +6,7 @@ import type { InvalidSubmissionContext } from 'vee-validate'
 import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
-import type { Page } from 'types/audit'
+import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
@@ -32,6 +32,8 @@ const project = useFieldModel('project')
 const username = useFieldModel('username')
 const password = useFieldModel('password')
 const viewports = useFieldModel('viewports')
+const noAxe = useFieldModel('noAxe')
+const description = useFieldModel('description')
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
@@ -56,7 +58,9 @@ if (baseAuditId) {
     $handleError(errorWithUpdatedMessage as Error | SupabaseError)
   } else {
     setValues({
-      pages: baseAudit.config.pages,
+      pages: baseAudit.config.noAxe
+        ? [{ selector: '', url: '' }]
+        : baseAudit.config.pages,
       title: baseAudit.config.title,
       project: baseAudit.projects?.id,
       username: baseAudit.config.basicAuth.username,
@@ -66,6 +70,8 @@ if (baseAuditId) {
           baseAudit.config.viewports.includes(viewport.name)
         )
         .map((viewport) => viewport.name),
+      noAxe: baseAudit.config.noAxe,
+      description: baseAudit.config.description,
     })
 
     router.replace({ query: {} })
@@ -110,14 +116,27 @@ const sendForm = handleSubmit(async (values) => {
   try {
     isLoading.value = true
 
-    const config = {
+    let config: AuditConfiguration = {
       basicAuth: {
-        password: values.password || '',
-        username: values.username || '',
+        password: '',
+        username: '',
       },
-      pages: values.pages,
+      pages: [],
       title: values.title,
       viewports: values.viewports,
+      noAxe: values.noAxe,
+      description: values.description || '',
+    }
+
+    if (!values.noAxe) {
+      config = {
+        ...config,
+        basicAuth: {
+          password: values.password || '',
+          username: values.username || '',
+        },
+        pages: values.pages,
+      }
     }
 
     const { data: newAudit, error } = await supabase
@@ -139,20 +158,41 @@ const sendForm = handleSubmit(async (values) => {
       throw new Error(error?.message || '')
     }
 
-    const { error: apiTestError } = await useFetch('/api/test', {
-      method: 'POST',
-      body: newAudit,
-    })
+    if (noAxe.value) {
+      values.viewports.forEach(async (viewport) => {
+        const { error } = await supabase
+          .from('axe')
+          .insert({
+            audit_id: newAudit.id,
+            size: viewport,
+          })
+          .select()
+          .single()
 
-    if (apiTestError.value) {
-      toast.add({
-        severity: 'error',
-        summary: apiTestError.value?.message,
-        life: 3000,
+        if (error) {
+          throw isSupabaseError(error)
+            ? new SupabaseError(error)
+            : new Error(error?.message || '')
+        }
       })
+
+      navigateTo(`/audit/${newAudit.id}`)
     } else {
-      newAuditId.value = newAudit.id
-      isAuditProcessingDialogVisible.value = true
+      const { error: apiTestError } = await useFetch('/api/test', {
+        method: 'POST',
+        body: newAudit,
+      })
+
+      if (apiTestError.value) {
+        toast.add({
+          severity: 'error',
+          summary: apiTestError.value?.message,
+          life: 3000,
+        })
+      } else {
+        newAuditId.value = newAudit.id
+        isAuditProcessingDialogVisible.value = true
+      }
     }
   } catch (error) {
     const { $handleError } = useNuxtApp()
@@ -173,13 +213,30 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
 
 <template>
   <section>
-    <h2>Configuration</h2>
+    <h2 class="mb-4">Configuration</h2>
     <form @submit="sendForm">
+      <div class="mb-4 grid grid-cols-[48px_1fr] items-center gap-3">
+        <InputSwitch
+          id="no-axe"
+          v-model="noAxe"
+          data-testid="audit-no-axe-field"
+        />
+        <label
+          for="no-axe"
+          class="cursor-pointer"
+          @click="noAxe = !noAxe"
+        >
+          Skip Axe automatic tests. I only want to test manually.
+        </label>
+      </div>
       <Accordion
         :active-index="[0, 1]"
         :multiple="true"
       >
-        <AccordionTab header="Pages">
+        <AccordionTab
+          v-if="!noAxe"
+          header="Pages"
+        >
           <div
             v-for="(page, index) in pages"
             :key="`page-${index}`"
@@ -272,7 +329,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
         <AccordionTab header="General">
           <div class="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-4">
             <div class="w-full">
-              <label for="title">Audit title</label>
+              <label for="title">Title</label>
               <InputText
                 id="title"
                 v-model="title"
@@ -316,12 +373,44 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                 {{ errors.project }}
               </small>
             </div>
+            <div class="col-span-2">
+              <label for="description">Description</label>
+              <Textarea
+                id="description"
+                v-model="description"
+                name="description"
+                class="w-full"
+                rows="5"
+                :aria-describedby="noAxe ? 'description-help' : undefined"
+              />
+              <small
+                v-if="noAxe"
+                id="description-help"
+                class="block"
+              >
+                In case the audit only includes manual tests, be sure to
+                disclose exactly what you'll be testing.
+              </small>
+              <small
+                v-if="errors.description && isSubmitted"
+                class="p-error mt-1"
+              >
+                {{ errors.description }}
+              </small>
+            </div>
           </div>
         </AccordionTab>
-        <AccordionTab header="Axe configuration">
-          <div class="grid gap-6 md:grid-rows-2 md:gap-4">
-            <div class="grid gap-6 gap-x-8">
-              <label id="viewports">Screen sizes</label>
+        <AccordionTab
+          :header="noAxe ? 'Screen sizes / Devices' : 'Axe configuration'"
+        >
+          <div :class="{ 'grid gap-6 md:grid-rows-2 md:gap-4': !noAxe }">
+            <div class="grid">
+              <label
+                id="viewports"
+                :class="{ 'sr-only': noAxe }"
+              >
+                Screen sizes / Devices
+              </label>
               <MultiSelect
                 v-model="viewports"
                 aria-labelledby="viewports"
@@ -345,7 +434,10 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
               </MultiSelect>
             </div>
 
-            <div class="grid w-full gap-6 gap-x-8 md:grid-cols-2">
+            <div
+              v-if="!noAxe"
+              class="grid w-full gap-6 gap-x-8 md:grid-cols-2"
+            >
               <div class="w-full">
                 <label for="username">Basic Auth username</label>
                 <InputText
@@ -368,6 +460,11 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                   name="password"
                   :feedback="false"
                   toggle-mask
+                  :pt="{
+                    input: {
+                      autocomplete: 'off',
+                    },
+                  }"
                 />
               </div>
             </div>

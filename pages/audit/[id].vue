@@ -101,6 +101,10 @@ if (!resultId.value) {
               <span class="font-bold">Project: </span>
               {{ auditInfo.projects?.name }}
             </li>
+            <li v-if="auditInfo.config?.description">
+              <span class="font-bold">Description: </span>
+              {{ auditInfo.config.description }}
+            </li>
             <li>
               <span class="font-bold">Created at: </span>
               <time>
@@ -131,7 +135,7 @@ if (!resultId.value) {
                 </li>
               </ul>
             </li>
-            <li>
+            <li v-if="auditInfo.config.pages.length">
               <span class="font-bold">Pages:</span>
               <ul class="list-disc space-y-2 pl-8">
                 <li
@@ -168,7 +172,7 @@ if (!resultId.value) {
         </AccordionTab>
       </Accordion>
       <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[2fr_1fr]">
-        <div>
+        <div v-if="!auditInfo.config.noAxe">
           <label
             for="url-selector"
             class="mb-2 block font-medium"
@@ -184,12 +188,12 @@ if (!resultId.value) {
             input-id="url-selector"
           />
         </div>
-        <div>
+        <div :class="{ 'col-span-2': auditInfo.config.noAxe }">
           <label
             for="screen-size"
             class="mb-2 block font-medium"
           >
-            Screen size
+            Screen size / Device
           </label>
           <Dropdown
             :model-value="screenSize"
