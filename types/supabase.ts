@@ -59,7 +59,7 @@ export interface Database {
           comment: string
         }
         Insert: {
-          config?: AuditConfiguration
+          config?: Json
           created_at?: string
           id?: number
           issues?: Json | null

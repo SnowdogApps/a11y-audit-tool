@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
-import type { ExtendedAudit, Project } from 'types/database'
+import type { Axe, ExtendedAudit, Project } from 'types/database'
+import { hasTimeElapsedInMinutes } from 'utils/time'
 import { getAuditLink } from '~/utils/get-audit-link'
 import { statuses } from '~/data/auditStatuses'
 
@@ -17,6 +18,10 @@ const emit = defineEmits<{ (e: 'delete-audit', id: number): void }>()
 const confirm = useConfirm()
 const { user } = useUser()
 const router = useRouter()
+const isDialogVisible = ref(false)
+const axeErrorMessage = ref('')
+const dialogHeader = ref('')
+
 const nodes = computed(() =>
   props.audits.map((audit) => ({
     data: {
@@ -128,6 +133,29 @@ const confirmAuditRemoval = (id: number) => {
       emit('delete-audit', id)
     },
   })
+}
+
+const hasAxeResponseErrors = (axeResponse: Axe[]) =>
+  axeResponse.some((result) => result?.errors?.length)
+
+const has15MinutesPassed = (auditCreationDate: string) => {
+  return hasTimeElapsedInMinutes(auditCreationDate, 15)
+}
+
+const isWaitingForResults = (auditData: ExtendedAudit) =>
+  !auditData.axe.length && !has15MinutesPassed(auditData.created_at)
+
+const openDialog = (auditData: ExtendedAudit) => {
+  dialogHeader.value = `Audit ${auditData.id} - errors during automatic test processing`
+  axeErrorMessage.value =
+    auditData.axe?.find(({ errors }) => errors)?.errors[0]?.message ||
+    'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
+  isDialogVisible.value = true
+}
+
+const clearDialog = () => {
+  dialogHeader.value = ''
+  axeErrorMessage.value = ''
 }
 
 watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
@@ -291,42 +319,72 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
 
     <Column header="Action">
       <template #body="scope">
-        <div class="grid min-w-[386px] grid-cols-3 gap-2">
-          <NuxtLink
-            v-if="
-              scope.node.data.status === 'completed' ||
-              scope.node.data.axe.length
-            "
-            class="p-button p-button-info"
-            :to="
-              getAuditLink({
-                id: scope.node.data.id,
-                axeId: scope.node.data.axe[0].id,
-                status: scope.node.data.status,
-                reportType: scope.node.data.report_type,
-              })
-            "
+        <div
+          class="grid min-w-[386px] gap-2"
+          :class="{
+            'grid-cols-3': !isWaitingForResults(scope.node.data),
+            'grid-cols-1': isWaitingForResults(scope.node.data),
+          }"
+        >
+          <span
+            v-if="isWaitingForResults(scope.node.data)"
+            class="flex items-center px-4"
           >
-            <template v-if="scope.node.data.status === 'completed'">
+            <i
+              class="pi pi-spin pi-cog mr-4"
+              aria-hidden="true"
+            />
+            Tests in progress
+          </span>
+          <template v-else>
+            <NuxtLink
+              v-if="scope.node.data.status === 'completed'"
+              class="p-button p-button-info justify-center"
+              :to="`/audit/report/${scope.node.data.id}?type=${scope.node.data.report_type}`"
+            >
               View report
-            </template>
-            <template v-else>View results</template>
-          </NuxtLink>
-          <NuxtLink
-            :to="`/audit/new?baseAuditId=${scope.node.data.id}`"
-            class="p-button p-button-info p-button-outlined justify-center"
-          >
-            Repeat
-          </NuxtLink>
-          <Button
-            v-if="isAdmin || (isAuditor && scope.node.data.status === 'draft')"
-            severity="danger"
-            outlined
-            class="justify-center"
-            @click="confirmAuditRemoval(scope.node.data.id)"
-          >
-            Remove
-          </Button>
+            </NuxtLink>
+
+            <NuxtLink
+              v-else-if="
+                scope.node.data.axe.length &&
+                !hasAxeResponseErrors(scope.node.data.axe)
+              "
+              class="p-button p-button-info justify-center"
+              :to="`/audit/${scope.node.data.id}?resultId=${scope.node.data.axe[0].id}`"
+            >
+              View results
+            </NuxtLink>
+
+            <Button
+              v-else-if="
+                hasAxeResponseErrors(scope.node.data.axe) ||
+                (!scope.node.data.axe.length &&
+                  has15MinutesPassed(scope.node.data.created_at))
+              "
+              severity="danger"
+              label="View errors"
+              @click="openDialog(scope.node.data)"
+            />
+
+            <NuxtLink
+              :to="`/audit/new?baseAuditId=${scope.node.data.id}`"
+              class="p-button p-button-info p-button-outlined justify-center"
+            >
+              Repeat
+            </NuxtLink>
+            <Button
+              v-if="
+                isAdmin || (isAuditor && scope.node.data.status === 'draft')
+              "
+              severity="danger"
+              outlined
+              class="justify-center"
+              @click="confirmAuditRemoval(scope.node.data.id)"
+            >
+              Remove
+            </Button>
+          </template>
         </div>
       </template>
     </Column>
@@ -334,4 +392,12 @@ watch([selectedProject, selectedAuditor, selectedColumns], (newValues) => {
       <div class="p-2 text-center">The list is empty</div>
     </template>
   </TreeTable>
+
+  <LazyAuditErrorsDialog
+    v-if="dialogHeader && axeErrorMessage"
+    v-model:visible="isDialogVisible"
+    :header="dialogHeader"
+    :error-message="axeErrorMessage"
+    @hide="clearDialog"
+  />
 </template>
