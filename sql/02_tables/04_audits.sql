@@ -6,9 +6,9 @@ create table audits (
   profile_id uuid references public.profiles on delete cascade not null,
   project_id serial references public.projects on delete cascade not null,
   status text,
-  config JSON not null DEFAULT '{}'::json
-  issues JSON DEFAULT '{}'::json
+  config JSON not null DEFAULT '{}'::json,
+  issues JSON DEFAULT '{}'::json,
   is_triggered boolean not null default false,
   report_type text null,
-  comment text not null default ''::text,
+  comment text not null default ''::text
 );
