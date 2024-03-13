@@ -10,6 +10,7 @@ const route = useRoute()
 const router = useRouter()
 const auditId = route.params.id
 const resultId = ref(Number(route.query.resultId))
+const isReloadRequired = ref(false)
 
 const { data: axeResults } = await supabase
   .from('axe')
@@ -186,6 +187,7 @@ if (!resultId.value) {
             option-label="name"
             option-value="id"
             input-id="url-selector"
+            @change="isReloadRequired = true"
           />
         </div>
         <div :class="{ 'col-span-2': auditInfo.config.noAxe }">
@@ -201,9 +203,26 @@ if (!resultId.value) {
             :options="auditInfo.config.viewports"
             input-id="screen-size"
             @update:model-value="changeScreenSize"
+            @change="isReloadRequired = true"
           />
         </div>
       </div>
+      <Transition
+        enter-active-class="transition duration-300 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
+      >
+        <InlineMessage
+          v-show="isReloadRequired"
+          severity="warn"
+          class="flex w-full items-center !justify-start"
+        >
+          Refresh the page to make sure the correct audit data is displayed.
+        </InlineMessage>
+      </Transition>
       <AuditResults
         v-if="auditResult"
         :result="auditResult"
