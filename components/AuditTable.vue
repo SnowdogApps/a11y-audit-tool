@@ -3,7 +3,6 @@ import type { TreeTableExpandedKeys } from 'primevue/treetable'
 import { useConfirm } from 'primevue/useconfirm'
 import type { Axe, ExtendedAudit, Project } from 'types/database'
 import { hasTimeElapsedInMinutes } from 'utils/time'
-import { getAuditLink } from '~/utils/get-audit-link'
 import { statuses } from '~/data/auditStatuses'
 
 const props = defineProps<{
