@@ -15,8 +15,8 @@ create table profiles (
 create function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, full_name, avatar_url, user_type)
-  values (new.id, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url', new.raw_user_meta_data->>'user_type');
+  insert into public.profiles (id, full_name, avatar_url)
+  values (new.id, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url');
   return new;
 end;
 $$ language plpgsql security definer;
@@ -25,7 +25,7 @@ create function public.handle_user_role_update()
 returns trigger as $$
 begin
   update profiles
-  set user_type = (select get_claim(id, 'user_role'))
+  set user_type = (select get_claim(id, 'user_role'))::jsonb
   where id = new.id;
   return new;
 end;
