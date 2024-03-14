@@ -69,7 +69,7 @@ if (baseAuditId) {
         .filter((viewport) =>
           baseAudit.config.viewports.includes(viewport.name)
         )
-        .map((viewport) => viewport.name),
+        .map(({ viewport }) => viewport),
       noAxe: baseAudit.config.noAxe,
       description: baseAudit.config.description,
     })
