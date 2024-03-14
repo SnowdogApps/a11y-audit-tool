@@ -6,10 +6,6 @@ import type { Database, Json } from 'types/supabase'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
-definePageMeta({
-  middleware: 'auth',
-})
-
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 interface InitialValues {

@@ -2,10 +2,6 @@
 import type { ExtendedAudit, Project } from 'types/database'
 import type { Database } from 'types/supabase'
 
-definePageMeta({
-  middleware: 'auth',
-})
-
 const { user, isViewer } = useUser()
 const projects = ref<Project[]>([])
 const audits = ref<ExtendedAudit[]>([])

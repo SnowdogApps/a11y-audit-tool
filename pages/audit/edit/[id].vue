@@ -2,10 +2,6 @@
 import type { Database } from 'types/supabase'
 import type { Audit } from 'types/database'
 
-definePageMeta({
-  middleware: 'auth',
-})
-
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const auditId = route.params.id

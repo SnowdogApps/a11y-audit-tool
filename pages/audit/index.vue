@@ -5,10 +5,6 @@ import type { ExtendedAudit, Project } from 'types/database'
 import type { AuditMapValue } from 'types/audit'
 import { oneMinuteInMilliseconds, hasTimeElapsedInMinutes } from 'utils/time'
 
-definePageMeta({
-  middleware: 'auth',
-})
-
 const { isAdmin, isAuditor } = useUser()
 const route = useRoute()
 const supabase = useSupabaseClient()

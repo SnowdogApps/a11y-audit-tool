@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
   middleware: [
-    'auth',
     defineNuxtRouteMiddleware(() => {
       const { isAdmin, isAuditor } = useUser()
 

@@ -2,10 +2,6 @@
 import type { Database } from 'types/supabase'
 import type { Project } from 'types/database'
 
-definePageMeta({
-  middleware: 'auth',
-})
-
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 const projects = ref<Project[]>([])

@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { Database } from 'types/supabase'
 
-definePageMeta({
-  middleware: 'auth',
-})
-
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const router = useRouter()

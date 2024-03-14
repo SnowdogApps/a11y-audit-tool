@@ -12,7 +12,6 @@ import { isSupabaseError, SupabaseError } from '~/plugins/error'
 
 definePageMeta({
   middleware: [
-    'auth',
     defineNuxtRouteMiddleware(async () => {
       const { data } = await useSupabaseClient<Database>().rpc(
         'is_claims_admin'
