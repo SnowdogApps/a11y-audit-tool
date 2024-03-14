@@ -416,7 +416,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                 aria-labelledby="viewports"
                 :options="availableViewports"
                 option-label="name"
-                option-value="name"
+                option-value="viewport"
                 placeholder="Select screen sizes"
                 :max-selected-labels="3"
                 name="viewports"

@@ -24,4 +24,7 @@ export const availableViewports: AvailableViewport[] = [
   { name: 'samsung-s10', viewport: [360, 760] },
 ]
 
-export const defaultViewports = ['samsung-s10', 'macbook-13']
+export const defaultViewports = [
+  [360, 760],
+  [1280, 800],
+]
