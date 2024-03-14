@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
   const resData = await $fetch(axeRunnerApiUrl, {
     headers,
     method: 'post',
-    body: config,
+    body: { id: body.id, config },
   })
 
   return resData
