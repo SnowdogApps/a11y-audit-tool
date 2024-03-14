@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { basicAuthUser, basicAuthPassed, multiverseApiUrl } =
+  const { basicAuthUser, basicAuthPassed, axeRunnerApiUrl } =
     useRuntimeConfig().public
   const config = body.config as unknown as AuditConfiguration
   const formData = new FormData()
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
   )
   formData.append('parallel', String(config.viewports.length))
 
-  const resData = await $fetch(`${multiverseApiUrl}/create`, {
+  const resData = await $fetch(axeRunnerApiUrl, {
     headers,
     method: 'post',
     body: formData,

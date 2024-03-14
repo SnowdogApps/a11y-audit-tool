@@ -32,18 +32,6 @@ Start the development server on `http://localhost:3000`
 pnpm dev
 ```
 
-### Multiverse instance
-
-Used to pass config to gitlab CI and run tests via cypress runner - parallel mode.
-
-When working on app locally you can both run multiverse service locally via docker or pass `BASIC_AUTH_USER` and `BASIC_AUTH_PASSWD` env to use already existing instance.
-
-Password is visible in 1password service - **A11Y** - **Audit App stage/test - basic auth**
-
-Services url (to be declared in `MULTIVERSE_API_URL` env):
-* http://127.0.0.1:8600 - when running via docker
-* https://a11y-multiverse.snowdog.dev - when running via existing instance
-
 ### Https configuration
 
 **Install `mkcert` on your system**. The installation instructions for macOS, Windows and Linux can be found in the mkcert [Github repository](https://github.com/FiloSottile/mkcert).
