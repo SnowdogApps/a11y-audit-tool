@@ -48,7 +48,7 @@ lint:
       --cache-from=type=local,src=/cache
       --cache-to=type=local,mode=max,dest=/cache
       --target server
-      --tag "${CI_REGISTRY_IMAGE}/server:${IMAGE_TAG}"
+      --tag "${CI_REGISTRY_IMAGE}:${IMAGE_TAG}"
       --push .
 
 .deploy:
