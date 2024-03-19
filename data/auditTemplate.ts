@@ -53,7 +53,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#audio-control'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#audio-control'],
   },
   {
     'Test Name': '2.2.2-pause-stop-hide',
@@ -83,7 +83,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#pause-stop-hide'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#pause-stop-hide'],
   },
   {
     'Test Name': '4.1.2-change-notify-auto',
@@ -111,7 +111,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#name-role-value'],
   },
   {
     'Test Name': '4.1.3-status-messages',
@@ -143,7 +143,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#status-messages'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#status-messages'],
   },
   {
     'Test Name': '2.3.1-flashing',
@@ -167,7 +167,7 @@ export const auditTemplate = [
     'Disability Impact': [
       'Photosensitive Epilepsy / Photosensitive Seizure Disorders',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#three-flashes-or-below-threshold'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#three-flashes-or-below-threshold'],
   },
   {
     'Test Name': '2.1.1-keyboard-access',
@@ -194,7 +194,7 @@ export const auditTemplate = [
       'With Limited Vision',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#keyboard'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#keyboard'],
   },
   {
     'Test Name': '2.1.1-no-keystroke-timing',
@@ -221,7 +221,7 @@ export const auditTemplate = [
       'With Limited Vision',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#keyboard'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#keyboard'],
   },
   {
     'Test Name': '2.1.2-no-keyboard-trap',
@@ -244,13 +244,13 @@ export const auditTemplate = [
       'With Limited Vision',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#no-keyboard-trap'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#no-keyboard-trap'],
   },
   {
     'Test Name': '2.4.7-focus-visible',
     'Test ID': '4.D',
     'Test Category': 'Keyboard/focus',
-    'WCAG SC': ['2.4.7'],
+    'WCAG SC': ['2.4.7', '2.4.11'],
     'Axe Rules': {
       tag: 'wcag247',
       rules: false,
@@ -258,6 +258,7 @@ export const auditTemplate = [
     Level: 'AA',
     'Test Conditions': [
       'A visible indication of focus is provided when focus is on the interface component.',
+      'When a user interface component receives keyboard focus, the component is not entirely hidden due to author-created content.',
     ],
     Techniques: [
       'Using user interface components that are highlighted by the user agent when they receive focus',
@@ -266,15 +267,19 @@ export const auditTemplate = [
       'Using an author-supplied, visible focus indicator',
       'Creating a two-color focus indicator to ensure sufficient contrast with all components',
       'Using script to change the background color or border of the element with focus - not recommended, only if no other technique is possible to apply',
+      'Using CSS scroll-padding to un-obscure content',
     ],
-    Note: undefined,
+    Note: '1. Where content in a configurable interface can be repositioned by the user, then only the initial positions of user-movable content are considered for testing and conformance of this Success Criterion. 2. Content opened by the user may obscure the component receiving focus. If the user can reveal the focused component without advancing the keyboard focus, the component with focus is not considered hidden due to author-created content.',
     'Disability Impact': [
       'With Limited Vision',
       'With Limited Manipulation',
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#focus-visible'],
+    URLs: [
+      'https://www.w3.org/TR/WCAG22/#focus-visible',
+      'https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum',
+    ],
   },
   {
     'Test Name': '3.2.1-on-focus',
@@ -299,7 +304,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#on-focus'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#on-focus'],
   },
   {
     'Test Name': '2.4.3-focus-order-meaning',
@@ -330,7 +335,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#focus-order'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#focus-order'],
   },
   {
     'Test Name': '1.4.13-hover-focus-content',
@@ -339,7 +344,7 @@ export const auditTemplate = [
     'WCAG SC': ['1.4.13'],
     'Axe Rules': {
       tag: 'wcag1413',
-      rules: false,
+      rules: ['aria-tooltip-name'],
     },
     Level: 'AA',
     'Test Conditions': [
@@ -361,7 +366,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#content-on-hover-or-focus'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#content-on-hover-or-focus'],
   },
   {
     'Test Name': '2.1.4-character-key-shortcut',
@@ -374,7 +379,7 @@ export const auditTemplate = [
     },
     Level: 'A',
     'Test Conditions': [
-      'If a keyboard shortcut is implemented in content using only letter (including upper-and lower-case letters), punctuation, number, or symbol characters a mechanism to turn shortcut off is implemented OR a mechanism to remap the shortcut is implemented OR the keyboard shortcut for a user interface component is only active when that component has focus',
+      'If a keyboard shortcut is implemented in content using only letter (including upper- and lower-case letters), punctuation, number, or symbol characters a mechanism to turn shortcut off is implemented OR a mechanism to remap the shortcut is implemented OR the keyboard shortcut for a user interface component is only active when that component has focus',
     ],
     Techniques: [
       'Providing a mechanism to allow users to remap or turn off character key shortcuts',
@@ -384,7 +389,7 @@ export const auditTemplate = [
       'With Limited Manipulation',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#character-key-shortcuts'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#character-key-shortcuts'],
   },
   {
     'Test Name': '2.5.1-pointer-gestures',
@@ -408,7 +413,7 @@ export const auditTemplate = [
       'With Limited Manipulation',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#pointer-gestures'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#pointer-gestures'],
   },
   {
     'Test Name': '2.5.2-pointer-gestures',
@@ -433,7 +438,27 @@ export const auditTemplate = [
       'With Limited Manipulation',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#pointer-cancellation'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#pointer-cancellation'],
+  },
+  {
+    'Test Name': '2.5.7-dragging-movements',
+    'Test ID': '257.custom',
+    'Test Category': 'Keyboard/focus',
+    'WCAG SC': ['2.5.7'],
+    'Axe Rules': {
+      tag: 'wcag257',
+      rules: false,
+    },
+    Level: 'AA',
+    'Test Conditions': [
+      'All functionality that uses a dragging movement for operation can be achieved by a single pointer without dragging, unless dragging is essential or the functionality is determined by the user agent and not modified by the author.',
+    ],
+    Techniques: [
+      'Ensuring that an alternative is available for dragging movements that operate on content',
+    ],
+    Note: 'This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).',
+    'Disability Impact': ['With Limited Manipulation'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#dragging-movements'],
   },
   {
     'Test Name': '1.3.1-programmatic-label',
@@ -443,20 +468,10 @@ export const auditTemplate = [
     'Axe Rules': {
       tag: false,
       rules: [
-        'aria-command-name',
         'aria-input-field-name',
-        'aria-required-attr',
-        'aria-required-children',
-        'aria-required-parent',
-        'aria-roles',
         'aria-toggle-field-name',
-        'aria-tooltip-name',
-        'aria-valid-attr-value',
-        'aria-valid-attr',
         'input-button-name',
-        'button-name',
         'label',
-        'link-name',
         'select-name',
         'label-title-only',
         'input-image-alt',
@@ -483,8 +498,8 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: [
-      'https://www.w3.org/TR/WCAG21/#info-and-relationships',
-      'https://www.w3.org/TR/WCAG21/#name-role-value',
+      'https://www.w3.org/TR/WCAG22/#info-and-relationships',
+      'https://www.w3.org/TR/WCAG22/#name-role-value',
     ],
   },
   {
@@ -519,7 +534,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#labels-or-instructions'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#labels-or-instructions'],
   },
   {
     'Test Name': '2.4.6-label-descriptive',
@@ -541,7 +556,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#headings-and-labels'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#headings-and-labels'],
   },
   {
     'Test Name': '3.2.2-on-input',
@@ -569,11 +584,11 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#on-input'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#on-input'],
   },
   {
     'Test Name': '4.1.2-change-notify-form',
-    'Test ID': '5.E ',
+    'Test ID': '5.E',
     'Test Category': 'Forms',
     'WCAG SC': ['4.1.2'],
     'Axe Rules': {
@@ -595,7 +610,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#name-role-value'],
   },
   {
     'Test Name': '3.3.1-error-identification',
@@ -625,7 +640,7 @@ export const auditTemplate = [
     'Disability Impact': [
       "'Without Vision', 'With Limited Vision','Without Perception of Color', 'With Limited Language', 'Cognitive and Learning Abilities'",
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#error-identification'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#error-identification'],
   },
   {
     'Test Name': '3.3.3-error-suggestion',
@@ -657,7 +672,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#error-suggestion'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#error-suggestion'],
   },
   {
     'Test Name': '3.3.4-error-prevention',
@@ -688,7 +703,7 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: [
-      'https://www.w3.org/TR/WCAG21/#error-prevention-legal-financial-data',
+      'https://www.w3.org/TR/WCAG22/#error-prevention-legal-financial-data',
     ],
   },
   {
@@ -711,10 +726,37 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#identify-input-purpose'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#identify-input-purpose'],
   },
   {
-    'Test Name': '2.4.4-link-purpose',
+    'Test Name': '3.3.8-accessible-authentication-minimum',
+    'Test ID': '338.custom',
+    'Test Category': 'Forms',
+    'WCAG SC': ['3.3.8'],
+    'Axe Rules': {
+      tag: 'wcag338',
+      rules: false,
+    },
+    Level: 'AA',
+    'Test Conditions': [
+      'A cognitive function test (such as remembering a password or solving a puzzle) is not required for any step in an authentication process unless that step provides at least one of the following: 1. Alternative: Another authentication method that does not rely on a cognitive function test. 2. Mechanism: A mechanism is available to assist the user in completing the cognitive function test. 3. Object Recognition: The cognitive function test is to recognize objects. 4. Personal Content: The cognitive function test is to identify non-text content the user provided to the Web site.',
+    ],
+    Techniques: [
+      'Email link authentication',
+      'Providing properly marked up email and password inputs',
+      'Providing WebAuthn as an alternative to username/password',
+      'Providing a 3rd party login using oAuth',
+      'Using two techniques to provide 2 factor authentication',
+    ],
+    Note: "1. What is perceived as the user interface component or sub-component (to determine enclosure or size) depends on its visual presentation. The visual presentation includes the component's visible content, border, and component-specific background. It does not include shadow and glow effects outside the component's content, background, or border. 2. Examples of mechanisms that satisfy this criterion include: 1) support for password entry by password managers to reduce memory need, 2) copy and paste to reduce the cognitive burden of re-typing.",
+    'Disability Impact': [
+      'With Limited Language',
+      'Cognitive and Learning Abilities',
+    ],
+    URLs: ['https://www.w3.org/TR/WCAG22/#accessible-authentication-minimum'],
+  },
+  {
+    'Test Name': '2.4.4-link-button-purpose',
     'Test ID': '6.A',
     'Test Category': 'Links/buttons',
     'WCAG SC': ['2.4.4', '4.1.2'],
@@ -726,11 +768,8 @@ export const auditTemplate = [
         'aria-command-name',
         'link-name',
         'aria-required-attr',
-        'aria-roles',
         'aria-tooltip-name',
-        'aria-valid-attr-value',
         'aria-valid-attr',
-        'input-button-name',
         'button-name',
         'nested-interactive',
         'aria-dialog-name',
@@ -758,9 +797,32 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: [
-      'https://www.w3.org/TR/WCAG21/#link-purpose-in-context',
-      'https://www.w3.org/TR/WCAG21/#name-role-value',
+      'https://www.w3.org/TR/WCAG22/#link-purpose-in-context',
+      'https://www.w3.org/TR/WCAG22/#name-role-value',
     ],
+  },
+  {
+    'Test Name': '2.5.8-target-size',
+    'Test ID': '258.custom',
+    'Test Category': 'Links/buttons',
+    'WCAG SC': ['2.5.8'],
+    'Axe Rules': {
+      tag: 'wcag258',
+      rules: false,
+    },
+    Level: 'AA',
+    'Test Conditions': [
+      'The size of the target for pointer inputs is at least 24 by 24 CSS pixels',
+    ],
+    Techniques: [
+      'Using min-height and min-width to ensure sufficient target spacing',
+    ],
+    Note: '1. Exception: Undersized targets (those less than 24 by 24 CSS pixels) are positioned so that if a 24 CSS pixel diameter circle is centered on the bounding box of each, the circles do not intersect another target or the circle for another undersized target; 2. Exception: The target is in a sentence or its size is otherwise constrained by the line-height of non-target text; 3. Exception: The size of the target is determined by the user agent and is not modified by the author;',
+    'Disability Impact': [
+      'With Limited Manipulation',
+      'Cognitive and Learning Abilities',
+    ],
+    URLs: ['https://www.w3.org/TR/WCAG22/#target-size-minimum'],
   },
   {
     'Test Name': '4.1.2-change-notify-links',
@@ -786,7 +848,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#name-role-value'],
   },
   {
     'Test Name': '2.5.3-label-in-name',
@@ -813,7 +875,7 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
       'Speech Users',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#label-in-name'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#label-in-name'],
   },
   {
     'Test Name': '1.1.1-image-name',
@@ -853,7 +915,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#non-text-content'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#non-text-content'],
   },
   {
     'Test Name': '1.1.1-captcha-alternative',
@@ -878,7 +940,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#non-text-content'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#non-text-content'],
   },
   {
     'Test Name': '1.4.5-image-of-text',
@@ -906,7 +968,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#images-of-text'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#images-of-text'],
   },
   {
     'Test Name': '2.2.1-timing-adjustable',
@@ -940,7 +1002,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#timing-adjustable'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#timing-adjustable'],
   },
   {
     'Test Name': '2.4.1-bypass-function',
@@ -973,7 +1035,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#bypass-blocks'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#bypass-blocks'],
   },
   {
     'Test Name': '3.2.3-consistent-navigation',
@@ -999,7 +1061,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#consistent-navigation'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#consistent-navigation'],
   },
   {
     'Test Name': '3.2.4-consistent-identification',
@@ -1025,7 +1087,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#consistent-identification'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#consistent-identification'],
   },
   {
     'Test Name': '2.4.6-heading-purpose',
@@ -1048,7 +1110,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#headings-and-labels'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#headings-and-labels'],
   },
   {
     'Test Name': '1.3.1-heading-determinable',
@@ -1075,7 +1137,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-heading-level',
@@ -1103,7 +1165,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-list-type',
@@ -1136,7 +1198,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': 'landmarks',
@@ -1173,7 +1235,7 @@ export const auditTemplate = [
       'With Limited Vision',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': 'hidden-content',
@@ -1194,6 +1256,44 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: undefined,
+  },
+  {
+    'Test Name': '4.1.2-name-role-value',
+    'Test ID': '412.custom',
+    'Test Category': 'Content Structure',
+    'WCAG SC': ['4.1.2'],
+    'Axe Rules': {
+      tag: false,
+      rules: [
+        'aria-allowed-role',
+        'aria-text',
+        'presentation-role-conflict',
+        'aria-allowed-attr',
+        'aria-required-attr',
+        'aria-roles',
+        'aria-valid-attr-value',
+        'aria-valid-attr',
+        'aria-braille-equivalent',
+        'aria-deprecated-role',
+        'aria-conditional-attr',
+        'aria-prohibited-attr',
+        'duplicate-id-aria',
+        'aria-required-children',
+        'aria-required-parent',
+      ],
+    },
+    Level: 'A',
+    'Test Conditions': [
+      'All ARIA roles and attribute used are valid and have valid values',
+    ],
+    Techniques: undefined,
+    Note: undefined,
+    'Disability Impact': [
+      'Without Vision',
+      'With Limited Vision',
+      'Cognitive and Learning Abilities',
+    ],
+    URLs: ['https://www.w3.org/TR/WCAG22/#name-role-value'],
   },
   {
     'Test Name': '3.1.1-page-language-defined',
@@ -1218,7 +1318,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#language-of-page'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#language-of-page'],
   },
   {
     'Test Name': '3.1.2-part-language-defined',
@@ -1245,7 +1345,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#language-of-parts'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#language-of-parts'],
   },
   {
     'Test Name': '2.4.2-page-title-defined',
@@ -1270,7 +1370,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#page-titled'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#page-titled'],
   },
   {
     'Test Name': '4.1.2-frame-title-name',
@@ -1293,7 +1393,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#name-role-value'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#name-role-value'],
   },
   {
     'Test Name': '1.4.1-color-meaning',
@@ -1321,7 +1421,7 @@ export const auditTemplate = [
       'With Limited Vision',
       'Without Perception of Color',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#use-of-color'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#use-of-color'],
   },
   {
     'Test Name': '1.3.3-sensory-info',
@@ -1346,7 +1446,7 @@ export const auditTemplate = [
       'Without Hearing',
       'With Limited Hearing',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#sensory-characteristics'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#sensory-characteristics'],
   },
   {
     'Test Name': '1.4.3-contrast',
@@ -1369,7 +1469,7 @@ export const auditTemplate = [
     ],
     Note: undefined,
     'Disability Impact': ['With Limited Vision', 'Without Perception of Color'],
-    URLs: ['https://www.w3.org/TR/WCAG21/#contrast-minimum'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#contrast-minimum'],
   },
   {
     'Test Name': '1.4.11-non-text-contrast',
@@ -1393,7 +1493,7 @@ export const auditTemplate = [
     ],
     Note: undefined,
     'Disability Impact': ['With Limited Vision', 'Without Perception of Color'],
-    URLs: ['https://www.w3.org/TR/WCAG21/#non-text-contrast'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#non-text-contrast'],
   },
   {
     'Test Name': '1.3.1-table-identification',
@@ -1425,7 +1525,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-cell-header-association',
@@ -1456,7 +1556,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-layout-table-structure',
@@ -1479,7 +1579,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.1-meaningful-content-css-before-after',
@@ -1504,7 +1604,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#info-and-relationships'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#info-and-relationships'],
   },
   {
     'Test Name': '1.3.2-content-order-meaning-css-position',
@@ -1531,12 +1631,12 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#meaningful-sequence'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#meaningful-sequence'],
   },
   {
     'Test Name': '1.2.1-audio-transcript-text',
     'Test ID': '16.A',
-    'Test Category': 'Audio/Video-Only',
+    'Test Category': 'Media',
     'WCAG SC': ['1.2.1'],
     'Axe Rules': {
       tag: 'wcag121',
@@ -1557,13 +1657,13 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: [
-      'https://www.w3.org/TR/WCAG21/#audio-only-and-video-only-prerecorded',
+      'https://www.w3.org/TR/WCAG22/#audio-only-and-video-only-prerecorded',
     ],
   },
   {
     'Test Name': '1.2.1-video-alternative-equivalent',
     'Test ID': '16.B',
-    'Test Category': 'Audio/Video-Only',
+    'Test Category': 'Media',
     'WCAG SC': ['1.2.1'],
     'Axe Rules': {
       tag: 'wcag121',
@@ -1586,13 +1686,13 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: [
-      'https://www.w3.org/TR/WCAG21/#audio-only-and-video-only-prerecorded',
+      'https://www.w3.org/TR/WCAG22/#audio-only-and-video-only-prerecorded',
     ],
   },
   {
     'Test Name': '1.2.2-captions-equivalent',
     'Test ID': '17.A',
-    'Test Category': "Sync'd Media",
+    'Test Category': 'Media',
     'WCAG SC': ['1.2.2'],
     'Axe Rules': {
       tag: 'wcag122',
@@ -1614,12 +1714,12 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#captions-prerecorded'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#captions-prerecorded'],
   },
   {
     'Test Name': '1.2.3-audio-alternative',
     'Test ID': '17.1.custom',
-    'Test Category': "Sync'd Media",
+    'Test Category': 'Media',
     'WCAG SC': ['1.2.3'],
     'Axe Rules': {
       tag: 'wcag123',
@@ -1645,13 +1745,13 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
     ],
     URLs: [
-      'https://www.w3.org/TR/WCAG21/#audio-description-or-media-alternative-prerecorded',
+      'https://www.w3.org/TR/WCAG22/#audio-description-or-media-alternative-prerecorded',
     ],
   },
   {
     'Test Name': '1.2.5-audio-description-equivalent',
     'Test ID': '17.B',
-    'Test Category': "Sync'd Media",
+    'Test Category': 'Media',
     'WCAG SC': ['1.2.5'],
     'Axe Rules': {
       tag: 'wcag125',
@@ -1676,12 +1776,12 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#audio-description-prerecorded'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#audio-description-prerecorded'],
   },
   {
     'Test Name': '1.2.4-captions-live-equivalent',
     'Test ID': '17.C',
-    'Test Category': "Sync'd Media",
+    'Test Category': 'Media',
     'WCAG SC': ['1.2.4'],
     'Axe Rules': {
       tag: 'wcag124',
@@ -1703,12 +1803,12 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#captions-live'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#captions-live'],
   },
   {
     'Test Name': '503.4-caption-control',
     'Test ID': '17.D',
-    'Test Category': "Sync'd Media",
+    'Test Category': 'Media',
     'WCAG SC': undefined,
     'Axe Rules': {
       tag: false,
@@ -1757,7 +1857,7 @@ export const auditTemplate = [
     ],
     Note: undefined,
     'Disability Impact': ['With Limited Vision'],
-    URLs: ['https://www.w3.org/TR/WCAG21/#resize-text'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#resize-text'],
   },
   {
     'Test Name': '1.3.4-orientation',
@@ -1781,7 +1881,7 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#orientation'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#orientation'],
   },
   {
     'Test Name': '1.4.10-reflow',
@@ -1815,7 +1915,7 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#reflow'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#reflow'],
   },
   {
     'Test Name': '1.4.12-text-spacing',
@@ -1848,7 +1948,7 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#text-spacing'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#text-spacing'],
   },
   {
     'Test Name': '2.5.4-motion-actuation',
@@ -1874,7 +1974,7 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
       'With Limited Manipulation',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#motion-actuation'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#motion-actuation'],
   },
   {
     'Test Name': '2.4.5-multiple-ways',
@@ -1906,68 +2006,7 @@ export const auditTemplate = [
       'With Limited Language',
       'Cognitive and Learning Abilities',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#link-purpose-in-context'],
-  },
-  {
-    'Test Name': '4.1.1-parsing',
-    'Test ID': '20.A',
-    'Test Category': 'Parsing',
-    'WCAG SC': ['4.1.1'],
-    'Axe Rules': {
-      tag: 'wcag411',
-      rules: false,
-    },
-    Level: 'A',
-    'Test Conditions': [
-      'HTML is valid',
-      'No functional errors that block user to perform actions',
-      'All ids are unique',
-    ],
-    Techniques: [
-      'Validating Web pages',
-      'Fully conforming to specifications',
-      'Using HTML according to spec',
-    ],
-    Note: 'Testing method is not clear, this is connected with general functioning of page or app, code validation and ocurred errors',
-    'Disability Impact': [
-      'Without Vision',
-      'With Limited Vision',
-      'With Limited Manipulation',
-      'With Limited Language',
-      'Cognitive and Learning Abilities',
-    ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#parsing'],
-  },
-  {
-    'Test Name': 'valid-aria',
-    'Test ID': '20.B.custom',
-    'Test Category': 'Parsing',
-    'WCAG SC': ['4.1.1'],
-    'Axe Rules': {
-      tag: false,
-      rules: [
-        'aria-allowed-role',
-        'aria-text',
-        'presentation-role-conflict',
-        'aria-allowed-attr',
-        'aria-required-attr',
-        'aria-roles',
-        'aria-valid-attr-value',
-        'aria-valid-attr',
-      ],
-    },
-    Level: 'A',
-    'Test Conditions': [
-      'All ARIA roles and attribute used are valid and have valid values',
-    ],
-    Techniques: undefined,
-    Note: undefined,
-    'Disability Impact': [
-      'Without Vision',
-      'With Limited Vision',
-      'Cognitive and Learning Abilities',
-    ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#parsing'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#link-purpose-in-context'],
   },
   {
     'Test Name': 'Non-interference',
@@ -1990,6 +2029,6 @@ export const auditTemplate = [
       'Cognitive and Learning Abilities',
       'Photosensitive Epilepsy / Photosensitive Seizure Disorders',
     ],
-    URLs: ['https://www.w3.org/TR/WCAG21/#cc5'],
+    URLs: ['https://www.w3.org/TR/WCAG22/#cc5'],
   },
 ]
