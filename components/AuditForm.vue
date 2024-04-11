@@ -69,7 +69,7 @@ if (baseAuditId) {
         .filter((viewport) =>
           baseAudit.config.viewports.includes(viewport.name)
         )
-        .map((viewport) => viewport.name),
+        .map(({ viewport }) => viewport),
       noAxe: baseAudit.config.noAxe,
       description: baseAudit.config.description,
     })
@@ -416,7 +416,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                 aria-labelledby="viewports"
                 :options="availableViewports"
                 option-label="name"
-                option-value="name"
+                option-value="viewport"
                 placeholder="Select screen sizes"
                 :max-selected-labels="3"
                 name="viewports"

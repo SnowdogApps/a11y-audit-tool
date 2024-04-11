@@ -1,5 +1,12 @@
 <script lang="ts" setup>
 import type { Database } from 'types/supabase'
+import type { Viewport } from '~/types/audit'
+import { availableViewports } from '~/data/viewports'
+
+interface viewportObject {
+  name: string
+  viewport: [string, string]
+}
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -27,11 +34,32 @@ if (!axeResults || !auditInfo) {
   })
 }
 
+// viewports
+const screenSizeObjects: viewportObject[] = auditInfo.config?.viewports?.map((item: Viewport) => {
+  const viewportObj = availableViewports.find((i) => {
+    return i.viewport.toString() === item.toString()
+  })
+  return {
+    name: viewportObj?.name,
+    viewport: viewportObj?.viewport.map(String),
+  }
+})
+
+const screenSizesObjectValue = reactive(screenSizeObjects)
+
 const initialResultScreenSize = axeResults?.find(
   (result) => result.id === resultId.value
 )?.size
-const screenSize = ref(
-  initialResultScreenSize || auditInfo.config?.viewports?.[0]
+const screenSize = ref<viewportObject | any>(
+  screenSizeObjects.find(
+    (i) =>
+      i.viewport?.toString() === [initialResultScreenSize].toString()
+  ) ||
+    screenSizeObjects.find(
+      (i) =>
+        i.viewport?.toString() ===
+        [auditInfo.config?.viewports?.map(String)].toString()
+    )
 )
 
 const urlAndSelectorOptions = axeResults?.map((result) => ({
@@ -41,15 +69,17 @@ const urlAndSelectorOptions = axeResults?.map((result) => ({
 }))
 const urlAndSelectorOptionsForSelectedScreenSize = computed(() =>
   urlAndSelectorOptions.filter(
-    (result) => result.screenSize === screenSize.value
+    (result) =>
+      [result.screenSize].toString() === screenSize.value?.viewport.toString()
   )
 )
 
-const changeScreenSize = (value: string) => {
+const changeScreenSize = (value: viewportObject) => {
   const previousResultName =
     urlAndSelectorOptionsForSelectedScreenSize.value.find(
       (value) => value.id === resultId.value
     )?.name
+
   screenSize.value = value
   resultId.value =
     urlAndSelectorOptionsForSelectedScreenSize.value.find(
@@ -158,10 +188,10 @@ if (!resultId.value) {
               <span class="font-bold">Screen sizes:</span>
               <ul class="list-disc pl-8">
                 <li
-                  v-for="(viewport, index) in auditInfo.config.viewports"
+                  v-for="(screen, index) in screenSizeObjects"
                   :key="index"
                 >
-                  {{ viewport }}
+                  {{ screen.name }} [{{ screen.viewport[0] }} x {{ screen.viewport[1] }}]
                 </li>
               </ul>
             </li>
@@ -196,7 +226,8 @@ if (!resultId.value) {
           <Dropdown
             :model-value="screenSize"
             class="w-full"
-            :options="auditInfo.config.viewports"
+            option-label="name"
+            :options="screenSizesObjectValue"
             input-id="screen-size"
             @update:model-value="changeScreenSize"
             @change="isReloadRequired = true"

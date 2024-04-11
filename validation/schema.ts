@@ -71,7 +71,7 @@ export const auditFormSchema = object({
   project: number().required(),
   username: string(),
   password: string(),
-  viewports: array(string().required())
+  viewports: array(array(number().required()))
     .required()
     .min(1)
     .default(defaultViewports),

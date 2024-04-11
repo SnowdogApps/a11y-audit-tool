@@ -6,5 +6,6 @@ create table axe (
   selector text,
   size text,
   results JSONB not null DEFAULT '{}'::jsonb,
+  form_data JSONB not null DEFAULT '{}'::jsonb,
   errors JSONB null
 );
