@@ -35,15 +35,17 @@ if (!axeResults || !auditInfo) {
 }
 
 // viewports
-const screenSizeObjects: viewportObject[] = auditInfo.config?.viewports?.map((item: Viewport) => {
-  const viewportObj = availableViewports.find((i) => {
-    return i.viewport.toString() === item.toString()
-  })
-  return {
-    name: viewportObj?.name,
-    viewport: viewportObj?.viewport.map(String),
+const screenSizeObjects: viewportObject[] = auditInfo.config?.viewports?.map(
+  (item: Viewport) => {
+    const viewportObj = availableViewports.find((i) => {
+      return i.viewport.toString() === item.toString()
+    })
+    return {
+      name: viewportObj?.name,
+      viewport: viewportObj?.viewport.map(String),
+    }
   }
-})
+)
 
 const screenSizesObjectValue = reactive(screenSizeObjects)
 
@@ -52,8 +54,7 @@ const initialResultScreenSize = axeResults?.find(
 )?.size
 const screenSize = ref<viewportObject | any>(
   screenSizeObjects.find(
-    (i) =>
-      i.viewport?.toString() === [initialResultScreenSize].toString()
+    (i) => i.viewport?.toString() === [initialResultScreenSize].toString()
   ) ||
     screenSizeObjects.find(
       (i) =>
@@ -191,7 +192,8 @@ if (!resultId.value) {
                   v-for="(screen, index) in screenSizeObjects"
                   :key="index"
                 >
-                  {{ screen.name }} [{{ screen.viewport[0] }} x {{ screen.viewport[1] }}]
+                  {{ screen.name }} [{{ screen.viewport[0] }} x
+                  {{ screen.viewport[1] }}]
                 </li>
               </ul>
             </li>
