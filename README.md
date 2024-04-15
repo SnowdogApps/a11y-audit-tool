@@ -1,4 +1,23 @@
-# A11y Audit App
+# A11y Audit Tool
+
+**A11y Audit Tool** is your comprehensive solution for web accessibility testing and report generation. With both automated and manual testing capabilities, this tool ensures your website's compliance with WCAG (Web Content Accessibility Guidelines) and helps you identify and address accessibility issues effectively.
+
+![Screenshots of some views of the application](./a11y-audit-tool-preview.gif)
+
+## Key Features
+
+* **Automated Tests**: Run automatic tests on any website across many pages and various screen sizes.
+* **Manual Tests**: Conduct manual tests using our template based on the Trusted Tester Conformance Process.
+* **Combined Testing Approach**: Seamlessly integrate automatic tests with manual tests for comprehensive auditing.
+* **Downloadable Reports**: Generate reports for easy reference and collaboration, facilitating improvement efforts.
+* **Project Organization**: Group audits into projects for better organization and management of accessibility testing efforts.
+
+## Why Choose A11y Audit Tool?
+* **Comprehensive Testing**: Unlike most tools that focus solely on automatic or manual tests, our tool offers both, ensuring comprehensive results. During manual tests, you can review and comment on automatic test results.
+* **Guided Testing**: Our audit template guides you through accessibility features. It provides test conditions and techniques to solve issues. A tester doesn't need to be an expert in the accessibility field to perform an audit using our tool.
+* **Multi-page and Multi-screen Testing**: Test multiple pages (URLs) and screen sizes in a single audit, enhancing efficiency.
+* **Clear Reports**: Generated reports are clear and understandable, facilitating discussions with clients and roadmap planning for improvement efforts.
+* **Extensibility**: Extend the tool's capabilities by adding custom test cases using Playwright, reducing manual work and enhancing efficiency.
 
 ## Application setup
 
@@ -203,3 +222,9 @@ In app we recognize both `auditor` and `viewer` role. To setup then you need to 
 Custom Claims are special attributes attached to a user that you can use to control access to portions of your application. You can find more information here: https://github.com/supabase-community/supabase-custom-claims#faq
 
 More usage examples: https://github.com/supabase-community/supabase-custom-claims#usage
+
+## Contributing
+Contributions are welcome! If you find a bug or have a feature request, feel free to open an issue or submit a pull request.
+
+## Like this project?
+We'd appreciate it if you leave a ⭐ or share it with the world ✨.
