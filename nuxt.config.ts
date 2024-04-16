@@ -56,10 +56,12 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
-  runtimeConfig: {
-    public: {
-      basicAuthUser: process.env.BASIC_AUTH_USER, // while only for dev keep it public
-      basicAuthPassed: process.env.BASIC_AUTH_PASSWD, // while only for dev keep it public
+  nitro: {
+    devStorage: {
+      db: {
+        driver: 'fs',
+        base: './audits/db',
+      },
     },
   },
 })
