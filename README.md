@@ -23,16 +23,12 @@
 ### Database and Authentication
   * [Supabase](https://supabase.com/)
 
-### Automatic Tests
-  * [TypeScript](https://www.typescriptlang.org/)
-  * [Playwright](https://playwright.dev/)
-  * [Axe](https://github.com/dequelabs/axe-core)
-  * [Nitro](https://nitro.unjs.io/)
-
-### Frontend Application
+### Full-Stack Application
   * [Nuxt 3](https://nuxt.com/)
   * [Vue 3](https://vuejs.org/)
   * [TypeScript](https://www.typescriptlang.org/)
+  * [Playwright](https://playwright.dev/)
+  * [Axe](https://github.com/dequelabs/axe-core)
   * [PrimeVue](https://primevue.org/)
   * [Tailwind CSS](https://tailwindcss.com/)
   * [Nuxt Supabase](https://supabase.nuxtjs.org/)
@@ -64,7 +60,9 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
 
 1. Run:
   ```bash
-  pnpm install && pnpm dev
+  pnpm install
+  pnpm exec playwright install
+  pnpm dev
   ```
 2. Register new user on `/register` page.
 
