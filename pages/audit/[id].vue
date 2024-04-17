@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import type { Database } from 'types/supabase'
-import type { Viewport } from '~/types/audit'
+import type { AvailableViewport } from '~/data/viewports'
 import { availableViewports } from '~/data/viewports'
-
-interface viewportObject {
-  name: string
-  viewport: [string, string]
-}
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -35,24 +30,21 @@ if (!axeResults || !auditInfo) {
 }
 
 // viewports
-const screenSizeObjects: viewportObject[] = auditInfo.config?.viewports?.map(
-  (item: Viewport) => {
-    const viewportObj = availableViewports.find((i) => {
-      return i.viewport.toString() === item.toString()
-    })
-    return {
-      name: viewportObj?.name,
-      viewport: viewportObj?.viewport.map(String),
-    }
+const screenSizeObjects: AvailableViewport[] = []
+auditInfo.config?.viewports?.forEach((item) => {
+  const viewportObj = availableViewports.find(
+    (i) => i.viewport.toString() === item.toString()
+  )
+  if (!viewportObj) {
+    return
   }
-)
-
-const screenSizesObjectValue = reactive(screenSizeObjects)
+  screenSizeObjects.push(viewportObj)
+})
 
 const initialResultScreenSize = axeResults?.find(
   (result) => result.id === resultId.value
 )?.size
-const screenSize = ref<viewportObject | any>(
+const screenSize = ref<AvailableViewport | undefined>(
   screenSizeObjects.find(
     (i) => i.viewport?.toString() === [initialResultScreenSize].toString()
   ) ||
@@ -75,7 +67,7 @@ const urlAndSelectorOptionsForSelectedScreenSize = computed(() =>
   )
 )
 
-const changeScreenSize = (value: viewportObject) => {
+const changeScreenSize = (value: AvailableViewport) => {
   const previousResultName =
     urlAndSelectorOptionsForSelectedScreenSize.value.find(
       (value) => value.id === resultId.value
@@ -192,8 +184,8 @@ if (!resultId.value) {
                   v-for="(screen, index) in screenSizeObjects"
                   :key="index"
                 >
-                  {{ screen.name }} [{{ screen.viewport[0] }} x
-                  {{ screen.viewport[1] }}]
+                  {{ screen.name }} [{{ screen.viewport?.[0] }} x
+                  {{ screen.viewport?.[1] }}]
                 </li>
               </ul>
             </li>
@@ -229,7 +221,7 @@ if (!resultId.value) {
             :model-value="screenSize"
             class="w-full"
             option-label="name"
-            :options="screenSizesObjectValue"
+            :options="screenSizeObjects"
             input-id="screen-size"
             @update:model-value="changeScreenSize"
             @change="isReloadRequired = true"

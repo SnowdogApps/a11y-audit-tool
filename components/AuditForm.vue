@@ -119,7 +119,9 @@ const sendForm = handleSubmit(async (values) => {
       },
       pages: [],
       title: values.title,
-      viewports: values.viewports,
+      viewports: values.viewports.map((viewport) =>
+        viewport ? viewport.filter((item) => item !== undefined) : []
+      ),
       noAxe: values.noAxe,
       description: values.description || '',
     }
@@ -131,7 +133,7 @@ const sendForm = handleSubmit(async (values) => {
           password: values.password || '',
           username: values.username || '',
         },
-        pages: values.pages,
+        pages: values.pages || [],
       }
     }
 
@@ -156,11 +158,14 @@ const sendForm = handleSubmit(async (values) => {
 
     if (noAxe.value) {
       values.viewports.forEach(async (viewport) => {
+        if (typeof viewport === 'string') {
+          return
+        }
         const { error } = await supabase
           .from('axe')
           .insert({
             audit_id: newAudit.id,
-            size: viewport,
+            size: viewport?.toString(),
           })
           .select()
           .single()
