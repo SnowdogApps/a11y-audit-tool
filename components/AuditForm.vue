@@ -65,11 +65,7 @@ if (baseAuditId) {
       project: baseAudit.projects?.id,
       username: baseAudit.config.basicAuth.username,
       password: baseAudit.config.basicAuth.password,
-      viewports: availableViewports
-        .filter((viewport) =>
-          baseAudit.config.viewports.includes(viewport.name)
-        )
-        .map(({ viewport }) => viewport),
+      viewports: baseAudit.config.viewports,
       noAxe: baseAudit.config.noAxe,
       description: baseAudit.config.description,
     })
