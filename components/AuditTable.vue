@@ -148,7 +148,7 @@ const openDialog = (auditData: ExtendedAudit) => {
   dialogHeader.value = `Audit ${auditData.id} - errors during automatic test processing`
   axeErrorMessage.value =
     auditData.axe?.find(({ errors }) => errors)?.errors[0]?.message ||
-    'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
+    'Something went wrong, test malformed.'
   isDialogVisible.value = true
 }
 

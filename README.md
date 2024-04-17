@@ -7,6 +7,7 @@ Make sure to install the dependencies:
 ```bash
 # pnpm
 pnpm install
+pnpm exec playwright install
 ```
 
 ### Development Server

@@ -33,8 +33,7 @@ const axeTableInsertChannel = client
 
 const timeout = setTimeout(() => {
   client.removeChannel(axeTableInsertChannel)
-  axeErrorMessage.value =
-    'Looks like Gitlab CI pipeline failed to invoke automatic tests. Please contact administrator.'
+  axeErrorMessage.value = 'Something went wrong, test malformed.'
   isAuditFinished.value = true
 }, 15 * oneMinuteInMilliseconds)
 

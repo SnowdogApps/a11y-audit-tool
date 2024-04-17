@@ -1,7 +1,7 @@
 import { defineEventHandler, createError } from 'h3'
 import type { Audit } from 'types/database'
-import type { AuditConfiguration } from 'types/audit'
 import { serverSupabaseUser } from '#supabase/server'
+import { doTest, useConfig } from '@/server/axe-runner/core'
 
 export default defineEventHandler(async (event) => {
   const serverUser = await serverSupabaseUser(event)
@@ -21,22 +21,26 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { basicAuthUser, basicAuthPassed, axeRunnerApiUrl } =
-    useRuntimeConfig().public
-  const config = body.config as unknown as AuditConfiguration
-  const headers: { Authorization?: string } = {}
+  try {
+    const config = useConfig(body.config)
 
-  if (basicAuthUser && basicAuthPassed) {
-    headers.Authorization = `Basic ${Buffer.from(
-      `${basicAuthUser}:${basicAuthPassed}`
-    ).toString('base64')}`
+    if (!config.pages?.length || !config.viewports?.length) {
+      return createError({
+        status: 400,
+        message: 'Missing params.',
+      })
+    }
+
+    for (const viewport of config.viewports) {
+      doTest(String(body.id), viewport, config)
+    }
+  } catch (err: any) {
+    console.error(err)
+    return createError({
+      status: 500,
+      message: `Req processing error. ${err?.message || ''}`,
+    })
   }
 
-  const resData = await $fetch(axeRunnerApiUrl, {
-    headers,
-    method: 'post',
-    body: { id: body.id, config },
-  })
-
-  return resData
+  return true
 })
