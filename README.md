@@ -51,9 +51,10 @@ To install the necessary schema, please go to the [SQL Editor](https://supabase.
   * `NITRO_SUPABASE_SERVICE_KEY` 👉 `service_role secret`
 
   Alternatively, you can run Supabase locally:
-    1. Run `npx supabase login` and pass generated access token.
-    2. Run `npx supabase start`.
-    3. Pass envs from supabase started setup to `.env` file.
+  1. Run `npx supabase login` and pass generated access token.
+  2. Run `npx supabase start`.
+  3. Pass envs from supabase started setup to `.env` file.
+  
   Learn more [here](https://supabase.com/docs/guides/getting-started/local-development).
 
 ### Nuxt
@@ -72,6 +73,7 @@ Admins possess privileges to:
   * Assign user to a project
   * Set user type
   * See, edit and remove any audit
+
 Admins have access to extra information and features on `/admin` page.
 
 Admin role information is stored on the user [custom claims](https://github.com/supabase-community/supabase-custom-claims#faq) level and can be found in `claims_admin` auth user's property.
