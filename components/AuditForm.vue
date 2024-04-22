@@ -10,7 +10,7 @@ import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
-import { availableViewports } from '~/data/viewports'
+import { availableScreenSizes } from '~/data/screenSizes'
 
 const {
   useFieldModel,
@@ -412,7 +412,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
               <MultiSelect
                 v-model="viewports"
                 aria-labelledby="viewports"
-                :options="availableViewports"
+                :options="availableScreenSizes"
                 option-label="name"
                 option-value="viewport"
                 placeholder="Select screen sizes"
