@@ -158,9 +158,6 @@ const sendForm = handleSubmit(async (values) => {
 
     if (noAxe.value) {
       values.viewports.forEach(async (viewport) => {
-        if (typeof viewport === 'string') {
-          return
-        }
         const { error } = await supabase
           .from('axe')
           .insert({
