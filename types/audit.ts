@@ -6,8 +6,6 @@ export interface Page {
   url: string
 }
 
-export type Viewport = string | [number, number]
-
 export interface AuditConfiguration {
   basicAuth: {
     password: string
@@ -15,7 +13,7 @@ export interface AuditConfiguration {
   }
   pages: Page[]
   title: string
-  viewports: Viewport[]
+  viewports: number[][]
   noAxe?: boolean
   description?: string
 }

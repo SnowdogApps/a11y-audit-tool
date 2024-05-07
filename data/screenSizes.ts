@@ -1,9 +1,9 @@
-export interface AvailableViewport {
+export interface ScreenSize {
   name: string
   viewport: [number, number]
 }
 
-export const availableViewports: AvailableViewport[] = [
+export const availableScreenSizes: ScreenSize[] = [
   { name: 'ipad-2', viewport: [768, 1024] },
   { name: 'ipad-mini', viewport: [768, 1024] },
   { name: 'iphone-3', viewport: [320, 480] },

@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import type { Database } from 'types/supabase'
-import type { Viewport } from '~/types/audit'
-import { availableViewports } from '~/data/viewports'
-
-interface viewportObject {
-  name: string
-  viewport: [string, string]
-}
+import type { ScreenSize } from '~/data/screenSizes'
+import { availableScreenSizes } from '~/data/screenSizes'
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -34,48 +29,43 @@ if (!axeResults || !auditInfo) {
   })
 }
 
-// viewports
-const screenSizeObjects: viewportObject[] = auditInfo.config?.viewports?.map(
-  (item: Viewport) => {
-    const viewportObj = availableViewports.find((i) => {
-      return i.viewport.toString() === item.toString()
-    })
-    return {
-      name: viewportObj?.name,
-      viewport: viewportObj?.viewport.map(String),
+const urlAndSelectorOptions = axeResults?.map((result) => {
+  const screenSize = availableScreenSizes.find(
+    (availableScreenSize) =>
+      availableScreenSize.viewport.toString() === result.size?.toString()
+  )
+  return {
+    id: result.id,
+    name: `${result.results?.url} - ${result.selector ?? ''}`,
+    screenSize,
+  }
+})
+
+if (!resultId.value) {
+  resultId.value = urlAndSelectorOptions[0]?.id
+}
+
+const screenSizeOptions = urlAndSelectorOptions.reduce((acc, result) => {
+  if (!acc.find((option) => option.name === result.screenSize?.name)) {
+    if (result.screenSize) {
+      acc.push(result.screenSize)
     }
   }
+  return acc
+}, [] as ScreenSize[])
+
+const screenSize = ref(
+  urlAndSelectorOptions.find((option) => resultId.value === option.id)
+    ?.screenSize || screenSizeOptions[0]
 )
 
-const screenSizesObjectValue = reactive(screenSizeObjects)
-
-const initialResultScreenSize = axeResults?.find(
-  (result) => result.id === resultId.value
-)?.size
-const screenSize = ref<viewportObject | any>(
-  screenSizeObjects.find(
-    (i) => i.viewport?.toString() === [initialResultScreenSize].toString()
-  ) ||
-    screenSizeObjects.find(
-      (i) =>
-        i.viewport?.toString() ===
-        [auditInfo.config?.viewports?.map(String)].toString()
-    )
-)
-
-const urlAndSelectorOptions = axeResults?.map((result) => ({
-  id: result.id,
-  name: `${result.results?.url} - ${result.selector ?? ''}`,
-  screenSize: result.size,
-}))
 const urlAndSelectorOptionsForSelectedScreenSize = computed(() =>
   urlAndSelectorOptions.filter(
-    (result) =>
-      [result.screenSize].toString() === screenSize.value?.viewport.toString()
+    (option) => option.screenSize?.name === screenSize.value.name
   )
 )
 
-const changeScreenSize = (value: viewportObject) => {
+const changeScreenSize = (value: ScreenSize) => {
   const previousResultName =
     urlAndSelectorOptionsForSelectedScreenSize.value.find(
       (value) => value.id === resultId.value
@@ -92,17 +82,17 @@ const auditResult = computed(() =>
   axeResults.find((result) => result.id === resultId.value)
 )
 
-watch(resultId, () => {
-  router.replace({
-    query: {
-      resultId: resultId.value,
-    },
-  })
-})
-
-if (!resultId.value) {
-  resultId.value = urlAndSelectorOptionsForSelectedScreenSize.value[0]?.id
-}
+watch(
+  resultId,
+  () => {
+    router.replace({
+      query: {
+        resultId: resultId.value,
+      },
+    })
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -189,11 +179,13 @@ if (!resultId.value) {
               <span class="font-bold">Screen sizes:</span>
               <ul class="list-disc pl-8">
                 <li
-                  v-for="(screen, index) in screenSizeObjects"
+                  v-for="(option, index) in urlAndSelectorOptions"
                   :key="index"
                 >
-                  {{ screen.name }} [{{ screen.viewport[0] }} x
-                  {{ screen.viewport[1] }}]
+                  {{ option.screenSize?.name }} [{{
+                    option.screenSize?.viewport[0]
+                  }}
+                  x {{ option.screenSize?.viewport[1] }}]
                 </li>
               </ul>
             </li>
@@ -229,7 +221,7 @@ if (!resultId.value) {
             :model-value="screenSize"
             class="w-full"
             option-label="name"
-            :options="screenSizesObjectValue"
+            :options="screenSizeOptions"
             input-id="screen-size"
             @update:model-value="changeScreenSize"
             @change="isReloadRequired = true"

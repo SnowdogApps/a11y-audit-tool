@@ -10,7 +10,7 @@ import type { Page, AuditConfiguration } from 'types/audit'
 import { auditFormSchema } from 'validation/schema'
 import { displayFirstError } from '~/utils/form'
 import { isSupabaseError, SupabaseError } from '~/plugins/error'
-import { availableViewports } from '~/data/viewports'
+import { availableScreenSizes } from '~/data/screenSizes'
 
 const {
   useFieldModel,
@@ -65,11 +65,7 @@ if (baseAuditId) {
       project: baseAudit.projects?.id,
       username: baseAudit.config.basicAuth.username,
       password: baseAudit.config.basicAuth.password,
-      viewports: availableViewports
-        .filter((viewport) =>
-          baseAudit.config.viewports.includes(viewport.name)
-        )
-        .map(({ viewport }) => viewport),
+      viewports: baseAudit.config.viewports,
       noAxe: baseAudit.config.noAxe,
       description: baseAudit.config.description,
     })
@@ -123,7 +119,9 @@ const sendForm = handleSubmit(async (values) => {
       },
       pages: [],
       title: values.title,
-      viewports: values.viewports,
+      viewports: values.viewports.map((viewport) =>
+        viewport ? viewport.filter(Boolean) : []
+      ),
       noAxe: values.noAxe,
       description: values.description || '',
     }
@@ -135,7 +133,7 @@ const sendForm = handleSubmit(async (values) => {
           password: values.password || '',
           username: values.username || '',
         },
-        pages: values.pages,
+        pages: values.pages || [],
       }
     }
 
@@ -164,7 +162,7 @@ const sendForm = handleSubmit(async (values) => {
           .from('axe')
           .insert({
             audit_id: newAudit.id,
-            size: viewport,
+            size: viewport?.toString(),
           })
           .select()
           .single()
@@ -414,7 +412,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
               <MultiSelect
                 v-model="viewports"
                 aria-labelledby="viewports"
-                :options="availableViewports"
+                :options="availableScreenSizes"
                 option-label="name"
                 option-value="viewport"
                 placeholder="Select screen sizes"

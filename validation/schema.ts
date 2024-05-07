@@ -1,7 +1,7 @@
 import { object, string, array, number, boolean } from 'yup'
 import type { Page } from 'types/audit'
 import validationRules from 'validation/rules'
-import { defaultViewports } from '~/data/viewports'
+import { defaultViewports } from '~/data/screenSizes'
 const { emailRule, passwordRule, passwordRepeatRule } = validationRules()
 
 export const signInSchema = object({
