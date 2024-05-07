@@ -120,7 +120,7 @@ const sendForm = handleSubmit(async (values) => {
       pages: [],
       title: values.title,
       viewports: values.viewports.map((viewport) =>
-        viewport ? viewport.filter((item) => item !== undefined) : []
+        viewport ? viewport.filter(Boolean) : []
       ),
       noAxe: values.noAxe,
       description: values.description || '',
