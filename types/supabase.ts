@@ -40,6 +40,7 @@ export interface Results {
   toolOptions: unknown
   url: string
   violations: Result[]
+  incomplete: Result[]
 }
 
 export interface Database {
