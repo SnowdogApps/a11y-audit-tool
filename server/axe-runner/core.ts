@@ -95,7 +95,7 @@ export const doTest = async function (
       result = await axe.analyze()
     }
 
-    results.push(parseResults(auditId, size, errors, result))
+    results.push(parseResults(auditId, size, errors, result, selector))
   }
 
   if (process.env.dev) {
