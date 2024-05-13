@@ -3,6 +3,7 @@ import type { auditTemplate } from '~/data/auditTemplate'
 
 export interface Page {
   selector?: string | undefined
+  endSelector?: string | undefined
   url: string
 }
 

@@ -59,7 +59,7 @@ if (baseAuditId) {
   } else {
     setValues({
       pages: baseAudit.config.noAxe
-        ? [{ selector: '', url: '' }]
+        ? [{ selector: '', endSelector: '', url: '' }]
         : baseAudit.config.pages,
       title: baseAudit.config.title,
       project: baseAudit.projects?.id,
@@ -267,7 +267,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
               </div>
 
               <div class="w-full">
-                <label :for="`selector-${index}`">HTML Selector</label>
+                <label :for="`selector-${index}`">HTML Selector to</label>
                 <InputText
                   :id="`selector-${index}`"
                   v-model="page.value.selector"
@@ -287,6 +287,33 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
                 <small :id="`selector-help-${index}`">
                   Use .class or #id to choose selector to test, just one
                   selector allowed. If empty whole document will be tested.
+                </small>
+              </div>
+              <div class="col-start-2 w-full">
+                <label :for="`selector-end-${index}`"
+                  >HTML Selector at the end of the page</label
+                >
+                <InputText
+                  :id="`selector-end-${index}`"
+                  v-model="page.value.endSelector"
+                  :name="`pages[${index}].endSelector`"
+                  class="w-full"
+                  :aria-describedby="`selector-end-help-${index}`"
+                  :data-testid="`audit-page-selector-end-field-${index}`"
+                  :class="[
+                    {
+                      'p-invalid':
+                        (errors[`pages[${index}].endSelector` as `pages.${number}.endSelector`] ||
+                          errors[`pages[${index}]` as `pages.${number}`]) &&
+                        isSubmitted,
+                    },
+                  ]"
+                />
+                <small :id="`selector-end-help-${index}`">
+                  Sometimes dynamic page is not fully loaded when automatic
+                  tests are conducted. To make sure all elements on the page are
+                  available, provide the element at the end of the page, use
+                  .class or #id to choose selector, just one selector allowed.
                 </small>
               </div>
               <small
@@ -321,7 +348,7 @@ const onAuditProcessingDialogClose = (resetAuditForm: boolean = true) => {
             :pt="{
               icon: { 'aria-hidden': true },
             }"
-            @click="pushPage({ url: '', selector: '' })"
+            @click="pushPage({ url: '', selector: '', endSelector: '' })"
           />
         </AccordionTab>
         <AccordionTab header="General">

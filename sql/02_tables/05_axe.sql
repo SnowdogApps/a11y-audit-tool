@@ -4,6 +4,7 @@ create table axe (
   created_at timestamp default current_timestamp not null,
   audit_id serial references public.audits on delete cascade not null,
   selector text,
+  end_selector text,
   size text,
   results JSONB not null DEFAULT '{}'::jsonb,
   form_data JSONB not null DEFAULT '{}'::jsonb,

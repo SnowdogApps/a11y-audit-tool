@@ -174,6 +174,14 @@ const completeReport = async () => {
                         {{ page.selector }}
                       </code>
                     </template>
+                    <template v-if="page.endSelector?.length">
+                      - selector of the element at the end of the page:
+                      <code
+                        class="break-words rounded-md bg-gray-100 px-2 py-1"
+                      >
+                        {{ page.endSelector }}
+                      </code>
+                    </template>
                   </li>
                 </ul>
               </template>

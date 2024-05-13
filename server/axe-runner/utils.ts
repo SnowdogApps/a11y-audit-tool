@@ -57,11 +57,13 @@ export const parseResults = function (
   size: ViewportSize,
   errors?: ResultError[],
   results?: AxeResults,
-  selector?: string
+  selector?: string,
+  endSelector?: string
 ): TestResult {
   return {
     audit_id: auditId,
     selector: selector || null,
+    end_selector: endSelector || null,
     size: `${size.width},${size.height}`,
     results: results ? trimResults(results) : null,
     errors,

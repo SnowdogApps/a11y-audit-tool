@@ -70,6 +70,7 @@ export interface Database {
           id: number
           results: Json | null
           selector: string | null
+          end_selector: string | null
           size: string | null
         }
         Insert: {
@@ -80,6 +81,7 @@ export interface Database {
           id?: number
           results?: Json | null
           selector?: string | null
+          end_selector?: string | null
           size?: string | null
         }
         Update: {
@@ -90,6 +92,7 @@ export interface Database {
           id?: number
           results?: Json | null
           selector?: string | null
+          end_selector?: string | null
           size?: string | null
         }
         Relationships: [
