@@ -60,7 +60,7 @@ export const doTest = async function (
 
   await page.setViewportSize(size)
 
-  for await (const { url, selector } of pages) {
+  for await (const { url, selector, endSelector } of pages) {
     let result: AxeResults | undefined
     const errors: ResultError[] = []
 
@@ -72,6 +72,24 @@ export const doTest = async function (
     )
 
     const axe = await new AxeBuilder({ page })
+
+    if (endSelector) {
+      await page
+        .locator(endSelector)
+        .waitFor()
+        .then(async () => {
+          await page.evaluate(() =>
+            window.scrollTo(0, document.body.scrollHeight)
+          )
+        })
+        .catch(() =>
+          errors.push({
+            url,
+            message:
+              'Selector of element at the end of the page does not exist.',
+          })
+        )
+    }
 
     if (selector) {
       await page
@@ -95,7 +113,9 @@ export const doTest = async function (
       result = await axe.analyze()
     }
 
-    results.push(parseResults(auditId, size, errors, result))
+    results.push(
+      parseResults(auditId, size, errors, result, selector, endSelector)
+    )
   }
 
   if (process.env.dev) {

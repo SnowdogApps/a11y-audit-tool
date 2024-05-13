@@ -33,10 +33,12 @@ export const auditFormSchema = object({
           object().shape({
             url: string(),
             selector: string(),
+            endSelector: string(),
           })
         )
         .default([
           {
+            endSelector: '',
             selector: '',
             url: '',
           },
@@ -48,12 +50,14 @@ export const auditFormSchema = object({
           .shape({
             url: string().url().required(),
             selector: string(),
+            endSelector: string(),
           })
           .test('isUnique', `The entry is not unique`, function (currentPage) {
             const pages = this.parent
             const count = pages.filter(
               (page: Page) =>
                 page.selector === currentPage.selector &&
+                page.endSelector === currentPage.endSelector &&
                 page.url === currentPage.url
             ).length
             return count <= 1
@@ -63,6 +67,7 @@ export const auditFormSchema = object({
       .default([
         {
           selector: '',
+          endSelector: '',
           url: '',
         },
       ])
