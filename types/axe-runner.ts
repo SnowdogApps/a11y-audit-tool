@@ -6,9 +6,10 @@ export type TrimmedNodes = Pick<
   'html' | 'target' | 'failureSummary'
 >
 
-export type TrimmedResults = Omit<AxeResults, 'inapplicable' | 'incomplete'> & {
+export type TrimmedResults = Omit<AxeResults, 'inapplicable'> & {
   passes: Omit<Result, 'nodes'> & { nodes: TrimmedNodes[] }
   violations: Omit<Result, 'nodes'> & { nodes: TrimmedNodes[] }
+  incomplete: Omit<Result, 'nodes'> & { nodes: TrimmedNodes[] }
 }
 
 export type ResultError = {

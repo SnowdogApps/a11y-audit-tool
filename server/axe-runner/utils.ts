@@ -26,6 +26,7 @@ function trimResults({
   url,
   violations,
   passes,
+  incomplete,
   toolOptions,
   timestamp,
   testRunner,
@@ -48,6 +49,10 @@ function trimResults({
     violations: violations.map((violation) => ({
       ...violation,
       nodes: trimNodes(violation.nodes),
+    })),
+    incomplete: incomplete.map((incompleteItem) => ({
+      ...incompleteItem,
+      nodes: trimNodes(incompleteItem.nodes),
     })),
   }
 }
