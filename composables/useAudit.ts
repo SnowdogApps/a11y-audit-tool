@@ -80,7 +80,7 @@ export function useAudit(axeResult: Axe) {
   const automaticTestsGroupedResults = [
     {
       type: 'issues',
-      results: [...results?.violations, ...results?.incomplete] || [],
+      results: [...(results?.violations || []), ...(results?.incomplete || [])],
     },
     {
       type: 'passes',
