@@ -179,13 +179,11 @@ watch(
               <span class="font-bold">Screen sizes:</span>
               <ul class="list-disc pl-8">
                 <li
-                  v-for="(option, index) in urlAndSelectorOptions"
+                  v-for="(screenSize, index) in screenSizeOptions"
                   :key="index"
                 >
-                  {{ option.screenSize?.name }} [{{
-                    option.screenSize?.viewport[0]
-                  }}
-                  x {{ option.screenSize?.viewport[1] }}]
+                  {{ screenSize?.name }} [{{ screenSize?.viewport[0] }} x
+                  {{ screenSize?.viewport[1] }}]
                 </li>
               </ul>
             </li>
