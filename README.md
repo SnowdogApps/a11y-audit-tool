@@ -136,3 +136,19 @@ Contributions are welcome! If you find a bug or have a feature request, feel fre
 
 ## Like this project?
 We'd appreciate it if you leave a ⭐ or share it with the world ✨.
+
+## Who is developing?
+
+<p>
+  <a href="https://snow.dog" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/SnowdogApps/a11y-audit-tool/assets/1751998/63076d1e-225e-46c0-8461-1e06ce24d2b6">
+      <source media="(prefers-color-scheme: light)" srcset="https://github.com/SnowdogApps/a11y-audit-tool/assets/1751998/f931826e-6a6d-44c9-9e37-a8610fef574b">
+      <img width="320" alt="Snowdog logo." src="https://github.com/SnowdogApps/a11y-audit-tool/assets/1751998/f931826e-6a6d-44c9-9e37-a8610fef574b">
+    </picture>
+  </a>
+</p>
+
+Hey there! Snowdog is all about creating top-notch Hyvä builds with our own Hyvä [Sparq accelerator](https://snow.dog/sparq). We make sure to optimize Hyvä for both b2c and b2b commerce, and we’re a big accessibility advocate for the platform. You might also know us as the creator of the popular free [Hyvä menu module](https://github.com/SnowdogApps/magento2-menu). We’ve been working with Magento Open Source and Enterprise (now Adobe Commerce) for over a decade, and we even organize the Meet Magento conference since 2012. So if you're looking for a high-performing Hyvä store in no time, we’re your go-to agency!
+
+We are also a team of digital accessibility specialists. A11y is our priority from day one of design and development. It's an integral part of our existing themes and design patterns, so not only do we build accessible solutions from scratch, but we have experience working with clients that need meet certain a11y requirements to comply with discrimination laws. Ready to elevate your online store and start your accessibility journey with us? [Let's talk](https://snow.dog/contact).
